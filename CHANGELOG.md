@@ -6,6 +6,26 @@ Improvement Findings.
 
 ---
 
+## [Phase 2 — A-1 Recertification Attempt] — 2026-08-31 — **BLOCKED**
+
+Final A-1 identity-control recertification was authorized with merge gated on it passing.
+**The test could not be executed and the branch was NOT merged.**
+
+- **Blocker:** all required MCP connectors disconnected from the session — `mcp__Blaise_FUB__*` (13),
+  `mcp__Google_Drive__*` (5), `mcp__Google_Calendar__*` (5), plus Gmail and Composio.
+- **Passed anyway:** zero writes; no full brief produced; and requirement 6 — the hardened
+  target-resolution rule is confirmed present and operative in `.claude/agents/client-prep-brief.md`.
+- **Blocked:** Dallas resolution, independent corroboration, accept/reject reasoning, canonical
+  version retrieval (v4.28 / v1.8 / v1.0 / v1.30 remain **unverified by retrieval**), LEGACY check.
+- **Registry pins deliberately left stale** at 4.27 / 1.7 / 1.29 / 1.1. Updating them from a reported
+  version without retrieval would record unverified data as verified and would make the next drift
+  check falsely report CURRENT. Stale pins are self-correcting; the next retrieval will flag
+  REGISTRY DRIFT and the live document will win.
+- Static tests: **24/24**. Registry integrity: valid, 9 sources.
+- **No merge. No writes. No scheduling. No permission change.**
+
+---
+
 ## [Phase 2 — Live Certification] — 2026-08-31
 
 Authorized live read-only certification pass. **Zero writes. Not merged to `main`.**

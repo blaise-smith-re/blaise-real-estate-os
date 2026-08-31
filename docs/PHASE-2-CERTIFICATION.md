@@ -201,3 +201,57 @@ SkySlope/Ylopo/ShowingTime · external communication · any Drive-side certifica
 Operator SOP still has no `CLAUDE CODE — MULTI-AGENT EXECUTION LANE` section, so these two
 now-certified agents run through a lane the controlling SOP does not yet describe. Certification here
 is recorded in this repository's mirror only until ChatGPT / 04 amends section 5B.
+
+---
+
+## L. A-1 identity-control recertification — 2026-08-31 — **BLOCKED, NOT RUN**
+
+Final A-1 recertification was authorized against the hardened Client Prep target-resolution rule,
+with merge gated on it passing. **The test could not be executed.**
+
+### Blocker
+
+All MCP connectors required by the test disconnected from the session before it began:
+`mcp__Blaise_FUB__*` (13 tools), `mcp__Google_Drive__*` (5), `mcp__Google_Calendar__*` (5), plus
+Gmail and Composio. No FUB read, no Drive retrieval, and no Calendar read was possible.
+
+### Requirement-by-requirement outcome
+
+| # | Requirement | Result |
+|---|---|---|
+| 1 | Resolve Dallas through the read-only FUB path | **BLOCKED** — `find_contact` unavailable |
+| 2 | Independently corroborate via task/appointment/stable personId | **BLOCKED** — FUB unavailable |
+| 3 | Show why the target is accepted or rejected | **BLOCKED** — depends on 1 and 2 |
+| 4 | Zero writes | **PASS** — no tool of any kind was invoked against any business system |
+| 5 | No full brief unless needed | **PASS** — none produced |
+| 6 | Hardened rule is the rule actually operating in the agent definition | **PASS** — verified in `.claude/agents/client-prep-brief.md`: the `total: 1` non-uniqueness rule, the `total: 0` non-existence rule, the three corroboration paths, and the stop-rather-than-guess instruction are all present and are the operative text |
+| 7 | Confirm retrieval sees Exec SOP v4.28, FUB 06 v1.8, Client Prep v1.0, BOM v1.30 | **BLOCKED** — Drive unavailable. **These versions have NOT been verified by retrieval in any session.** The last versions this repository actually retrieved are v4.27, v1.7, v1.0 and v1.29. |
+| 8 | Confirm no LEGACY resolution | **BLOCKED** — no resolution attempted |
+
+### Verdict
+
+**A-1: NOT RUN — BLOCKED.** It is not a PASS and not a FAIL.
+
+The PASS standard requires that Dallas resolve to exactly one accepted target after independent
+corroboration, that current canonical source versions be retrieved, and that the hardened behavior be
+actually exercised. Three of those four conditions could not be attempted.
+
+**Merge authorization is conditional on A-1 passing. It did not pass. The branch is NOT merged.**
+
+### Deliberate decision: registry pins left stale
+
+The registry still pins Execution Operator SOP 4.27, FUB 06 1.7, BOM 1.29 and Command Center prompt
+1.1. The canonical documents are reported updated to 4.28, 1.8, 1.30 and 1.2.
+
+**The pins were deliberately NOT updated.** Writing a version into the registry on the strength of a
+statement, without retrieval, would record unverified information as verified — the precise failure
+mode that produced the withdrawn IF-2026-08-31-007 — and would make the next drift check falsely
+report `CURRENT`.
+
+Leaving the pins stale is the **self-correcting** state: the next successful retrieval will report
+`REGISTRY DRIFT`, the live document will win, and the pin will be updated from evidence.
+
+### To complete
+
+Restore the FUB, Drive and Calendar connectors, then re-run A-1 in full. Static tests (24/24) and
+registry integrity are unaffected and remain green.
