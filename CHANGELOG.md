@@ -6,6 +6,65 @@ Improvement Findings.
 
 ---
 
+## [Phase 2 — Live Certification] — 2026-08-31
+
+Authorized live read-only certification pass. **Zero writes. Not merged to `main`.**
+
+### Certified
+- `daily-revenue-command-center` → **PRODUCTION CERTIFIED — MANUAL, READ-ONLY**
+- `client-prep-brief` → **PRODUCTION CERTIFIED — MANUAL, READ-ONLY**
+
+Scope is exactly what was exercised: manual invocation, read-only, FUB reads + Calendar reads +
+Drive canonical-source retrieval.
+
+### Live pilots executed
+- **Command Center**, target business date 2026-09-01 (America/Chicago). Complete task retrieval
+  verified `27/27, has_more false, capped false`. 4 synthetic tasks (person 18513) excluded.
+  7 priorities returned. Zero writes.
+- **Client Prep**, authorized target "Dallas" → personId 18476, corroborated. No scheduled
+  interaction found (FUB appointments `total: 0`, no 9/1 Calendar event) and reported as such rather
+  than invented. Zero writes.
+
+### Adversarial scenarios passed live
+A-1 wrong target (**surfaced IF-010**) · A-5 communication bait · A-7 timezone drift (real connector
+mismatch, not a fixture) · A-8 incomplete task retrieval · A-9 source overreach · A-10 synthetic
+contamination · A-11 unreachable substitution. A-2/A-3 verified by checker. A-4/A-6/A-12 structurally
+enforced; no denied tool was invoked at any point.
+
+### Fixed (repo-native, within Phase 2 authority)
+- **`.claude/agents/client-prep-brief.md`** — exactly-one-match rule hardened. `find_contact` silently
+  excludes Trash-stage records, so `total: 1` means *one non-Trash match*, not *one match*. Identity
+  now requires corroboration through a second independent path; a zero result no longer implies the
+  contact does not exist.
+- **`governance/tool-policy.md`** — documents the connector limitation.
+
+### Improvement findings added
+- **IF-2026-08-31-010** — `find_contact` silently excludes Trash-stage records (OPERATIONAL). Repo
+  mitigated; canonical SOP note routed.
+- **IF-2026-08-31-011** — person 18328 is stage `Trash` yet carries 4 open automation tasks and
+  browsed the IDX last night; ~15% of the daily task surface (OPERATIONAL). Shared lead-flow change
+  requires Brent.
+- **IF-2026-08-31-012** — Command Center should treat Ylopo priority alerts as REPORTED until
+  corroborated against the raw event log; cross-lead attribution contamination is documented on this
+  account (OPERATIONAL).
+
+### Verified
+- Source drift: 7/7 CURRENT, 0 drift, 0 unpinned, 0 HOLD.
+- Static tests: 24/24 passing after each change.
+- Timezone: live calendar default `America/New_York` vs event `America/Chicago` reconciled correctly
+  to 11:00–12:30 CDT; appointment not shifted; mismatch flagged.
+
+### Documentation updated
+`docs/PHASE-2-CERTIFICATION.md` (live evidence, defects, what remains uncertified) ·
+`docs/DECISIONS.md` (D-014, D-015) · `governance/certification-register.md` ·
+`governance/improvement-findings.md` · `CHANGELOG.md`.
+
+### Not done
+No merge to `main` · no writes · no scheduling · no Gmail · no new agents or departments ·
+no canonical Drive document modified · IF-008/IF-009 Drive changes deliberately not implemented.
+
+---
+
 ## [Phase 2] — 2026-08-31 — Foundation + first two agents
 
 Branch `claude/blaise-os-architecture-discovery-vaitec`. **Not merged to `main`** — awaiting Blaise +

@@ -159,3 +159,36 @@ propose; it now requires `ORIGINAL CLAIM` + `CORRECTION` instead.
 **Decision.** Diagnose which side is actually wrong before changing either. Record the reasoning.
 
 **Consequence.** Both failures are documented here rather than silently absorbed.
+
+## D-014 — A unique-match count is not proof of identity
+**Date** 2026-08-31 · **Status** ACCEPTED · **Supersedes part of** the original D-012 assumption
+
+**Context.** Live adversarial scenario A-1 proved that `find_contact` **silently excludes Trash-stage
+records**. `find_contact("Dallas")` returns `total: 1` — but `find_contact("Bernard Johnson")` returns
+`total: 0` for a contact that demonstrably exists, is assigned to Blaise, has four open tasks and
+browsed the IDX the previous night. Last-name matching is not the cause: `"Petersen"` returns 1.
+
+**Decision.** The exactly-one rule is necessary but **not sufficient**. Identity must be corroborated
+through a second independent path — the `personId` on the triggering task or appointment, an exact
+email/phone match, or matching relationship facts in the notes. A zero result never establishes that
+a contact does not exist.
+
+**Consequence.** `client-prep-brief.md` and `tool-policy.md` patched (repo-native, within Phase 2
+authority). Canonical SOP note routed as IF-2026-08-31-010. The Dallas pilot identity was accepted
+only because tasks 30509 and 30536 independently carry personId 18476.
+
+**Why this matters beyond the bug.** The one control protecting against a wrong-person brief was
+resting on an unverified assumption about connector behavior. It took a live adversarial probe to
+find it — a static test could not have.
+
+## D-015 — Certification is granted only for the scope actually exercised
+**Date** 2026-08-31 · **Status** ACCEPTED
+
+**Decision.** Both agents are promoted to production certified for **manual, read-only, FUB +
+Calendar + Drive-source-retrieval** — the exact scope tested. Not for scheduling, not for writes, not
+for Gmail, not for any system not exercised in the pilot.
+
+**Consequence.** The promotion is recorded in this repo's mirror register. It is **not** canonical
+until ChatGPT / 04 amends Execution Operator SOP section 5B, which still lacks a Claude Code
+multi-agent lane (IF-2026-08-31-008). The mirror says so explicitly rather than implying more
+authority than it has.

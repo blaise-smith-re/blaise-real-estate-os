@@ -41,11 +41,21 @@ Evidence lives in `docs/PHASE-2-CERTIFICATION.md`.
 
 | Agent | Underlying lane (Drive-certified) | A | B synthetic | C live pilot | D | E |
 |---|---|---|---|---|---|---|
-| `daily-revenue-command-center` | Command Center manual/read-only PASS (Exec SOP v4.26/4.27); FUB task retrieval PASS (PR #2) | PASS | PASS static | **PENDING** — needs Blaise-authorized live run | N/A read-only | not sought |
-| `client-prep-brief` | Client Prep engine read-only PASS (Exec SOP v4.25, live Dallas pilot) | PASS | PASS static | **PENDING** — needs Blaise-authorized live target | N/A read-only | not sought |
+| `daily-revenue-command-center` | Command Center manual/read-only PASS (Exec SOP v4.26/4.27); FUB task retrieval PASS (PR #2) | PASS | PASS static | **PASS** 2026-08-31, target date 2026-09-01, 27/27 tasks, zero writes | N/A read-only | not sought |
+| `client-prep-brief` | Client Prep engine read-only PASS (Exec SOP v4.25, live Dallas pilot) | PASS | PASS static | **PASS** 2026-08-31, target "Dallas" personId 18476, zero writes | N/A read-only | not sought |
 
-**Neither agent is production-certified.** Both are
-`PROVISIONAL - STATIC PASS, LIVE PILOT PENDING`. A markdown file existing is not certification.
+**Both agents are PRODUCTION CERTIFIED for manual, read-only operation** as of 2026-08-31, authorized
+by Blaise. Evidence: `docs/PHASE-2-CERTIFICATION.md`.
+
+**Scope of certification, exactly:** manual invocation · read-only · FUB reads + Calendar reads +
+Drive canonical-source retrieval. Nothing else.
+
+**Adversarial gates passed live:** A-1 (and surfaced IF-010), A-5, A-7, A-8, A-9, A-10, A-11.
+A-2/A-3 verified by checker. A-4/A-6/A-12 structurally enforced.
+
+**This mirror is not the canonical record.** Until ChatGPT / 04 amends Execution Operator SOP
+section 5B (see IF-2026-08-31-008), these agents run through a lane the controlling SOP does not
+describe.
 
 ## 4. What Phase 2 explicitly did NOT certify
 

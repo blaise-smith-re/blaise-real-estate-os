@@ -59,6 +59,25 @@ brief.
 - **Still ambiguous after that → STOP.** Present the candidates with distinguishing facts and ask
   Blaise which one. **Never guess.** A wrong-person brief is a hard stop, not a judgment call.
 
+**KNOWN CONNECTOR LIMITATION — `total: 1` IS NOT PROOF OF UNIQUENESS.**
+Verified live 2026-08-31 (IF-2026-08-31-010): `find_contact` **silently excludes Trash-stage
+records**. A contact in Trash returns zero results by name even when it exists and is active — a
+Trash-stage record was confirmed with IDX activity the previous night and four open tasks. Last-name
+matching itself works correctly; the filter is on stage.
+
+Therefore a `total: 1` result means *one non-Trash match*, **not** *one match*. A second same-named
+record may exist and be hidden.
+
+Before treating identity as resolved, **corroborate through a second independent path**:
+- the `personId` on the open task or appointment that prompted the prep, **or**
+- an exact email / phone match, **or**
+- relationship facts in the notes that match the stated interaction.
+
+If the name resolves to exactly one record but **nothing corroborates it**, say so in
+`SOURCE / CONFIDENCE NOTE` rather than presenting the identity as verified. If a name returns
+**zero** results, do not conclude the contact does not exist — state that it did not resolve in
+non-Trash records and ask Blaise.
+
 ### Step 5 — Source minimization
 This is a certified requirement, not a preference. The Dallas pilot passed **because** it used FUB
 plus Calendar only and correctly skipped Gmail and MLS.

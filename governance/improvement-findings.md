@@ -250,6 +250,97 @@ until a named precondition clears.
 - **DISPOSITION** — **REVIEW** (ChatGPT / 04). Mitigated in this repository already; the canonical
   prompt should still be tightened.
 
+### IF-2026-08-31-010 — `find_contact` silently excludes Trash-stage records
+
+- **TRIGGER** — Phase 2 live adversarial certification, scenario A-1 (wrong target), 2026-08-31.
+- **CONTROLLING SOURCE** — `1BuTAOheI3ykLZGJ3lLddHhVKMOIqkK_qX7f_YxYHbuU` v4.27, FOLLOW UP BOSS —
+  MCP/API LANE. Related: `197OgqAyYpdx0dmwthzdCdOxmNsM9ZgKOKD1CVeNEbo8` (FUB 06) v1.7, section 1A.
+- **OBSERVED ISSUE** — `find_contact(name=...)` returns `total: 0` for a contact whose stage is
+  `Trash`, even though the record exists, is assigned to Blaise, carries four open tasks and showed
+  IDX activity the previous night. Verified by controlled probes:
+  `name="Bernard"` → 0 · `name="Bernard Johnson"` → 0 · `name="Johnson"` → 0 ·
+  `get_contact(18328)` → returns "Bernard Johnson", stage `Trash`.
+  Last-name matching is **not** the cause: `name="Petersen"` → 1 (matched on last name),
+  `name="Myranetta"` → 1, `name="Dallas"` → 1. The exclusion is by stage.
+- **WHY IT MATTERS** — The certified wrong-target control depends on resolving to exactly one contact.
+  A `total: 1` result actually means *one non-Trash match*, not *one match*. A second same-named
+  record sitting in Trash is invisible, so a unique-match count is a **false confidence signal**.
+  Symmetrically, `total: 0` does not establish that a contact does not exist.
+- **IMPACT** — Wrong-target risk on any name-resolved client prep, and blindness to reactivated leads.
+  Directly weakens the single control that protects against a wrong-person brief.
+- **CLASSIFICATION** — **OPERATIONAL CHANGE** (certification logic / documented tool behavior).
+- **EXACT PROPOSED CHANGE** — Add to the Execution Operator SOP FUB lane, under certified production
+  reads: *"find_contact excludes Trash-stage records. A unique-match count therefore proves one
+  non-Trash match, not one match, and a zero result does not establish that no record exists. Exact-
+  target resolution must corroborate identity through a second independent path — the personId on the
+  triggering task or appointment, an exact email/phone match, or matching relationship facts — before
+  identity is treated as verified."*
+- **RELATED ASSETS** — `.claude/agents/client-prep-brief.md` and `governance/tool-policy.md`
+  **already patched** in this repository (repo-native, within Phase 2 authority);
+  `tests/adversarial/scenarios.md` A-1; `tests/fixtures/contacts-ambiguous.json`.
+- **TESTING REQUIRED** — Re-run A-1 live once the corroboration rule is in place; confirm a
+  zero-result name is reported as "did not resolve in non-Trash records", not as "does not exist".
+- **DISPOSITION** — **REVIEW** (ChatGPT / 04) for the canonical SOP note. Repo-side mitigation is
+  already applied and tested.
+
+### IF-2026-08-31-011 — Trash-stage record generating recurring automation tasks while actively browsing
+
+- **TRIGGER** — Phase 2 live Command Center pilot for 2026-09-01.
+- **CONTROLLING SOURCE** — `197OgqAyYpdx0dmwthzdCdOxmNsM9ZgKOKD1CVeNEbo8` (FUB 06) v1.7, section 1
+  TEAM-CHANGE GUARDRAIL; `1rYWbmFnBG00zuZiQ6wZd3MI1eDIHpKxyOnjYQBYpnsk` (FUB 05) v1.8.
+- **OBSERVED ISSUE** — Person 18328 (Bernard Johnson) is stage `Trash`, yet has **four** open
+  Follow Up Boss automation tasks ("Unconverted and active now. Call!") dated 8/17, 8/25, 8/27 and
+  8/30, and recorded IDX activity at 2026-08-31T01:40:53Z with 26 properties viewed. The record also
+  carries `Ylopo_Reactivated` and `customBrokerBlocksNBA: true`.
+- **WHY IT MATTERS** — Either the stage is wrong (a genuinely active lead is parked in Trash and
+  losing service), or the automation is wrong (a discarded lead is generating recurring tasks that
+  inflate the daily task population). Four of 27 open tasks — roughly 15% of the daily surface —
+  come from this one record. It also collides with the Command Center's instruction not to inflate
+  urgency from stale automation.
+- **IMPACT** — Daily-brief noise; possible lost lead; a record that is uncontrolled in FUB terms.
+- **CLASSIFICATION** — **OPERATIONAL CHANGE.** Resolution requires either a stage change or a
+  shared-automation/lead-flow change. **Shared FUB automations and lead-flow rules require Brent's
+  approval** (BOM section 16, FUB 06 section 1) — this is explicitly not Claude's to change.
+- **EXACT PROPOSED CHANGE** — No canonical document edit proposed. This is a **record and
+  configuration decision for Blaise**: (a) confirm whether 18328 belongs in Trash given current IDX
+  activity, and (b) if it does, ask Brent why a Trash-stage record continues to generate
+  "Unconverted and active now" tasks, since that is shared lead-flow behavior. If it does not, restage
+  and reinstate a real dated next action.
+- **RELATED ASSETS** — FUB 05 (record control / dated next action), FUB 06 (automation map).
+- **TESTING REQUIRED** — After disposition, confirm the open-task population no longer carries
+  duplicate automation tasks for a discarded record.
+- **DISPOSITION** — **REVIEW** — Blaise decides the record; Brent owns any shared-automation change.
+
+### IF-2026-08-31-012 — Command Center should de-rank unverified Ylopo priority alerts
+
+- **TRIGGER** — Phase 2 live Command Center pilot; corroborated by existing FUB notes 81966/81967/81968
+  on person 18476 written 2026-08-29.
+- **CONTROLLING SOURCE** — `1xV6ScXQJdXPb9t9rQZhJFFZkKwRH9fd0f1MtdnaAT6o` (Claude Prompt – Daily
+  Revenue Command Center) v1.1, REVIEW METHOD.
+- **OBSERVED ISSUE** — The canonical prompt lists "urgent Ylopo/Priority or agreed-to-connect signals
+  when visible" as a daily control surface to review, without qualification. Blaise's own FUB notes
+  document a **confirmed cross-lead attribution defect**: the 8/28 "shared listing" priority alert on
+  Dallas (18476) was traced to Douglas H's (18393) search string bleeding onto Dallas's record, and a
+  second alert on 8/31 shows the same unconfirmed pattern. Of the 27 open tasks in this pilot, **7 are
+  Ylopo/FUB-generated priority or "unconverted" alerts**.
+- **WHY IT MATTERS** — Ranking an unverified automated alert alongside a real client obligation is
+  exactly the "busywork above a real conversation" failure the prompt prohibits. The prompt currently
+  gives no instruction to verify a priority alert against the raw event log before ranking it.
+- **IMPACT** — Daily brief accuracy; risk of Blaise contacting a client about behavior that never
+  occurred.
+- **CLASSIFICATION** — **OPERATIONAL CHANGE** (workflow step / ranking logic).
+- **EXACT PROPOSED CHANGE** — Add to REVIEW METHOD: *"Treat a Ylopo priority/shared-listing alert as
+  REPORTED, not verified, until corroborated against the raw contact event log. Cross-lead attribution
+  contamination is a documented defect on this account. Do not rank an uncorroborated alert as an
+  active-client or revenue priority, and never reference the alleged behavior back to the client as
+  fact."*
+- **RELATED ASSETS** — FUB 06 (automation map / Ylopo behavior); `.claude/agents/
+  daily-revenue-command-center.md` (already instructs "do not treat automation-generated activity as
+  proof a human conversation happened" — this extends it to behavioral alerts).
+- **TESTING REQUIRED** — A Command Center run must not rank an uncorroborated Ylopo priority alert
+  above a real dated client commitment.
+- **DISPOSITION** — **REVIEW** (ChatGPT / 04).
+
 ---
 
 ## 5. Findings closed

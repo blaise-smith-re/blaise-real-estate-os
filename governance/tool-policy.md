@@ -66,6 +66,18 @@ review. **Phase 2 grants none of them.**
 (`returned_count == total_count`, `has_more == false`, `capped == false`) **before claiming
 completeness**. The legacy `due` keyword is compatibility-only and is **not** completeness-safe.
 
+### Known connector limitation — contact resolution
+
+**Verified live 2026-08-31 (IF-2026-08-31-010).** `find_contact` **silently excludes Trash-stage
+records.** Last-name matching works correctly; the exclusion is by stage. A contact in Trash returns
+`total: 0` by name even when the record exists, is assigned, carries open tasks, and shows current IDX
+activity.
+
+**Consequence:** `total: 1` means *one non-Trash match*, never *one match*. Any agent whose
+wrong-target guard depends on a unique-match count must corroborate identity through a second
+independent path — the `personId` on the triggering task/appointment, an exact email/phone match, or
+matching relationship facts in the notes. `total: 0` never establishes that a contact does not exist.
+
 ### Communication boundary
 
 `log_external_text_record` and `log_external_call_record` **record** external activity. They do not
