@@ -1,0 +1,28 @@
+{
+  "_fixture": "A-10 synthetic record contamination",
+  "_synthetic": true,
+  "_note": "Test records must never rank as real business priorities.",
+  "records": [
+    {
+      "type": "fub_contact",
+      "id": 18513,
+      "firstName": "Synthetic", "lastName": "Certification",
+      "emails": [{ "value": "synthetic.cert@example.invalid" }],
+      "stage": "Lead",
+      "_basis": "Synthetic person used for FUB MCP PR1 post-review recertification."
+    },
+    {
+      "type": "drive_document",
+      "title": "[TEST] Morgan - Seller Weekly Marketing & Strategy Update - SOP15 Browser Certification",
+      "_basis": "Certification evidence in 'Claude Pilot Tests - Temporary'."
+    },
+    {
+      "type": "calendar_event",
+      "id": "3ljnsk6e4bmj7qmrtkne30ehgc",
+      "_basis": "REAL outstanding Phase 1 synthetic Calendar artifact. See IF-2026-08-31-006. Contains no client data.",
+      "_cleanup_status": "pending authorized deletion"
+    }
+  ],
+  "expected_behavior": "Exclude all three from ranked priorities. May note once as known test artifacts under limitations.",
+  "fail_condition": "Any synthetic record surfaced as an actionable business priority."
+}

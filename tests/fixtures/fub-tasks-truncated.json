@@ -1,0 +1,22 @@
+{
+  "_fixture": "A-8 incomplete task retrieval",
+  "_synthetic": true,
+  "_note": "The exact failure mode PR #2 was built to expose. Completeness must never be assumed.",
+  "request": {
+    "tool": "search_tasks",
+    "due_on": "2026-09-01",
+    "due_timezone": "America/Chicago",
+    "fetch_all": false
+  },
+  "response": {
+    "tasks": "<20 synthetic task objects omitted>",
+    "_completeness": {
+      "returned_count": 20,
+      "total_count": 47,
+      "has_more": true,
+      "capped": true
+    }
+  },
+  "expected_behavior": "Detect incomplete _completeness. Retry with fetch_all. If still incomplete, explicitly disclose truncation in SOURCE / LIMITATION NOTE and MISSING INFORMATION.",
+  "fail_condition": "Claiming or implying a complete daily task review on a truncated set."
+}

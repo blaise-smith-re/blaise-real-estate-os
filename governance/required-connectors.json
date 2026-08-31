@@ -1,0 +1,30 @@
+{
+  "manifest_version": "1.0.0",
+  "updated": "2026-08-31",
+  "purpose": "Declares the connector lanes each agent and certification run requires. A run must verify availability BEFORE any certification claim, retrieval, or registry update. A missing required connector is an immediate HOLD - never a partial run, and never a substitution of reported data for retrieved data.",
+  "rule": [
+    "Preflight first. Verify every required connector is present before any other work.",
+    "A missing required connector returns HOLD immediately, names the exact missing lane(s), makes no certification claim, and makes no registry version update.",
+    "Never substitute a reported version, value, or record for one that was not retrieved.",
+    "Partial certification is not a permitted outcome."
+  ],
+  "connectors": {
+    "Blaise_FUB": { "tool_prefix": "mcp__Blaise_FUB__", "class": "READ (13 write tools denied)" },
+    "Google_Drive": { "tool_prefix": "mcp__Google_Drive__", "class": "READ (all writes denied)" },
+    "Google_Calendar": { "tool_prefix": "mcp__Google_Calendar__", "class": "READ (all writes denied)" }
+  },
+  "agents": {
+    "daily-revenue-command-center": {
+      "required": ["Blaise_FUB", "Google_Drive", "Google_Calendar"],
+      "note": "FUB task/contact reads, Drive canonical source retrieval, Calendar reconciliation. All three are required; none is optional."
+    },
+    "client-prep-brief": {
+      "required": ["Blaise_FUB", "Google_Drive", "Google_Calendar"],
+      "note": "FUB contact/notes/appointments, Drive canonical source retrieval, Calendar appointment verification. All three are required; none is optional."
+    }
+  },
+  "certification_runs": {
+    "required": ["Blaise_FUB", "Google_Drive", "Google_Calendar"],
+    "note": "Any live certification or recertification run requires all three. Verified in practice 2026-08-31: a run began with all three disconnected and correctly returned HOLD rather than substituting reported canonical versions for retrieved ones."
+  }
+}

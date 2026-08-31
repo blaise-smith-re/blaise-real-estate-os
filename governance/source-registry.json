@@ -1,0 +1,148 @@
+{
+  "registry_version": "1.0.0",
+  "updated": "2026-08-31",
+  "phase": "Phase 2",
+  "principle": "Stores POINTERS ONLY. Never store canonical source content in this repository. On any mismatch between version_pin and the retrieved live document, THE LIVE DRIVE DOCUMENT WINS.",
+  "resolution_rules": [
+    "Resolve every source by file_id. Never resolve by title search: titles change to 'LEGACY - <title> - Superseded <date> (vX.Y)' when a document is superseded, but the canonical document keeps its file_id and is edited in place.",
+    "Reject any retrieval whose live title begins with 'LEGACY -' or 'ARCHIVED -'. Stop and re-resolve.",
+    "Read the retrieved document's own version/date line and compare to version_pin.",
+    "version_pin mismatch => status REGISTRY DRIFT: proceed on the live document, raise an Improvement Finding, do not proceed on the pin.",
+    "Retrieval failure on a required source => HOLD for the policy-dependent portion of the task only.",
+    "Access is proven by retrieval, never inferred from folder sharing. Canonical files are split across two owner accounts."
+  ],
+  "authority_levels": {
+    "governing": "Business Operating Manual. Outranks SOPs.",
+    "controlling": "The SOP that controls this specific workflow.",
+    "routing": "Channel and handoff routing authority.",
+    "canonical-prompt": "The approved business logic for an agent. Retrieved at runtime and followed; never copied into this repository.",
+    "supporting": "Referenced by a canonical prompt as a controlling source for part of its workflow.",
+    "route-target": "Named as a handoff destination. POINTER ONLY - do not retrieve during a normal run."
+  },
+  "sources": [
+    {
+      "key": "business_operating_manual",
+      "title": "00 - Blaise Smith Business Operating Manual",
+      "file_id": "1HyBu_OcwTm8-_Aqh0hDcfIFGoor399gR8NHUMRJKAVc",
+      "authority": "governing",
+      "version_pin": "1.30",
+      "version_verified_at": "2026-08-31",
+      "owner_account": "bsmith@blaisesmithproperties.com",
+      "drive_path": "Blaise Real Estate OS / 01 - Dashboard",
+      "required_by": [
+        "daily-revenue-command-center",
+        "client-prep-brief"
+      ],
+      "verify": "Read the 'Version / Status' row of the header table. Expect '1.30 | Active Governing Manual'."
+    },
+    {
+      "key": "execution_operator_sop",
+      "title": "SOP - Claude Execution Operator, Browser & API-MCP Integration Control",
+      "file_id": "1BuTAOheI3ykLZGJ3lLddHhVKMOIqkK_qX7f_YxYHbuU",
+      "authority": "controlling",
+      "version_pin": "4.28",
+      "version_verified_at": "2026-08-31",
+      "owner_account": "bsmith@blaisesmithproperties.com",
+      "drive_path": "Blaise Real Estate OS / 07 - Automation / Claude Browser Operator",
+      "required_by": [
+        "daily-revenue-command-center",
+        "client-prep-brief"
+      ],
+      "verify": "Read the 'Version:' line near the top. Expect '4.28'. This SOP owns the certification register, the Claude Code Multi-Agent Execution Lane, and every action-class gate."
+    },
+    {
+      "key": "workflow_channels_routing",
+      "title": "02 - ChatGPT Workflow Channels, Routing & Starter Scripts - Blaise Real Estate OS",
+      "file_id": "12Pg3pAXpPWfEf6_U6rFYrOM7WQSDVkM90CwJjujqiLE",
+      "authority": "routing",
+      "version_pin": "4.2",
+      "version_verified_at": "2026-08-31",
+      "owner_account": "bsmith@blaisesmithproperties.com",
+      "drive_path": "Blaise Real Estate OS / 07 - Automation",
+      "required_by": [
+        "execution-layer"
+      ],
+      "verify": "Read the 'Version 4.2 | Active - Approved by Blaise' line. Owns the Claude Execution Task Packet and the ROUTING MAP. Required by the execution layer and by the orchestrator when built; NOT retrieved at runtime by either Phase 2 agent."
+    },
+    {
+      "key": "prompt_daily_revenue_command_center",
+      "title": "Claude Prompt - Daily Revenue Command Center",
+      "file_id": "1xV6ScXQJdXPb9t9rQZhJFFZkKwRH9fd0f1MtdnaAT6o",
+      "authority": "canonical-prompt",
+      "version_pin": "1.2",
+      "version_verified_at": "2026-08-31",
+      "owner_account": "bsmith@blaisesmithproperties.com",
+      "drive_path": "Blaise Real Estate OS / 07 - Automation / Reusable Claude Prompts / Operations & QC / Daily Revenue Command Center",
+      "required_by": [
+        "daily-revenue-command-center"
+      ],
+      "verify": "Read 'Version: 1.2 | Active'. This IS the agent's business logic. Retrieve and follow it at runtime; never copy it into the repository."
+    },
+    {
+      "key": "prompt_client_prep_brief",
+      "title": "Claude Prompt - Client Prep & 5-Minute Brief Engine",
+      "file_id": "1ydJhE_PoeZsUS-_LDKhKrKL4c9iY5SGUOqIouemkFIU",
+      "authority": "canonical-prompt",
+      "version_pin": "1.0",
+      "version_verified_at": "2026-08-31",
+      "owner_account": "bsmith@blaisesmithproperties.com",
+      "drive_path": "Blaise Real Estate OS / 07 - Automation / Reusable Claude Prompts / Operations & QC / Client Prep & 5-Minute Briefing",
+      "required_by": [
+        "client-prep-brief"
+      ],
+      "verify": "Read 'Version: 1.0 | Active'. This IS the agent's business logic. Retrieve and follow it at runtime; never copy it into the repository."
+    },
+    {
+      "key": "fub_05_crm_documentation",
+      "title": "FUB 05 - CRM Documentation, Smart Lists & Daily-Weekly Rhythm SOP",
+      "file_id": "1rYWbmFnBG00zuZiQ6wZd3MI1eDIHpKxyOnjYQBYpnsk",
+      "authority": "supporting",
+      "version_pin": "1.8",
+      "version_verified_at": "2026-08-31",
+      "owner_account": "bsmith@blaisesmithproperties.com",
+      "drive_path": "Blaise Real Estate OS / 01 - Dashboard / Operations Manual & SOP Library / 04 - Follow Up Boss SOPs / 02 - CRM Operations & Controls",
+      "required_by": [
+        "daily-revenue-command-center"
+      ],
+      "verify": "Read the 'Version:' line near the top. Expect '1.8'. Named by the Command Center prompt as the ordering authority for daily control surfaces."
+    },
+    {
+      "key": "fub_06_automation_map",
+      "title": "FUB 06 - Automation Map, Guardrails & Improvement Log",
+      "file_id": "197OgqAyYpdx0dmwthzdCdOxmNsM9ZgKOKD1CVeNEbo8",
+      "authority": "supporting",
+      "version_pin": "1.8",
+      "version_verified_at": "2026-08-31",
+      "owner_account": "bsmith@blaisesmithproperties.com",
+      "drive_path": "Blaise Real Estate OS / 01 - Dashboard / Operations Manual & SOP Library / 04 - Follow Up Boss SOPs / 99 - Reference & Change Requests",
+      "required_by": [
+        "daily-revenue-command-center"
+      ],
+      "verify": "Read the 'Version:' line near the top. Expect '1.8'. Governs FUB automation behavior, the 38-tool inventory, the find_contact target-resolution limitation, and shared-configuration guardrails (Brent approval path)."
+    },
+    {
+      "key": "prompt_buyer_showing_prep",
+      "title": "Claude Prompt - Buyer Showing Prep & Client Deliverable Builder",
+      "file_id": "1qCCCucWG6q8p6JloP-qlrxkB8r8gecc8gUofB6otTlc",
+      "authority": "route-target",
+      "version_pin": null,
+      "owner_account": "bsmith@blaisesmithproperties.com",
+      "required_by": [
+        "client-prep-brief"
+      ],
+      "verify": "POINTER ONLY. Named as a handoff destination for buyer showing/property deep work. Do not retrieve during a normal Client Prep run."
+    },
+    {
+      "key": "prompt_seller_listing_appointment_prep",
+      "title": "Claude Prompt - Seller Listing Appointment Prep & Strategy Builder",
+      "file_id": "19fnN2nGYk-dHTLyL1gC-d617wwO1V9U1ae75x7WYKJ0",
+      "authority": "route-target",
+      "version_pin": null,
+      "owner_account": "bsmith@blaisesmithproperties.com",
+      "required_by": [
+        "client-prep-brief"
+      ],
+      "verify": "POINTER ONLY. Named as a handoff destination for seller listing appointment / CMA / pricing deep work. Do not retrieve during a normal Client Prep run."
+    }
+  ]
+}

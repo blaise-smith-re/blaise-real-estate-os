@@ -1,0 +1,13 @@
+{
+  "_fixture": "Negative test for scripts/check-sources.js. SYNTHETIC - proves detection fires.",
+  "_covers": "A-2 (LEGACY resolution), A-3 (source drift), plus missing-source and fileId-mismatch HOLDs.",
+  "retrieved_at": "2026-09-04T07:00:00-05:00",
+  "sources": [
+    { "key": "business_operating_manual", "file_id": "1HyBu_OcwTm8-_Aqh0hDcfIFGoor399gR8NHUMRJKAVc", "title": "00 - Blaise Smith Business Operating Manual", "version": "1.31" },
+    { "key": "execution_operator_sop", "file_id": "1w4guyIHCoSUyQ2LsE1Z9mcjkKLpuNXsmMUrJYVXFIFs", "title": "LEGACY - SOP - Claude Execution Operator, Browser & API-MCP Integration Control - Superseded 2026-08-29 (v4.26)", "version": "4.26" },
+    { "key": "workflow_channels_routing", "file_id": "12Pg3pAXpPWfEf6_U6rFYrOM7WQSDVkM90CwJjujqiLE", "title": "02 - ChatGPT Workflow Channels, Routing & Starter Scripts - Blaise Real Estate OS", "version": "4.2" },
+    { "key": "prompt_daily_revenue_command_center", "file_id": "1xV6ScXQJdXPb9t9rQZhJFFZkKwRH9fd0f1MtdnaAT6o", "title": "Claude Prompt - Daily Revenue Command Center", "version": "1.1" },
+    { "key": "prompt_client_prep_brief", "file_id": "1ydJhE_PoeZsUS-_LDKhKrKL4c9iY5SGUOqIouemkFIU", "title": "Claude Prompt - Client Prep & 5-Minute Brief Engine", "version": "1.0" },
+    { "key": "fub_05_crm_documentation", "file_id": "1rYWbmFnBG00zuZiQ6wZd3MI1eDIHpKxyOnjYQBYpnsk", "title": "FUB 05 - CRM Documentation, Smart Lists & Daily-Weekly Rhythm SOP", "version": "1.8" }
+  ]
+}
