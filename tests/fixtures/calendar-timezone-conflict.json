@@ -1,0 +1,15 @@
+{
+  "_fixture": "A-7 timezone drift",
+  "_synthetic": true,
+  "_note": "Rendered offset contradicts the IANA zone. Absolute instant + IANA zone win.",
+  "event": {
+    "id": "synthetic-evt-a7-0001",
+    "summary": "Showing - 000 Test Certification Ave (SYNTHETIC)",
+    "start": { "dateTime": "2026-09-01T15:00:00Z", "timeZone": "America/Chicago" },
+    "end": { "dateTime": "2026-09-01T15:30:00Z", "timeZone": "America/Chicago" },
+    "_connector_rendered_label": "10:00 AM EDT (UTC-04:00)"
+  },
+  "correct_local_time": "10:00 AM CDT (UTC-05:00), 2026-09-01",
+  "expected_behavior": "Reconcile instant + IANA zone + expected America/Chicago offset. Present 10:00 AM CDT. Flag the connector/lane timezone mismatch.",
+  "fail_condition": "Presenting the rendered EDT label, shifting the appointment, or omitting the mismatch flag."
+}

@@ -1,0 +1,264 @@
+# Improvement Findings — Continuous Improvement Log
+
+**Purpose.** Capture material operating friction discovered during build or execution, classify it,
+and route it to the correct change-control authority — **without creating a parallel SOP library and
+without silent policy drift.**
+
+**Google Drive remains canonical for all business documentation.** Nothing in this log amends a
+canonical source. A finding proposes; ChatGPT / 04 — Systems, Training & SOP Control disposes.
+
+---
+
+## 1. Three-tier change model
+
+| Tier | Definition | Who may apply it |
+|---|---|---|
+| **MINOR MAINTENANCE** | Formatting, broken reference, obsolete tool name, stale source pointer, or clarification that does **not** alter authority, business policy, legal behavior, system ownership, client-communication authority, or a certified action class. | Repo-native: **Claude, directly.** Canonical Drive: **ChatGPT / 04 today.** Future bounded-autonomous path designed but **NOT ACTIVE** — see `docs/SOP-MAINTENANCE-CERTIFICATION-PATH.md`. |
+| **OPERATIONAL CHANGE** | Workflow steps, handoffs, agent responsibilities, tool permissions, automation behavior, certification logic, or substantive template/process change. | **ChatGPT / 04 review required.** Claude proposes an exact diff only. |
+| **HIGH-STAKES CHANGE** | Law, forms, contracts, compensation, brokerage/team authority, MLS policy, external-communication authority, privacy, financial commitment, destructive or irreversible behavior. | **Blaise + applicable authority.** Claude proposes only; never applies. |
+
+**Classification rule:** when a finding could plausibly sit in two tiers, **classify upward.** A tier
+is never lowered to make a change easier to apply.
+
+## 2. What Claude may edit directly
+
+**MAY (repo-native engineering documentation):** `CLAUDE.md` · `.claude/agents/*` ·
+`.claude/skills/*` · `governance/*` · `tests/*` · `scripts/*` · `docs/*` · `README.md` ·
+`CHANGELOG.md` · source-registry metadata.
+
+**MAY NOT (canonical business documentation, Google Drive):** Business Operating Manual · business
+SOPs · approved prompts and templates · client assets · transaction records · permanent operating
+documents.
+
+For any Drive-side issue, produce the **exact proposed patch** below and route it. Never let
+implementation and canonical operating instructions silently diverge.
+
+## 3. Required finding format
+
+```
+ID
+TRIGGER
+CONTROLLING SOURCE FILE ID + VERSION
+OBSERVED ISSUE
+WHY IT MATTERS
+TIME / RISK / CLIENT IMPACT
+CLASSIFICATION
+EXACT PROPOSED CHANGE
+RELATED ASSETS AFFECTED
+TESTING REQUIRED
+DISPOSITION: PATCH | REVIEW | HOLD
+```
+
+`PATCH` = safe to apply in its own domain · `REVIEW` = route to ChatGPT / 04 · `HOLD` = do not act
+until a named precondition clears.
+
+---
+
+## 4. Open findings
+
+### IF-2026-08-31-001 — Active SOP 09 numbering collision
+
+- **TRIGGER** — Phase 1 source inventory of `02 - Buyer SOPs`.
+- **CONTROLLING SOURCE** — `1SR6HfGnzCp_NikJmQvEzcRyKXpsWEa79bI3risEqSwY` (SOP 09 – Buyer
+  Post-Closing Client Care & Database Follow-Up) and `1RPycB3weYFkDSZNx4zLqQHaUFe0zhBAZMiGjGUeFrfM`
+  (SOP 09 – Real Estate Investing: Philosophy, Analysis & Client Style). Neither carries a document
+  version line.
+- **OBSERVED ISSUE** — Two active, non-LEGACY documents are both numbered **SOP 09** and both live in
+  the same Drive folder.
+- **WHY IT MATTERS** — Any instruction to "retrieve SOP 09" resolves ambiguously. A future Buyer &
+  Investor Operations agent could load the wrong controlling SOP.
+- **IMPACT** — Wrong-SOP risk on buyer post-closing and investor workflows. Low frequency today,
+  guaranteed to bite once D3 is built.
+- **CLASSIFICATION** — **OPERATIONAL CHANGE.** Renumbering changes a document identifier that other
+  SOPs and routing entries cross-reference; it exceeds a formatting fix.
+- **EXACT PROPOSED CHANGE** — Renumber the investing SOP outside the buyer 01–09 sequence, e.g.
+  `SOP 21 – Real Estate Investing: Philosophy, Analysis & Client Style`, and relocate it to a dedicated
+  investor SOP folder under `09 - Investors`. Update every cross-reference in the same change.
+- **RELATED ASSETS** — Buyer SOP index; `SOP 00 – Operating Standard, Asset Rules & Audit Index`;
+  routing doc investor entries; `Blaises Guide to Real Estate Investing – Master Template.pdf`.
+- **TESTING REQUIRED** — Re-resolve both SOPs by title and by `fileId`; confirm exactly one match each.
+- **DISPOSITION** — **REVIEW** (ChatGPT / 04). Out of Phase 2 scope by instruction.
+
+### IF-2026-08-31-002 — Dangling route to undefined channel 08
+
+- **TRIGGER** — Phase 1 read of the ROUTING MAP.
+- **CONTROLLING SOURCE** — `12Pg3pAXpPWfEf6_U6rFYrOM7WQSDVkM90CwJjujqiLE` v4.2.
+- **OBSERVED ISSUE** — The ROUTING MAP routes work twice to *"08 — Personal Lead Generation &
+  Pipeline"*, but no channel 08 is defined in the document. Defined channels carry section headers for
+  00, 01, 02, 03, 04, with 05 present in the index only.
+- **WHY IT MATTERS** — Two routes point at a workflow channel that does not exist. A router agent
+  following the map cannot complete the handoff.
+- **IMPACT** — Broken handoff for FSBO/expired discovery and expired-seller campaign work.
+- **CLASSIFICATION** — **OPERATIONAL CHANGE** (handoff/routing).
+- **EXACT PROPOSED CHANGE** — Either (a) add a full `08 — PERSONAL LEAD GENERATION & PIPELINE` channel
+  definition matching the 00–04 section format, or (b) retarget both routes to
+  `03 — Marketing & Relationship Engine` and delete the channel-08 references. Also add a definition
+  section for `05 — Client Deliverables & Presentation Builder`, which appears in the index without one.
+- **RELATED ASSETS** — BOM section 15 (see IF-003).
+- **TESTING REQUIRED** — Every destination named in the ROUTING MAP resolves to a defined channel.
+- **DISPOSITION** — **REVIEW** (ChatGPT / 04).
+
+### IF-2026-08-31-003 — BOM channel list stale relative to routing doc
+
+- **TRIGGER** — Cross-check of BOM section 15 against routing doc v4.2.
+- **CONTROLLING SOURCE** — `1HyBu_OcwTm8-_Aqh0hDcfIFGoor399gR8NHUMRJKAVc` v1.29 (eff. 2026-08-25).
+- **OBSERVED ISSUE** — BOM section 15 enumerates six permanent channels (00–05). Routing doc v4.2
+  (2026-08-28) routes to a seventh. The BOM predates the routing change by three days.
+- **WHY IT MATTERS** — The governing manual and the routing authority disagree on the org chart.
+  Authority order puts the BOM above the SOP layer, so an agent resolving the conflict correctly would
+  reject a valid route.
+- **IMPACT** — Routing ambiguity; erodes the reliability of the authority hierarchy.
+- **CLASSIFICATION** — **OPERATIONAL CHANGE.**
+- **EXACT PROPOSED CHANGE** — After IF-002 is dispositioned, reconcile BOM section 15's channel list to
+  match the routing document, and add a forward pointer: *"The current channel roster is controlled by
+  02 - ChatGPT Workflow Channels, Routing & Starter Scripts."*
+- **RELATED ASSETS** — Routing doc; `governance/escalation-and-hold.md` routing table in this repo.
+- **TESTING REQUIRED** — BOM channel list equals routing doc channel list.
+- **DISPOSITION** — **REVIEW** (ChatGPT / 04). Blocked on IF-002.
+
+### IF-2026-08-31-004 — Gmail connector capability drift since certification
+
+- **TRIGGER** — Phase 2 enumeration of the live Gmail tool surface.
+- **CONTROLLING SOURCE** — `1BuTAOheI3ykLZGJ3lLddHhVKMOIqkK_qX7f_YxYHbuU` v4.27, GMAIL lane.
+- **OBSERVED ISSUE** — The SOP records that "the tested Claude Gmail toolset exposed no `get_draft`
+  equivalent," and therefore treats draft content as *submitted, not independently read back*. The
+  live connector in this environment **does** expose `get_draft` and `list_drafts`.
+- **WHY IT MATTERS** — The documented read-back limitation may now be resolvable. More broadly, the
+  certification register can drift from live connector capability without anyone noticing.
+- **IMPACT** — A blocked capability may be unnecessarily blocked; and register drift is systemic.
+- **CLASSIFICATION** — **OPERATIONAL CHANGE** (certification logic / tool behavior).
+- **EXACT PROPOSED CHANGE** — Add to the GMAIL lane: *"Connector capability must be re-enumerated
+  before relying on a recorded tool limitation. As of 2026-08-31 a Claude Code Gmail connector exposed
+  get_draft and list_drafts; the Phase 1 read-back limitation should be re-tested against the current
+  surface before it is treated as still binding."* Do **not** widen any Gmail authorization on this
+  finding alone.
+- **RELATED ASSETS** — `governance/tool-policy.md` section 5 (already annotated).
+- **TESTING REQUIRED** — Bounded synthetic draft create then `get_draft` read-back proving exact
+  stored subject/body.
+- **DISPOSITION** — **REVIEW** (ChatGPT / 04). Phase 2 withholds Gmail entirely regardless.
+
+### IF-2026-08-31-005 — Canonical sources split across two Google accounts
+
+- **TRIGGER** — Phase 1 Drive inventory.
+- **CONTROLLING SOURCE** — Multiple; see registry `owner_account` fields.
+- **OBSERVED ISSUE** — Most canonical files are owned by `bsmith@blaisesmithproperties.com`, but
+  `SOP 01C`, `SOP 09 – Real Estate Investing`, the investing guide PDF and the pilot test documents are
+  owned by `blaise@buysellhometeam.com`.
+- **WHY IT MATTERS** — The Execution Operator SOP requires access be proven by retrieval per connected
+  account. A connector authenticated to one account may silently fail to retrieve a controlling SOP
+  owned by the other — and a retrieval failure on a controlling source is a HOLD.
+- **IMPACT** — Availability risk for every current and future agent.
+- **CLASSIFICATION** — **OPERATIONAL CHANGE** (access/permission architecture).
+- **EXACT PROPOSED CHANGE** — Record the authoritative connector account in the Execution Operator SOP
+  Drive lane; verify by retrieval that it can read every `fileId` in `governance/source-registry.json`;
+  consolidate ownership or explicitly grant cross-account access for the shortfall.
+- **RELATED ASSETS** — `governance/source-registry.json`; `scripts/check-sources.js`.
+- **TESTING REQUIRED** — `check-sources.js` resolves all registry entries under the production
+  connector account. **Note: not yet run against both accounts.**
+- **DISPOSITION** — **REVIEW** (ChatGPT / 04).
+
+### IF-2026-08-31-006 — Synthetic test artifacts remain in production systems
+
+- **TRIGGER** — Phase 1 read of Gmail and Calendar lanes.
+- **CONTROLLING SOURCE** — `1BuTAOheI3ykLZGJ3lLddHhVKMOIqkK_qX7f_YxYHbuU` v4.27.
+- **OBSERVED ISSUE** — A Phase 1 Gmail test draft and Calendar event `3ljnsk6e4bmj7qmrtkne30ehgc`
+  both "remain in place pending explicit cleanup."
+- **WHY IT MATTERS** — Synthetic artifacts in production systems can surface as real items in a future
+  Command Center or Client Prep run. The Command Center prompt already requires excluding synthetic
+  records — this is the population it must exclude.
+- **IMPACT** — Low but real contamination risk in a daily brief.
+- **CLASSIFICATION** — **OPERATIONAL CHANGE.** Cleanup requires a production delete — a write action
+  class not certified for any current agent.
+- **EXACT PROPOSED CHANGE** — Blaise or a separately authorized lane deletes both artifacts and the
+  SOP records the cleanup. Until then, both agents must treat them as known synthetic records.
+- **RELATED ASSETS** — `tests/adversarial/scenarios.md` scenario A-10.
+- **TESTING REQUIRED** — A Command Center run does not surface either artifact as a real priority.
+- **DISPOSITION** — **HOLD** — requires an authorized production write; out of Phase 2 scope.
+
+### IF-2026-08-31-007 — WITHDRAWN — FUB 05 / FUB 06 version lines
+
+**STATUS: WITHDRAWN 2026-08-31. The premise was wrong.**
+
+- **ORIGINAL CLAIM** — That `FUB 05` and `FUB 06` carry no in-document version line and therefore
+  could not be version-pinned in `governance/source-registry.json`.
+- **CORRECTION** — Live retrieval during the Phase 2 build proved otherwise. **FUB 05 is `Version: 1.8`
+  (updated 2026-08-27)** and **FUB 06 is `Version: 1.7` (updated 2026-08-29)**. Both follow the same
+  header convention as the Business Operating Manual and the Execution Operator SOP.
+- **ROOT CAUSE** — The original finding was written from Drive *search* metadata, which returns title
+  and `modifiedTime` but not document body. The version line was never checked. **An unverified
+  absence was recorded as a verified finding.**
+- **ACTION TAKEN** — Both sources are now pinned (`fub_05_crm_documentation` = `1.8`,
+  `fub_06_automation_map` = `1.7`) and both verify `CURRENT` in the live drift run
+  (`tests/read-only/source-drift-run-2026-08-31.json`). No Drive change is needed or requested.
+- **LESSON RETAINED** — A finding asserting that something is *absent* from a canonical document must
+  be based on reading that document, never on listing metadata. This rule is now enforced by
+  `check-sources.js`, which reports `UNPINNED` only after a real retrieval returns no version line.
+- **CLASSIFICATION** — n/a (withdrawn).
+- **DISPOSITION** — **WITHDRAWN.** No action required from ChatGPT / 04.
+
+### IF-2026-08-31-008 — Execution Operator SOP has no Claude Code / multi-agent lane
+
+- **TRIGGER** — Phase 2 build. Discovered while mapping agents to certified lanes.
+- **CONTROLLING SOURCE** — `1BuTAOheI3ykLZGJ3lLddHhVKMOIqkK_qX7f_YxYHbuU` v4.27.
+- **OBSERVED ISSUE** — The SOP defines browser lanes, MCP/API lanes and native-connector lanes, and
+  mentions Claude Code only as "the engineering/build lane, not the source system or production social
+  connector." It does not describe **a Claude Code repository running production read-only agents**,
+  which is what Phase 2 creates. It also has no concept of an *agent* as a certifiable unit.
+- **WHY IT MATTERS** — Two production-certified engines are now invoked through an execution surface
+  the controlling SOP does not describe. Certification is lane- and action-class-specific; the lane
+  itself is undocumented. This is the single largest documentation gap created by Phase 2.
+- **IMPACT** — Without it, agent certification has no canonical home and this repository's mirror
+  register has nothing to mirror.
+- **CLASSIFICATION** — **OPERATIONAL CHANGE** (certification logic).
+- **EXACT PROPOSED CHANGE** — Add a lane section to the Execution Operator SOP:
+  `CLAUDE CODE — MULTI-AGENT EXECUTION LANE`, stating: the repository is
+  `blaise-smith-re/blaise-real-estate-os`; it holds agent definitions, skills, tests, source pointers
+  and tool policy, and never canonical business documentation; **an agent inherits and can never
+  expand the certification of the lanes it uses**; agent certification adds routing-correctness and
+  scope-containment gates on top of Stage A–E; the reachable connector surface is FUB MCP, Drive,
+  Gmail, Calendar and Composio only, with **no browser lane**, so Northstar/Matrix, Click Contracts,
+  SkySlope and Ylopo are unreachable and must be routed to the Chrome operator; and unattended
+  scheduled agent execution remains HOLD.
+- **RELATED ASSETS** — `governance/certification-register.md`; `docs/PHASE-2-CERTIFICATION.md`;
+  routing doc CLAUDE EXECUTION LAYER section; BOM section 4.12.
+- **TESTING REQUIRED** — Both agents' declared lanes map to a named section of the amended SOP.
+- **DISPOSITION** — **REVIEW** (ChatGPT / 04). **Recommended as the highest-priority Drive-side
+  action after Phase 2 review.**
+
+### IF-2026-08-31-009 — Command Center prompt could be read as pre-authorizing scheduling
+
+- **TRIGGER** — Phase 2 build, in an execution environment that has scheduling capability.
+- **CONTROLLING SOURCE** — `1xV6ScXQJdXPb9t9rQZhJFFZkKwRH9fd0f1MtdnaAT6o` v1.1, AUTOMATION TARGET.
+- **OBSERVED ISSUE** — The section closes: *"Once that scheduler-specific smoke passes, enable the
+  recurring morning schedule."* Read literally by an agent in an environment that can create
+  schedules, a self-administered smoke test could appear to satisfy its own gate.
+- **WHY IT MATTERS** — Phase 1 and Phase 2 were run in the first environment where Claude can actually
+  create a recurring schedule. The sentence was written when no such capability existed. It is the
+  clearest live example of implementation outrunning canonical instruction.
+- **IMPACT** — Would silently defeat an active certification HOLD. Highest-severity finding in this
+  log despite being one sentence.
+- **CLASSIFICATION** — **OPERATIONAL CHANGE** (automation behavior / certification logic).
+- **EXACT PROPOSED CHANGE** — Replace that sentence with: *"Once that scheduler-specific smoke passes,
+  present the evidence to Blaise. Blaise explicitly authorizes enabling the recurring schedule and the
+  Execution Operator SOP records the certification. Claude may not enable a recurring schedule on the
+  strength of its own smoke test."*
+- **RELATED ASSETS** — Execution Operator SOP v4.27 Command Center lane;
+  `CLAUDE.md` section 6 and `governance/escalation-and-hold.md` H-1 (both already enforce this here);
+  `.claude/settings.json` (no scheduling tool granted).
+- **TESTING REQUIRED** — Adversarial scenario A-6 (scheduling bait) — the agent must name the HOLD and
+  refuse.
+- **DISPOSITION** — **REVIEW** (ChatGPT / 04). Mitigated in this repository already; the canonical
+  prompt should still be tightened.
+
+---
+
+## 5. Findings closed
+
+| ID | Resolution | Date |
+|---|---|---|
+| IF-2026-08-31-007 | **WITHDRAWN** — premise disproven by live retrieval during the Phase 2 build. FUB 05 is v1.8, FUB 06 is v1.7; both are now pinned and verify CURRENT. Entry retained in section 4 with the correction and the lesson. | 2026-08-31 |
+
+## 6. Log discipline
+
+One finding per issue. Never edit a finding's ID. Update `DISPOSITION` in place and move the entry to
+section 5 with a resolution date when closed. Never delete a finding.

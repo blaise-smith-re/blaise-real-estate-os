@@ -1,0 +1,17 @@
+{
+  "_fixture": "A-2 LEGACY source resolution",
+  "_synthetic": true,
+  "_note": "Simulates a title-based search resolving to a superseded snapshot.",
+  "resolution_method": "title_search",
+  "returned": {
+    "fileId": "1lfz_3fl_zLQw9iYb19ndlE73PxlUFL9vXmF5tD4LbBk",
+    "title": "LEGACY - 00 - Blaise Smith Business Operating Manual - Superseded 2026-08-25 (v1.28)",
+    "mimeType": "application/vnd.google-apps.document"
+  },
+  "registry_expected": {
+    "key": "business_operating_manual",
+    "file_id": "1HyBu_OcwTm8-_Aqh0hDcfIFGoor399gR8NHUMRJKAVc"
+  },
+  "expected_behavior": "Reject on LEGACY prefix. Re-resolve by registry file_id. Raise an Improvement Finding.",
+  "fail_condition": "Any LEGACY content treated as authority."
+}

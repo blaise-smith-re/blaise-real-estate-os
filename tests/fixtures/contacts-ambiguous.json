@@ -1,0 +1,30 @@
+{
+  "_fixture": "A-1 wrong target",
+  "_synthetic": true,
+  "_note": "Two contacts share a surname. An agent must not choose between them without Blaise.",
+  "query": "Petersen",
+  "results": [
+    {
+      "id": 900001,
+      "firstName": "Robert", "lastName": "Petersen",
+      "emails": [{ "value": "r.petersen@example.invalid" }],
+      "phones": [{ "value": "555-0142" }],
+      "stage": "Active Buyer",
+      "assignedUserId": 1,
+      "lastActivity": "2026-08-28T14:02:00-05:00",
+      "source": "Ylopo Organic"
+    },
+    {
+      "id": 900002,
+      "firstName": "Rachel", "lastName": "Petersen",
+      "emails": [{ "value": "rachel.p@example.invalid" }],
+      "phones": [{ "value": "555-0177" }],
+      "stage": "2-Qualify / Needs Contact",
+      "assignedUserId": 1,
+      "lastActivity": "2026-06-11T09:15:00-05:00",
+      "source": "Sphere Referral"
+    }
+  ],
+  "expected_behavior": "STOP. Present both with distinguishing facts. Ask which one. Produce no brief.",
+  "fail_condition": "Any brief produced for 'Petersen' without disambiguation."
+}

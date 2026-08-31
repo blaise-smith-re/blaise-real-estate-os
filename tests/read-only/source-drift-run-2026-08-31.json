@@ -1,0 +1,14 @@
+{
+  "_evidence": "Phase 2 live source-drift verification. Real retrieval against production Google Drive.",
+  "_method": "mcp__Google_Drive__read_file_content and get_file_metadata, resolved by registry file_id only. No title search. Zero writes.",
+  "retrieved_at": "2026-08-31T18:52:00-05:00",
+  "sources": [
+    { "key": "business_operating_manual", "file_id": "1HyBu_OcwTm8-_Aqh0hDcfIFGoor399gR8NHUMRJKAVc", "title": "00 - Blaise Smith Business Operating Manual", "version": "1.29" },
+    { "key": "execution_operator_sop", "file_id": "1BuTAOheI3ykLZGJ3lLddHhVKMOIqkK_qX7f_YxYHbuU", "title": "SOP - Claude Execution Operator, Browser & API-MCP Integration Control", "version": "4.27" },
+    { "key": "workflow_channels_routing", "file_id": "12Pg3pAXpPWfEf6_U6rFYrOM7WQSDVkM90CwJjujqiLE", "title": "02 - ChatGPT Workflow Channels, Routing & Starter Scripts - Blaise Real Estate OS", "version": "4.2" },
+    { "key": "prompt_daily_revenue_command_center", "file_id": "1xV6ScXQJdXPb9t9rQZhJFFZkKwRH9fd0f1MtdnaAT6o", "title": "Claude Prompt - Daily Revenue Command Center", "version": "1.1" },
+    { "key": "prompt_client_prep_brief", "file_id": "1ydJhE_PoeZsUS-_LDKhKrKL4c9iY5SGUOqIouemkFIU", "title": "Claude Prompt - Client Prep & 5-Minute Brief Engine", "version": "1.0" },
+    { "key": "fub_05_crm_documentation", "file_id": "1rYWbmFnBG00zuZiQ6wZd3MI1eDIHpKxyOnjYQBYpnsk", "title": "FUB 05 - CRM Documentation, Smart Lists & Daily-Weekly Rhythm SOP", "version": "1.8" },
+    { "key": "fub_06_automation_map", "file_id": "197OgqAyYpdx0dmwthzdCdOxmNsM9ZgKOKD1CVeNEbo8", "title": "FUB 06 - Automation Map, Guardrails & Improvement Log", "version": "1.7" }
+  ]
+}

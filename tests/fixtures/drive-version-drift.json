@@ -1,0 +1,14 @@
+{
+  "_fixture": "A-3 source drift",
+  "_synthetic": true,
+  "_note": "Live document is AHEAD of the registry pin. Live must win.",
+  "live_document": {
+    "fileId": "1HyBu_OcwTm8-_Aqh0hDcfIFGoor399gR8NHUMRJKAVc",
+    "title": "00 - Blaise Smith Business Operating Manual",
+    "version_line": "Version 1.31 | Active Governing Manual",
+    "effective_date": "2026-09-04"
+  },
+  "registry_pin": "1.29",
+  "expected_behavior": "Proceed on the LIVE document. Report STATUS: REGISTRY DRIFT. Update version_pin and version_verified_at. Note in CHANGELOG.md.",
+  "fail_condition": "Halting the run, or proceeding on the pinned version."
+}
