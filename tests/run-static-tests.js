@@ -68,8 +68,19 @@ const SCHEDULING_TOOLS = [
   'mcp__Claude_Code_Remote__create_trigger', 'mcp__Claude_Code_Remote__send_later',
 ];
 
-const AGENTS = ['daily-revenue-command-center', 'client-prep-brief'];
-const SKILLS = ['retrieve-canonical-source', 'chicago-date-anchor', 'operator-execution-report'];
+// All departments. Universal invariants apply to every one of these.
+const AGENTS = ['daily-revenue-command-center', 'client-prep-brief', 'lead-conversion-crm',
+  'buyer-investor-ops', 'seller-listing-ops', 'market-intel-marketing',
+  'transaction-closing-ops', 'chief-of-staff'];
+// Phase 2 read-only engines with their own agent-specific controls.
+const PHASE2 = ['daily-revenue-command-center', 'client-prep-brief'];
+// Agents whose work is date/appointment sensitive and must anchor to America/Chicago.
+const DATE_SENSITIVE = ['daily-revenue-command-center', 'client-prep-brief', 'lead-conversion-crm',
+  'buyer-investor-ops', 'seller-listing-ops', 'transaction-closing-ops'];
+const SKILLS = ['retrieve-canonical-source', 'chicago-date-anchor', 'operator-execution-report',
+  'connector-preflight', 'fub-controlled-write', 'chrome-operator-handoff'];
+// Every agent must wire these three.
+const UNIVERSAL_SKILLS = ['connector-preflight', 'retrieve-canonical-source', 'operator-execution-report'];
 
 // ---------------------------------------------------------------- registry
 
@@ -193,36 +204,51 @@ check('T-12', 'no agent is granted Gmail, Composio, Bash, Write, or Edit', () =>
 
 // ---------------------------------------------------------------- agent guardrails
 
-check('T-13', 'agents declare read-only action class and zero writes', () => {
+check('T-13', 'every agent declares an explicit write posture', () => {
   for (const a of AGENTS) {
     const md = read(`.claude/agents/${a}.md`);
-    assert(/read-only/i.test(md), `agent "${a}" does not declare read-only`);
-    assert(/\bNONE\b/.test(md), `agent "${a}" does not declare NONE writes`);
+    assert(/read-only|No writes|zero writes|NOT granted|write authority/i.test(md),
+      `agent "${a}" does not state its write posture`);
   }
-  return 'read-only + zero-write declared';
+  for (const a of PHASE2) {
+    const md = read(`.claude/agents/${a}.md`);
+    assert(/\bNONE\b/.test(md), `Phase 2 agent "${a}" does not declare NONE writes`);
+  }
+  return `${AGENTS.length} agents declare write posture; ${PHASE2.length} Phase 2 agents declare NONE`;
 });
 
-check('T-14', 'agents carry required refusal guardrails', () => {
-  const guards = [
+check('T-14', 'agents carry required boundary guardrails', () => {
+  // Universal: every department states an escalation boundary and a routing boundary.
+  for (const a of AGENTS) {
+    const md = read(`.claude/agents/${a}.md`);
+    assert(/Escalate|escalat/i.test(md), `agent "${a}" has no escalation section`);
+    assert(/boundar|Out of scope|do not|never/i.test(md), `agent "${a}" states no boundaries`);
+  }
+  // Phase 2 engines keep their full refusal table.
+  const p2 = [
     { re: /schedul/i, name: 'scheduling' },
     { re: /H-1/, name: 'HOLD H-1 reference' },
-    { re: /text, call, email|no connected tool sends|does not send|never.{0,20}send/i, name: 'communication' },
+    { re: /no connected tool sends|does not send|never.{0,20}send|text, call, email/i, name: 'communication' },
     { re: /unreachable|Chrome operator/i, name: 'unreachable-system routing' },
     { re: /Refuse/i, name: 'explicit refusal language' },
   ];
-  for (const a of AGENTS) {
+  for (const a of PHASE2) {
     const md = read(`.claude/agents/${a}.md`);
-    for (const g of guards) assert(g.re.test(md), `agent "${a}" missing guardrail: ${g.name}`);
+    for (const g of p2) assert(g.re.test(md), `agent "${a}" missing guardrail: ${g.name}`);
   }
-  return 'scheduling / communication / unreachable / refusal guardrails present in both agents';
+  return `${AGENTS.length} agents carry boundary + escalation; Phase 2 refusal tables intact`;
 });
 
-check('T-15', 'agents reference all three shared skills', () => {
+check('T-15', 'agents are wired to the universal skills', () => {
   for (const a of AGENTS) {
     const md = read(`.claude/agents/${a}.md`);
-    for (const s of SKILLS) assert(md.includes(s), `agent "${a}" does not reference skill "${s}"`);
+    for (const s of UNIVERSAL_SKILLS) assert(md.includes(s), `agent "${a}" does not reference "${s}"`);
   }
-  return 'all agents wired to all three skills';
+  for (const a of DATE_SENSITIVE) {
+    const md = read(`.claude/agents/${a}.md`);
+    assert(md.includes('chicago-date-anchor'), `date-sensitive agent "${a}" not wired to chicago-date-anchor`);
+  }
+  return `${AGENTS.length} agents wired to universal skills; ${DATE_SENSITIVE.length} to date anchor`;
 });
 
 check('T-16', 'agents do NOT embed canonical prompt bodies', () => {
@@ -235,8 +261,13 @@ check('T-16', 'agents do NOT embed canonical prompt bodies', () => {
   for (const a of AGENTS) {
     const md = read(`.claude/agents/${a}.md`);
     for (const s of sentinels) assert(!md.includes(s), `agent "${a}" appears to embed canonical prompt text: "${s}"`);
-    assert(/retriev/i.test(md) && /runtime|at runtime|canonical Drive prompt/i.test(md),
-      `agent "${a}" does not instruct runtime retrieval of its canonical prompt`);
+    // Runtime-retrieval language is required of agents that HAVE a canonical prompt.
+    // Every agent must still resolve its controlling sources by fileId at runtime.
+    assert(/retriev/i.test(md), `agent "${a}" gives no retrieval instruction`);
+    if (PHASE2.includes(a)) {
+      assert(/runtime|at runtime|canonical Drive prompt/i.test(md),
+        `agent "${a}" does not instruct runtime retrieval of its canonical prompt`);
+    }
   }
   return 'no canonical prompt bodies copied into the repository';
 });
@@ -264,7 +295,7 @@ check('T-19', 'all three skills exist with valid frontmatter', () => {
     assert(fm.name === s, `skill "${s}" frontmatter name mismatch: ${fm.name}`);
     assert(fm.description && fm.description.length > 40, `skill "${s}" description too thin`);
   }
-  return '3/3 skills valid';
+  return `${SKILLS.length}/${SKILLS.length} skills valid`;
 });
 
 check('T-20', 'operator-execution-report defines all 18 required sections', () => {
@@ -361,10 +392,12 @@ check('T-25', 'connector preflight manifest covers every agent and matches grant
     assert(Array.isArray(entry.required) && entry.required.length > 0, `agent "${a}" declares no required connectors`);
 
     // Every declared connector must exist in the connector table.
-    for (const c of entry.required) assert(m.connectors[c], `agent "${a}" requires unknown connector "${c}"`);
+    const declared = [...(entry.required || []), ...(entry.optional || [])];
+    for (const c of declared) assert(m.connectors[c], `agent "${a}" declares unknown connector "${c}"`);
 
-    // Every MCP tool the agent is granted must belong to a connector it declares.
-    const declaredPrefixes = entry.required.map(c => m.connectors[c].tool_prefix);
+    // Every MCP tool the agent is granted must belong to a connector it declares
+    // as either required or optional. An optional lane still needs a grant to be usable.
+    const declaredPrefixes = declared.map(c => m.connectors[c].tool_prefix);
     const tools = frontmatter(read(`.claude/agents/${a}.md`)).tools.split(',').map(t => t.trim());
     for (const t of tools) {
       if (!t.startsWith('mcp__')) continue;
@@ -378,6 +411,83 @@ check('T-25', 'connector preflight manifest covers every agent and matches grant
     assert(/HOLD immediately/i.test(md), `agent "${a}" preflight does not require immediate HOLD`);
   }
   return `${AGENTS.length} agents covered; granted tools within declared connectors; preflight present`;
+});
+
+check('T-26', 'department charters cover every agent', () => {
+  const md = read('governance/department-charters.md');
+  for (const a of AGENTS) assert(md.includes(a), `charter document does not cover agent "${a}"`);
+  for (const inv of ['One department writes to FUB', 'parallel CRM'])
+    assert(md.includes(inv), `charters missing invariant: ${inv}`);
+  return `${AGENTS.length} agents chartered; no-parallel-system invariants present`;
+});
+
+check('T-27', 'chief-of-staff routes only to agents that exist', () => {
+  const md = read('.claude/agents/chief-of-staff.md');
+  const routed = [...md.matchAll(/`([a-z][a-z0-9-]{6,})`/g)].map(m => m[1])
+    .filter(n => n.includes('-') && !SKILLS.includes(n) && !n.startsWith('governance'));
+  const known = new Set([...AGENTS, ...SKILLS]);
+  const unknown = routed.filter(n => !known.has(n) && /ops|crm|brief|center|staff|marketing/.test(n));
+  assert(unknown.length === 0, `routes to non-existent agent(s): ${[...new Set(unknown)].join(', ')}`);
+  // Must route to at least the six departments it orchestrates.
+  for (const d of ['lead-conversion-crm', 'buyer-investor-ops', 'seller-listing-ops',
+                   'market-intel-marketing', 'transaction-closing-ops', 'daily-revenue-command-center'])
+    assert(md.includes(d), `chief-of-staff does not route to "${d}"`);
+  return 'all routing targets resolve to real agents';
+});
+
+check('T-28', 'FUB write authority is contained to one department and gated', () => {
+  // No agent may hold a write tool - the gate is structural, not editorial.
+  for (const a of AGENTS) {
+    const tools = frontmatter(read(`.claude/agents/${a}.md`)).tools.split(',').map(t => t.trim());
+    const bad = tools.filter(t => FUB_WRITE_TOOLS.includes(t));
+    assert(bad.length === 0, `agent "${a}" grants FUB write tool(s): ${bad.join(', ')}`);
+  }
+  // Only the CRM department may describe itself as the write path.
+  const crm = read('.claude/agents/lead-conversion-crm.md');
+  assert(/create_contact_note/.test(crm), 'CRM agent does not name the certified write classes');
+  assert(/NOT granted|not granted/i.test(crm), 'CRM agent does not state the authority gate');
+  assert(/CGQ-001/.test(crm), 'CRM agent does not reference the blocking patch CGQ-001');
+  for (const a of AGENTS.filter(x => x !== 'lead-conversion-crm')) {
+    const md = read(`.claude/agents/${a}.md`);
+    assert(!/create_contact_note|close_out_contact_interaction/.test(md),
+      `non-CRM agent "${a}" names a certified write class`);
+  }
+  return 'zero write tools granted; write path named only by lead-conversion-crm; gate cited';
+});
+
+check('T-29', 'canonical governance patch queue is well formed', () => {
+  const md = read('docs/CANONICAL-GOVERNANCE-PATCH-QUEUE.md');
+  const ids = [...md.matchAll(/^## (CGQ-\d{3})/gm)].map(m => m[1]);
+  assert(ids.length > 0, 'no patches queued');
+  assert(new Set(ids).size === ids.length, 'duplicate CGQ id');
+  for (const id of ids) {
+    const body = md.split(`## ${id}`)[1].split('\n## ')[0];
+    for (const f of ['TARGET', 'EXACT PATCH'])
+      assert(body.includes(f), `${id} missing required field: ${f}`);
+  }
+  assert(/CGQ-001/.test(md) && /BLOCKING/.test(md), 'blocking status not recorded');
+  return `${ids.length} patches queued, all with target and exact patch`;
+});
+
+check('T-30', 'handoff integrity: every non-CRM department routes FUB writes to the CRM service', () => {
+  for (const a of AGENTS.filter(x => x !== 'lead-conversion-crm' && x !== 'chief-of-staff')) {
+    const md = read(`.claude/agents/${a}.md`);
+    assert(/lead-conversion-crm|ChatGPT 02|Lead Conversion/.test(md),
+      `agent "${a}" does not route CRM work to the CRM service`);
+  }
+  // Every mention of a parallel system must sit in a prohibitive context.
+  // The invariant is "no parallel CRM/task list/calendar/database" - an agent may only
+  // ever forbid one, never propose one.
+  for (const a of AGENTS) {
+    const md = read(`.claude/agents/${a}.md`);
+    // Only parallel *systems* matter here - "delegate in parallel" is correct behavior.
+    for (const m of md.matchAll(/parallel (CRM|task list|calendar|transaction|database|prospect|document|SOP)/gi)) {
+      const before = md.slice(Math.max(0, m.index - 120), m.index);
+      assert(/\b(no|not|never|avoid|without)\b/i.test(before),
+        `agent "${a}" mentions a parallel system outside a prohibitive context`);
+    }
+  }
+  return 'CRM write routing present in every specialist department; parallel systems only ever forbidden';
 });
 
 // ---------------------------------------------------------------- output

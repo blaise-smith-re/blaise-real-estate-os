@@ -213,6 +213,28 @@ tool. Verified by tests T-10, T-11 and T-12.
 
 ---
 
+## 9A. Department tool surfaces (Phases 3–8)
+
+All six new departments hold **read tools only**. No write tool of any connector is granted to any
+agent in this repository.
+
+| Agent | FUB | Calendar | Drive | Writes |
+|---|---|---|---|---|
+| `lead-conversion-crm` | 18 read + 2 audit | read (optional) | read | **none granted** — 3 certified classes gated on CGQ-001 |
+| `buyer-investor-ops` | 18 read | read | read | none |
+| `seller-listing-ops` | 18 read | read | read | none |
+| `market-intel-marketing` | 18 read | read (optional) | read | none |
+| `transaction-closing-ops` | 18 read | read | read | none |
+| `chief-of-staff` | 18 read | read | read | none |
+
+**The write gate is structural.** Exec SOP v4.28 §1B-1: no build, test, merge or deployment grants FUB
+write authority without a separate canonical control. That control does not exist, so the tools stay
+absent from every grant **and** denied at project level. `lead-conversion-crm` runs the
+controlled-write sequence through step 11 and emits a `CRM WRITE REQUEST` packet.
+
+Gmail, Composio, `Bash`, `Write`, `Edit`, `Task`/`Agent` and every scheduling tool are withheld from
+all eight agents.
+
 ## 10. Change control for this file
 
 Changing a permission class in this file is an **OPERATIONAL CHANGE**. It requires an Improvement

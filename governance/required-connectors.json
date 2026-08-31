@@ -9,22 +9,93 @@
     "Partial certification is not a permitted outcome."
   ],
   "connectors": {
-    "Blaise_FUB": { "tool_prefix": "mcp__Blaise_FUB__", "class": "READ (13 write tools denied)" },
-    "Google_Drive": { "tool_prefix": "mcp__Google_Drive__", "class": "READ (all writes denied)" },
-    "Google_Calendar": { "tool_prefix": "mcp__Google_Calendar__", "class": "READ (all writes denied)" }
+    "Blaise_FUB": {
+      "tool_prefix": "mcp__Blaise_FUB__",
+      "class": "READ (13 write tools denied)"
+    },
+    "Google_Drive": {
+      "tool_prefix": "mcp__Google_Drive__",
+      "class": "READ (all writes denied)"
+    },
+    "Google_Calendar": {
+      "tool_prefix": "mcp__Google_Calendar__",
+      "class": "READ (all writes denied)"
+    }
   },
   "agents": {
     "daily-revenue-command-center": {
-      "required": ["Blaise_FUB", "Google_Drive", "Google_Calendar"],
-      "note": "FUB task/contact reads, Drive canonical source retrieval, Calendar reconciliation. All three are required; none is optional."
+      "required": [
+        "Blaise_FUB",
+        "Google_Drive",
+        "Google_Calendar"
+      ],
+      "note": "FUB task/contact reads, Drive canonical source retrieval, Calendar reconciliation."
     },
     "client-prep-brief": {
-      "required": ["Blaise_FUB", "Google_Drive", "Google_Calendar"],
-      "note": "FUB contact/notes/appointments, Drive canonical source retrieval, Calendar appointment verification. All three are required; none is optional."
+      "required": [
+        "Blaise_FUB",
+        "Google_Drive",
+        "Google_Calendar"
+      ],
+      "note": "FUB contact/notes/appointments, Drive canonical retrieval, Calendar appointment verification."
+    },
+    "lead-conversion-crm": {
+      "required": [
+        "Blaise_FUB",
+        "Google_Drive",
+        "Google_Calendar"
+      ],
+      "note": "FUB reads for target resolution and duplicate/state checks; Drive for controlling FUB SOPs. Calendar optional (due-date context)."
+    },
+    "buyer-investor-ops": {
+      "required": [
+        "Blaise_FUB",
+        "Google_Drive",
+        "Google_Calendar"
+      ],
+      "note": "FUB relationship reads, Drive SOPs and client assets, Calendar showing/appointment verification. MLS is a Chrome-operator handoff, never a connector here."
+    },
+    "seller-listing-ops": {
+      "required": [
+        "Blaise_FUB",
+        "Google_Drive",
+        "Google_Calendar"
+      ],
+      "note": "FUB seller reads, Drive seller SOP chain and assets, Calendar listing/appointment timing. MLS and ShowingTime are Chrome-operator handoffs."
+    },
+    "market-intel-marketing": {
+      "required": [
+        "Blaise_FUB",
+        "Google_Drive"
+      ],
+      "note": "FUB read-only for deduplication and active-lead exclusion; Drive for prospecting SOP, prompts and filing. Calendar optional (open houses). MLS/InfoSparks is a Chrome-operator handoff.",
+      "optional": [
+        "Google_Calendar"
+      ]
+    },
+    "transaction-closing-ops": {
+      "required": [
+        "Blaise_FUB",
+        "Google_Drive",
+        "Google_Calendar"
+      ],
+      "note": "FUB transaction relationship reads, Drive executed documents and SOPs, Calendar deadline control. Click Contracts and SkySlope are Chrome-operator handoffs."
+    },
+    "chief-of-staff": {
+      "required": [
+        "Blaise_FUB",
+        "Google_Drive",
+        "Google_Calendar"
+      ],
+      "note": "Reads across FUB, Drive and Calendar for objective and target resolution before delegating."
     }
   },
   "certification_runs": {
-    "required": ["Blaise_FUB", "Google_Drive", "Google_Calendar"],
+    "required": [
+      "Blaise_FUB",
+      "Google_Drive",
+      "Google_Calendar"
+    ],
     "note": "Any live certification or recertification run requires all three. Verified in practice 2026-08-31: a run began with all three disconnected and correctly returned HOLD rather than substituting reported canonical versions for retrieved ones."
   }
 }

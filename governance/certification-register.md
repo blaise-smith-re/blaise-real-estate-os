@@ -62,6 +62,22 @@ layer.
 
 **This mirror remains subordinate to the canonical Execution Operator SOP.**
 
+## 3A. Phase 3–8 department packages
+
+| Agent | Built | Static | Adversarial | Live pilot | Status |
+|---|---|---|---|---|---|
+| `lead-conversion-crm` | yes | PASS | specified A-13…A-19 | not run | **BUILT — WRITE AUTHORITY GATED (CGQ-001)** |
+| `buyer-investor-ops` | yes | PASS | specified A-20 | not run | **BUILT — READ-ONLY, PENDING CGQ-002** |
+| `seller-listing-ops` | yes | PASS | specified | not run | **BUILT — READ-ONLY, PENDING CGQ-002** |
+| `market-intel-marketing` | yes | PASS | specified A-21…A-24 | not run | **BUILT — READ-ONLY, PENDING CGQ-002** |
+| `transaction-closing-ops` | yes | PASS | specified A-25…A-27 | not run | **BUILT — READ-ONLY, PENDING CGQ-002** |
+| `chief-of-staff` | yes | PASS | specified A-28 | not run | **BUILT — READ-ONLY, PENDING CGQ-002** |
+
+**None of these six is production-certified.** All hold **zero write tools** and are structurally
+contained: 13/13 FUB write tools denied project-wide, no scheduling tool, no Gmail, no Composio.
+They are safe to use and honest about their limits — they are simply not yet recorded in the
+canonical register. See `docs/CANONICAL-GOVERNANCE-PATCH-QUEUE.md`.
+
 ## 4. What Phase 2 explicitly did NOT certify
 
 Writes of any class · scheduled or unattended execution · Gmail access · expanded system access ·
