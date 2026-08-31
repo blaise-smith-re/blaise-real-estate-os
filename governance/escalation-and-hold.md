@@ -51,6 +51,22 @@ it, and stop. Do not partially comply.
 
 ---
 
+## 2A. Connector preflight — required before any certification run
+
+Every agent run and every certification run verifies its required connectors **first**, from
+`governance/required-connectors.json`. Both Phase 2 agents and all certification runs require
+**Blaise_FUB, Google_Drive and Google_Calendar** — all three.
+
+A missing required connector is an **immediate HOLD**: name the exact missing lane(s), make no
+certification claim, retrieve nothing, update no registry version, and do not merge.
+
+**Never substitute a reported value for one that was not retrieved.** This control exists because a
+certification run on 2026-08-31 began with all three connectors disconnected while four canonical
+version numbers had been supplied in conversation. Accepting them would have recorded unverified data
+as verified. See IF-2026-08-31-016.
+
+---
+
 ## 3. Escalation routing
 
 | Situation | Route to |

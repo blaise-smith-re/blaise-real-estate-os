@@ -349,6 +349,37 @@ check('T-24', 'adversarial scenarios are specified and enumerated', () => {
   return `${ids.length} adversarial scenarios specified`;
 });
 
+check('T-25', 'connector preflight manifest covers every agent and matches granted tools', () => {
+  const m = json('governance/required-connectors.json');
+  assert(m.connectors && m.agents, 'manifest missing connectors/agents');
+  assert(m.certification_runs && Array.isArray(m.certification_runs.required),
+    'manifest does not declare certification-run requirements');
+
+  for (const a of AGENTS) {
+    const entry = m.agents[a];
+    assert(entry, `agent "${a}" is not covered by the connector manifest`);
+    assert(Array.isArray(entry.required) && entry.required.length > 0, `agent "${a}" declares no required connectors`);
+
+    // Every declared connector must exist in the connector table.
+    for (const c of entry.required) assert(m.connectors[c], `agent "${a}" requires unknown connector "${c}"`);
+
+    // Every MCP tool the agent is granted must belong to a connector it declares.
+    const declaredPrefixes = entry.required.map(c => m.connectors[c].tool_prefix);
+    const tools = frontmatter(read(`.claude/agents/${a}.md`)).tools.split(',').map(t => t.trim());
+    for (const t of tools) {
+      if (!t.startsWith('mcp__')) continue;
+      assert(declaredPrefixes.some(p => t.startsWith(p)),
+        `agent "${a}" grants "${t}" from a connector it does not declare`);
+    }
+
+    // The agent must actually carry the Step 0 preflight instruction.
+    const md = read(`.claude/agents/${a}.md`);
+    assert(/Step 0 — Connector preflight/.test(md), `agent "${a}" has no Step 0 connector preflight`);
+    assert(/HOLD immediately/i.test(md), `agent "${a}" preflight does not require immediate HOLD`);
+  }
+  return `${AGENTS.length} agents covered; granted tools within declared connectors; preflight present`;
+});
+
 // ---------------------------------------------------------------- output
 
 const width = 62;

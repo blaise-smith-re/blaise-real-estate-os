@@ -50,12 +50,17 @@ by Blaise. Evidence: `docs/PHASE-2-CERTIFICATION.md`.
 **Scope of certification, exactly:** manual invocation · read-only · FUB reads + Calendar reads +
 Drive canonical-source retrieval. Nothing else.
 
-**Adversarial gates passed live:** A-1 (and surfaced IF-010), A-5, A-7, A-8, A-9, A-10, A-11.
-A-2/A-3 verified by checker. A-4/A-6/A-12 structurally enforced.
+**Adversarial gates passed live: 12/12.** A-1 recertified 2026-08-31 against the hardened
+corroboration rule (PASS) · A-5, A-7, A-8, A-9, A-10, A-11 live · A-2/A-3 by checker ·
+A-4/A-6/A-12 structurally enforced.
 
-**This mirror is not the canonical record.** Until ChatGPT / 04 amends Execution Operator SOP
-section 5B (see IF-2026-08-31-008), these agents run through a lane the controlling SOP does not
-describe.
+**Canonical alignment complete.** Execution Operator SOP **v4.28** now carries the CLAUDE CODE —
+MULTI-AGENT EXECUTION LANE and records both certifications (IF-008 closed). FUB 06 **v1.8** carries
+the `find_contact` limitation (IF-010 closed). Command Center prompt **v1.2** carries the scheduling
+and Ylopo-corroboration controls (IF-009, IF-012 closed). BOM **v1.30** references the Claude Code
+layer.
+
+**This mirror remains subordinate to the canonical Execution Operator SOP.**
 
 ## 4. What Phase 2 explicitly did NOT certify
 

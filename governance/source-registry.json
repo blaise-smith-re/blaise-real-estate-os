@@ -25,7 +25,7 @@
       "title": "00 - Blaise Smith Business Operating Manual",
       "file_id": "1HyBu_OcwTm8-_Aqh0hDcfIFGoor399gR8NHUMRJKAVc",
       "authority": "governing",
-      "version_pin": "1.29",
+      "version_pin": "1.30",
       "version_verified_at": "2026-08-31",
       "owner_account": "bsmith@blaisesmithproperties.com",
       "drive_path": "Blaise Real Estate OS / 01 - Dashboard",
@@ -33,14 +33,14 @@
         "daily-revenue-command-center",
         "client-prep-brief"
       ],
-      "verify": "Read the 'Version / Status' row of the header table. Expect '1.29 | Active Governing Manual'."
+      "verify": "Read the 'Version / Status' row of the header table. Expect '1.30 | Active Governing Manual'."
     },
     {
       "key": "execution_operator_sop",
       "title": "SOP - Claude Execution Operator, Browser & API-MCP Integration Control",
       "file_id": "1BuTAOheI3ykLZGJ3lLddHhVKMOIqkK_qX7f_YxYHbuU",
       "authority": "controlling",
-      "version_pin": "4.27",
+      "version_pin": "4.28",
       "version_verified_at": "2026-08-31",
       "owner_account": "bsmith@blaisesmithproperties.com",
       "drive_path": "Blaise Real Estate OS / 07 - Automation / Claude Browser Operator",
@@ -48,7 +48,7 @@
         "daily-revenue-command-center",
         "client-prep-brief"
       ],
-      "verify": "Read the 'Version:' line near the top. Expect '4.27'. This SOP owns the certification register and every action-class gate."
+      "verify": "Read the 'Version:' line near the top. Expect '4.28'. This SOP owns the certification register, the Claude Code Multi-Agent Execution Lane, and every action-class gate."
     },
     {
       "key": "workflow_channels_routing",
@@ -69,14 +69,14 @@
       "title": "Claude Prompt - Daily Revenue Command Center",
       "file_id": "1xV6ScXQJdXPb9t9rQZhJFFZkKwRH9fd0f1MtdnaAT6o",
       "authority": "canonical-prompt",
-      "version_pin": "1.1",
+      "version_pin": "1.2",
       "version_verified_at": "2026-08-31",
       "owner_account": "bsmith@blaisesmithproperties.com",
       "drive_path": "Blaise Real Estate OS / 07 - Automation / Reusable Claude Prompts / Operations & QC / Daily Revenue Command Center",
       "required_by": [
         "daily-revenue-command-center"
       ],
-      "verify": "Read 'Version: 1.1 | Active'. This IS the agent's business logic. Retrieve and follow it at runtime; never copy it into the repository."
+      "verify": "Read 'Version: 1.2 | Active'. This IS the agent's business logic. Retrieve and follow it at runtime; never copy it into the repository."
     },
     {
       "key": "prompt_client_prep_brief",
@@ -111,14 +111,14 @@
       "title": "FUB 06 - Automation Map, Guardrails & Improvement Log",
       "file_id": "197OgqAyYpdx0dmwthzdCdOxmNsM9ZgKOKD1CVeNEbo8",
       "authority": "supporting",
-      "version_pin": "1.7",
+      "version_pin": "1.8",
       "version_verified_at": "2026-08-31",
       "owner_account": "bsmith@blaisesmithproperties.com",
       "drive_path": "Blaise Real Estate OS / 01 - Dashboard / Operations Manual & SOP Library / 04 - Follow Up Boss SOPs / 99 - Reference & Change Requests",
       "required_by": [
         "daily-revenue-command-center"
       ],
-      "verify": "Read the 'Version:' line near the top. Expect '1.7'. Governs FUB automation behavior, the 38-tool inventory, and shared-configuration guardrails (Brent approval path)."
+      "verify": "Read the 'Version:' line near the top. Expect '1.8'. Governs FUB automation behavior, the 38-tool inventory, the find_contact target-resolution limitation, and shared-configuration guardrails (Brent approval path)."
     },
     {
       "key": "prompt_buyer_showing_prep",

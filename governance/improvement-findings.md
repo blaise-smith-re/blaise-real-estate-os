@@ -341,6 +341,38 @@ until a named precondition clears.
   above a real dated client commitment.
 - **DISPOSITION** — **REVIEW** (ChatGPT / 04).
 
+### IF-2026-08-31-016 — Connector availability was an uncontrolled dependency of every certification gate
+
+- **TRIGGER** — Final A-1 recertification run, 2026-08-31. The run began with all required MCP
+  connectors disconnected and could not execute.
+- **CONTROLLING SOURCE** — `1BuTAOheI3ykLZGJ3lLddHhVKMOIqkK_qX7f_YxYHbuU` v4.28, CLAUDE CODE —
+  MULTI-AGENT EXECUTION LANE.
+- **OBSERVED ISSUE** — `mcp__Blaise_FUB__*` (13 tools), `mcp__Google_Drive__*` (5) and
+  `mcp__Google_Calendar__*` (5) all disconnected between sessions with no warning and no repo-visible
+  signal. A scheduled merge gate became unexecutable mid-run, and the loss was discovered only when
+  the first tool call was attempted rather than at the start.
+- **WHY IT MATTERS** — Every agent is defined by the connectors it reaches. A session that loses them
+  cannot run and cannot verify. The real hazard is not the outage: it is the pressure to keep a gate
+  moving by substituting reported values for retrieved ones. That pressure was live — four canonical
+  version numbers (v4.28, v1.8, v1.30, v1.2) had been supplied in conversation while Drive was
+  unreachable. Accepting them would have recorded unverified data as verified, the same failure mode
+  that produced the withdrawn IF-2026-08-31-007.
+- **IMPACT** — A silently degraded certification, or a registry pinned to versions never retrieved.
+- **CLASSIFICATION** — **OPERATIONAL CHANGE** (certification logic / run control).
+- **EXACT PROPOSED CHANGE** — Implemented repo-native this run: `governance/required-connectors.json`
+  declares the required lanes per agent and for certification runs; both agent definitions gained a
+  **Step 0 — Connector preflight**; `governance/escalation-and-hold.md` §2A states the HOLD rule; and
+  static test T-25 enforces that every agent is covered by the manifest and that each agent's granted
+  tools stay within its declared connectors. No canonical Drive change is required — the Execution
+  Operator SOP v4.28 lane already carries the governing principle.
+- **RELATED ASSETS** — both agent definitions · `governance/escalation-and-hold.md` ·
+  `tests/run-static-tests.js` · `docs/PHASE-2-CERTIFICATION.md` §L.
+- **TESTING REQUIRED** — T-25 static enforcement (added, passing). Behavioral proof already exists:
+  the 2026-08-31 blocked run returned HOLD, made no certification claim, and left registry pins stale
+  rather than accepting reported versions.
+- **DISPOSITION** — **PATCH — APPLIED** (repo-native, within Phase 2 authority). No canonical Drive
+  change requested.
+
 ---
 
 ## 5. Findings closed

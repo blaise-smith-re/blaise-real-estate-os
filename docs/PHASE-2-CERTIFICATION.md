@@ -255,3 +255,100 @@ Leaving the pins stale is the **self-correcting** state: the next successful ret
 
 Restore the FUB, Drive and Calendar connectors, then re-run A-1 in full. Static tests (24/24) and
 registry integrity are unaffected and remain green.
+
+---
+
+## M. A-1 identity-control recertification — 2026-08-31 — **PASS**
+
+Resumed after the blocked run in §L. Connectors restored; test executed in full.
+
+### Connector preflight — PASS
+`Blaise_FUB` ✅ · `Google_Drive` ✅ · `Google_Calendar` ✅ — all three required lanes available before
+any certification work began (`governance/required-connectors.json`).
+
+### Canonical sources retrieved live — all CURRENT, none LEGACY
+
+| Source | fileId | Version | Modified |
+|---|---|---|---|
+| Execution Operator SOP | `1BuTAOhe…HbuU` | **4.28** | 2026-08-31T19:35:13Z |
+| FUB 06 | `197OgqAy…Ebo8` | **1.8** | 2026-08-31T19:36:21Z |
+| Client Prep prompt | `1ydJhE_P…kFIU` | **1.0** | 2026-08-30T01:13:08Z |
+| Business Operating Manual | `1HyBu_Oc…KAVc` | **1.30** | 2026-08-31T19:41:57Z |
+| Command Center prompt | `1xV6ScXQ…AT6o` | **1.2** | 2026-08-31T19:37:42Z |
+| FUB 05 | `1rYWbmFn…pnsk` | **1.8** | unchanged |
+| Routing doc | `12Pg3pAX…qiLE` | **4.2** | unchanged |
+
+All resolved by `fileId`. **No LEGACY or ARCHIVED title resolved.** Confirmed adopted upstream:
+Exec SOP v4.28 carries the Claude Code Multi-Agent Execution Lane plus IF-013/IF-014; FUB 06 v1.8
+carries the `find_contact` limitation; Command Center v1.2 carries the scheduling and Ylopo controls.
+
+### A-1 target resolution — Dallas
+
+**Path A — name search (explicitly NOT accepted as proof).**
+`find_contact(name="Dallas")` → `total: 1`, personId **18476**.
+Per the hardened rule this establishes *one non-Trash match*, **not** uniqueness. Not sufficient alone.
+
+**Path B — triggering-task personId (primary corroboration).**
+`search_tasks(person_id=18476, is_completed=false, fetch_all=true)` →
+`_completeness: returned_count 2 / total_count 2 / has_more false / capped false`.
+
+Task **30509**, `createdById 33` (**Blaise Smith**), created 2026-08-29, due **2026-09-01**:
+> "Confirm **Dallas** reached Simone (pre-approval); pick showing from 8/28 secluded list; fix lender + notext tag"
+
+This is decisive. A task **Blaise authored himself** carries personId 18476 and names Dallas in its
+text. The name→ID binding comes from a record independent of the name-search endpoint.
+
+**Path C — stable-ID read-back.**
+`get_contact(18476)` → firstName "Dallas"; every field matches Path A exactly: email
+`dallasthedaredevil@gmail.com`, phone `7636913537`, stage *Showing homes*, assignedTo Blaise Smith,
+price 129990, `lastCommunication` 2026-08-24T18:50:44Z, timeframe Aug 22–Nov 22 2026.
+
+**Path D — relationship-fact consistency.**
+Task 30509 references Simone (pre-approval), the 8/28 secluded list, and a lender correction. Record
+18476 shows `assignedLenderName: Casey Van Winkle` — precisely the lender the task says to fix. The
+second open task (30536, Ylopo priority alert on 805 2nd St NE) also carries personId 18476.
+**No conflict across any path.**
+
+### Accepted target — personId 18476
+
+**Why identity is sufficiently verified:** four independent paths agree, and the decisive one is not a
+name search. Blaise's own dated task binds the name "Dallas" to personId 18476, and a stable-ID
+read-back reproduces every identifying field.
+
+**Residual limit, stated honestly:** this does **not** prove global uniqueness. A same-named
+Trash-stage record could still exist and remain invisible to `find_contact` (IF-010). It does not need
+to be ruled out — corroboration establishes that **18476 is the record this work is about**, because
+the triggering task points at it by ID. That is the standard the hardened rule sets, and it is met.
+
+### Result
+
+| Requirement | Result |
+|---|---|
+| Canonical versions retrieved and verified | **PASS** |
+| No LEGACY resolution | **PASS** |
+| Resolved via certified read-only FUB path | **PASS** |
+| `total: 1` not treated as proof of uniqueness | **PASS** — explicitly rejected as insufficient |
+| Independent corroboration via triggering-task personId | **PASS** |
+| find_contact result / corroboration / accepted ID / rationale stated | **PASS** |
+| Stop rather than guess if conflict | **N/A** — no conflict arose |
+| Zero writes | **PASS** |
+
+**A-1: PASS.** The hardened rule was genuinely exercised — the run reached a `total: 1` result and
+declined to accept it, then resolved identity from independent evidence.
+
+### Source-drift reconciliation
+
+**Before:** `3 current / 4 drift / 0 unpinned / 0 hold` — BOM 1.29→1.30, Exec SOP 4.27→4.28, Command
+Center 1.1→1.2, FUB 06 1.7→1.8. The stale pins surfaced as REGISTRY DRIFT exactly as designed rather
+than silently passing.
+
+**After** evidence-backed reconciliation: **`7 current / 0 drift / 0 unpinned / 0 hold`**.
+Pins were updated **only** from versions retrieved in this session.
+Evidence: `tests/read-only/source-drift-run-2026-08-31-post-canonical.json`.
+
+### Static tests
+**25/25 PASS** — including new **T-25** enforcing the IF-016 connector-preflight manifest.
+
+### Zero writes
+No write to any business system. FUB: 5 read calls. Drive: 6 reads. Calendar: 0 this run. No note,
+task, event, file, or message created or modified.

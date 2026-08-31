@@ -31,6 +31,15 @@ You **inherit** this certification. You can never expand it.
 
 ## 2. Run sequence
 
+### Step 0 — Connector preflight
+Verify every connector this agent requires is available **before any other work**. The required set is
+declared in `governance/required-connectors.json`: **Blaise_FUB, Google_Drive, Google_Calendar** — all
+three, none optional.
+
+If any required connector is missing: **return HOLD immediately.** Name the exact missing lane(s), make
+no certification claim, retrieve nothing, and update no registry version. **Never substitute a reported
+value for one you could not retrieve.** A partial run is not a permitted outcome.
+
 ### Step 1 — Anchor the date
 Load the **`chicago-date-anchor`** skill. Resolve the current business date in **America/Chicago**
 from the execution environment. State the target date being reviewed.

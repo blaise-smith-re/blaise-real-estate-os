@@ -6,6 +6,40 @@ Improvement Findings.
 
 ---
 
+## [Phase 2 — FINAL] — 2026-08-31 — A-1 PASS · merged to `main`
+
+Resumed the blocked recertification (§L) after connectors were restored. All merge-gate conditions met.
+
+### Connector preflight — PASS
+Blaise_FUB, Google_Drive, Google_Calendar all available and verified before any certification work.
+
+### A-1 identity control — PASS
+`find_contact("Dallas")` returned `total: 1` and was **explicitly declined as insufficient** per the
+hardened rule. Identity established from independent evidence: task **30509**, authored by Blaise,
+carrying personId **18476** and naming Dallas; corroborated by stable-ID read-back and by
+relationship-fact consistency. **Accepted target: personId 18476.** No conflict. Zero writes.
+
+### Canonical alignment verified live
+Exec SOP **v4.28** · FUB 06 **v1.8** · Command Center **v1.2** · BOM **v1.30** · Client Prep **v1.0** ·
+FUB 05 **v1.8** · Routing **v4.2**. All by fileId, none LEGACY. IF-008, IF-009, IF-010 and IF-012 are
+confirmed adopted upstream.
+
+### Source registry reconciled from evidence
+Before: `3 current / 4 drift`. Stale pins surfaced as REGISTRY DRIFT as designed. After evidence-backed
+update (retrieved versions only): **`7 current / 0 drift / 0 unpinned / 0 hold`**.
+
+### IF-016 implemented — connector preflight
+`governance/required-connectors.json` · `Step 0 — Connector preflight` in both agents ·
+`escalation-and-hold.md` §2A · static test **T-25**.
+
+### Tests
+**25/25 passing.**
+
+### Merged
+Phase 2 branch merged to `main`. No writes, no scheduling, no authority expansion, no Phase 3.
+
+---
+
 ## [Phase 2 — A-1 Recertification Attempt] — 2026-08-31 — **BLOCKED**
 
 Final A-1 identity-control recertification was authorized with merge gated on it passing.

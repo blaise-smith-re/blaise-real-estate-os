@@ -192,3 +192,35 @@ for Gmail, not for any system not exercised in the pilot.
 until ChatGPT / 04 amends Execution Operator SOP section 5B, which still lacks a Claude Code
 multi-agent lane (IF-2026-08-31-008). The mirror says so explicitly rather than implying more
 authority than it has.
+
+## D-016 — Connector preflight precedes every certification claim
+**Date** 2026-08-31 · **Status** ACCEPTED
+
+**Context.** A scheduled merge gate began with all three required connectors disconnected. The loss was
+discovered at the first tool call, not at the start — and four canonical version numbers had been
+supplied in conversation while Drive was unreachable.
+
+**Decision.** Required connectors are declared in `governance/required-connectors.json` and verified
+**before** any other work. A missing required connector is an immediate HOLD: name the lane, claim
+nothing, retrieve nothing, update no pin. **Never substitute a reported value for one not retrieved.**
+
+**Consequence.** `Step 0 — Connector preflight` in both agents; `escalation-and-hold.md` §2A; static
+test T-25. The behavioral proof already exists — the blocked run returned HOLD and left pins stale
+rather than accepting the reported versions.
+
+**Why it matters.** The hazard was never the outage. It was the pressure to keep a gate moving by
+treating reported data as retrieved data.
+
+## D-017 — Corroboration establishes the right record, not global uniqueness
+**Date** 2026-08-31 · **Status** ACCEPTED · **Refines** D-014
+
+**Context.** A-1 recertification reached `find_contact("Dallas") → total: 1` and, per the hardened
+rule, declined to accept it. Identity was then established from Blaise's own dated task (30509)
+carrying personId 18476, plus a stable-ID read-back.
+
+**Decision.** Corroboration proves *this is the record the work is about* — it does not prove no other
+same-named record exists. A same-named Trash-stage record may remain invisible (IF-010) and does not
+need to be ruled out when the triggering task points at a specific ID.
+
+**Consequence.** The standard is met by an independent binding to a stable ID, not by an exhaustive
+search. Agents must state the residual limit rather than implying uniqueness was proven.
