@@ -6,6 +6,55 @@ Improvement Findings.
 
 ---
 
+## [Phases 3–8] — 2026-08-31 — Six departments + orchestrator
+
+Built the full Claude execution organization on top of the certified Phase 2 engines.
+
+### Departments added
+`lead-conversion-crm` (the single CRM write service) · `buyer-investor-ops` · `seller-listing-ops` ·
+`market-intel-marketing` · `transaction-closing-ops` · `chief-of-staff`. Eight agents total.
+
+### Skills added
+`connector-preflight` (reusable primitive, wired into all 8) · `fub-controlled-write` (17-step
+sequence + idempotency matrix) · `chrome-operator-handoff` (MLS research request + browser execution
+request packets).
+
+### Write authority — built, gated, honest
+Exec SOP **v4.28 §1B-1** retrieved live: *"No code build … repository merge, or deployment grants FUB
+write authority … unless a separate canonical control explicitly grants it."* No control names a
+Claude Code package, so **zero write tools are granted to any agent**. `lead-conversion-crm` runs the
+controlled-write sequence through step 11 and emits a `CRM WRITE REQUEST` packet. **CGQ-001** is
+queued to create the grant — it is the single blocking item in the whole build.
+
+### Governance
+`governance/department-charters.md` · `governance/required-connectors.json` extended to 8 agents ·
+`governance/tool-policy.md` §9A department surfaces · `docs/END-TO-END-FLOWS.md` (5 flows) ·
+`docs/CANONICAL-GOVERNANCE-PATCH-QUEUE.md` (10 patches, 1 blocking).
+
+### Source registry
+Expanded 9 → 21 sources. Department controlling SOPs pinned by `fileId` with LEGACY-rejection and
+UNPINNED-until-verified semantics. SOP 01C carries an explicit IF-014 note (superseded via a **new**
+fileId on 2026-08-31).
+
+### Tests
+**30/30 passing**, up from 25. Suite generalised from 2 agents to 8. New: T-26 charter coverage ·
+T-27 routing targets resolve · T-28 write-authority containment · T-29 patch-queue integrity ·
+T-30 handoff integrity and no-parallel-systems. Adversarial suite 12 → **32 scenarios**.
+
+### Defects found and fixed during the build
+Five test failures, all diagnosed and fixed at the correct layer: registry `required_by` incomplete
+for new agents (**artifact wrong**) · chief-of-staff missing escalation section (**artifact wrong**) ·
+Phase 2 agents not referencing the preflight skill by name (**artifact wrong**) · T-16 requiring
+canonical-prompt retrieval language from agents that have no canonical prompt (**test wrong**) ·
+T-25 ignoring `optional` connectors, and T-30's parallel-system regex flagging legitimate parallel
+*delegation* (**tests wrong**).
+
+### Unchanged
+No writes to any business system · no scheduling · no external communication · no canonical Drive
+edit · no expansion of either Phase 2 agent's authority.
+
+---
+
 ## [Phase 2 — FINAL] — 2026-08-31 — A-1 PASS · merged to `main`
 
 Resumed the blocked recertification (§L) after connectors were restored. All merge-gate conditions met.

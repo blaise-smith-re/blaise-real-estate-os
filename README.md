@@ -56,6 +56,19 @@ docs/                        DECISIONS · PHASE-2-CERTIFICATION · CHROME-OPERAT
                              SOP-MAINTENANCE-CERTIFICATION-PATH
 ```
 
+## Departments
+
+| Agent | Purpose | Writes |
+|---|---|---|
+| `chief-of-staff` | Execution orchestrator — routes, reconciles, reports | none |
+| `lead-conversion-crm` | **The only FUB write path** — closeouts, notes, dated next actions | gated (CGQ-001) |
+| `buyer-investor-ops` | Buyer/investor prep, search, showings, offers, deal analysis | none |
+| `seller-listing-ops` | Consultation, CMA/pricing, launch, active listing, offers, relist | none |
+| `market-intel-marketing` | Weekly 20, market stats, content, campaign prep | none |
+| `transaction-closing-ops` | Mutual acceptance → closing, deadlines, TC handoff | none |
+
+Charters: `governance/department-charters.md` · Flows: `docs/END-TO-END-FLOWS.md`
+
 ## Agents — Phase 2
 
 Both are **manual invocation only** and **read-only**. `WRITES ATTEMPTED` is always `NONE`.

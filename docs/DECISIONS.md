@@ -224,3 +224,47 @@ need to be ruled out when the triggering task points at a specific ID.
 
 **Consequence.** The standard is met by an independent binding to a stable ID, not by an exhaustive
 search. Agents must state the residual limit rather than implying uniqueness was proven.
+
+## D-018 — Build the CRM department fully; gate only the last-mile tool grant
+**Date** 2026-08-31 · **Status** ACCEPTED
+
+**Context.** Phase 3 mandate: build the write-capable CRM department. Exec SOP v4.28 §1B-1, retrieved
+live: no build, test, merge or deployment grants FUB write authority without a separate canonical
+control. The three write classes are certified on the **FUB MCP/API lane** but no control names a
+**Claude Code actor**.
+
+**Decision.** Build the department, the 17-step controlled-write sequence, the idempotency matrix, the
+handoffs and the tests in full — and grant **zero** write tools. The agent runs through step 11 and
+emits a `CRM WRITE REQUEST` packet. CGQ-001 queues the canonical grant.
+
+**Consequence.** One canonical patch away from live. All judgment work is done; Blaise executes a
+prepared, pre-checked write. Structurally contained: tools absent from the grant **and** denied
+project-wide, so a judgment failure cannot produce the prohibited effect.
+
+**Why not just grant them.** Blaise authorized the build, but the SOP requires action-specific
+certification *and* a canonical change record. Granting on chat authorization alone would be exactly
+the "code build grants write authority" inversion §1B-1 was written to prevent.
+
+## D-019 — Departments are read-only by default; one service owns writes
+**Date** 2026-08-31 · **Status** ACCEPTED
+
+**Decision.** Only `lead-conversion-crm` may ever write to FUB. Every other department produces
+analysis and routes the outcome. Least privilege by construction, not by instruction.
+
+**Consequence.** Write risk is concentrated in one auditable path that re-verifies identity rather
+than inheriting an upstream claim (A-19). Costs a handoff; buys a single place to certify, test and
+audit. Enforced by T-28 and T-30.
+
+## D-020 — Browser-only systems are a boundary with a contract, not a gap
+**Date** 2026-08-31 · **Status** ACCEPTED
+
+**Context.** Northstar/Matrix, Click Contracts, SkySlope, Ylopo and ShowingTime carry real
+certifications in the Chrome lane and are permanently unreachable from Claude Code.
+
+**Decision.** `chrome-operator-handoff` emits structured packets — MLS research request, browser
+execution request, post-action verification. Departments build around the boundary rather than
+stopping at it, and **never** simulate, infer, or substitute remembered data.
+
+**Consequence.** Seller, buyer, market and transaction departments are all fully useful without MLS
+access. The failure mode this prevents — an undisclosed narrowing that looks complete — is the most
+likely way an agent here produces a plausible wrong answer.

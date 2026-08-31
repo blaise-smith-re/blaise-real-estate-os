@@ -91,6 +91,28 @@ Use the `retrieve-canonical-source` skill. Never rely on embedded or remembered 
 
 ---
 
+## 4A. DEPARTMENTS
+
+Six departments plus an orchestrator. Charters: `governance/department-charters.md`.
+
+| Agent | Role | Writes |
+|---|---|---|
+| `chief-of-staff` | Execution orchestrator — routes, reconciles, reports | none |
+| `lead-conversion-crm` | **The only FUB write path** | gated on CGQ-001 |
+| `buyer-investor-ops` | Buyer + investor prep, search, showings, offers, deal analysis | none |
+| `seller-listing-ops` | Consultation, CMA/pricing, launch, active listing, offers, relist | none |
+| `market-intel-marketing` | Weekly 20, market stats, content, campaigns | none |
+| `transaction-closing-ops` | Mutual acceptance → closing, deadlines, TC handoff | none |
+| `daily-revenue-command-center` | Daily ranked priorities — **CERTIFIED** | none |
+| `client-prep-brief` | 5-minute pre-conversation brief — **CERTIFIED** | none |
+
+**Invariants.** One CRM write path · no parallel CRM, task list, calendar, transaction database or
+document system · every agent preflights connectors, resolves sources by `fileId`, and anchors dates
+to America/Chicago · MLS / Click Contracts / SkySlope / Ylopo / ShowingTime always route to the
+Chrome operator by formal handoff packet.
+
+---
+
 ## 5. PERMISSION MODEL
 
 Four classes. Certification is **action-class specific**.
