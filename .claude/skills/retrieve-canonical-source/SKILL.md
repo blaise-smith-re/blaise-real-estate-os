@@ -26,9 +26,24 @@ resolve to a LEGACY copy. Never resolve a canonical source by title search.
    an unregistered source is not canonical. Raise an Improvement Finding to add it.
 2. **Retrieve** with `mcp__Google_Drive__read_file_content` using the registry `file_id`.
    Never substitute a search result.
-3. **Reject LEGACY/ARCHIVED.** If the returned title begins with `LEGACY -` or `ARCHIVED -`, or
-   contains `Superseded`, **stop**. Return `HOLD`. Do not use the content. Raise an Improvement
-   Finding — a registry pointing at a superseded document is a defect.
+3. **Reject LEGACY/ARCHIVED, then recover (IF-014).** If the returned title begins with `LEGACY -` or
+   `ARCHIVED -`, contains `Superseded`, or otherwise conflicts with the expected title/status/folder:
+
+   a. **HOLD only that controlled task.** Do not use the content. Do not edit the file. Continue any
+      work that does not depend on this source.
+   b. **Search for current canonical candidates** by expected title **plus** expected folder/index.
+   c. **Independently verify** the candidate: title, status, version line, authority, and folder.
+   d. **Confirm its `fileId`** and update the registry from that evidence.
+   e. Continue.
+
+   **Never repair a stale pin by editing the legacy file into a new active copy.** Never silently
+   follow a similarly named file — verify before you trust it.
+
+   > A pinned `fileId` is a **locator, not proof of current canonical status**. Both supersession
+   > patterns exist in this Drive: the BOM is edited in place and keeps its `fileId` while a snapshot
+   > copy becomes LEGACY; SOP 01C did the opposite on 2026-08-31 — the original file was renamed to
+   > LEGACY and a **new** file with a **new** `fileId` became canonical. Raise an Improvement Finding
+   > either way.
 4. **Read the version line.** Find the document's own version marker, typically
    `Version: <n.n>` or a `Version / Status` header row. If absent, record `UNPINNED`.
 5. **Compare** to `version_pin`:

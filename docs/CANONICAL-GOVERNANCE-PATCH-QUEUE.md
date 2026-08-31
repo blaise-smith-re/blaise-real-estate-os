@@ -140,6 +140,30 @@ read-back, and exactly-one-current-canonical verification.
   `3ljnsk6e4bmj7qmrtkne30ehgc`. Until then both remain on the known-synthetic exclusion list used by
   `daily-revenue-command-center`. (IF-006)
 
+## CGQ-011 — Unattended read-only scheduled operations · NON-BLOCKING
+
+- **TARGET** Claude Prompt – Daily Revenue Command Center · **VERSION** 1.2 · **FILE ID** `1xV6ScXQ…AT6o`
+  (and the Execution Operator SOP Claude Code lane)
+- **TRIGGER** Blaise has given explicit authorization for **internal read-only** scheduled operations,
+  conditional on the action class passing its canonical certification gates and the canonical change
+  record being prepared. v1.2 requires all three: (1) scheduler gate passes; (2) canonical change-control
+  record; (3) explicit Blaise authorization. **(3) is satisfied. (1) and (2) are not.**
+- **EXACT PATCH** — after a scheduler/runtime morning smoke passes, record:
+
+  > **Unattended read-only scheduled operations — AUTHORIZED SCOPE.** The following internal read-only
+  > runs may be scheduled once the runtime has passed a bounded morning smoke proving the
+  > America/Chicago date anchor, production FUB + Calendar reachability, complete task retrieval passing
+  > `_completeness`, correct report generation, zero writes, and reliable delivery: Daily Revenue
+  > Command Center morning run; source-drift preflight; connector-health check; read-only opportunity
+  > radar; market-intelligence preparation. **No schedule may perform a write, send any communication,
+  > or contact any consumer.** Enabling a schedule requires this record plus Blaise's explicit
+  > authorization for that specific schedule.
+
+- **PROPOSED VERSION** 1.3 · **WHY IT MATTERS** The morning Command Center run is the single highest-
+  frequency time saving in the OS. Everything except the canonical record and the runtime smoke is ready.
+- **BLOCKING** — no. Manual invocation works today; **scheduling remains HOLD H-1** and no scheduling
+  tool is granted to any agent.
+
 ---
 
 ## Application order
@@ -148,6 +172,8 @@ read-back, and exactly-one-current-canonical verification.
 2. **CGQ-002** — records the five read-only departments.
 3. **CGQ-006, CGQ-003, CGQ-004, CGQ-005** — reference and routing integrity.
 4. **CGQ-008, CGQ-007, CGQ-009, CGQ-010** — controls and hygiene.
+
+5. **CGQ-011** — unattended read-only scheduling, after a runtime smoke.
 
 **Only CGQ-001 blocks a built capability.** Everything else is correctness and hygiene; the system
 operates correctly without them.
