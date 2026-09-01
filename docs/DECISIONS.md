@@ -102,7 +102,7 @@ allowlist **and** (b) denied in `.claude/settings.json` at project level.
 intentional: Phase 2 permits no business-system writes from anywhere in this repository.
 
 ## D-009 — `Skill` is granted to both agents; no other non-MCP tool is
-**Date** 2026-08-31 · **Status** ACCEPTED
+**Date** 2026-08-31 · **Status** AMENDED 2026-09-01 by **D-021** (`Read` added)
 
 **Context.** Skills are loaded through the `Skill` tool. Without it the three shared skills are
 unreachable.
@@ -268,3 +268,72 @@ stopping at it, and **never** simulate, infer, or substitute remembered data.
 **Consequence.** Seller, buyer, market and transaction departments are all fully useful without MLS
 access. The failure mode this prevents — an undisclosed narrowing that looks complete — is the most
 likely way an agent here produces a plausible wrong answer.
+
+## D-021 — Agents get `Read`, because an instruction they cannot execute is not a control
+**Date** 2026-09-01 · **Status** ACCEPTED · amends D-009
+
+**Context.** All eight agent wrappers instructed a read of `governance/required-connectors.json` and
+`governance/source-registry.json`. No agent held any filesystem tool. The instruction was
+unexecutable, so agents fell back to resolving canonical sources **by title search** — the exact
+failure CLAUDE.md §4.1 forbids — and could not compare a registry pin against the live document, which
+made `REGISTRY DRIFT` undetectable from inside a run (IF-2026-09-01-018).
+
+**Decision.** Grant `Read` to all eight agents, and add it to the `.claude/settings.json` allow list so
+the enforcement layer matches the grant. `Read` is the *minimum* capability that closes the gap:
+read-only, no connector reach, no write class, no filesystem search. `Glob`, `Grep`, `Bash`, `Write`
+and `Edit` stay withheld — **agents read known paths, they do not explore.**
+
+**Why not route this to ChatGPT / 04.** Blaise's 2026-09-01 authority clarification: repo-native agent
+and tool configuration is Claude Code's responsibility. Routing is required only when a change also
+requires canonical Drive governance. This one does not.
+
+**Consequence.** `retrieve-canonical-source` can now do the pin-versus-live comparison the governance
+model always assumed. The Phase 2 `WRITES ATTEMPTED = NONE` invariant is structurally unchanged.
+Enforced by T-31 (grant present where instructed, nothing beyond a read), plus existing T-11/T-12/T-28.
+
+**Lesson.** A wrapper that tells an agent to do something it structurally cannot do does not fail
+loudly — it degrades into the unsafe fallback the rule was written to prevent. Prefer tests that
+compare *instructions against capabilities*, not just capabilities against a denylist.
+
+## D-022 — Time reconciliation is mandatory and lives in the shared layer
+**Date** 2026-09-01 · **Status** ACCEPTED
+
+**Context.** The Calendar connector has now rendered a wrong local time three times on live data. On
+2026-09-01 it returned `10:00:00-04:00` labeled `America/Chicago` for a real client showing whose true
+time was **9:00 AM CDT**. The existing rule said to *prefer* a confirming read for a *disputed*
+interval. Nothing ever looks disputed when you take one read — which is why the rule had never fired.
+
+**Decision.** Make reconciliation unconditional in `chicago-date-anchor` Rule 3, and fix it **once, in
+the shared date layer**, so all eight agents inherit it rather than each carrying a copy. An offset
+invalid for America/Chicago makes the rendered time **defective** — discarded, not caveated. Encode
+the rule as an executable reference (`scripts/reconcile-appointment-time.js`) so a disputed
+reconciliation has a deterministic tie-breaker instead of an argument.
+
+**Consequence.** Wiring the fix centrally exposed a second gap: `chief-of-staff` and
+`market-intel-marketing` held Calendar read tools but were never wired to the date skill. The
+test suite's `DATE_SENSITIVE` list was a hand-maintained subset that had drifted from reality; it is
+now simply `AGENTS`. Covered by 16 timezone cases (both DST states, the skipped 2 AM hour, the doubled
+1 AM hour, UTC-vs-Chicago date boundaries, wrong-DST-state renderings) and static T-32.
+
+**Lesson.** A conditional control whose trigger condition is invisible is not a control. And a
+hand-maintained list of "which agents does this apply to" drifts silently — derive it from a
+capability instead.
+
+## D-023 — Findings are logged always, surfaced rarely
+**Date** 2026-09-01 · **Status** ACCEPTED
+
+**Context.** The Continuous Improvement Check (CLAUDE.md §10) is mandatory on every run, so findings
+accumulate on runs whose actual job was a client brief. The 2026-09-01 Caitlin Nakache run produced
+three. Reporting all of them alongside a five-minute pre-showing brief buries the one thing that
+mattered under two engineering defects Blaise cannot act on.
+
+**Decision.** Separate **logging** from **surfacing**. Every qualifying finding is always written to
+`governance/improvement-findings.md` and named under `SYSTEM UPDATE REQUIRED`. A finding appears in
+Blaise's business output only when it (a) changes the decision in front of him, (b) affects the safety
+or correctness of that output, (c) requires an action only he can take, or (d) carries legal,
+compliance or consent exposure. Surfacing leads with the action, not the finding ID.
+
+**Consequence.** Under this rule the Caitlin run surfaces **one** item — the delivered text against a
+`notext` tag, which needs a question only Blaise can put to Brent — and logs the other two quietly.
+**A run that surfaces nothing is the normal case.** Never suppress a material finding to keep output
+tidy; never pad output with routine ones. Enforced by T-33.

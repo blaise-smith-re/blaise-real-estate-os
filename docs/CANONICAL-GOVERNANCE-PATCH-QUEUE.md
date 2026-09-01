@@ -198,11 +198,48 @@ read-back, and exactly-one-current-canonical verification.
 
 ---
 
+## CGQ-013 — Calendar time reconciliation is mandatory, not advisory · NON-BLOCKING
+
+- **TARGET** Execution Operator SOP (Calendar lane / date-anchor language) · also any BOM or SOP
+  passage that describes reading an appointment time from the Calendar connector.
+- **CURRENT VERIFIED VERSION** to be read at apply time.
+- **TRIGGER** IF-2026-09-01-019. The Google Calendar connector returned
+  `2026-09-01T10:00:00-04:00` labeled `timeZone: America/Chicago` for a live client showing.
+  `-04:00` is never a valid Chicago offset; the true time was **9:00 AM CDT**. Third reproduction on
+  live data. The repo-side control has been hardened from "prefer a confirming read when disputed" to
+  a mandatory reconciliation on every run — canonical language should match so the SOP and the
+  execution layer do not diverge.
+- **EXACT PATCH** — in the Calendar/date-anchor passage, replace advisory wording with:
+
+  > **Appointment times are reconciled, never read.** A connector-rendered local time
+  > (`get_event`, `search_events`) is not client-facing. Before any appointment, showing, deadline or
+  > closing time is presented, reconcile the absolute UTC instant, the IANA timezone, and the expected
+  > America/Chicago offset (CST `-06:00`, CDT `-05:00`), and confirm with a `list_events` read passing
+  > an explicit America/Chicago timezone. This is required on every run, not only when a time looks
+  > wrong — a single read never looks wrong. An offset that is not valid for America/Chicago on that
+  > date makes the rendered time **defective**: discard it, present the reconciled time, and disclose
+  > the discrepancy.
+
+- **PROPOSED VERSION** next minor · **CHANGE NOTE** "Calendar appointment times must be reconciled
+  against the absolute instant and confirmed with an explicit-timezone read on every run. Rendered
+  connector times are not client-facing."
+- **RELATED ASSETS** `.claude/skills/chicago-date-anchor/SKILL.md` (already hardened) ·
+  `governance/tool-policy.md` §4 (already mirrored) · `scripts/reconcile-appointment-time.js` ·
+  `tests/run-timezone-tests.js` · all eight agent definitions.
+- **REQUIRED READ-BACK** Re-retrieve the SOP; confirm the advisory phrasing is gone.
+- **WHY IT MATTERS** The failure mode is a missed client appointment. It has now occurred three
+  times in rendering and was caught only by an agent independently noticing an impossible offset.
+- **NON-BLOCKING** — the repo-side control is applied, tested (16/16 timezone cases) and inherited by
+  all eight agents. This patch aligns canonical language; **the repo fix did not wait on it.**
+
+---
+
 ## Application order
 
 1. **CGQ-001** — unblocks the CRM department. Highest value.
 1b. **CGQ-012** — removes a false pre-tour blocker hit on day one of live use.
 2. **CGQ-002** — records the five read-only departments.
+2b. **CGQ-013** — aligns canonical Calendar language with the applied repo control.
 3. **CGQ-006, CGQ-003, CGQ-004, CGQ-005** — reference and routing integrity.
 4. **CGQ-008, CGQ-007, CGQ-009, CGQ-010** — controls and hygiene.
 

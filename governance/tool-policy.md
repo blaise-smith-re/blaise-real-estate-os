@@ -113,9 +113,18 @@ production Calendar write is certified.** Phase 2 grants read only.
 unrelated event details; if unrelated data is unavoidably returned, do not inspect, summarize, or
 reproduce it beyond confirming the target.
 
-**Timezone control:** do not trust `get_event`'s rendered offset alone when it conflicts with the IANA
-zone. Reconcile absolute instant + IANA zone + expected America/Chicago local offset. See the
-`chicago-date-anchor` skill.
+**Timezone control — MANDATORY RECONCILIATION.** `get_event` and `search_events` rendered local
+times are **not client-facing**. Before presenting any appointment time to Blaise or a client,
+reconcile the **absolute instant (UTC) + IANA zone + expected America/Chicago offset** (CST `-06:00`,
+CDT `-05:00`) and confirm the interval with a `list_events` read passing an explicit
+`America/Chicago` timezone. **This is required on every run, not only when an interval looks
+disputed** — a single read never looks disputed, which is precisely how the defect hides.
+
+If a rendered offset is not valid for America/Chicago on that date, the rendered time is **defective,
+not merely suspect**: discard it, present the reconciled time, and disclose the discrepancy in the
+run output. Reproduced three times on live data — most recently a 1-hour error on a live client
+showing (IF-2026-09-01-019). See the `chicago-date-anchor` skill, which is binding on all eight
+agents.
 
 ---
 
@@ -184,9 +193,48 @@ equivalent to one.
 
 ---
 
+## 8A. Local repository filesystem — **READ ONLY** (`Read`)
+
+| Class | Scope |
+|---|---|
+| **READ** ✅ | `Read` — repo-native engineering files only |
+| **HOLD** ❌ | `Write`, `Edit`, `NotebookEdit`, `Bash`, `Glob`, `Grep`, `Task`/`Agent` |
+
+**Why it is granted.** Every agent wrapper instructs a read of `governance/required-connectors.json`
+(Step 0 preflight) and `governance/source-registry.json` (Step 3 canonical retrieval). Without a
+filesystem read tool those instructions are impossible to execute, which forces canonical sources to
+be resolved **by title search** — the exact failure CLAUDE.md §4.1 forbids — and makes `REGISTRY
+DRIFT` undetectable from inside a run. See IF-2026-09-01-018.
+
+**Scope of the grant.** `Read` is the *minimum* capability that closes that gap. It is granted for:
+
+- `governance/required-connectors.json` — the declared connector manifest
+- `governance/source-registry.json` — canonical `fileId` pins
+- other repo-native engineering files (agent definitions, skills, tests, `docs/*`) when a run
+  legitimately needs them
+
+**Hard limits.**
+
+1. `Read` is **read-only**. It cannot write, edit, execute, or reach any connector, so it widens no
+   action class. The Phase 2 invariant `WRITES ATTEMPTED = NONE` is unaffected.
+2. `Read` is **not** a source of business fact. Canonical business documentation lives in Google
+   Drive and is retrieved through the Drive connector by `fileId`. A registry entry is a *pointer*;
+   reading it never substitutes for retrieving the document.
+3. **Never use `Read` to bootstrap a cache.** CLAUDE.md §4.8 forbids caching Drive content into this
+   repository; `Read` must not become a way to read one back. If a run finds canonical business text
+   in a repo file, that is a T-22 violation to report, not a source to use.
+4. `Glob`, `Grep` and `Bash` remain withheld. Agents read **known paths**, they do not search the
+   filesystem.
+
+**Registry drift is now checkable.** With `Read` granted, `retrieve-canonical-source` can compare the
+registry pin against the live Drive document and report `REGISTRY DRIFT` per CLAUDE.md §4.3. A run
+that cannot perform that comparison must say so explicitly in its report.
+
+---
+
 ## 9. Per-agent granted tool surface (Phase 2)
 
-### `daily-revenue-command-center` — 25 grants: 24 MCP read tools + `Skill`
+### `daily-revenue-command-center` — 26 grants: 24 MCP read tools + `Skill` + `Read`
 
 **FUB (17):** `get_open_tasks`, `search_tasks`, `get_task`, `find_contact`, `get_contact`,
 `get_contact_notes`, `get_contact_events`, `get_contact_calls`, `get_contact_text_messages`,
@@ -195,7 +243,7 @@ equivalent to one.
 **Calendar (4, read):** `list_calendars`, `list_events`, `search_events`, `get_event`
 **Drive (3, read):** `search_files`, `read_file_content`, `get_file_metadata`
 
-### `client-prep-brief` — 25 grants: 24 MCP read tools + `Skill`
+### `client-prep-brief` — 26 grants: 24 MCP read tools + `Skill` + `Read`
 
 **FUB (17):** `find_contact`, `get_contact`, `get_contact_notes`, `get_contact_events`,
 `get_contact_calls`, `get_contact_text_messages`, `get_contact_appointments`, `get_appointment`,
@@ -208,8 +256,11 @@ equivalent to one.
 cannot grant a tool, so this cannot widen the tool surface. It is required for the three shared skills
 to be loadable.
 
-Neither agent receives Gmail, Composio, `Bash`, `Write`, `Edit`, `Task`/`Agent`, or any scheduling
-tool. Verified by tests T-10, T-11 and T-12.
+**`Read` is granted to both agents (§8A, IF-2026-09-01-018)** — repo-native engineering files only,
+read-only, no connector reach, no write class.
+
+Neither agent receives Gmail, Composio, `Bash`, `Write`, `Edit`, `Glob`, `Grep`, `Task`/`Agent`, or
+any scheduling tool. Verified by tests T-10, T-11, T-12 and T-31.
 
 ---
 
@@ -232,8 +283,10 @@ write authority without a separate canonical control. That control does not exis
 absent from every grant **and** denied at project level. `lead-conversion-crm` runs the
 controlled-write sequence through step 11 and emits a `CRM WRITE REQUEST` packet.
 
-Gmail, Composio, `Bash`, `Write`, `Edit`, `Task`/`Agent` and every scheduling tool are withheld from
-all eight agents.
+All eight departments also hold `Read` (§8A) — repo-native engineering files only, read-only.
+
+Gmail, Composio, `Bash`, `Write`, `Edit`, `Glob`, `Grep`, `Task`/`Agent` and every scheduling tool are
+withheld from all eight agents.
 
 ## 10. Change control for this file
 

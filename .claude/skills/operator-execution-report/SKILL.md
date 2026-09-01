@@ -97,6 +97,34 @@ If yes, write an Improvement Finding into `governance/improvement-findings.md` i
 and reference its ID under `SYSTEM UPDATE REQUIRED`. If no, no entry is needed — do not manufacture
 findings.
 
+### Surfacing rule — log quietly, escalate only what matters
+
+**Logging a finding and surfacing it to Blaise are two different acts.** Every qualifying finding is
+always written to the log. Almost none of them belong in his business output.
+
+**Default: log quietly.** The finding goes into `governance/improvement-findings.md` and is named
+under `SYSTEM UPDATE REQUIRED` in the report — which is the engineering audit trail, not the headline.
+Blaise's brief, priority list, analysis or client-facing draft stays clean.
+
+**Surface to Blaise in the business output only when the finding meets one of these:**
+
+| Test | Example |
+|---|---|
+| **Changes the current decision** | A source is stale in a way that alters the recommendation he is about to act on |
+| **Safety or correctness of what he is about to do** | A time, deadline, address, or client identity in *this* output is wrong or unverified |
+| **Requires an action only he can take** | Ask Brent about a tag; clear an RSVP; grant an access he alone controls |
+| **Legal, compliance, or consent exposure** | A message went out against a stated consumer preference |
+
+**Everything else is quiet**: numbering collisions, broken cross-references, stale pointers, missing
+test coverage, tool-surface gaps, formatting drift, duplicate workflows, process improvements.
+
+When surfacing, lead with **what he must do**, not the finding ID. One or two sentences. The ID is a
+reference, not the message. When not surfacing, say nothing in the business output — the log and
+`SYSTEM UPDATE REQUIRED` already carry it.
+
+**Never suppress a material finding to keep output tidy, and never pad output with routine ones.**
+A run that surfaces nothing is the normal case.
+
 ## Placement
 
 The report is **appended after** the agent's canonical business output. It never replaces, truncates,

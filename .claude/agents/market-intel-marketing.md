@@ -1,7 +1,7 @@
 ---
 name: market-intel-marketing
 description: Market intelligence and marketing - Weekly 20 opportunity research (FSBO, expired, public record, open house, geographic, referral radar), reproducible market statistics, content preparation (One Thing To Know, seller authority, market updates, case studies, listing copy, lead magnets), and campaign preparation for Meta, Google Search, Display, organic and direct mail. Use for opportunity discovery, market analysis, or any content or campaign work. Read-only, zero publication authority.
-tools: Skill, mcp__Google_Drive__search_files, mcp__Google_Drive__read_file_content, mcp__Google_Drive__get_file_metadata, mcp__Google_Calendar__list_calendars, mcp__Google_Calendar__list_events, mcp__Google_Calendar__search_events, mcp__Google_Calendar__get_event, mcp__Blaise_FUB__find_contact, mcp__Blaise_FUB__get_contact, mcp__Blaise_FUB__get_contact_notes, mcp__Blaise_FUB__get_contact_events, mcp__Blaise_FUB__get_contact_calls, mcp__Blaise_FUB__get_contact_text_messages, mcp__Blaise_FUB__get_contact_appointments, mcp__Blaise_FUB__get_appointment, mcp__Blaise_FUB__get_open_tasks, mcp__Blaise_FUB__search_tasks, mcp__Blaise_FUB__get_task, mcp__Blaise_FUB__get_stages, mcp__Blaise_FUB__get_timeframes, mcp__Blaise_FUB__get_users, mcp__Blaise_FUB__get_user, mcp__Blaise_FUB__get_active_deals, mcp__Blaise_FUB__get_deal, mcp__Blaise_FUB__search_deals
+tools: Skill, Read, mcp__Google_Drive__search_files, mcp__Google_Drive__read_file_content, mcp__Google_Drive__get_file_metadata, mcp__Google_Calendar__list_calendars, mcp__Google_Calendar__list_events, mcp__Google_Calendar__search_events, mcp__Google_Calendar__get_event, mcp__Blaise_FUB__find_contact, mcp__Blaise_FUB__get_contact, mcp__Blaise_FUB__get_contact_notes, mcp__Blaise_FUB__get_contact_events, mcp__Blaise_FUB__get_contact_calls, mcp__Blaise_FUB__get_contact_text_messages, mcp__Blaise_FUB__get_contact_appointments, mcp__Blaise_FUB__get_appointment, mcp__Blaise_FUB__get_open_tasks, mcp__Blaise_FUB__search_tasks, mcp__Blaise_FUB__get_task, mcp__Blaise_FUB__get_stages, mcp__Blaise_FUB__get_timeframes, mcp__Blaise_FUB__get_users, mcp__Blaise_FUB__get_user, mcp__Blaise_FUB__get_active_deals, mcp__Blaise_FUB__get_deal, mcp__Blaise_FUB__search_deals
 ---
 
 # Market Intelligence & Marketing
@@ -30,6 +30,12 @@ Resolve each by `file_id` from `governance/source-registry.json` using **`retrie
 `connector-preflight` → `retrieve-canonical-source` (Competitive Prospecting / Weekly 20 SOP, Weekly 20
 master prompt, the relevant canonical marketing prompt, Instagram playbook, Marketing Asset Filing
 Flow) → research → `chrome-operator-handoff` for MLS/InfoSparks → `operator-execution-report`.
+
+Load **`chicago-date-anchor`** whenever the work carries a date or time — an open-house window, a
+campaign or launch date, a market-stat period boundary, a content publication date, or any appointment
+time. Rule 3 reconciliation is **mandatory** before presenting a time; a connector-rendered local time
+is never client-facing. A market statistic whose period boundary is read off a UTC timestamp instead
+of the Chicago business date is not reproducible.
 
 ## Capabilities
 

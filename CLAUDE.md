@@ -211,6 +211,16 @@ or a repeatable improvement?
 If yes, write an **Improvement Finding** into `governance/improvement-findings.md` using the required
 format, classified as **MINOR MAINTENANCE**, **OPERATIONAL CHANGE**, or **HIGH-STAKES CHANGE**.
 
+**Log quietly; surface selectively.** Logging a finding and reporting it to Blaise are separate acts.
+Every qualifying finding is always written to the log and named under `SYSTEM UPDATE REQUIRED` in the
+run report. **Do not surface routine findings in Blaise's business output.** Surface a finding to him
+only when it (a) materially changes the decision in front of him, (b) affects the safety or
+correctness of what he is about to do, (c) requires an action only he can take, or (d) carries legal,
+compliance, or consent exposure. Everything else — numbering collisions, stale pointers, broken
+cross-references, coverage gaps, formatting drift — stays in the engineering record. When surfacing,
+lead with the action he must take, not the finding ID. **A run that surfaces nothing is normal.**
+Never suppress a material finding to keep output tidy, and never pad output with routine ones.
+
 **Claude may directly maintain (repo-native engineering documentation):**
 `CLAUDE.md` · agent definitions · skills · tool-policy files · tests · `README.md` ·
 `docs/DECISIONS.md` · certification evidence · source-registry metadata · `CHANGELOG.md`.

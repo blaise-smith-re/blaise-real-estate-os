@@ -2,6 +2,7 @@
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "permissions": {
     "allow": [
+      "Read",
       "mcp__Blaise_FUB__audit_contact_daily_control",
       "mcp__Blaise_FUB__audit_contacts_daily_control_batch",
       "mcp__Blaise_FUB__find_contact",

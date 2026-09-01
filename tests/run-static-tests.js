@@ -74,9 +74,14 @@ const AGENTS = ['daily-revenue-command-center', 'client-prep-brief', 'lead-conve
   'transaction-closing-ops', 'chief-of-staff'];
 // Phase 2 read-only engines with their own agent-specific controls.
 const PHASE2 = ['daily-revenue-command-center', 'client-prep-brief'];
-// Agents whose work is date/appointment sensitive and must anchor to America/Chicago.
-const DATE_SENSITIVE = ['daily-revenue-command-center', 'client-prep-brief', 'lead-conversion-crm',
-  'buyer-investor-ops', 'seller-listing-ops', 'transaction-closing-ops'];
+// Every agent holds Google Calendar read tools and can therefore present a client-facing
+// time, so every agent must anchor to America/Chicago. Narrowing this list left chief-of-staff
+// and market-intel-marketing unbound while both could still surface a time (IF-2026-09-01-019).
+const DATE_SENSITIVE = AGENTS;
+// Local filesystem read: the minimum capability that lets an agent resolve the governance
+// registry directly. Anything beyond it stays withheld (IF-2026-09-01-018).
+const FS_READ_TOOL = 'Read';
+const FORBIDDEN_LOCAL_TOOLS = ['Write', 'Edit', 'NotebookEdit', 'Bash', 'Glob', 'Grep', 'Task', 'Agent'];
 const SKILLS = ['retrieve-canonical-source', 'chicago-date-anchor', 'operator-execution-report',
   'connector-preflight', 'fub-controlled-write', 'chrome-operator-handoff'];
 // Every agent must wire these three.
@@ -248,7 +253,7 @@ check('T-15', 'agents are wired to the universal skills', () => {
     const md = read(`.claude/agents/${a}.md`);
     assert(md.includes('chicago-date-anchor'), `date-sensitive agent "${a}" not wired to chicago-date-anchor`);
   }
-  return `${AGENTS.length} agents wired to universal skills; ${DATE_SENSITIVE.length} to date anchor`;
+  return `${AGENTS.length} agents wired to universal skills; all ${DATE_SENSITIVE.length} to date anchor`;
 });
 
 check('T-16', 'agents do NOT embed canonical prompt bodies', () => {
@@ -488,6 +493,86 @@ check('T-30', 'handoff integrity: every non-CRM department routes FUB writes to 
     }
   }
   return 'CRM write routing present in every specialist department; parallel systems only ever forbidden';
+});
+
+check('T-31', 'every agent can actually read the governance files it is told to read', () => {
+  // IF-2026-09-01-018: all 8 wrappers instructed a filesystem read that no agent could perform,
+  // which silently forced title-based source resolution and hid registry drift.
+  for (const a of AGENTS) {
+    const md = read(`.claude/agents/${a}.md`);
+    const tools = frontmatter(md).tools.split(',').map(t => t.trim());
+    const refsGovernanceFile = /governance\/[a-z-]+\.json/.test(md);
+    if (refsGovernanceFile) {
+      assert(tools.includes(FS_READ_TOOL),
+        `agent "${a}" references a governance/*.json path but is not granted "${FS_READ_TOOL}"`);
+    }
+    // The grant is a floor, not a door: nothing beyond a read may be present.
+    const overreach = tools.filter(t => FORBIDDEN_LOCAL_TOOLS.includes(t));
+    assert(overreach.length === 0,
+      `agent "${a}" grants local tool(s) beyond read: ${overreach.join(', ')}`);
+  }
+  // Every agent is instructed to read the manifest, so every agent needs the grant.
+  const missing = AGENTS.filter(a =>
+    !frontmatter(read(`.claude/agents/${a}.md`)).tools.split(',').map(t => t.trim()).includes(FS_READ_TOOL));
+  assert(missing.length === 0, `agents without "${FS_READ_TOOL}": ${missing.join(', ')}`);
+
+  // The grant must be documented as a permission class, not just present in frontmatter.
+  const policy = read('governance/tool-policy.md');
+  assert(/Local repository filesystem/i.test(policy), 'tool-policy.md does not document the local read class');
+  assert(/IF-2026-09-01-018/.test(policy), 'tool-policy.md does not cite the finding behind the grant');
+  return `${AGENTS.length} agents can read the governance registry; no local tool beyond read granted`;
+});
+
+check('T-32', 'timezone reconciliation is mandatory and centrally inherited', () => {
+  // IF-2026-09-01-019: "prefer a confirming read when disputed" never fires, because a
+  // single read never looks disputed. The control has to be unconditional.
+  const skill = read('.claude/skills/chicago-date-anchor/SKILL.md');
+  assert(/not client-facing/i.test(skill),
+    'skill does not state that rendered connector times are non-client-facing');
+  assert(/every run/i.test(skill) && /mandatory|MANDATORY|required|REQUIRED/.test(skill),
+    'skill does not make the confirming read mandatory on every run');
+  assert(/defective/i.test(skill), 'skill does not classify an invalid offset as defective');
+  assert(!/Prefer a `list_events` read with an \*\*explicit\*\* America\/Chicago timezone to confirm a disputed/.test(skill),
+    'skill still carries the superseded conditional "prefer ... when disputed" language');
+  assert(/TIME RECONCILIATION/.test(skill), 'skill does not require the reconciliation disclosure line');
+
+  // Central inheritance: every agent that can present a time must load the skill.
+  for (const a of AGENTS) {
+    const md = read(`.claude/agents/${a}.md`);
+    assert(md.includes('chicago-date-anchor'), `agent "${a}" is not wired to chicago-date-anchor`);
+  }
+
+  // The policy layer must carry the same rule, not a weaker one.
+  const policy = read('governance/tool-policy.md');
+  assert(/MANDATORY RECONCILIATION/.test(policy), 'tool-policy.md does not carry the mandatory rule');
+  assert(/IF-2026-09-01-019/.test(policy), 'tool-policy.md does not cite the finding');
+
+  // The rule must be executable and covered, not only prose.
+  assert(fs.existsSync(path.join(ROOT, 'scripts/reconcile-appointment-time.js')),
+    'reference implementation missing');
+  assert(fs.existsSync(path.join(ROOT, 'tests/run-timezone-tests.js')),
+    'timezone edge-case suite missing');
+  const { reconcile } = require(path.join(ROOT, 'scripts/reconcile-appointment-time.js'));
+  const live = reconcile({
+    absoluteInstant: '2026-09-01T14:00:00Z', ianaZone: 'America/Chicago',
+    renderedLocal: '2026-09-01T10:00:00-04:00', confirmingRead: true,
+  });
+  assert(live.presentable === '9:00 AM CDT', `live IF-019 case regressed: got ${live.presentable}`);
+  assert(live.renderedDefective, 'live IF-019 defective rendering not detected');
+  return `${AGENTS.length} agents inherit mandatory reconciliation; IF-019 case reconciles to 9:00 AM CDT`;
+});
+
+check('T-33', 'improvement-finding reporting discipline is defined', () => {
+  // Routine findings belong in the engineering record, not in Blaise's business output.
+  const claude = read('CLAUDE.md');
+  assert(/surface|Surface/.test(claude) && /Improvement Finding/.test(claude),
+    'CLAUDE.md does not define when a finding is surfaced');
+  const report = read('.claude/skills/operator-execution-report/SKILL.md');
+  assert(/SURFACE|surfacing|surface/.test(report),
+    'operator-execution-report does not carry the surfacing rule');
+  const log = read('governance/improvement-findings.md');
+  assert(/SURFACING|surfacing/i.test(log), 'findings log does not define surfacing');
+  return 'routine findings log quietly; material findings surface to Blaise';
 });
 
 // ---------------------------------------------------------------- output

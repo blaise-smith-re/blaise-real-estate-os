@@ -33,6 +33,18 @@ documents.
 For any Drive-side issue, produce the **exact proposed patch** below and route it. Never let
 implementation and canonical operating instructions silently diverge.
 
+**Authority clarification — Blaise, 2026-09-01.** *Repo-native agent and tool configuration is Claude
+Code's responsibility.* A finding confined to this repository — agent definitions, `tools:` grants,
+skills, `.claude/settings.json`, tests, engineering docs — is **applied directly here**, with a
+finding logged and tests added. It is **not** routed to ChatGPT / 04 merely because the tier table
+labels tool permissions "OPERATIONAL". Routing to ChatGPT / 04 is required only when the change
+**also** requires canonical Drive governance — an amendment to the Business Operating Manual, an SOP,
+an approved prompt or template, or any business policy, authority or certification gate.
+
+This does not relax the classify-upward rule, and it does not touch the "MAY NOT" list above. A
+repo-native change that *implies* a canonical change still produces a queued patch for the Drive side
+(`docs/CANONICAL-GOVERNANCE-PATCH-QUEUE.md`) — **but the repo fix does not wait on it.**
+
 ## 3. Required finding format
 
 ```
@@ -448,7 +460,17 @@ until a named precondition clears.
 - **TESTING REQUIRED** New static test: for every agent, if the wrapper references a `governance/*.json`
   path then the `tools:` line must grant a filesystem read tool. Behavioral: re-run a client-prep brief
   and confirm the report cites a registry `fileId` **and** a pin-versus-live comparison result.
-- **DISPOSITION** **REVIEW** (ChatGPT / 04). Proposed diff above; not applied.
+- **DISPOSITION** **PATCH — APPLIED 2026-09-01.** Blaise directed direct repo-native application and
+  clarified the authority boundary (see §2 note below): repo-native agent/tool configuration is Claude
+  Code's responsibility and is not routed to ChatGPT / 04 unless the change also requires canonical
+  Drive governance. This one does not.
+  **Applied:** `Read` added to all 8 agent `tools:` lines · `Read` added to the `.claude/settings.json`
+  allow list (enforcement layer, caught by T-11) · `governance/tool-policy.md` §8A documents the class,
+  its scope and its four hard limits · per-agent grant counts updated 25 → 26.
+  **Tests:** T-31 added — every agent referencing a `governance/*.json` path must grant `Read`, and no
+  agent may grant `Write`, `Edit`, `NotebookEdit`, `Bash`, `Glob`, `Grep`, `Task`/`Agent`. 33/33 passing.
+  **Not widened:** `Read` is read-only, reaches no connector, and creates no write class. The Phase 2
+  invariant `WRITES ATTEMPTED = NONE` is structurally unchanged (T-28, T-12 still passing).
 
 ### IF-2026-09-01-019 — Calendar offset/label defect reproduced a third time, on a live client appointment
 
@@ -488,8 +510,26 @@ until a named precondition clears.
 - **TESTING REQUIRED** Static: skill text asserts the mandatory confirming read. Behavioral: re-read
   event `nf84u6dstooi4scqosmr42i7io` via both paths and confirm the run reports 9:00 AM CDT with the
   discrepancy disclosed.
-- **DISPOSITION** **REVIEW** (ChatGPT / 04). Proposed diff above; not applied. **Interim operating rule
-  — effective now:** never present a Calendar time to Blaise or a client from `get_event` alone.
+- **DISPOSITION** **PATCH — APPLIED 2026-09-01.** Fixed centrally in the shared date layer, so all
+  eight agents inherit it rather than each carrying its own copy.
+  **Applied:** `chicago-date-anchor` Rule 3 rewritten from conditional to **mandatory** — 3a the
+  confirming `list_events` read is required on every run that presents a time; 3b an invalid offset is
+  *defective*, not suspect, and the rendered time is discarded (including a valid-shaped offset in the
+  wrong DST state); 3c the business date derives from Chicago, never a UTC timestamp; 3d zone mismatch
+  is a lane defect. A `TIME RECONCILIATION` disclosure line is now required in any report presenting a
+  time. Mirrored in `governance/tool-policy.md` §4.
+  **Central inheritance closed a second gap:** `chief-of-staff` and `market-intel-marketing` held
+  Calendar read tools but were never wired to the skill. Both are now wired; `DATE_SENSITIVE` in the
+  test suite is now *every* agent, not a hand-maintained subset.
+  **Made executable:** `scripts/reconcile-appointment-time.js` implements Rule 3 exactly (pure,
+  dependency-free, no clock or network reads) and is the tie-breaker when a rendering is disputed.
+  **Tests:** `tests/run-timezone-tests.js` — 16/16 passing. Covers the live IF-019 defect, both DST
+  states, the skipped 2 AM hour (2026-03-08) and the doubled 1 AM hour (2026-11-01), UTC-vs-Chicago
+  date boundaries in both DST states, noon/midnight formatting, wrong-DST-state renderings, `Z`
+  renderings, missing confirming read, `America/New_York` lane mismatch, and refusal to guess on an
+  unparseable instant. Static T-32 asserts the skill still carries the mandatory language, that all 8
+  agents inherit it, and that the live case still reconciles to 9:00 AM CDT.
+  **Drive-side language:** queued as CGQ-013, non-blocking. The repo fix did not wait on it.
 
 ---
 
@@ -503,3 +543,28 @@ until a named precondition clears.
 
 One finding per issue. Never edit a finding's ID. Update `DISPOSITION` in place and move the entry to
 section 5 with a resolution date when closed. Never delete a finding.
+
+## 7. Surfacing — this log is quiet by default
+
+**This log is the engineering record. It is not a channel to Blaise.** Writing a finding here is the
+complete obligation for the overwhelming majority of findings; the run report names the ID under
+`SYSTEM UPDATE REQUIRED` and that is the end of it.
+
+A finding is **surfaced in Blaise's business output** only when it meets one of four tests:
+
+1. **Decision-changing** — it alters the recommendation he is about to act on.
+2. **Safety or correctness** — a time, deadline, address, identity or figure in *this* output is
+   wrong or unverified.
+3. **Action only he can take** — a question for Brent or the broker, an RSVP, an access grant.
+4. **Legal, compliance or consent exposure.**
+
+Everything else is quiet: numbering collisions, broken cross-references, stale pointers, coverage
+gaps, tool-surface defects, duplicate workflows, formatting drift.
+
+Surfacing leads with **the action**, not the ID. **A run that surfaces nothing is the normal case.**
+Never suppress a material finding to keep output tidy; never pad output with routine ones.
+
+*Worked example.* The 2026-09-01 Caitlin Nakache run produced three findings. Two were routine
+engineering defects (agent filesystem grant; calendar reconciliation wording) — **quiet**. One was
+consent exposure: a text delivered against a `notext` tag, needing a question only Blaise can put to
+Brent — **surfaced**. Under this rule that run would have shown Blaise one line, not three findings.

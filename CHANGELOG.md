@@ -6,6 +6,59 @@ Improvement Findings.
 
 ---
 
+## [Fixes] — 2026-09-01 — IF-018 + IF-019 applied; finding-surfacing rule
+
+Blaise directed direct repo-native application and clarified the authority boundary: **repo-native
+agent and tool configuration is Claude Code's responsibility**, routed to ChatGPT / 04 only when a
+change *also* requires canonical Drive governance. Recorded in `governance/improvement-findings.md` §2.
+
+### IF-2026-09-01-018 — agents can now read the registry they are told to read
+`Read` granted to all 8 agents and added to the `.claude/settings.json` allow list (T-11 caught the
+missing enforcement half). `governance/tool-policy.md` **§8A** documents the class and its four hard
+limits: read-only, never a source of business fact, never a Drive cache, and no `Glob`/`Grep`/`Bash` —
+agents read known paths, they do not explore. Per-agent grant counts 25 → 26.
+
+**Why it mattered:** an agent that cannot read `source-registry.json` must resolve canonical sources
+**by title**, which CLAUDE.md §4.1 forbids, and cannot detect `REGISTRY DRIFT` at all.
+
+### IF-2026-09-01-019 — timezone reconciliation is now mandatory and centrally inherited
+`chicago-date-anchor` Rule 3 rewritten from *"prefer a confirming read when disputed"* to mandatory:
+3a the explicit-timezone `list_events` confirmation is required on **every** run that presents a time;
+3b an invalid offset makes the rendered time **defective** and discarded — including a valid-shaped
+offset in the wrong DST state; 3c business dates derive from Chicago, never a UTC timestamp; 3d zone
+mismatch is a lane defect. A `TIME RECONCILIATION` disclosure line is now required. Mirrored in
+`tool-policy.md` §4.
+
+**Fixing it centrally exposed a second gap:** `chief-of-staff` and `market-intel-marketing` held
+Calendar read tools but were never wired to the date skill. Both now are, and the suite's
+`DATE_SENSITIVE` list — a hand-maintained subset that had drifted — is now simply `AGENTS`.
+
+**Made executable:** `scripts/reconcile-appointment-time.js` implements Rule 3 exactly (pure, offline,
+no clock reads) and is the tie-breaker when a rendering is disputed.
+
+### Finding-surfacing rule
+Logging and surfacing are now separate acts. Every finding is still logged; a finding reaches Blaise's
+business output only when it changes the decision at hand, affects the safety or correctness of that
+output, requires an action only he can take, or carries legal/compliance/consent exposure. Applied in
+CLAUDE.md §10, `operator-execution-report`, and `improvement-findings.md` §7. **A run that surfaces
+nothing is the normal case.**
+
+### Tests
+**49/49 passing** across two suites, one gate: `node tests/run-all.js`.
+- Static **33/33** — new T-31 (instruction-vs-capability parity), T-32 (mandatory reconciliation +
+  central inheritance), T-33 (surfacing discipline defined).
+- Timezone **16/16** — new suite: the live IF-019 defect, both DST states, the skipped 2 AM hour
+  (2026-03-08), the doubled 1 AM hour (2026-11-01), UTC-vs-Chicago date boundaries in both DST states,
+  wrong-DST-state and `Z` renderings, missing confirming read, `America/New_York` lane mismatch, and
+  refusal to guess on an unparseable instant.
+
+### Decisions / queue
+`D-021` (Read grant, amends D-009) · `D-022` (mandatory reconciliation, shared layer) · `D-023`
+(log always, surface rarely). `CGQ-013` queued to align canonical Drive language — **non-blocking; the
+repo fix did not wait on it.**
+
+---
+
 ## [Live run] — 2026-09-01 — Client prep: Caitlin Nakache
 
 Certified `client-prep-brief` lane run against live FUB + Google Calendar for a same-day 9:00 AM
