@@ -164,11 +164,44 @@ read-back, and exactly-one-current-canonical verification.
 - **BLOCKING** — no. Manual invocation works today; **scheduling remains HOLD H-1** and no scheduling
   tool is granted to any agent.
 
+## CGQ-012 — No buyer agreement required before a tour · **BLOCKING (operational)**
+
+- **TARGET** SOP 02 – Buyer Property Search, Showing & Value Analysis · **FILE ID**
+  `1xxYjWwspET-gR5gYYtOb6uHh7eYXiM0r0YxRubjlB28` · also referenced by SOP 10 and the Execution
+  Operator SOP ("A first-tour limited-agreement branch remains controlled by SOP 02").
+- **CURRENT VERIFIED VERSION** to be read at apply time (registry entry is UNPINNED).
+- **TRIGGER** Blaise directed on 2026-08-31, working the live Caitlin Nakache tour: **no buyer
+  agreement is required before a tour.** The current first-tour limited-agreement branch caused a
+  pre-tour blocker to be raised that does not reflect actual operating practice.
+- **EXACT PATCH** — replace the first-tour limited-agreement branch with:
+
+  > **Pre-tour representation.** A written buyer agreement is **not** required before showing a
+  > property. Tour first; establish representation when the buyer is ready to move forward. The
+  > representation conversation belongs at the point of genuine buyer intent — typically after a tour
+  > that goes well, or before writing an offer — not as a gate on the first showing. Offer writing
+  > remains controlled by SOP 04 and SOP 10/11.
+
+- **PROPOSED VERSION** next minor · **CHANGE NOTE** "Removed the pre-tour written-agreement gate.
+  Touring does not require a signed buyer agreement; representation is established at genuine buyer
+  intent. Offer-writing controls under SOP 04 and SOP 10/11 are unchanged."
+- **RELATED ASSETS** SOP 10 (buyer representation) · Execution Operator SOP first-tour branch
+  reference · `.claude/agents/buyer-investor-ops.md` · `.claude/agents/client-prep-brief.md`
+- **REQUIRED READ-BACK** Re-retrieve SOP 02; confirm the pre-tour gate is gone and the offer-writing
+  controls are untouched.
+- **WHY IT MATTERS** Until this is applied, agents will keep raising a pre-tour blocker on every new
+  showing. It surfaced within the first hour of real-world use.
+- **NOTE FOR APPLY** Written buyer-representation requirements are **brokerage, MLS and legal
+  controlled** (BOM §2 authority order places law and brokerage guidance above the Manual and SOPs).
+  Blaise has directed this as current operating practice; confirm it against current RE/MAX Results
+  direction when applying so the SOP and brokerage policy do not diverge.
+- **BLOCKING** — operationally yes: agents behave incorrectly until it is applied.
+
 ---
 
 ## Application order
 
 1. **CGQ-001** — unblocks the CRM department. Highest value.
+1b. **CGQ-012** — removes a false pre-tour blocker hit on day one of live use.
 2. **CGQ-002** — records the five read-only departments.
 3. **CGQ-006, CGQ-003, CGQ-004, CGQ-005** — reference and routing integrity.
 4. **CGQ-008, CGQ-007, CGQ-009, CGQ-010** — controls and hygiene.

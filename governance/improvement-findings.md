@@ -373,6 +373,32 @@ until a named precondition clears.
 - **DISPOSITION** — **PATCH — APPLIED** (repo-native, within Phase 2 authority). No canonical Drive
   change requested.
 
+### IF-2026-08-31-017 — `notext` tag appears on Zillow Preferred leads and may be an import artifact
+
+- **TRIGGER** Live new-lead intake, Caitlin Nakache (personId 18524), 2026-08-31.
+- **CONTROLLING SOURCE** FUB 06 v1.8 §2 automation map; FUB 05 v1.8 record control.
+- **OBSERVED ISSUE** Person 18524 arrived from Zillow Preferred carrying a `notext` tag within one
+  minute of record creation, before any human contact. Person 18476 (Dallas), also Zillow Preferred,
+  carries the same tag, and Blaise's own note of 2026-08-29 states it is **wrong** on that record
+  because text is the working channel. Two of two observed Zillow Preferred leads carry it.
+- **WHY IT MATTERS** `notext` suppresses the fastest speed-to-lead channel on exactly the leads that
+  need it most — real-time tour requests. If it is an import default rather than a real consent
+  signal, it is costing conversions. If it *is* a real consent signal, texting those leads is a
+  compliance problem. **Either way the current ambiguity is the risk.**
+- **IMPACT** Speed-to-lead on high-intent tour requests; possible TCPA/consent exposure in the other
+  direction.
+- **CLASSIFICATION** **OPERATIONAL CHANGE.** Determining the tag's source and whether it reflects real
+  consent touches shared lead-flow configuration — **Brent's approval** required for any change.
+- **EXACT PROPOSED CHANGE** No document edit yet. Establish the fact first: ask Brent what applies
+  `notext` on Zillow Preferred intake and whether it encodes a consumer consent choice or is a default.
+  Then record the answer in FUB 06 §2 and state the operating rule for agents in one line.
+- **RELATED ASSETS** FUB 06 §2 automation map · FUB 01/02 lead conversion SOPs · every agent that
+  proposes an outreach channel.
+- **TESTING REQUIRED** Confirm on the next two Zillow Preferred leads whether the tag appears
+  pre-contact.
+- **DISPOSITION** **REVIEW** — Blaise to ask Brent. Until answered, agents surface the tag and let
+  Blaise decide the channel rather than silently suppressing or ignoring it.
+
 ---
 
 ## 5. Findings closed
