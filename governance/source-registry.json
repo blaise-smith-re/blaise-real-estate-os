@@ -165,7 +165,7 @@
       "title": "SOP 02 - Buyer Property Search, Showing & Value Analysis",
       "file_id": "1xxYjWwspET-gR5gYYtOb6uHh7eYXiM0r0YxRubjlB28",
       "authority": "controlling",
-      "version_pin": "1.12",
+      "version_pin": "1.13",
       "version_verified_at": "2026-09-01",
       "owner_account": "bsmith@blaisesmithproperties.com",
       "drive_path": "",
@@ -173,7 +173,7 @@
         "buyer-investor-ops",
         "buyer-property-snapshot"
       ],
-      "verify": "Read the 'Version: 1.12' line near the top. Owns the client-facing production standard (\u00a715), the Matrix research operator prompt and Workbench handoff standard (\u00a718), file naming (\u00a719), and the visual-PDF QC gate (\u00a720)."
+      "verify": "Read the 'Version: 1.13' line. Owns \u00a715 production standard, \u00a718 research operator + IMAGE HANDOFF block, \u00a719 naming, \u00a720 QC gate."
     },
     {
       "key": "sop_04_buyer_offer_strategy",

@@ -10,7 +10,8 @@ The client-facing showing packet. One content model, four property modes, two to
 **Controlling source:** `SOP 02 - Buyer Property Search, Showing & Value Analysis`, resolved by
 fileId from `governance/source-registry.json` (`sop_02_buyer_search_showing_value`). Retrieve it and read
 its version line before building. §15 Step 12 owns client-facing production quality; §18 owns the
-Matrix research operator and the Workbench handoff standard; §20 owns the QC gate.
+Matrix research operator, the ACTUAL PHOTO HANDOFF requirement and the Workbench handoff standard;
+§20 owns the QC gate. **Current pin: v1.13 (September 1, 2026).**
 
 **Canonical asset:** `Buyer Property Tour & Value Guide - Master Template`
 (`18OIKz5AqJrRYG0g54vhqRFNbzPV-y_oJhpT1zj_ANQU`). **Never overwrite it.** SOP 02 §15 permits — and
@@ -61,17 +62,19 @@ Build the tour packet for Myranetta - Thursday, 3 homes.
 3. Assemble `buyer.priorities[]` from FUB. **An empty array stays empty** — the fit rows render as
    "Tell me today". Never infer a priority from behavior, listing history, or a prior client.
 4. Issue the Matrix research request (§3). Ingest the returned packet.
-5. Populate the schema. Every fact-bearing field takes a value **and** a mark. A value without a
+5. Ingest the `IMAGE HANDOFF` block (§3A). Actual image assets are the normal expectation; photo
+   numbers alone are a fallback and are never recorded as COMPLETE.
+6. Populate the schema. Every fact-bearing field takes a value **and** a mark. A value without a
    mark is a build error, not a formatting choice.
-6. Select the mode: `RESIDENTIAL`, `CONDO_TOWNHOME`, `LAND`, `INVESTMENT`; `SINGLE` or `TOUR`.
-7. Drop every section whose data is absent. See the conditional table in `SNAPSHOT-SPEC.md`.
-8. Write `standouts[]` — 3 to 5, each grounded in a marked fact already on the page. No adjectives
+7. Select the mode: `RESIDENTIAL`, `CONDO_TOWNHOME`, `LAND`, `INVESTMENT`; `SINGLE` or `TOUR`.
+8. Drop every section whose data is absent. See the conditional table in `SNAPSHOT-SPEC.md`.
+9. Write `standouts[]` — 3 to 5, each grounded in a marked fact already on the page. No adjectives
    that are not doing work.
-9. Score `fit[]` against stated priorities only.
-10. Write `watch_verify[]`. Phrase every unknown as an unknown. **An unverified condition item is
+10. Score `fit[]` against stated priorities only.
+11. Write `watch_verify[]`. Phrase every unknown as an unknown. **An unverified condition item is
     never presented as a defect.**
-11. Market section: comps or the pending line. Never both, never neither.
-12. Render, QC (§5), deliver.
+12. Market section: comps or the pending line. Never both, never neither.
+13. Render, QC (§5), deliver.
 
 ---
 
@@ -95,6 +98,25 @@ section order is the contract this skill ingests.
 - `READY FOR BUYER PROPERTY SNAPSHOT: PARTIAL | NO` means the packet says what is missing. It does
   not mean fill the gap.
 - Access instructions never carry a lockbox code or credential into a client-facing document.
+
+---
+
+## 3A. Images — SOP 02 v1.13
+
+Actual usable listing imagery is the **normal required handoff**, not an extra. The operator selects
+the images itself and transfers the files; routine photo selection is not pushed back to Blaise.
+
+- `IMAGE HANDOFF STATUS: COMPLETE` requires actual transferred files. **Photo numbers, filenames or
+  descriptions alone are `PARTIAL` or `BLOCKED`** — recording them as COMPLETE is a reporting
+  failure. A photo number cannot render.
+- `BLOCKED` → the packet must carry the exact manual retrieval step. Use it; do not improvise one.
+- **Manual supply is a first-class path.** Blaise hands over the hero and supporting images
+  directly; they ingest as `mark: MANUAL` and render identically. The build never stalls on images.
+- `CLIENT-PUBLISHABLE: NO` → the image is held internally and never rendered.
+- No image asset present → the hero frame is **omitted** and the address block expands. Never an
+  empty frame, a grey box, or a placeholder in a client PDF.
+- The rendered snapshot also carries a screen-only photo control so Blaise can drop images in at
+  print time. Files stay in his browser.
 
 ---
 
@@ -127,6 +149,8 @@ Render to PDF and inspect **every page** before this is complete.
 - [ ] Enough white space to actually write on the printed scorecard.
 - [ ] A reconstructed MLS summary is labeled "Not Native Matrix Export" — never presented as a
       native 360 Property View.
+- [ ] Image handoff status recorded truthfully. Photo numbers alone were not called COMPLETE.
+- [ ] Every rendered image is an actual asset and is permitted for client use.
 - [ ] **Completion test:** Blaise would hand this exact PDF to a serious buyer in person.
 
 Fail any box → reformat and re-render. A packet that reads as a Google Doc is not complete.

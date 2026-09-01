@@ -1,9 +1,8 @@
 {
   "schema": "buyer-property-snapshot",
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "updated": "2026-09-01",
   "principle": "ONE content model. Every rendering target (print PDF, mobile PDF, on-screen Workbench preview) reads this object. No target owns fields the others cannot see. NOTHING in this file is populated from memory - every value carries a provenance mark and an absent value is absent, never a placeholder.",
-
   "provenance_marks": {
     "MLS": "VERIFIED MLS FACT - retrieved from Northstar/Matrix in the current research session",
     "PUB": "PUBLIC-RECORD DATA DISPLAYED IN MATRIX",
@@ -12,9 +11,9 @@
     "VER": "REQUIRES VERIFICATION - not established. Never phrased as a defect.",
     "OBS": "BLAISE PROFESSIONAL OBSERVATION - judgment, labeled as judgment",
     "BUYER": "BUYER-REPORTED PRIORITY - stated by the buyer. Never inferred, never invented.",
-    "AGENT_ONLY": "AGENT-ONLY - MUST NOT RENDER in any client-facing output. Held for internal use."
+    "AGENT_ONLY": "AGENT-ONLY - MUST NOT RENDER in any client-facing output. Held for internal use.",
+    "MANUAL": "OPERATOR-SUPPLIED ASSET - an image or file Blaise supplied directly when the Chrome image handoff was PARTIAL or BLOCKED. Usable; its origin is recorded rather than inferred."
   },
-
   "field_shape": {
     "note": "Every fact-bearing field in this schema is an object of this shape, never a bare scalar.",
     "value": "string | number | null",
@@ -22,24 +21,24 @@
     "as_of": "ISO-8601 date the value was retrieved or stated",
     "source_note": "optional - which Matrix field, which conversation, which calculation"
   },
-
   "render_rules": {
     "null_value": "Field is OMITTED from render. Never print an empty cell, a dash, or N/A.",
     "mark_VER": "Renders as a dashed-red mark with a forward-looking phrase. Never as a defect or a deficiency.",
     "mark_AGENT_ONLY": "Hard-blocked from every client-facing render target. Renderer must fail closed.",
     "empty_section": "A section whose required fields are all null does not render at all.",
-    "empty_comps": "comps[] empty => market section collapses to the single line 'Value analysis pending verified MLS/comparable review.' Never an empty CMA table."
+    "empty_comps": "comps[] empty => market section collapses to the single line 'Value analysis pending verified MLS/comparable review.' Never an empty CMA table.",
+    "images": "A hero frame renders ONLY when an actual image asset is present. A photo NUMBER is not an image. When no asset is present the frame is omitted and the address block expands - never an empty or placeholder frame in a client PDF."
   },
-
   "object": {
     "packet": {
       "packet_id": "string",
       "mode": "SINGLE | TOUR",
       "prepared_at": "ISO-8601, America/Chicago",
       "research_request_id": "string | null - links to the Matrix research packet that populated it",
-      "source_limitations": ["string - carried verbatim from the research packet"]
+      "source_limitations": [
+        "string - carried verbatim from the research packet"
+      ]
     },
-
     "buyer": {
       "display_name": "string - first name unless the buyer uses otherwise",
       "fub_person_id": "integer | null",
@@ -51,125 +50,310 @@
           "stated_on": "ISO-8601 | null"
         }
       ],
-      "financing": { "field_shape": true },
-      "lender_contact": { "field_shape": true },
+      "financing": {
+        "field_shape": true
+      },
+      "lender_contact": {
+        "field_shape": true
+      },
       "note": "priorities[] MUST come from FUB or a recorded conversation. An empty array renders as 'Tell me today', never as invented priorities."
     },
-
     "showing": {
       "date_local": "ISO-8601 date, America/Chicago",
       "window_start": "HH:MM local | null",
       "window_end": "HH:MM local | null",
       "meeting_location": "string | null",
       "calendar_event_id": "string | null",
-      "route": [ { "stop": "integer", "address": "string", "time_local": "HH:MM | null", "notes": "string | null" } ],
+      "route": [
+        {
+          "stop": "integer",
+          "address": "string",
+          "time_local": "HH:MM | null",
+          "notes": "string | null"
+        }
+      ],
       "access_note": "string | null - NEVER contains a lockbox code or access credential"
     },
-
     "properties": [
       {
         "property_type": "RESIDENTIAL | CONDO_TOWNHOME | LAND | INVESTMENT",
         "identity": {
-          "address_line": { "field_shape": true },
-          "city_state_zip": { "field_shape": true },
-          "mls_number": { "field_shape": true },
-          "status": { "field_shape": true },
-          "subtype": { "field_shape": true }
+          "address_line": {
+            "field_shape": true
+          },
+          "city_state_zip": {
+            "field_shape": true
+          },
+          "mls_number": {
+            "field_shape": true
+          },
+          "status": {
+            "field_shape": true
+          },
+          "subtype": {
+            "field_shape": true
+          }
         },
         "pricing": {
-          "list_price": { "field_shape": true },
-          "original_list_price": { "field_shape": true },
-          "price_changes": [ { "date": "ISO-8601", "from": "number", "to": "number", "mark": "MLS" } ],
-          "dom": { "field_shape": true },
-          "cdom": { "field_shape": true },
-          "price_per_sqft": { "field_shape": true, "mark_must_be": "CALC" }
+          "list_price": {
+            "field_shape": true
+          },
+          "original_list_price": {
+            "field_shape": true
+          },
+          "price_changes": [
+            {
+              "date": "ISO-8601",
+              "from": "number",
+              "to": "number",
+              "mark": "MLS"
+            }
+          ],
+          "dom": {
+            "field_shape": true
+          },
+          "cdom": {
+            "field_shape": true
+          },
+          "price_per_sqft": {
+            "field_shape": true,
+            "mark_must_be": "CALC"
+          }
         },
         "facts_residential": {
-          "beds": { "field_shape": true },
-          "baths": { "field_shape": true },
-          "finished_sqft": { "field_shape": true },
-          "year_built": { "field_shape": true },
-          "garage": { "field_shape": true },
-          "lot": { "field_shape": true },
-          "basement": { "field_shape": true },
-          "taxes": { "field_shape": true },
-          "tax_year": { "field_shape": true },
+          "beds": {
+            "field_shape": true
+          },
+          "baths": {
+            "field_shape": true
+          },
+          "finished_sqft": {
+            "field_shape": true
+          },
+          "year_built": {
+            "field_shape": true
+          },
+          "garage": {
+            "field_shape": true
+          },
+          "lot": {
+            "field_shape": true
+          },
+          "basement": {
+            "field_shape": true
+          },
+          "taxes": {
+            "field_shape": true
+          },
+          "tax_year": {
+            "field_shape": true
+          },
           "note": "OMITTED ENTIRELY when property_type = LAND"
         },
         "facts_land": {
-          "acreage": { "field_shape": true },
-          "lot_dimensions": { "field_shape": true },
-          "zoning": { "field_shape": true },
-          "parcel_id": { "field_shape": true },
-          "legal_description": { "field_shape": true },
-          "topography": { "field_shape": true },
-          "street": { "field_shape": true },
-          "utilities_available": { "field_shape": true },
-          "utilities_connected": { "field_shape": true },
-          "road_access": { "field_shape": true },
-          "survey": { "field_shape": true },
-          "soil_septic": { "field_shape": true },
-          "wetlands_floodplain": { "field_shape": true },
-          "restrictions_covenants": { "field_shape": true },
-          "buildability_notes": { "field_shape": true },
+          "acreage": {
+            "field_shape": true
+          },
+          "lot_dimensions": {
+            "field_shape": true
+          },
+          "zoning": {
+            "field_shape": true
+          },
+          "parcel_id": {
+            "field_shape": true
+          },
+          "legal_description": {
+            "field_shape": true
+          },
+          "topography": {
+            "field_shape": true
+          },
+          "street": {
+            "field_shape": true
+          },
+          "utilities_available": {
+            "field_shape": true
+          },
+          "utilities_connected": {
+            "field_shape": true
+          },
+          "road_access": {
+            "field_shape": true
+          },
+          "survey": {
+            "field_shape": true
+          },
+          "soil_septic": {
+            "field_shape": true
+          },
+          "wetlands_floodplain": {
+            "field_shape": true
+          },
+          "restrictions_covenants": {
+            "field_shape": true
+          },
+          "buildability_notes": {
+            "field_shape": true
+          },
           "note": "Rendered ONLY when property_type = LAND. Unknown is UNKNOWN/VERIFY - never a defect."
         },
         "association": {
-          "fee": { "field_shape": true },
-          "frequency": { "field_shape": true },
-          "includes": { "field_shape": true },
-          "rental_restrictions": { "field_shape": true },
-          "pet_rules": { "field_shape": true },
-          "special_assessments": { "field_shape": true },
-          "exterior_responsibility": { "field_shape": true },
+          "fee": {
+            "field_shape": true
+          },
+          "frequency": {
+            "field_shape": true
+          },
+          "includes": {
+            "field_shape": true
+          },
+          "rental_restrictions": {
+            "field_shape": true
+          },
+          "pet_rules": {
+            "field_shape": true
+          },
+          "special_assessments": {
+            "field_shape": true
+          },
+          "exterior_responsibility": {
+            "field_shape": true
+          },
           "note": "Entire module OMITTED when fee.value is null. No empty HOA box, ever."
         },
         "investment": {
           "buy_box_on_file": "boolean",
-          "estimated_rent": { "field_shape": true },
-          "operating_expenses": { "field_shape": true },
-          "noi": { "field_shape": true, "mark_must_be": "CALC" },
-          "cap_rate": { "field_shape": true, "mark_must_be": "CALC" },
-          "cash_on_cash": { "field_shape": true, "mark_must_be": "CALC" },
-          "assumptions": [ { "label": "string", "value": "string", "mark": "ASSUMPTION" } ],
+          "estimated_rent": {
+            "field_shape": true
+          },
+          "operating_expenses": {
+            "field_shape": true
+          },
+          "noi": {
+            "field_shape": true,
+            "mark_must_be": "CALC"
+          },
+          "cap_rate": {
+            "field_shape": true,
+            "mark_must_be": "CALC"
+          },
+          "cash_on_cash": {
+            "field_shape": true,
+            "mark_must_be": "CALC"
+          },
+          "assumptions": [
+            {
+              "label": "string",
+              "value": "string",
+              "mark": "ASSUMPTION"
+            }
+          ],
           "note": "Module OMITTED when buy_box_on_file is false. Any CALC metric REQUIRES a populated assumptions[] printed on the same page. A metric without printed assumptions must not render."
         },
         "standouts": [
-          { "headline": "string", "body": "string - grounded in a marked fact above", "mark": "MLS | PUB | REP | OBS" }
+          {
+            "headline": "string",
+            "body": "string - grounded in a marked fact above",
+            "mark": "MLS | PUB | REP | OBS"
+          }
         ],
         "fit": [
-          { "priority_label": "string", "verdict": "STRONG | POTENTIAL | TRADEOFF | UNKNOWN", "reason": "string", "mark": "OBS" }
+          {
+            "priority_label": "string",
+            "verdict": "STRONG | POTENTIAL | TRADEOFF | UNKNOWN",
+            "reason": "string",
+            "mark": "OBS"
+          }
         ],
         "watch_verify": [
-          { "item": "string", "detail": "string", "mark": "OBS | VER", "when": "AT_SHOWING | AFTER_SHOWING | BEFORE_OFFER" }
+          {
+            "item": "string",
+            "detail": "string",
+            "mark": "OBS | VER",
+            "when": "AT_SHOWING | AFTER_SHOWING | BEFORE_OFFER"
+          }
         ],
         "market": {
           "comps": [
-            { "address": "string", "city": "string", "status": "string", "sale_price": "number|null",
-              "sale_date": "ISO-8601|null", "beds": "number|null", "baths": "number|null",
-              "sqft": "number|null", "lot": "string|null", "why_relevant": "string", "material_difference": "string", "mark": "MLS" }
+            {
+              "address": "string",
+              "city": "string",
+              "status": "string",
+              "sale_price": "number|null",
+              "sale_date": "ISO-8601|null",
+              "beds": "number|null",
+              "baths": "number|null",
+              "sqft": "number|null",
+              "lot": "string|null",
+              "why_relevant": "string",
+              "material_difference": "string",
+              "mark": "MLS"
+            }
           ],
-          "observed_range": { "field_shape": true },
-          "interpretation": { "field_shape": true, "mark_must_be": "OBS" },
+          "observed_range": {
+            "field_shape": true
+          },
+          "interpretation": {
+            "field_shape": true,
+            "mark_must_be": "OBS"
+          },
           "comp_set_weak": "boolean - true renders the FULL CMA RECOMMENDED line",
           "note": "comps[] empty => the whole section collapses to the pending line. NEVER fabricate a comp."
         },
-        "photos": [ { "role": "HERO | SUPPORT", "asset_ref": "string", "permitted_for_client_use": "boolean" } ],
-        "agent_only": [ { "item": "string", "mark": "AGENT_ONLY" } ]
+        "agent_only": [
+          {
+            "item": "string",
+            "mark": "AGENT_ONLY"
+          }
+        ],
+        "images": {
+          "handoff_status": "COMPLETE | PARTIAL | BLOCKED - carried verbatim from the research packet's IMAGE HANDOFF block (SOP 02 v1.13 \u00a718)",
+          "client_publishable": "YES | NO | VERIFY",
+          "assets": [
+            {
+              "role": "HERO | SUPPORT | FLOORPLAN",
+              "filename": "deterministic name, e.g. 01-hero-exterior, 02-kitchen, floorplan-01",
+              "data": "actual image asset - data URI or file reference. REQUIRED for the asset to render.",
+              "source_photo_number": "MLS gallery number | null",
+              "mark": "MLS | MANUAL",
+              "permitted_for_client_use": "boolean"
+            }
+          ],
+          "source_photo_numbers": [
+            "fallback-only: gallery numbers returned when no asset was transferred"
+          ],
+          "manual_retrieval_step": "string | null - the exact step the operator returned when handoff_status is BLOCKED",
+          "image_limitations": [
+            "string - carried verbatim"
+          ],
+          "note": "SOP 02 v1.13: actual usable listing imagery is the NORMAL required handoff for client Snapshot production when technically available and permitted. Photo-number-only references are a FALLBACK and MUST NOT be recorded as COMPLETE. An asset with no `data` is a reference, not an image, and cannot render. Manual supply by Blaise is a first-class path: the asset marks MANUAL and renders normally."
+        }
       }
     ],
-
     "scorecard": {
-      "fields": ["first_impression", "layout", "condition", "location", "value", "fit_for_goals"],
+      "fields": [
+        "first_impression",
+        "layout",
+        "condition",
+        "location",
+        "value",
+        "fit_for_goals"
+      ],
       "scale": "1-5",
-      "write_in": ["liked_most", "biggest_concern", "questions"],
+      "write_in": [
+        "liked_most",
+        "biggest_concern",
+        "questions"
+      ],
       "pursue": "YES | MAYBE | NO",
       "ranking": "string - '#__ of __ toured'",
       "note": "Always rendered blank. This is the buyer's page, not Claude's."
     },
-
     "next_steps": {
-      "items": ["string"],
+      "items": [
+        "string"
+      ],
       "default": [
         "Review verified market and value context",
         "Discuss financing and monthly payment",
@@ -179,10 +363,9 @@
       ],
       "note": "No pressure language. Offer preparation is buyer-directed and gated by SOP 04 / SOP 10 / SOP 11."
     },
-
     "attribution": {
       "prepared_for": "buyer.display_name",
-      "presented_by": "Blaise Smith, REALTOR®",
+      "presented_by": "Blaise Smith, REALTOR\u00ae",
       "team": "Buy Sell Home Team",
       "brokerage": "RE/MAX Results",
       "headshot_file_id": "1VmUojFEXSauNDt91TryoO8o5QWzRBN-P",

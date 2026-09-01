@@ -281,3 +281,34 @@ headshot designation).
 **Not done.** No canonical Drive document was modified — Claude Code still cannot edit Doc bodies
 (IF-013), and the Google Docs connector is mid-activation. No master was overwritten. No competing
 master was created.
+
+## 2026-09-01 — SOP 02 v1.13 reconciliation + first live pilot packet
+
+**Reconciled to v1.13** (retrieved fresh by fileId; §18 now requires an actual image handoff).
+
+- `snapshot-schema.json` → 1.1.0. `photos[]` replaced by an `images` object carrying
+  `handoff_status`, `client_publishable`, real `assets[]` with `data`, fallback
+  `source_photo_numbers[]`, and `manual_retrieval_step`. New `MANUAL` provenance mark for
+  operator-supplied imagery. An asset without `data` is a reference, not an image, and cannot render.
+- `MATRIX-PROPERTY-RESEARCH-HANDOFF.md` → §3A image handoff, `IMAGE HANDOFF` added to the packet
+  section order, ingestion table, and the manual fallback as a first-class path.
+- `SKILL.md` → §3A images, build-order step 5, two QC lines.
+- `SNAPSHOT-SPEC.md` → §5A images, conditional rows, QC lines.
+- Registry pinned to **v1.13**.
+
+**Not discarded.** The v1.12-era architecture, schema shape, source rail, conditional modes and
+design system all survived the version change unchanged. Only the image contract moved.
+
+**Tests.** T-38 (asset vs reference; COMPLETE cannot be claimed from photo numbers), T-39 (v1.13 is
+the pin, no stale v1.12 citation survives), T-40 (agent-only and unsupported facts cannot render).
+40/40 passing.
+
+**Renderer.** Print QC was run for real, not asserted: Chromium rendered the packet to PDF and every
+page was inspected. Three defects were found and fixed — a four-inch dead zone on the cover when no
+photo is loaded, sheets overflowing to a 5-page print, and a mobile horizontal overflow from the new
+detail grid. Final output is 4 Letter pages in both the no-photo and with-photo states, with no
+horizontal overflow at 390px.
+
+**Client packet deliberately NOT committed.** The pilot packet for the September 2 showing is a
+client record. CLAUDE.md §1: this repository is not a client record store. It lives as an artifact
+and in the session scratchpad only.

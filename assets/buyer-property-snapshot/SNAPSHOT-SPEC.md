@@ -3,7 +3,7 @@
 **Status:** proposed for canonical adoption as **Buyer Property Tour & Value Guide v2.0**.
 **Canonical target:** `18OIKz5AqJrRYG0g54vhqRFNbzPV-y_oJhpT1zj_ANQU` — do not overwrite; see CGQ-013.
 **Rendered master:** https://claude.ai/code/artifact/092863e8-d403-49ce-88fb-d9ac7576721b
-**Controlling SOP:** SOP 02 v1.12 §15 (production quality), §18 (research handoff), §19 (naming),
+**Controlling SOP:** SOP 02 v1.13 §15 (production quality), §18 (research handoff + actual photo handoff), §19 (naming),
 §20 (QC gate).
 
 ---
@@ -24,7 +24,7 @@ model and one design system, and routes adoption through **CGQ-013** rather than
 competing master.
 
 The 10-page PDF master supplies the design DNA that survives: the stat band, the side-by-side
-comparison, the decision page, the advisor close. What it lacks — and what SOP 02 v1.12 now
+comparison, the decision page, the advisor close. What it lacks — and what SOP 02 v1.13 now
 requires — is the fact-classification discipline of §18, the conditional modes, and a page count
 that fits §15's 3–5 page target for one or two properties.
 
@@ -120,7 +120,8 @@ hairline beneath it. Single measure near 65 characters. The scorecard uses real 
 | `buy_box_on_file` false | Investment module omitted. |
 | `comps[]` empty | Market collapses to one line. No empty CMA. |
 | `mode = SINGLE` | No tour cover, route, or comparison. |
-| No permitted photography | Hero frame omitted; address block expands. |
+| No image **asset** present | Hero frame omitted; address block expands. A photo number is not a photo. |
+| `client_publishable: NO` | Image held internally, never rendered. |
 | `priorities[]` empty | Fit rows read "Tell me today". |
 | Any `CALC` metric | Assumptions print on the same page, or the metric does not render. |
 
@@ -128,6 +129,22 @@ The output should feel built for that buyer and that property even though the sy
 A section that would print empty does not print.
 
 ---
+
+## 5A. Images
+
+SOP 02 v1.13 makes actual listing imagery the normal required handoff. The design treats images as
+assets with provenance, never as decoration.
+
+- **Hero** — one strong exterior, full content width at 2.35in. Renders only when a real asset
+  exists; otherwise the frame is removed and the address block expands to fill. A client PDF never
+  shows an empty or placeholder frame.
+- **Supporting** — up to three, in a row beneath the standouts, each earning its place by showing
+  something the text claims. Marketing fluff is dropped.
+- **Floor plans** — useful during a walkthrough; placed with the watch-and-verify list.
+- **Provenance** — an operator-transferred image marks `MLS`; one Blaise supplies marks `MANUAL`.
+  Both render identically. The distinction is recorded, not displayed to the buyer.
+- **Manual ingestion** — the rendered page carries a screen-only photo control (hidden in print) so
+  images can be dropped in at print time without a rebuild. Files never leave the browser.
 
 ## 6. Rendering targets
 
@@ -158,5 +175,7 @@ Render to PDF and inspect every page.
 - [ ] No empty section, orphan heading, split table, clipped text, or tiny type
 - [ ] Write-space is genuinely writable at print size
 - [ ] Reconstructed MLS content labeled "Not Native Matrix Export"
+- [ ] Image handoff status recorded truthfully; photo numbers alone never called COMPLETE
+- [ ] Every rendered image is an actual asset, permitted for client use
 - [ ] Master not overwritten
 - [ ] **Blaise would hand this exact PDF to a serious buyer in person**

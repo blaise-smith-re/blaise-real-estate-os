@@ -601,6 +601,62 @@ check('T-37', 'buyer snapshot: zero writes, and buyer priorities are never inven
   return 'zero writes declared; priorities never inferred';
 });
 
+check('T-38', 'v1.13: image handoff is an asset transfer, and photo numbers are never COMPLETE', () => {
+  const j = JSON.parse(read('assets/buyer-property-snapshot/snapshot-schema.json'));
+  const img = j.object.properties[0].images;
+  assert(img, 'schema has no images block');
+  assert(/COMPLETE \| PARTIAL \| BLOCKED/.test(img.handoff_status), 'handoff_status states are not modeled');
+  assert(/MUST NOT be recorded as COMPLETE/i.test(img.note),
+    'schema does not forbid recording photo-number-only handoff as COMPLETE');
+  assert(/An asset with no `data` is a reference, not an image/i.test(img.note),
+    'schema does not distinguish an asset from a reference');
+  assert(j.provenance_marks.MANUAL, 'MANUAL provenance mark for operator-supplied images is missing');
+  assert(/photo NUMBER is not an image/i.test(j.render_rules.images),
+    'render rule does not reject photo numbers as images');
+  assert(/frame is omitted/i.test(j.render_rules.images), 'empty hero frame is not prohibited');
+
+  const handoff = read('docs/MATRIX-PROPERTY-RESEARCH-HANDOFF.md');
+  assert(/IMAGE HANDOFF/.test(handoff), 'handoff doc missing the IMAGE HANDOFF block');
+  assert(/never `COMPLETE`|never .COMPLETE./.test(handoff), 'handoff doc allows a false COMPLETE');
+  assert(/manual_retrieval_step|manual retrieval step/i.test(handoff), 'BLOCKED fallback step not required');
+  assert(/first-class path/i.test(handoff), 'manual supply is not established as a supported path');
+
+  const skill = read('.claude/skills/buyer-property-snapshot/SKILL.md');
+  assert(/v1\.13/.test(skill), 'skill does not pin v1.13');
+  assert(/Photo numbers, filenames or\s*\n?\s*descriptions alone are `PARTIAL` or `BLOCKED`/.test(skill),
+    'skill does not state the fallback classification');
+  assert(/never called COMPLETE|not called COMPLETE/i.test(skill), 'QC gate lacks the image-handoff honesty check');
+  return 'assets vs references separated; COMPLETE cannot be claimed from photo numbers';
+});
+
+check('T-39', 'v1.13 is the controlling pin and no stale version survives', () => {
+  const reg = JSON.parse(read('governance/source-registry.json'));
+  const sop = reg.sources.find(s => s.key === 'sop_02_buyer_search_showing_value');
+  assert(sop.version_pin === '1.13', `registry pins SOP 02 at ${sop.version_pin}, expected 1.13`);
+  assert(/ACTUAL PHOTO HANDOFF|IMAGE HANDOFF/.test(sop.verify), 'registry verify note omits the v1.13 change');
+  for (const f of ['assets/buyer-property-snapshot/SNAPSHOT-SPEC.md',
+                   'docs/MATRIX-PROPERTY-RESEARCH-HANDOFF.md',
+                   '.claude/skills/buyer-property-snapshot/SKILL.md']) {
+    assert(!/SOP 02 v1\.12/.test(read(f)), `${f} still cites SOP 02 v1.12 as controlling`);
+  }
+  return 'SOP 02 pinned at v1.13 across registry, spec, handoff and skill';
+});
+
+check('T-40', 'client render cannot leak agent-only content or unsupported facts', () => {
+  const j = JSON.parse(read('assets/buyer-property-snapshot/snapshot-schema.json'));
+  assert(/MUST NOT RENDER/.test(j.provenance_marks.AGENT_ONLY), 'AGENT_ONLY is not render-blocked');
+  assert(/fail closed/i.test(j.render_rules.mark_AGENT_ONLY), 'AGENT_ONLY does not fail closed');
+  assert(/[Nn]ever (phrased )?as a defect/.test(j.render_rules.mark_VER),
+    'unverified items are not protected from reading as defects');
+  const handoff = read('docs/MATRIX-PROPERTY-RESEARCH-HANDOFF.md');
+  assert(/No promotion/.test(handoff), 'class promotion is not forbidden');
+  assert(/Agent-only fails closed/i.test(handoff), 'agent-only ingestion does not fail closed');
+  const skill = read('.claude/skills/buyer-property-snapshot/SKILL.md');
+  assert(/hard-blocked from every client render|hard-blocked/i.test(skill),
+    'skill does not hard-block agent-only content');
+  return 'agent-only blocked at schema, ingestion and skill; no promotion path exists';
+});
+
 // ---------------------------------------------------------------- output
 
 const width = 62;
