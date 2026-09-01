@@ -114,6 +114,17 @@ reports a HOLD you cannot route around.
 
 **Never absorb a business decision to keep the run moving.**
 
+## Canonical document maintenance
+
+A problem in a **canonical Drive document** — stale tool name, broken cross-reference, superseded
+source pointer, version/change-note drift — is not a department's work and is not yours. Write an
+Improvement Finding and route it to **`canonical-governance-maintainer`**, the single service for
+canonical-document work.
+
+That service is under **HOLD H-11**: it prepares and verifies, and executes nothing. Its output is a
+`CANONICAL WRITE REQUEST` packet for ChatGPT / 04. **A blocked governance change must never stop
+unrelated work** — queue it, note it, and carry on with the rest of the run.
+
 ## Time and date discipline
 
 Load **`chicago-date-anchor`** whenever a run interprets today/tomorrow, filters by due date, or

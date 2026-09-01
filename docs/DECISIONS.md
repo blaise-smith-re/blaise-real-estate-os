@@ -337,3 +337,40 @@ compliance or consent exposure. Surfacing leads with the action, not the finding
 `notext` tag, which needs a question only Blaise can put to Brent — and logs the other two quietly.
 **A run that surfaces nothing is the normal case.** Never suppress a material finding to keep output
 tidy; never pad output with routine ones. Enforced by T-33.
+
+## D-024 — One service owns canonical Drive writes, and it is held
+**Date** 2026-09-01 · **Status** ACCEPTED
+
+**Context.** `blaise-drive-mcp` makes it technically possible to edit a canonical Google Doc body
+from here. The obvious next step — give the departments Drive write tools — is the wrong one.
+
+**Decision.** Exactly one service, `canonical-governance-maintainer`, may ever hold those tools. It
+is not a department: no client work, no business judgment, no client-facing output. Today it holds
+**none** of them and runs in prepare-and-verify mode, emitting a `CANONICAL WRITE REQUEST` packet to
+ChatGPT / 04. Departments route canonical-document findings to it, exactly as they route FUB writes
+to `lead-conversion-crm`.
+
+**Consequence.** The blast radius of a future Drive write grant is one service definition, not eight.
+T-35 enforces structurally that no department holds a `mcp__Blaise_Drive__` tool and that the service
+holds no write tool at all. HOLD H-11 is unchanged — **the capability exists; the authority does
+not**, and building the capability is not an argument for granting the authority.
+
+**Lesson.** The moment a capability becomes possible is the moment to decide who may not have it.
+
+## D-025 — Certify the connector's logic; refuse to certify Google's behavior
+**Date** 2026-09-01 · **Status** ACCEPTED
+
+**Context.** With no OAuth credential, every test runs against a fake. It would be easy — and wrong —
+to report "50/50 passing" as if the connector were proven.
+
+**Decision.** Split the guarantees explicitly. Properties enforced by local code paths (writes fail
+closed, destructive operations refused, secrets redacted, archive precedes edit, idempotent re-runs,
+document content is inert) are **certified**. Properties that depend on Google honoring its
+documented contract (`requiredRevisionId` preconditions, all-or-nothing batches, copy/rename/move
+semantics) are **assumed and labeled as such** in `docs/CERTIFICATION.md`.
+
+**Consequence.** The certification document is useful rather than decorative: it says precisely which
+rows need a live rehearsal before anyone touches a real canonical document. Testing your logic
+against your own model of the world proves your logic, not your program — which is why the protocol
+suite spawns the real server, and why it found three bugs the fake could not.
+

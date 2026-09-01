@@ -20,6 +20,11 @@
     "Google_Calendar": {
       "tool_prefix": "mcp__Google_Calendar__",
       "class": "READ (all writes denied)"
+    },
+    "Blaise_Drive": {
+      "tool_prefix": "mcp__Blaise_Drive__",
+      "class": "NOT REGISTERED \u2014 capability built (blaise-drive-mcp), no live certification, HOLD H-11",
+      "note": "Google Drive + Docs adapter for canonical document maintenance. 4 read tools, 4 write tools. Writes fail closed (BLAISE_DRIVE_MODE=read-only default). No agent holds any of its tools today."
     }
   },
   "agents": {
@@ -88,6 +93,15 @@
         "Google_Calendar"
       ],
       "note": "Reads across FUB, Drive and Calendar for objective and target resolution before delegating."
+    },
+    "canonical-governance-maintainer": {
+      "required": [
+        "Google_Drive"
+      ],
+      "optional": [
+        "Blaise_Drive"
+      ],
+      "note": "Prepare-and-verify service for canonical Drive documents. Google_Drive read is required to resolve and verify targets. Blaise_Drive is optional and NOT registered \u2014 under HOLD H-11 this service emits a CANONICAL WRITE REQUEST packet and executes nothing."
     }
   },
   "certification_runs": {

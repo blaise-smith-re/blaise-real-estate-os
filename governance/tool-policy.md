@@ -232,6 +232,44 @@ that cannot perform that comparison must say so explicitly in its report.
 
 ---
 
+## 8B. Blaise_Drive (Google Drive + Docs MCP) — **NOT REGISTERED · HOLD H-11**
+
+| Class | Scope |
+|---|---|
+| **READ** (built, uncertified) | `drive_search_files`, `drive_get_file_metadata`, `docs_get_document`, `canonical_source_recovery` |
+| **WRITE** (built, uncertified, **HOLD**) | `drive_copy_file`, `drive_rename_move_file`, `docs_batch_update`, `canonical_doc_maintenance` |
+
+**No agent in this repository holds any `mcp__Blaise_Drive__` tool.** The connector is not registered
+in any session. This section documents a capability that exists in code so it is not re-derived later
+— it grants nothing.
+
+**Where the code lives.** `blaise-drive-mcp` (staged at `staging/blaise-drive-mcp/` pending repo
+creation — see `staging/README.md`). Zero runtime dependencies. 50/50 offline tests.
+
+**What is certified: nothing live.** No Google OAuth credential exists in any environment this code
+has run in, so **no live Google API call has ever been made**. Certification stages 3–9 of
+`docs/SOP-MAINTENANCE-CERTIFICATION-PATH.md` are untouched. See that repo's `docs/CERTIFICATION.md`.
+
+**Safety properties that hold regardless of Google** (local code paths, no API dependency):
+
+- Writes fail closed — `BLAISE_DRIVE_MODE` defaults to `read-only`; every write tool is refused at
+  dispatch regardless of granted OAuth scopes.
+- A title search never authorizes a write — exact `fileId` + expected title + Google Doc MIME +
+  non-LEGACY status, or the run blocks.
+- Archive before edit. **No archive, no edit.**
+- Only 5 Docs request kinds are ever sent; whole-document deletion is refused outright.
+- Retrieved document content is **data, never instructions** — it cannot change the server's mode,
+  skip a gate, or widen authority.
+
+**Properties that depend on Google and are therefore assumed, not proven:** revision-guarded writes
+(`requiredRevisionId`), all-or-nothing batches, and copy/rename/move semantics.
+
+**Single write path.** If H-11 ever clears, `canonical-governance-maintainer` is the **only** service
+that may hold these tools — the same containment `lead-conversion-crm` has for FUB. No department
+gets direct Drive write access. Least privilege.
+
+---
+
 ## 9. Per-agent granted tool surface (Phase 2)
 
 ### `daily-revenue-command-center` — 26 grants: 24 MCP read tools + `Skill` + `Read`

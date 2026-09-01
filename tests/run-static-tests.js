@@ -614,6 +614,72 @@ check('T-34', 'agent source pins are present and match the registry exactly', ()
   return `${pinned} pins across ${AGENTS.length} agents, all matching the registry`;
 });
 
+check('T-35', 'canonical-governance-maintainer is a gated, write-less service', () => {
+  const file = '.claude/agents/canonical-governance-maintainer.md';
+  assert(fs.existsSync(path.join(ROOT, file)), 'maintainer service definition missing');
+  const md = read(file);
+  const tools = frontmatter(md).tools.split(',').map(t => t.trim());
+
+  // It is a service, not a department: it must NOT appear in the department roster.
+  assert(!AGENTS.includes('canonical-governance-maintainer'),
+    'the maintainer is a service and must not be listed as a department');
+
+  // Zero write tools of any connector, and specifically no Drive write surface.
+  const forbidden = tools.filter(t =>
+    FUB_WRITE_TOOLS.includes(t) || OTHER_WRITE_TOOLS.includes(t) || SCHEDULING_TOOLS.includes(t)
+    || /^mcp__Blaise_Drive__(drive_copy_file|drive_rename_move_file|docs_batch_update|canonical_doc_maintenance)$/.test(t));
+  assert(forbidden.length === 0, `maintainer grants write tool(s): ${forbidden.join(', ')}`);
+  assert(!tools.some(t => t.startsWith('mcp__Blaise_Drive__')),
+    'Blaise_Drive is not registered — the maintainer must hold none of its tools');
+
+  // The hold must be stated, not implied.
+  for (const phrase of ['H-11', 'HOLD', 'MINOR MAINTENANCE']) {
+    assert(md.includes(phrase), `maintainer does not state "${phrase}"`);
+  }
+  assert(/WRITES ATTEMPTED\s+NONE|zero\s+writes/i.test(md), 'maintainer does not assert zero writes');
+  assert(/archive[\s-]+before[\s-]+edit/i.test(md), 'maintainer does not state archive-before-edit');
+  assert(/data,\s+never\s+instructions/i.test(md), 'maintainer does not treat document content as data');
+  assert(/classify\s+upward/i.test(md), 'maintainer does not carry the classify-upward rule');
+
+  // No department may hold a Drive write tool either — one path, least privilege.
+  for (const a of AGENTS) {
+    const t = frontmatter(read(`.claude/agents/${a}.md`)).tools;
+    assert(!/mcp__Blaise_Drive__/.test(t), `department "${a}" must not hold Blaise_Drive tools`);
+  }
+
+  // The manifest and policy must agree that the connector is unregistered.
+  const manifest = json('governance/required-connectors.json');
+  assert(manifest.connectors.Blaise_Drive, 'Blaise_Drive missing from the connector manifest');
+  assert(/NOT REGISTERED/i.test(manifest.connectors.Blaise_Drive.class),
+    'manifest does not record Blaise_Drive as unregistered');
+  assert(manifest.agents['canonical-governance-maintainer'], 'maintainer missing from the manifest');
+  const policy = read('governance/tool-policy.md');
+  assert(/Blaise_Drive/.test(policy) && /HOLD H-11/.test(policy),
+    'tool-policy does not document Blaise_Drive under H-11');
+  return 'maintainer is prepare-only; zero Drive write tools anywhere; H-11 stated in agent, manifest and policy';
+});
+
+check('T-36', 'staged work is quarantined and not part of the OS', () => {
+  // staging/ exists only to survive an ephemeral container. Nothing there may be wired in.
+  if (!fs.existsSync(path.join(ROOT, 'staging'))) return 'no staging directory (already extracted)';
+  const readme = read('staging/README.md');
+  assert(/NOT part of the Real Estate OS/i.test(readme), 'staging README does not disclaim membership');
+  assert(/preservation measure, not an architectural decision/i.test(readme),
+    'staging README does not state why it is here');
+  // No agent, skill or governance file may reference staged code as a dependency.
+  for (const dir of ['.claude/agents', '.claude/skills', 'governance']) {
+    const walk = (d) => fs.readdirSync(path.join(ROOT, d), { withFileTypes: true }).flatMap(e =>
+      e.isDirectory() ? walk(path.join(d, e.name)) : [path.join(d, e.name)]);
+    for (const f of walk(dir)) {
+      if (!/\.(md|json)$/.test(f)) continue;
+      const body = read(f);
+      const requires = body.match(/(require|import)\s*\(?['"`][^'"`]*staging\//);
+      assert(!requires, `${f} imports from staging/`);
+    }
+  }
+  return 'staging/ disclaimed and imported by nothing';
+});
+
 // ---------------------------------------------------------------- output
 
 const width = 62;

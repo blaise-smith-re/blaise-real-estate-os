@@ -33,6 +33,14 @@ documents.
 For any Drive-side issue, produce the **exact proposed patch** below and route it. Never let
 implementation and canonical operating instructions silently diverge.
 
+**Canonical-document findings have a preparation path — `canonical-governance-maintainer`.** A
+finding whose target is a canonical Drive document may be routed to that service to be verified and
+turned into an exact, machine-checked `CANONICAL WRITE REQUEST` packet. The service is under **HOLD
+H-11**: it resolves the target by `fileId`, confirms title/MIME/version/uniqueness, and emits the
+packet — **it executes nothing**. The destination is unchanged: ChatGPT / 04. What changes is that
+the diff is verified against the live document rather than hand-written. Routing a finding there is
+optional and never a substitute for classification.
+
 **Authority clarification — Blaise, 2026-09-01.** *Repo-native agent and tool configuration is Claude
 Code's responsibility.* A finding confined to this repository — agent definitions, `tools:` grants,
 skills, `.claude/settings.json`, tests, engineering docs — is **applied directly here**, with a

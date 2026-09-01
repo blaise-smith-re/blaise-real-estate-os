@@ -6,6 +6,39 @@ Improvement Findings.
 
 ---
 
+## [Integration] — 2026-09-01 — canonical-governance-maintainer service
+
+Wired the connector into the OS as a **held, single-path service** rather than a capability handed to
+every department.
+
+- **`canonical-governance-maintainer`** — a service, not a department. Accepts an Improvement Finding
+  with an exact target and diff; resolves by `fileId`, verifies title/MIME/version/uniqueness, and
+  emits a `CANONICAL WRITE REQUEST` packet. Under **HOLD H-11 it executes nothing** and holds zero
+  write tools of any connector.
+- **Routing** — `chief-of-staff` and `improvement-findings.md` now name it as the preparation path
+  for canonical-document findings, with the explicit rule that **a blocked governance change must
+  never stop unrelated work**.
+- **`governance/required-connectors.json`** — `Blaise_Drive` registered as `NOT REGISTERED`, the
+  service declared with `Google_Drive` required and `Blaise_Drive` optional.
+- **`governance/tool-policy.md` §8B** — documents the connector's tool surface and separates the
+  safety properties that hold regardless of Google from the three that depend on it.
+
+### Tests — 52/52 in this repo, 102/102 across both
+New **T-35**: the maintainer is a service (not in the department roster), holds no write tool, holds
+no `mcp__Blaise_Drive__` tool, and states H-11, MINOR-MAINTENANCE-only, classify-upward,
+archive-before-edit and content-is-data. It also asserts **no department** holds a Drive write tool.
+New **T-36**: `staging/` is disclaimed and imported by nothing.
+
+Four T-35 assertions initially failed because the phrases they matched are hard-wrapped across
+newlines in the governance files — the regexes are now whitespace-tolerant rather than the documents
+being reflowed to suit the test.
+
+### Decisions
+`D-024` (one held service owns canonical Drive writes) · `D-025` (certify the connector's logic,
+refuse to certify Google's behavior).
+
+---
+
 ## [Build] — 2026-09-01 — Google Drive + Docs MCP connector (staged)
 
 Built `blaise-drive-mcp`: a zero-dependency MCP connector so canonical Google Doc **bodies** can be
