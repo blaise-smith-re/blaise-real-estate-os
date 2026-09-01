@@ -6,6 +6,43 @@ Improvement Findings.
 
 ---
 
+## [Build] — 2026-09-01 — Google Drive + Docs MCP connector (staged)
+
+Built `blaise-drive-mcp`: a zero-dependency MCP connector so canonical Google Doc **bodies** can be
+edited safely and verifiably, instead of every document-body change being couriered back through
+ChatGPT / 04 as a proposed diff.
+
+**Intended as its own repository** — this repo stays the orchestration layer. Creating
+`blaise-smith-re/blaise-drive-mcp` failed with `403 Resource not accessible by integration`: the
+GitHub App in this session cannot create repositories. The tree is therefore staged under
+`staging/blaise-drive-mcp/` **purely to survive the ephemeral container**, with `staging/README.md`
+carrying the extraction steps. That is a preservation measure, not an architecture change.
+
+### What it does
+8 tools (4 read, 4 write, gated centrally and failing closed). Revision-guarded body edits with a
+**mandatory** `requiredRevisionId` — there is no unguarded write path. `canonical_doc_maintenance`
+runs the 21-step sequence: exact-target resolution, MIME check, LEGACY rejection, version check,
+pre-write uniqueness, idempotency, **archive before edit**, in-place patch, independent read-back,
+content/version/link verification, and exactly-one-current-canonical. `canonical_source_recovery`
+implements the IF-014 model — holds the write on a stale pin, nominates by exact title with
+evidence, never auto-follows.
+
+### Tests — 50/50 in the connector, 100/100 across both repos
+`adversarial` 40/40 (all 35 required scenarios) against a faithful in-memory fake of the Drive/Docs
+REST surface · `protocol` 10/10 driving the real server over stdio.
+
+Six defects were found by the suites and fixed. Three were live-protocol bugs the fake could never
+have surfaced: **no request timeout anywhere** (a stalled connection hung the tool call forever),
+**parse errors silently swallowed**, and **responses lost when stdin closed mid-call**.
+
+### Honest status
+**Not live-certified.** No Google OAuth credential exists in this environment, so **no live API call
+has ever been made from this code**. Certification stages 3–9 are blocked on that one step.
+**HOLD H-11 remains in force** — the capability exists; the authority does not.
+`staging/blaise-drive-mcp/docs/CERTIFICATION.md` states exactly what is and is not proven.
+
+---
+
 ## [Regression + remediation] — 2026-09-01 — IF-018 fixed properly; root cause found
 
 Live regression against the same target (Caitlin Nakache, person 18524, event
