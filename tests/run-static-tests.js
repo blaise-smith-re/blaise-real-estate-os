@@ -490,6 +490,117 @@ check('T-30', 'handoff integrity: every non-CRM department routes FUB writes to 
   return 'CRM write routing present in every specialist department; parallel systems only ever forbidden';
 });
 
+check('T-31', 'buyer snapshot: schema requires a provenance mark on every fact', () => {
+  const raw = read('assets/buyer-property-snapshot/snapshot-schema.json');
+  const j = JSON.parse(raw);
+  const marks = j.provenance_marks;
+  for (const m of ['MLS', 'PUB', 'REP', 'CALC', 'VER', 'OBS', 'BUYER', 'AGENT_ONLY']) {
+    assert(marks[m], `provenance mark "${m}" not defined`);
+  }
+  assert(/never a bare scalar/i.test(j.field_shape.note),
+    'field_shape does not forbid bare scalar facts');
+  assert(j.render_rules.mark_AGENT_ONLY && /fail closed/i.test(j.render_rules.mark_AGENT_ONLY),
+    'AGENT_ONLY render rule does not fail closed');
+  assert(/OMITTED/.test(j.render_rules.null_value) && !/N\/A/.test(j.render_rules.null_value.replace('N/A.', '')),
+    'null values are not specified as omitted');
+  return `${Object.keys(marks).length} marks defined; agent-only fails closed`;
+});
+
+check('T-32', 'buyer snapshot: conditional modes remove sections rather than emptying them', () => {
+  const j = JSON.parse(read('assets/buyer-property-snapshot/snapshot-schema.json'));
+  const o = j.object.properties[0];
+  assert(/OMITTED ENTIRELY when property_type = LAND/.test(o.facts_residential.note),
+    'land mode does not drop residential facts');
+  assert(/OMITTED when fee\.value is null/.test(o.association.note),
+    'association module does not drop when no fee');
+  assert(/OMITTED when buy_box_on_file is false/.test(o.investment.note),
+    'investment module does not drop without a buy box');
+  assert(/REQUIRES a populated assumptions/.test(o.investment.note),
+    'calculated investor metrics do not require printed assumptions');
+  assert(/NEVER fabricate a comp/i.test(o.market.note), 'comp fabrication not prohibited');
+  const spec = read('assets/buyer-property-snapshot/SNAPSHOT-SPEC.md');
+  for (const cond of ['LAND', 'association.fee', 'buy_box_on_file', 'comps[]', 'priorities[]']) {
+    assert(spec.includes(cond), `spec does not document conditional "${cond}"`);
+  }
+  return 'land, HOA, investor, comps and priorities all documented as removals';
+});
+
+check('T-33', 'buyer snapshot: MLS facts route through the Chrome operator, never a connector', () => {
+  const skill = read('.claude/skills/buyer-property-snapshot/SKILL.md');
+  assert(/no browser lane|not reachable from this repository/i.test(skill),
+    'skill does not state that MLS is unreachable here');
+  assert(/chrome-operator-handoff/.test(skill), 'skill does not use the Chrome operator handoff');
+  const conn = JSON.parse(read('governance/required-connectors.json'));
+  const entry = conn.agents['buyer-property-snapshot'];
+  assert(entry, 'no connector manifest entry for buyer-property-snapshot');
+  assert(!entry.required.some(c => /MLS|Matrix|Northstar/i.test(c)),
+    'MLS declared as a connector lane');
+  assert(/Chrome-operator handoff/i.test(entry.note), 'connector note does not name the handoff lane');
+  const handoff = read('docs/MATRIX-PROPERTY-RESEARCH-HANDOFF.md');
+  assert(/SOP 02 §18/.test(handoff), 'handoff does not cite the canonical operator prompt');
+  assert(/Do not compose a different prompt/i.test(handoff),
+    'handoff permits composing a competing operator prompt');
+  return 'MLS is a handoff lane; operator prompt deferred to SOP 02 §18';
+});
+
+check('T-34', 'buyer snapshot: no promotion of listing-reported facts to verified', () => {
+  const handoff = read('docs/MATRIX-PROPERTY-RESEARCH-HANDOFF.md');
+  assert(/No promotion/i.test(handoff), 'ingestion rules do not forbid class promotion');
+  assert(/is not "roof replaced in 2024"|not "roof replaced/i.test(handoff),
+    'the concrete promotion example is missing');
+  assert(/AVAILABLE — NOT REVIEWED. is not .REVIEWED|NOT REVIEWED/i.test(handoff),
+    'disclosure review status rule missing');
+  assert(/COMP SET WEAK/.test(handoff), 'weak comp set handling missing');
+  return 'promotion, disclosure status and weak-comp rules all present';
+});
+
+check('T-35', 'buyer snapshot: canonical master is improved, never overwritten or competed with', () => {
+  const skill = read('.claude/skills/buyer-property-snapshot/SKILL.md');
+  assert(/[Nn]ever overwrite/.test(skill), 'skill does not forbid overwriting the master');
+  assert(/18OIKz5AqJrRYG0g54vhqRFNbzPV-y_oJhpT1zj_ANQU/.test(skill),
+    'skill does not pin the canonical master by fileId');
+  const reg = JSON.parse(read('governance/source-registry.json'));
+  const keys = reg.sources.map(s => s.key);
+  for (const k of ['sop_02_buyer_search_showing_value', 'master_buyer_tour_value_guide',
+                   'brand_rules_canva_master', 'brand_headshot_primary']) {
+    assert(keys.includes(k), `registry missing source "${k}"`);
+  }
+  const head = reg.sources.find(s => s.key === 'brand_headshot_primary');
+  assert(/never by newest-file-in-folder/i.test(head.verify),
+    'headshot is not protected against newest-file resolution');
+  const pq = read('docs/CANONICAL-GOVERNANCE-PATCH-QUEUE.md');
+  for (const id of ['CGQ-013', 'CGQ-014', 'CGQ-015']) {
+    assert(pq.includes(id), `patch queue missing ${id}`);
+  }
+  return 'master pinned and protected; v2.0 adoption routed through CGQ-013';
+});
+
+check('T-36', 'buyer snapshot: page budget and QC gate match SOP 02 §15/§20', () => {
+  const skill = read('.claude/skills/buyer-property-snapshot/SKILL.md');
+  const spec = read('assets/buyer-property-snapshot/SNAPSHOT-SPEC.md');
+  assert(/3 to 5 pages|3–5 pages/.test(skill + spec), 'page budget not stated');
+  assert(/75 words/.test(skill) && /75 words/.test(spec), 'paragraph limit not carried');
+  assert(/strongest 3.5 comps/i.test(skill), 'strongest-comps-only rule missing from the skill');
+  assert(/Not Native Matrix Export/.test(skill), 'native-export labeling rule missing');
+  assert(/hand this exact PDF to a serious buyer/i.test(skill), 'completion test missing');
+  return 'page budget, prose limits, comp limit, export labeling and completion test all enforced';
+});
+
+check('T-37', 'buyer snapshot: zero writes, and buyer priorities are never invented', () => {
+  const skill = read('.claude/skills/buyer-property-snapshot/SKILL.md');
+  assert(/zero writes|never writes to FUB/i.test(skill), 'skill does not declare zero writes');
+  assert(/WRITES ATTEMPTED: NONE/.test(skill), 'skill does not close with the zero-write invariant');
+  assert(/lead-conversion-crm/.test(skill), 'FUB writes not routed to the CRM service');
+  assert(/[Nn]ever infer a priority|Never invented|never invented/.test(skill),
+    'skill does not forbid inventing buyer priorities');
+  const j = JSON.parse(read('assets/buyer-property-snapshot/snapshot-schema.json'));
+  assert(/Never inferred, never invented/.test(j.provenance_marks.BUYER),
+    'BUYER mark does not forbid inference');
+  assert(/renders as .Tell me today./i.test(j.object.buyer.note),
+    'empty priorities do not render honestly');
+  return 'zero writes declared; priorities never inferred';
+});
+
 // ---------------------------------------------------------------- output
 
 const width = 62;

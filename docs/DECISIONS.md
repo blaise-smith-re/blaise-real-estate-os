@@ -268,3 +268,51 @@ stopping at it, and **never** simulate, infer, or substitute remembered data.
 **Consequence.** Seller, buyer, market and transaction departments are all fully useful without MLS
 access. The failure mode this prevents — an undisclosed narrowing that looks complete — is the most
 likely way an agent here produces a plausible wrong answer.
+
+## 2026-09-01 — Buyer Property Snapshot is a revision of the existing master, not a new asset
+
+**Decision.** Build the showing packet as **v2.0 of `Buyer Property Tour & Value Guide – Master
+Template`** (`18OIKz5AqJrRYG0g54vhqRFNbzPV-y_oJhpT1zj_ANQU`), routed for adoption through CGQ-013 —
+rather than publishing a new "Buyer Property Snapshot" master.
+
+**Why.** An approved master already exists and is named in SOP 02 §19. Three assets already compete
+for the role (IF-018); a fourth would deepen the problem the build was meant to solve. Renaming
+would force an SOP §19 change for no operational gain. "Snapshot" is the single-property mode of the
+existing asset, which is exactly how SOP 02 §18 already refers to it.
+
+**Rejected alternative.** A standalone snapshot master would have been faster to ship and easier to
+design without constraint. It would also have been a fourth competing canonical asset, which BOM
+§14/§16 prohibits and which the canonical-asset-control instruction explicitly forbade.
+
+---
+
+## 2026-09-01 — Fact provenance is structural, not prose
+
+**Decision.** Make the source classification a required sibling of every fact value in the schema,
+and render it as a dedicated left rail in the design.
+
+**Why.** SOP 02 §18 spends more words on fact classification than on any other subject, and the
+WORKBENCH HANDOFF STANDARD requires classifications to survive into the client packet. In four
+delivered guides, classification survived only as a prose paragraph ("the following still require
+verification…"). Prose does not survive an edit, a rebuild, or a moved section, and a buyer cannot
+tell which specific line three pages later is verified. A required field is enforceable; a paragraph
+is a convention. Recorded as IF-021.
+
+**Consequence.** A fact cannot be written without choosing its provenance. Source blending becomes
+structurally impossible rather than discouraged — and the buyer can see, at a glance, how much of
+what they are holding is confirmed.
+
+---
+
+## 2026-09-01 — Superseded client-facing language was dropped and routed, never reworded in place
+
+**Decision.** The client-facing master's page-10 line — *"Buyer representation and agency documents
+are reviewed using brokerage-approved forms before private touring"* — was **removed from the v2.0
+layout** and routed as CGQ-014 (high-stakes). Claude did not write replacement language into a
+canonical asset, and did not quietly paraphrase it into the new design either.
+
+**Why.** SOP 02 v1.11 established the opposite (Tour-First). Correcting client-facing representation
+language is a HIGH-STAKES change under the three-tier model: Blaise plus the applicable authority
+approve it, and it must be confirmed against current brokerage and MLS requirements at the time of
+application. Silently rewording it in the new design would have made the implementation correct and
+the canonical asset wrong — the exact divergence CLAUDE.md §10 forbids.

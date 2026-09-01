@@ -1,6 +1,6 @@
 {
   "manifest_version": "1.0.0",
-  "updated": "2026-08-31",
+  "updated": "2026-09-01",
   "purpose": "Declares the connector lanes each agent and certification run requires. A run must verify availability BEFORE any certification claim, retrieval, or registry update. A missing required connector is an immediate HOLD - never a partial run, and never a substitution of reported data for retrieved data.",
   "rule": [
     "Preflight first. Verify every required connector is present before any other work.",
@@ -88,6 +88,16 @@
         "Google_Calendar"
       ],
       "note": "Reads across FUB, Drive and Calendar for objective and target resolution before delegating."
+    },
+    "buyer-property-snapshot": {
+      "required": [
+        "Google_Drive"
+      ],
+      "optional": [
+        "Blaise_FUB",
+        "Google_Calendar"
+      ],
+      "note": "Skill, not an agent. Drive is required - SOP 02 and the canonical master resolve by fileId. FUB supplies buyer priorities and Calendar supplies the confirmed showing window; when either lane is missing the packet renders those sections as 'Tell me today' / 'not yet scheduled' rather than inventing them. MLS is a Chrome-operator handoff (SOP 02 \u00a718), never a connector here."
     }
   },
   "certification_runs": {

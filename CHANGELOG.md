@@ -252,3 +252,32 @@ authorized. No Drive-side certification was changed.
 Read-only discovery across the Drive governance layer, SOP library, prompt library and live connector
 surface. No files created. Delivered as a report; findings carried into
 `governance/improvement-findings.md`.
+
+## 2026-09-01 — Buyer Property Snapshot / showing packet master
+
+**Built.** The client-facing showing packet system: one content model, four property modes
+(residential · condo-townhome · land · investment), two formats (single · tour).
+
+- `assets/buyer-property-snapshot/snapshot-schema.json` — the data model. Every fact-bearing field
+  carries a value **and** a provenance mark; a value without a mark is a build error.
+- `assets/buyer-property-snapshot/SNAPSHOT-SPEC.md` — content architecture, design system,
+  conditional logic, three rendering targets, QC checklist.
+- `.claude/skills/buyer-property-snapshot/SKILL.md` — invocation contract (three inputs: buyer,
+  property, showing time), build order, QC gate. Zero writes.
+- `docs/MATRIX-PROPERTY-RESEARCH-HANDOFF.md` — the request envelope and ingestion rules for the
+  Chrome-operator MLS lane. The operator prompt itself stays canonical in SOP 02 §18.
+- `docs/DESIGN-RECORD-BUYER-SNAPSHOT.md` — three directions explored, decision recorded.
+- Rendered master: https://claude.ai/code/artifact/092863e8-d403-49ce-88fb-d9ac7576721b
+
+**Governance.** Registry gained SOP 02 (pinned to live v1.12), the three existing masters, the Canva
+brand rules, and the designated headshot — all by fileId. Four findings (IF-018 master
+fragmentation · IF-019 superseded pre-tour representation language on a live client asset ·
+IF-020 undesignated headshots · IF-021 fact classification did not survive into deliverables).
+Three patch-queue entries (CGQ-013 v2.0 adoption · CGQ-014 representation language · CGQ-015
+headshot designation).
+
+**Tests.** T-31 through T-37 added. 37/37 passing.
+
+**Not done.** No canonical Drive document was modified — Claude Code still cannot edit Doc bodies
+(IF-013), and the Google Docs connector is mid-activation. No master was overwritten. No competing
+master was created.

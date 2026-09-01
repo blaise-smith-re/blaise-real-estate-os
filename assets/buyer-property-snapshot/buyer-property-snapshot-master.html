@@ -1,0 +1,828 @@
+<title>Buyer Property Snapshot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ink:#0F1B2D; --navy:#1B3A63; --navy-2:#37587F;
+  --seal:#A8232C;
+  --paper:#FFFFFF; --paper-2:#FBFAF7; --stone:#E4E1DA; --stone-2:#F3F1EC;
+  --slate:#5C6875; --slate-2:#89929D;
+  --strong:#1F6B4A; --open:#7E610F; --trade:#96490F; --unknown:#89929D;
+  --desk:#DCD8D0; --desk-line:#C6C1B7; --desk-text:#39414B; --desk-dim:#6E7681;
+  --sheet-w:8.5in; --sheet-h:11in; --pad:0.6in;
+  --rail:0.42in;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){ --desk:#171C24; --desk-line:#2C333D; --desk-text:#D6DAE0; --desk-dim:#8A929C; }
+}
+:root[data-theme="dark"]{ --desk:#171C24; --desk-line:#2C333D; --desk-text:#D6DAE0; --desk-dim:#8A929C; }
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--desk);color:var(--desk-text);
+  font-family:"Public Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+
+/* ---------- desk chrome (screen only) ---------- */
+.desk{max-width:9.9in;margin:0 auto;padding:34px 16px 90px}
+.deskhead{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-end;justify-content:space-between;
+  padding-bottom:16px;margin-bottom:26px;border-bottom:1px solid var(--desk-line)}
+.deskhead h1{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:26px;line-height:1.15;margin:0;
+  color:var(--desk-text);letter-spacing:-.01em;text-wrap:balance}
+.deskhead p{margin:6px 0 0;max-width:62ch;color:var(--desk-dim);font-size:13.5px}
+.deskmeta{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--desk-dim);text-align:right;line-height:1.7}
+.secmark{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--desk-dim);margin:44px 0 14px;display:flex;align-items:center;gap:12px}
+.secmark::after{content:"";flex:1;height:1px;background:var(--desk-line)}
+.secnote{margin:-6px 0 18px;max-width:70ch;color:var(--desk-dim);font-size:13.5px}
+
+/* ---------- the sheet ---------- */
+.sheet{width:var(--sheet-w);min-height:var(--sheet-h);background:var(--paper);color:var(--ink);
+  margin:0 auto 26px;padding:var(--pad);position:relative;display:flex;flex-direction:column;
+  box-shadow:0 1px 2px rgba(15,27,45,.16),0 14px 34px rgba(15,27,45,.14)}
+.sheet::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:var(--navy)}
+.sheet::after{content:"";position:absolute;left:var(--pad);right:var(--pad);top:calc(var(--pad) - 10px);
+  height:1px;background:var(--seal)}
+.sheet.plain::after{display:none}
+
+/* masthead */
+.mast{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding-top:6px}
+.mark{font-family:Fraunces,Georgia,serif;font-weight:700;font-size:13px;letter-spacing:.02em;color:var(--navy);line-height:1.25}
+.mark span{display:block;font-family:"IBM Plex Mono",ui-monospace,monospace;font-weight:500;font-size:8.5px;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--slate-2);margin-top:3px}
+.forwhom{text-align:right;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:8.5px;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--slate-2);line-height:1.8}
+.forwhom b{display:block;font-family:"Public Sans",sans-serif;font-size:13px;font-weight:600;
+  letter-spacing:0;text-transform:none;color:var(--ink)}
+
+/* address hero */
+.hero{margin-top:0.34in}
+.eyebrow{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:9px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--seal);margin-bottom:9px}
+.addr{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:33px;line-height:1.05;letter-spacing:-.015em;
+  margin:0;color:var(--ink);text-wrap:balance}
+.addr small{display:block;font-family:"Public Sans",sans-serif;font-weight:400;font-size:14px;
+  letter-spacing:.01em;color:var(--slate);margin-top:8px}
+.pricerow{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-top:14px}
+.price{font-family:"IBM Plex Mono",ui-monospace,monospace;font-weight:600;font-size:24px;color:var(--navy);
+  font-variant-numeric:tabular-nums}
+.statuspill{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:9px;letter-spacing:.13em;
+  text-transform:uppercase;padding:3px 8px;border:1px solid var(--navy);color:var(--navy);border-radius:2px}
+.pricenote{font-size:12px;color:var(--slate)}
+
+/* hero image slot */
+.shot{margin-top:.2in;height:2.35in;border:1px solid var(--stone);background:
+  repeating-linear-gradient(135deg,var(--stone-2) 0 8px,var(--paper-2) 8px 16px);
+  display:flex;align-items:center;justify-content:center;text-align:center;padding:18px}
+.shot p{margin:0;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:9.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--slate-2);line-height:2}
+
+/* stat band */
+.stats{display:grid;grid-template-columns:repeat(6,1fr);border-top:1px solid var(--ink);
+  border-bottom:1px solid var(--stone);margin-top:.24in}
+.stats.five{grid-template-columns:repeat(5,1fr)}
+.stats.four{grid-template-columns:repeat(4,1fr)}
+.stat{padding:11px 10px 12px;border-right:1px solid var(--stone)}
+.stat:last-child{border-right:0}
+.stat dt{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:8px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--slate-2);margin-bottom:5px;display:flex;align-items:center;gap:4px}
+.stat dd{margin:0;font-family:"IBM Plex Mono",ui-monospace,monospace;font-weight:500;font-size:14px;
+  color:var(--ink);font-variant-numeric:tabular-nums;line-height:1.25}
+.stat dd.thin{font-family:"Public Sans",sans-serif;font-size:11.5px;font-weight:500;color:var(--slate);line-height:1.35}
+
+/* provenance marks */
+.pm{display:inline-block;width:8px;height:8px;border-radius:50%;flex:none;position:relative;top:.5px}
+.pm-mls{background:var(--navy)}
+.pm-pub{background:linear-gradient(90deg,var(--navy) 0 50%,var(--paper) 50% 100%);border:1px solid var(--navy)}
+.pm-rep{background:var(--paper);border:1px solid var(--navy-2)}
+.pm-calc{background:var(--paper);border:1px solid var(--slate-2);border-radius:0;transform:rotate(45deg);width:7px;height:7px}
+.pm-ver{background:var(--paper);border:1px dashed var(--seal)}
+.pm-obs{background:var(--paper);border:1px solid var(--ink);border-radius:0}
+.pm-buyer{background:var(--seal);border-radius:0;transform:rotate(45deg);width:7px;height:7px}
+
+.legend{margin-top:auto;padding-top:14px;border-top:1px solid var(--stone);
+  display:grid;grid-template-columns:repeat(4,1fr);gap:6px 16px}
+.legend div{display:flex;align-items:center;gap:6px;font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:7.6px;letter-spacing:.09em;text-transform:uppercase;color:var(--slate)}
+
+/* generic page title */
+.ptitle{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:19px;letter-spacing:-.01em;
+  margin:.3in 0 3px;color:var(--ink)}
+.ptitle:first-of-type{margin-top:.26in}
+.psub{font-size:12px;color:var(--slate);margin:0 0 14px;max-width:64ch}
+
+/* standout list */
+.stand{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px}
+.stand li{display:grid;grid-template-columns:var(--rail) 1fr;gap:10px;align-items:start;
+  padding-bottom:11px;border-bottom:1px solid var(--stone-2)}
+.stand li:last-child{border-bottom:0}
+.railcell{display:flex;align-items:center;justify-content:center;padding-top:4px}
+.stand h4{margin:0 0 3px;font-size:13px;font-weight:700;color:var(--ink);letter-spacing:-.005em}
+.stand p{margin:0;font-size:12px;line-height:1.5;color:var(--slate)}
+
+/* fit */
+.fit{border-top:1px solid var(--ink);margin-top:6px}
+.fitrow{display:grid;grid-template-columns:1.5fr 2.4in 1fr;gap:12px;align-items:center;
+  padding:9px 0;border-bottom:1px solid var(--stone-2)}
+.fitname{font-size:12.5px;font-weight:600;color:var(--ink)}
+.fitname em{display:block;font-style:normal;font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate-2);margin-top:2px}
+.scale{display:grid;grid-template-columns:repeat(4,1fr);gap:3px}
+.seg{height:7px;background:var(--stone)}
+.scale[data-fit="strong"] .seg:nth-child(-n+4){background:var(--strong)}
+.scale[data-fit="potential"] .seg:nth-child(-n+3){background:var(--open)}
+.scale[data-fit="tradeoff"] .seg:nth-child(-n+2){background:var(--trade)}
+.scale[data-fit="unknown"] .seg:nth-child(-n+1){background:var(--unknown)}
+.fitverdict{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:8.5px;letter-spacing:.11em;
+  text-transform:uppercase;text-align:right}
+.fitverdict[data-fit="strong"]{color:var(--strong)}
+.fitverdict[data-fit="potential"]{color:var(--open)}
+.fitverdict[data-fit="tradeoff"]{color:var(--trade)}
+.fitverdict[data-fit="unknown"]{color:var(--unknown)}
+
+/* verify */
+.verify{list-style:none;margin:0;padding:0}
+.verify li{display:grid;grid-template-columns:var(--rail) 1fr;gap:10px;padding:8px 0;
+  border-bottom:1px solid var(--stone-2);align-items:start}
+.verify b{font-size:12.5px;font-weight:600;display:block;margin-bottom:2px}
+.verify span{font-size:11.5px;color:var(--slate);line-height:1.45}
+.tag{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:7.6px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--slate-2);display:inline-block;margin-left:6px;
+  border:1px solid var(--stone);padding:1px 5px;position:relative;top:-1px}
+
+/* market */
+.mkt{display:grid;grid-template-columns:1fr 1fr;gap:0 22px;border-top:1px solid var(--ink);padding-top:12px}
+.compt{width:100%;border-collapse:collapse;font-size:11px}
+.compt th{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:7.8px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--slate-2);text-align:left;padding:0 8px 6px 0;border-bottom:1px solid var(--stone)}
+.compt td{padding:6px 8px 6px 0;border-bottom:1px solid var(--stone-2);color:var(--ink);vertical-align:top}
+.compt td.n{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tablewrap{overflow-x:auto}
+
+.callout{border-left:2px solid var(--seal);padding:10px 0 10px 14px;margin:14px 0;background:var(--paper-2)}
+.callout p{margin:0;font-size:12px;line-height:1.5;color:var(--ink)}
+.callout .lab{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:8px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--seal);display:block;margin-bottom:5px}
+
+.pending{border:1px dashed var(--seal);padding:14px 16px;text-align:center}
+.pending p{margin:0;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:10px;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--seal);line-height:1.9}
+
+/* scorecard */
+.score{border-top:1px solid var(--ink);padding-top:14px}
+.scorerow{display:grid;grid-template-columns:1.25in 1fr;gap:14px;align-items:center;padding:9px 0;
+  border-bottom:1px solid var(--stone-2)}
+.scorelab{font-size:12px;font-weight:600;color:var(--ink)}
+.dots{display:flex;gap:0;align-items:center}
+.dots span{flex:1;display:flex;align-items:center;gap:7px;font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:9px;color:var(--slate-2)}
+.dots i{width:13px;height:13px;border:1px solid var(--slate-2);border-radius:50%;display:inline-block;flex:none}
+.write{margin-top:14px}
+.write h5{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:8.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--slate-2);margin:0 0 9px;font-weight:500}
+.lines{display:flex;flex-direction:column;gap:.26in}
+.lines i{display:block;height:1px;background:var(--stone)}
+.choicerow{display:flex;gap:26px;align-items:center;margin-top:6px;flex-wrap:wrap}
+.choice{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--ink)}
+.choice i{width:12px;height:12px;border:1px solid var(--ink);display:inline-block;flex:none}
+.rank{display:flex;align-items:baseline;gap:8px;font-size:12px}
+.rank i{display:inline-block;width:.5in;border-bottom:1px solid var(--ink);height:14px}
+
+/* next steps */
+.next{display:grid;grid-template-columns:repeat(2,1fr);gap:0 22px;border-top:1px solid var(--ink);padding-top:12px}
+.next ol{margin:0;padding-left:17px}
+.next li{font-size:12px;color:var(--ink);margin-bottom:7px;line-height:1.45}
+
+/* advisor */
+.advisor{margin-top:auto;padding-top:16px;border-top:1px solid var(--stone);
+  display:grid;grid-template-columns:.95in 1fr auto;gap:16px;align-items:center}
+.portrait{width:.95in;height:.95in;border-radius:50%;border:1px solid var(--stone);background:var(--paper-2);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;text-align:center}
+.portrait span{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:6.4px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--slate-2);line-height:1.7;padding:6px}
+.advisor .who{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:16px;color:var(--ink);margin:0}
+.advisor .role{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:8.4px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--slate);margin:4px 0 0}
+.advisor .tag2{font-family:Fraunces,Georgia,serif;font-style:italic;font-size:11.5px;color:var(--navy);margin:7px 0 0}
+.advisor .contact{text-align:right;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:8.6px;
+  letter-spacing:.05em;color:var(--slate);line-height:1.95}
+
+.foot{display:flex;justify-content:space-between;align-items:center;padding-top:9px;margin-top:11px;
+  border-top:1px solid var(--stone);font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:7.6px;
+  letter-spacing:.11em;text-transform:uppercase;color:var(--slate-2)}
+
+/* route / comparison */
+.route{border-top:1px solid var(--ink);margin-top:6px}
+.stop{display:grid;grid-template-columns:.85in 1fr .9in;gap:14px;padding:11px 0;border-bottom:1px solid var(--stone-2);align-items:baseline}
+.stop .t{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;color:var(--navy);font-variant-numeric:tabular-nums}
+.stop .a{font-size:12.5px;font-weight:600;color:var(--ink)}
+.stop .a em{display:block;font-style:normal;font-size:11px;font-weight:400;color:var(--slate);margin-top:2px}
+.stop .p{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;text-align:right;font-variant-numeric:tabular-nums;color:var(--ink)}
+
+/* specimen blocks on desk */
+.spec{background:var(--paper);color:var(--ink);border:1px solid var(--desk-line);padding:22px 24px;margin-bottom:16px}
+.spec h3{font-family:Fraunces,Georgia,serif;font-size:16px;margin:0 0 3px;color:var(--ink)}
+.spec .sh{font-size:12px;color:var(--slate);margin:0 0 15px}
+.swatches{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:10px}
+.sw{border:1px solid var(--stone)}
+.sw i{display:block;height:44px}
+.sw b{display:block;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:8.6px;letter-spacing:.06em;
+  padding:6px 8px 2px;color:var(--ink)}
+.sw em{display:block;font-style:normal;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:8px;
+  padding:0 8px 7px;color:var(--slate-2)}
+.rules{display:grid;grid-template-columns:1fr 1fr;gap:0 26px}
+.rules dt{font-size:12.5px;font-weight:700;color:var(--ink);margin-top:11px}
+.rules dd{margin:2px 0 0;font-size:12px;color:var(--slate);line-height:1.5}
+
+@media print{
+  body{background:#fff}
+  .desk{max-width:none;padding:0}
+  .deskhead,.secmark,.secnote,.spec,.noprint{display:none !important}
+  .sheet{box-shadow:none;margin:0;page-break-after:always;break-after:page;width:auto;min-height:auto}
+  .sheet:last-child{page-break-after:auto;break-after:auto}
+  @page{size:letter;margin:0.35in}
+}
+@media (max-width:9.2in){
+  .sheet{width:100%;min-height:0}
+  .stats,.stats.five,.stats.four{grid-template-columns:repeat(2,1fr)}
+  .stat{border-bottom:1px solid var(--stone)}
+  .mkt,.next,.rules{grid-template-columns:1fr}
+  .fitrow{grid-template-columns:1fr;gap:6px}
+  .fitverdict{text-align:left}
+  .legend{grid-template-columns:repeat(2,1fr)}
+  .advisor{grid-template-columns:.95in 1fr;gap:12px}
+  .advisor .contact{grid-column:1/-1;text-align:left}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+</style>
+
+<div class="desk">
+
+<div class="deskhead">
+  <div>
+    <h1>Buyer Property Snapshot</h1>
+    <p>The client-facing showing packet for Buy Sell Home Team buyers. One content model, four property modes, two tour formats. Every fact carries its source. Built on the existing <em>Buyer Property Tour &amp; Value Guide</em> master — this is that asset at v2.0, not a replacement for it.</p>
+  </div>
+  <div class="deskmeta">
+    Governing source<br>SOP 02 v1.12<br>
+    Brand<br>Canva master rules<br>
+    Status<br>Proposed for adoption
+  </div>
+</div>
+
+<div class="secmark">Design system</div>
+<p class="secnote">Derived from the approved Canva brand rules: soft neutral ground, navy structure, thin red detail lines, generous clear space. The red is a rule weight, never a fill.</p>
+
+<div class="spec">
+  <h3>Palette</h3>
+  <p class="sh">Navy carries structure and every verified figure. Red appears only as a hairline or a single word of emphasis — one per page, never more.</p>
+  <div class="swatches">
+    <div class="sw"><i style="background:#0F1B2D"></i><b>Ink</b><em>#0F1B2D</em></div>
+    <div class="sw"><i style="background:#1B3A63"></i><b>Navy</b><em>#1B3A63</em></div>
+    <div class="sw"><i style="background:#A8232C"></i><b>Seal red</b><em>#A8232C</em></div>
+    <div class="sw"><i style="background:#FBFAF7;border-bottom:1px solid #E4E1DA"></i><b>Paper</b><em>#FBFAF7</em></div>
+    <div class="sw"><i style="background:#5C6875"></i><b>Slate</b><em>#5C6875</em></div>
+    <div class="sw"><i style="background:#1F6B4A"></i><b>Strong fit</b><em>#1F6B4A</em></div>
+    <div class="sw"><i style="background:#7E610F"></i><b>Potential</b><em>#7E610F</em></div>
+    <div class="sw"><i style="background:#96490F"></i><b>Tradeoff</b><em>#96490F</em></div>
+  </div>
+</div>
+
+<div class="spec">
+  <h3>The source rail</h3>
+  <p class="sh">SOP 02 §18 requires every material item to be classified and the classification to survive into the client packet. A narrow rail runs down the left of every fact block carrying one mark. Choosing the mark is how a fact gets written — there is no unmarked path.</p>
+  <dl class="rules">
+    <dt><span class="pm pm-mls"></span> &nbsp;Verified MLS fact</dt>
+    <dd>Retrieved from Northstar/Matrix this session. Solid navy.</dd>
+    <dt><span class="pm pm-pub"></span> &nbsp;Public record in Matrix</dt>
+    <dd>County or assessor data displayed inside Matrix. Half navy.</dd>
+    <dt><span class="pm pm-rep"></span> &nbsp;Listing-reported</dt>
+    <dd>The listing or its agent says so. Not independently confirmed. Hollow.</dd>
+    <dt><span class="pm pm-calc"></span> &nbsp;Calculated</dt>
+    <dd>Derived here from stated figures — price per sq ft, NOI, cap rate.</dd>
+    <dt><span class="pm pm-ver"></span> &nbsp;Requires verification</dt>
+    <dd>Not yet established. Dashed red. Never phrased as a defect.</dd>
+    <dt><span class="pm pm-obs"></span> &nbsp;Blaise's observation</dt>
+    <dd>Professional judgment, labeled as judgment.</dd>
+    <dt><span class="pm pm-buyer"></span> &nbsp;Your priority</dt>
+    <dd>What the buyer told Blaise. Never inferred, never invented.</dd>
+    <dt style="color:var(--seal)">Never printed</dt>
+    <dd>Agent-only remarks. They stay in the research packet and never reach a client page.</dd>
+  </dl>
+</div>
+
+<div class="spec">
+  <h3>Typography</h3>
+  <p class="sh">Fraunces for the address and page titles — a serif with enough character to read as personally produced. Public Sans for everything a buyer reads at length. IBM Plex Mono for every number, label and source mark, so figures align in columns and labels never compete with prose.</p>
+  <p style="font-family:Fraunces,serif;font-weight:600;font-size:30px;margin:14px 0 2px;color:var(--ink);letter-spacing:-.015em">708 1st Street E</p>
+  <p style="font-size:13px;color:var(--slate);margin:0 0 12px">Public Sans — running text sits near 65 characters and stays out of the way.</p>
+  <p style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--navy);margin:0">$125,000 · 2 BD / 1 BA · MLS 7089834</p>
+</div>
+
+<div class="secmark">Mode A — single residential showing</div>
+<p class="secnote">Three pages. Built from the retrieved Dallas tour guide for 708 1st Street E, Milaca — a real case where only ShowingTime data existed and MLS verification had not yet run. It is the hardest case for a template, so it is the one worth showing first.</p>
+
+<!-- ============ SHEET A1 ============ -->
+<section class="sheet">
+  <div class="mast">
+    <div class="mark">Buy Sell Home Team<span>RE/MAX Results · Property Snapshot</span></div>
+    <div class="forwhom">Prepared for<b>Dallas</b>Wednesday, August 26, 2026 · 11:00 AM</div>
+  </div>
+
+  <div class="hero">
+    <p class="eyebrow">Showing 1 of 1 · Milaca, Mille Lacs County</p>
+    <h2 class="addr">708 1st Street E<small>Milaca, MN 56353 · MLS 7089834</small></h2>
+    <div class="pricerow">
+      <span class="price">$125,000</span>
+      <span class="statuspill">Active</span>
+      <span class="pricenote">Price and status shown in ShowingTime at time of preparation.</span>
+    </div>
+  </div>
+
+  <div class="shot">
+    <p>Hero listing photo<br>fills this frame — 8.5 × 2.35 in<br>Omit the frame entirely when no approved image is available</p>
+  </div>
+
+  <dl class="stats four">
+    <div class="stat"><dt><span class="pm pm-rep"></span> Bedrooms</dt><dd>2</dd></div>
+    <div class="stat"><dt><span class="pm pm-rep"></span> Bathrooms</dt><dd>1</dd></div>
+    <div class="stat"><dt><span class="pm pm-ver"></span> Finished sq ft</dt><dd class="thin">Pending MLS</dd></div>
+    <div class="stat"><dt><span class="pm pm-ver"></span> Year built</dt><dd class="thin">Pending MLS</dd></div>
+  </dl>
+
+  <div class="callout">
+    <span class="lab">Why this one made the tour</span>
+    <p>You asked to see this specific home. Today is about one decision only — whether it earns deeper research. Not whether to buy it. We will not have full MLS verification in hand while we are standing in it, so use the tour for what only you can judge: condition, layout, light, and whether the place solves the reason you are moving.</p>
+  </div>
+
+  <div class="callout" style="border-left-color:var(--navy)">
+    <span class="lab" style="color:var(--navy)">Who is opening the door</span>
+    <p>The person letting us in is connected to the listing side and represents the seller. Ask them anything about the property. Keep your budget, financing, timing and what you would pay between us.</p>
+  </div>
+
+  <div class="legend">
+    <div><span class="pm pm-mls"></span> Verified MLS</div>
+    <div><span class="pm pm-pub"></span> Public record</div>
+    <div><span class="pm pm-rep"></span> Listing-reported</div>
+    <div><span class="pm pm-calc"></span> Calculated</div>
+    <div><span class="pm pm-ver"></span> To verify</div>
+    <div><span class="pm pm-obs"></span> Blaise's read</div>
+    <div><span class="pm pm-buyer"></span> Your priority</div>
+    <div style="color:var(--slate-2)">Marks apply to the row</div>
+  </div>
+
+  <div class="foot"><span>Blaise Smith · Buy Sell Home Team · RE/MAX Results</span><span>Page 1 of 3</span></div>
+</section>
+
+<!-- ============ SHEET A2 ============ -->
+<section class="sheet plain">
+  <div class="mast">
+    <div class="mark">708 1st Street E<span>Milaca · MLS 7089834</span></div>
+    <div class="forwhom">Prepared for<b>Dallas</b>Page 2 of 3</div>
+  </div>
+
+  <h3 class="ptitle">What stands out</h3>
+  <p class="psub">Four things worth your attention before you walk in.</p>
+  <ul class="stand">
+    <li>
+      <span class="railcell"><span class="pm pm-rep"></span></span>
+      <div><h4>Two bedrooms, one bathroom, at $125,000</h4>
+      <p>The configuration and price shown in ShowingTime put this at the entry end of the Milaca market. That is the fact. Whether it is priced correctly depends on square footage, condition and year built — none of which are confirmed yet.</p></div>
+    </li>
+    <li>
+      <span class="railcell"><span class="pm pm-obs"></span></span>
+      <div><h4>A single-bathroom home narrows your resale pool</h4>
+      <p>Not a reason to walk away at this price point. It is a reason to look hard at whether a second bathroom could ever be added, and where it would go.</p></div>
+    </li>
+    <li>
+      <span class="railcell"><span class="pm pm-obs"></span></span>
+      <div><h4>The condition question is the whole question here</h4>
+      <p>At this price, the difference between a home that needs cosmetics and one that needs mechanicals is the difference between a good buy and a money pit. Everything on the verify list below points at that one question.</p></div>
+    </li>
+    <li>
+      <span class="railcell"><span class="pm pm-ver"></span></span>
+      <div><h4>Market time is not yet established</h4>
+      <p>Days on market, price history and any prior listing activity have not been retrieved from Matrix. If this home has sat, that changes the negotiating picture materially — and it is the first thing I will pull afterward.</p></div>
+    </li>
+  </ul>
+
+  <h3 class="ptitle">How it fits what you told me</h3>
+  <p class="psub">Scored against your stated priorities only. Where you have not told me something, it says so rather than guessing.</p>
+  <div class="fit">
+    <div class="fitrow">
+      <div class="fitname">Worth deeper analysis<em>Your stated objective for today</em></div>
+      <div class="scale" data-fit="strong"><i class="seg"></i><i class="seg"></i><i class="seg"></i><i class="seg"></i></div>
+      <div class="fitverdict" data-fit="strong">Strong fit</div>
+    </div>
+    <div class="fitrow">
+      <div class="fitname">Price position<em>Entry-level Milaca</em></div>
+      <div class="scale" data-fit="potential"><i class="seg"></i><i class="seg"></i><i class="seg"></i><i class="seg"></i></div>
+      <div class="fitverdict" data-fit="potential">Potential fit</div>
+    </div>
+    <div class="fitrow">
+      <div class="fitname">Bedroom / bathroom count<em>2 BD / 1 BA reported</em></div>
+      <div class="scale" data-fit="tradeoff"><i class="seg"></i><i class="seg"></i><i class="seg"></i><i class="seg"></i></div>
+      <div class="fitverdict" data-fit="tradeoff">Tradeoff</div>
+    </div>
+    <div class="fitrow">
+      <div class="fitname">Monthly payment<em>Lender confirmation outstanding</em></div>
+      <div class="scale" data-fit="unknown"><i class="seg"></i><i class="seg"></i><i class="seg"></i><i class="seg"></i></div>
+      <div class="fitverdict" data-fit="unknown">Unknown</div>
+    </div>
+    <div class="fitrow">
+      <div class="fitname">Commute and daily routine<em>Not yet discussed</em></div>
+      <div class="scale" data-fit="unknown"><i class="seg"></i><i class="seg"></i><i class="seg"></i><i class="seg"></i></div>
+      <div class="fitverdict" data-fit="unknown">Tell me today</div>
+    </div>
+  </div>
+
+  <h3 class="ptitle">Watch and verify</h3>
+  <p class="psub">None of these are known problems. They are the specific things that decide whether this home is a good buy.</p>
+  <ul class="verify">
+    <li><span class="railcell"><span class="pm pm-obs"></span></span>
+      <div><b>Roof, siding, windows, grading and drainage<span class="tag">Look while we are there</span></b>
+      <span>Standing water, low spots, staining, cracking. Exterior wear is the cheapest early signal of what has been deferred.</span></div></li>
+    <li><span class="railcell"><span class="pm pm-obs"></span></span>
+      <div><b>Mechanical ages — furnace, water heater, panel, plumbing<span class="tag">Look while we are there</span></b>
+      <span>Read the date plates. At this price point, three aging systems at once reshapes the offer.</span></div></li>
+    <li><span class="railcell"><span class="pm pm-obs"></span></span>
+      <div><b>Basement or crawlspace moisture<span class="tag">Look while we are there</span></b>
+      <span>Odor, efflorescence on block, staining at the base of walls, a dehumidifier running.</span></div></li>
+    <li><span class="railcell"><span class="pm pm-ver"></span></span>
+      <div><b>Taxes, special assessments, utilities<span class="tag">I pull this after</span></b>
+      <span>Milaca assessments and utility structure need public-record and MLS confirmation.</span></div></li>
+    <li><span class="railcell"><span class="pm pm-ver"></span></span>
+      <div><b>Seller disclosures, supplements, permit history<span class="tag">I pull this after</span></b>
+      <span>Available or not available is itself information. Verbal answers today are a starting point, not a finding.</span></div></li>
+    <li><span class="railcell"><span class="pm pm-ver"></span></span>
+      <div><b>Offer instructions or deadlines<span class="tag">I pull this after</span></b>
+      <span>If there is a deadline we do not know about, it changes how fast we decide.</span></div></li>
+  </ul>
+
+  <div class="foot"><span>Decision support only · Verify material facts before any purchase decision</span><span>Page 2 of 3</span></div>
+</section>
+
+<!-- ============ SHEET A3 ============ -->
+<section class="sheet plain">
+  <div class="mast">
+    <div class="mark">708 1st Street E<span>Milaca · MLS 7089834</span></div>
+    <div class="forwhom">Prepared for<b>Dallas</b>Page 3 of 3</div>
+  </div>
+
+  <h3 class="ptitle">Market and value context</h3>
+  <div class="pending">
+    <p>Value analysis pending verified MLS and comparable review.<br>
+    No comparable sales are presented because none have been verified.</p>
+  </div>
+  <p class="psub" style="margin-top:12px">The only pricing facts established today are the $125,000 asking price and Active status shown in ShowingTime. Days on market, price history, square footage and closed comparables all come from Matrix, and I will have them for you the same day. I would rather hand you a blank section than a number I cannot stand behind.</p>
+
+  <h3 class="ptitle">Your scorecard</h3>
+  <p class="psub">Fill this in while you are standing in it. Your reaction is the most perishable information we get all day.</p>
+  <div class="score">
+    <div class="scorerow"><div class="scorelab">First impression</div>
+      <div class="dots"><span><i></i>1</span><span><i></i>2</span><span><i></i>3</span><span><i></i>4</span><span><i></i>5</span></div></div>
+    <div class="scorerow"><div class="scorelab">Layout</div>
+      <div class="dots"><span><i></i>1</span><span><i></i>2</span><span><i></i>3</span><span><i></i>4</span><span><i></i>5</span></div></div>
+    <div class="scorerow"><div class="scorelab">Condition</div>
+      <div class="dots"><span><i></i>1</span><span><i></i>2</span><span><i></i>3</span><span><i></i>4</span><span><i></i>5</span></div></div>
+    <div class="scorerow"><div class="scorelab">Location</div>
+      <div class="dots"><span><i></i>1</span><span><i></i>2</span><span><i></i>3</span><span><i></i>4</span><span><i></i>5</span></div></div>
+    <div class="scorerow"><div class="scorelab">Value for the price</div>
+      <div class="dots"><span><i></i>1</span><span><i></i>2</span><span><i></i>3</span><span><i></i>4</span><span><i></i>5</span></div></div>
+    <div class="scorerow"><div class="scorelab">Fit for your goals</div>
+      <div class="dots"><span><i></i>1</span><span><i></i>2</span><span><i></i>3</span><span><i></i>4</span><span><i></i>5</span></div></div>
+  </div>
+
+  <div class="write">
+    <h5>What you liked most</h5>
+    <div class="lines"><i></i><i></i></div>
+  </div>
+  <div class="write">
+    <h5>Biggest concern</h5>
+    <div class="lines"><i></i><i></i></div>
+  </div>
+  <div class="write">
+    <h5>Questions for me</h5>
+    <div class="lines"><i></i><i></i></div>
+  </div>
+
+  <div class="choicerow" style="margin-top:16px">
+    <div class="choice"><i></i> Would consider an offer</div>
+    <div class="choice"><i></i> Maybe</div>
+    <div class="choice"><i></i> No</div>
+    <div class="rank">Ranking so far: <i></i> of <i></i> homes</div>
+  </div>
+
+  <h3 class="ptitle">If you like it</h3>
+  <div class="next">
+    <ol>
+      <li>I pull verified MLS facts, price history and closed comparables.</li>
+      <li>We review the payment with your lender before we talk price.</li>
+    </ol>
+    <ol start="3">
+      <li>We review disclosures and any material facts together.</li>
+      <li>We build offer strategy — and only then, if you say so, an offer.</li>
+    </ol>
+  </div>
+
+  <div class="advisor">
+    <div class="portrait"><span>Approved headshot<br>Charcoal blazer<br>primary · vertical<br>circular crop</span></div>
+    <div>
+      <p class="who">Blaise Smith, REALTOR®</p>
+      <p class="role">Buy Sell Home Team · RE/MAX Results</p>
+      <p class="tag2">Taking you to the dotted line and beyond.</p>
+    </div>
+    <div class="contact">blaise@buysellhometeam.com<br>(651) 571-4915<br>Greater Woodbury · Twin Cities</div>
+  </div>
+
+  <div class="foot"><span>This packet supports your decision. It does not replace inspection, lender, title or legal advice.</span><span>Page 3 of 3</span></div>
+</section>
+
+<div class="secmark">Mode B — land</div>
+<p class="secnote">Bedrooms, baths and finished square footage disappear entirely. Built from the retrieved 1703 Eustis St snapshot — parcel facts, utility availability, and a comparable set that is genuinely weak and says so.</p>
+
+<!-- ============ SHEET B1 ============ -->
+<section class="sheet">
+  <div class="mast">
+    <div class="mark">Buy Sell Home Team<span>RE/MAX Results · Land Snapshot</span></div>
+    <div class="forwhom">Prepared for<b>Robert</b>Buyer meeting · August 19, 2026</div>
+  </div>
+
+  <div class="hero">
+    <p class="eyebrow">Vacant lot · Lauderdale, Ramsey County</p>
+    <h2 class="addr">1703 Eustis Street<small>Lauderdale, MN 55113 · MLS 7083367</small></h2>
+    <div class="pricerow">
+      <span class="price">$89,900</span>
+      <span class="statuspill">Active</span>
+      <span class="pricenote">81 days on market as of August 18, 2026.</span>
+    </div>
+  </div>
+
+  <dl class="stats five">
+    <div class="stat"><dt><span class="pm pm-mls"></span> Lot area</dt><dd>0.11 ac</dd></div>
+    <div class="stat"><dt><span class="pm pm-mls"></span> Dimensions</dt><dd>119 × 40 ft</dd></div>
+    <div class="stat"><dt><span class="pm pm-mls"></span> Zoning</dt><dd class="thin">Residential — single family</dd></div>
+    <div class="stat"><dt><span class="pm pm-pub"></span> 2026 taxes</dt><dd>$938</dd></div>
+    <div class="stat"><dt><span class="pm pm-pub"></span> Parcel</dt><dd class="thin">17-29-23-33-0087</dd></div>
+  </dl>
+
+  <div class="callout">
+    <span class="lab">Your plan, as you have described it</span>
+    <p>Buy the lot now and build later, using cash, land financing, or a combination depending on how much cash you want to deploy. You already know this property. So this packet skips the introduction and goes straight to what could complicate the build.</p>
+  </div>
+
+  <h3 class="ptitle">What stands out</h3>
+  <ul class="stand">
+    <li><span class="railcell"><span class="pm pm-mls"></span></span>
+      <div><h4>Utilities are listed available — none listed connected</h4>
+      <p>Electric, natural gas, sewer, water and phone all show as available. Not one shows as connected. The gap between those two words is a real number in your build budget, and nobody has quoted it yet.</p></div></li>
+    <li><span class="railcell"><span class="pm pm-mls"></span></span>
+      <div><h4>Level, paved-street, platted lot with no MLS restrictions</h4>
+      <p>Topography level, street paved, restrictions field empty, light tree coverage. For a build site those are the easy answers, and this lot has them.</p></div></li>
+    <li><span class="railcell"><span class="pm pm-rep"></span></span>
+      <div><h4>Corners are marked; a prior survey exists but has not been found</h4>
+      <p>Listing-side statement. Marked corners are not a boundary survey, and a survey nobody can produce is not a survey you own.</p></div></li>
+    <li><span class="railcell"><span class="pm pm-rep"></span></span>
+      <div><h4>The house next door may come to market under $300,000</h4>
+      <p>Reported by the listing agent, who says he owns it. Not verified as an active listing — no address, price, timing or condition confirmed. Worth asking about, not worth planning around yet.</p></div></li>
+  </ul>
+
+  <div class="legend">
+    <div><span class="pm pm-mls"></span> Verified MLS</div>
+    <div><span class="pm pm-pub"></span> Public record</div>
+    <div><span class="pm pm-rep"></span> Listing-reported</div>
+    <div><span class="pm pm-calc"></span> Calculated</div>
+    <div><span class="pm pm-ver"></span> To verify</div>
+    <div><span class="pm pm-obs"></span> Blaise's read</div>
+    <div><span class="pm pm-buyer"></span> Your priority</div>
+    <div style="color:var(--slate-2)">Marks apply to the row</div>
+  </div>
+
+  <div class="foot"><span>Parcel figures are informational — not a licensed boundary survey</span><span>Page 1 of 2</span></div>
+</section>
+
+<!-- ============ SHEET B2 ============ -->
+<section class="sheet plain">
+  <div class="mast">
+    <div class="mark">1703 Eustis Street<span>Lauderdale · MLS 7083367</span></div>
+    <div class="forwhom">Prepared for<b>Robert</b>Page 2 of 2</div>
+  </div>
+
+  <h3 class="ptitle">Before you commit to the build</h3>
+  <ul class="verify">
+    <li><span class="railcell"><span class="pm pm-ver"></span></span>
+      <div><b>Utility connection points and cost<span class="tag">Before offer</span></b>
+      <span>Where each service actually stubs, and what the connection runs. Available is not connected.</span></div></li>
+    <li><span class="railcell"><span class="pm pm-ver"></span></span>
+      <div><b>Lauderdale setbacks, permits and minimum build requirements<span class="tag">Before offer</span></b>
+      <span>A 40-foot-wide lot makes setbacks decisive. Confirm the buildable envelope with the city before you design anything.</span></div></li>
+    <li><span class="railcell"><span class="pm pm-ver"></span></span>
+      <div><b>Title, easements and the missing survey<span class="tag">Before offer</span></b>
+      <span>If boundary precision matters to your plan, order a survey rather than relying on marked corners.</span></div></li>
+    <li><span class="railcell"><span class="pm pm-ver"></span></span>
+      <div><b>Soil and site conditions for your foundation<span class="tag">Before offer</span></b>
+      <span>No soil information is on the MLS record. Unknown, not adverse.</span></div></li>
+  </ul>
+
+  <h3 class="ptitle">Market context</h3>
+  <p class="psub">Seven closed land sales from the comparable screen supplied for review. Broad context — not a land valuation.</p>
+  <div class="tablewrap">
+  <table class="compt">
+    <thead><tr><th>Comparable</th><th>City</th><th>Closed</th><th>Sale price</th><th>Lot</th></tr></thead>
+    <tbody>
+      <tr><td>132 Western Ave S</td><td>Saint Paul</td><td class="n">Feb 2026</td><td class="n">$80,000</td><td class="n">0.142 ac</td></tr>
+      <tr><td>3521 1st Ave S</td><td>Minneapolis</td><td class="n">Jun 2026</td><td class="n">$85,000</td><td class="n">0.13 ac</td></tr>
+      <tr><td>754 Chatsworth St S</td><td>Saint Paul</td><td class="n">Aug 2025</td><td class="n">$89,500</td><td class="n">0.13 ac</td></tr>
+      <tr><td>750 Chatsworth St S</td><td>Saint Paul</td><td class="n">Aug 2025</td><td class="n">$89,500</td><td class="n">0.20 ac</td></tr>
+      <tr><td>TBD Taylor St NE</td><td>Fridley</td><td class="n">Apr 2026</td><td class="n">$90,000</td><td class="n">0.259 ac</td></tr>
+      <tr><td>1616 Hewitt Ave</td><td>Saint Paul</td><td class="n">Sep 2025</td><td class="n">$90,000</td><td class="n">0.216 ac</td></tr>
+      <tr><td>515 Farrell St N</td><td>Maplewood</td><td class="n">Apr 2026</td><td class="n">$93,000</td><td class="n">0.41 ac</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="callout">
+    <span class="lab">Reading these</span>
+    <p>Range $80,000 to $93,000, median $89,500, against an asking price of $89,900. But these sit in different cities on different lot sizes with no adjustment for location, zoning, utilities, frontage or buildability. Treat it as the shape of the market, not as a supported offer price.</p>
+  </div>
+
+  <h3 class="ptitle">Your decisions</h3>
+  <div class="next">
+    <ol>
+      <li>Are you comfortable enough with the lot to pursue it?</li>
+      <li>Cash, land financing, or a combination?</li>
+    </ol>
+    <ol start="3">
+      <li>Do you want to evaluate the adjacent house as part of the plan?</li>
+      <li>If yes: confirm funds, then we build offer strategy.</li>
+    </ol>
+  </div>
+
+  <div class="advisor">
+    <div class="portrait"><span>Approved headshot<br>Charcoal blazer<br>primary · vertical<br>circular crop</span></div>
+    <div>
+      <p class="who">Blaise Smith, REALTOR®</p>
+      <p class="role">Buy Sell Home Team · RE/MAX Results</p>
+      <p class="tag2">Taking you to the dotted line and beyond.</p>
+    </div>
+    <div class="contact">blaise@buysellhometeam.com<br>(651) 571-4915<br>Greater Woodbury · Twin Cities</div>
+  </div>
+  <div class="foot"><span>Land context only · Confirm buildability with the city before relying on any plan</span><span>Page 2 of 2</span></div>
+</section>
+
+<div class="secmark">Mode C — multi-property tour</div>
+<p class="secnote">A tour cover replaces the single-property cover, each home keeps one page, and the packet closes on comparison and ranking. Built from the retrieved Stillwater townhome example. Three to six homes stays inside twelve pages.</p>
+
+<!-- ============ SHEET C1 ============ -->
+<section class="sheet">
+  <div class="mast">
+    <div class="mark">Buy Sell Home Team<span>RE/MAX Results · Tour Packet</span></div>
+    <div class="forwhom">Prepared for<b>Myranetta</b>2 homes · Stillwater</div>
+  </div>
+
+  <div class="hero">
+    <p class="eyebrow">Tour packet</p>
+    <h2 class="addr">Two Stillwater townhomes<small>Association-maintained · end units · dog-friendly search</small></h2>
+  </div>
+
+  <h3 class="ptitle">Today's route</h3>
+  <div class="route">
+    <div class="stop"><div class="t">Stop 1</div>
+      <div class="a">3867 Abercrombie Lane<em>Side-by-side townhome, end unit · 2 BD / 2 BA · 1,550 sq ft · built 2005</em></div>
+      <div class="p">$259,000</div></div>
+    <div class="stop"><div class="t">Stop 2</div>
+      <div class="a">1322 Cottage Drive<em>Side-by-side townhome, end unit, multi-level · 3 BD / 2 BA · 1,620 sq ft · built 1991</em></div>
+      <div class="p">$285,000</div></div>
+  </div>
+
+  <h3 class="ptitle">What you told me matters</h3>
+  <div class="fit">
+    <div class="fitrow"><div class="fitname">Stillwater<em>Priority area</em></div>
+      <div class="scale" data-fit="strong"><i class="seg"></i><i class="seg"></i><i class="seg"></i><i class="seg"></i></div>
+      <div class="fitverdict" data-fit="strong">Both homes</div></div>
+    <div class="fitrow"><div class="fitname">Townhome with an association<em>Property type</em></div>
+      <div class="scale" data-fit="strong"><i class="seg"></i><i class="seg"></i><i class="seg"></i><i class="seg"></i></div>
+      <div class="fitverdict" data-fit="strong">Both homes</div></div>
+    <div class="fitrow"><div class="fitname">Up to $290,000<em>Price ceiling</em></div>
+      <div class="scale" data-fit="strong"><i class="seg"></i><i class="seg"></i><i class="seg"></i><i class="seg"></i></div>
+      <div class="fitverdict" data-fit="strong">Both homes</div></div>
+    <div class="fitrow"><div class="fitname">Dog-friendly association<em>Lifestyle requirement</em></div>
+      <div class="scale" data-fit="tradeoff"><i class="seg"></i><i class="seg"></i><i class="seg"></i><i class="seg"></i></div>
+      <div class="fitverdict" data-fit="tradeoff">Differs — see below</div></div>
+  </div>
+
+  <div class="callout">
+    <span class="lab">The one difference that may decide this</span>
+    <p>Abercrombie's listing states cats and dogs allowed, with the full HOA package still to be reviewed for number, size or breed limits. Cottage Drive states a maximum of one dog. If a second dog is ever part of the plan, that is a hard difference between these two homes and not a negotiable one.</p>
+  </div>
+
+  <div class="legend">
+    <div><span class="pm pm-mls"></span> Verified MLS</div>
+    <div><span class="pm pm-pub"></span> Public record</div>
+    <div><span class="pm pm-rep"></span> Listing-reported</div>
+    <div><span class="pm pm-calc"></span> Calculated</div>
+    <div><span class="pm pm-ver"></span> To verify</div>
+    <div><span class="pm pm-obs"></span> Blaise's read</div>
+    <div><span class="pm pm-buyer"></span> Your priority</div>
+    <div style="color:var(--slate-2)">Marks apply to the row</div>
+  </div>
+  <div class="foot"><span>Blaise Smith · Buy Sell Home Team · RE/MAX Results</span><span>Tour cover</span></div>
+</section>
+
+<!-- ============ SHEET C2 ============ -->
+<section class="sheet plain">
+  <div class="mast">
+    <div class="mark">Tour comparison<span>Stillwater · 2 homes</span></div>
+    <div class="forwhom">Prepared for<b>Myranetta</b>Final page</div>
+  </div>
+
+  <h3 class="ptitle">Side by side</h3>
+  <div class="tablewrap">
+  <table class="compt">
+    <thead><tr><th></th><th>3867 Abercrombie Ln</th><th>1322 Cottage Dr</th></tr></thead>
+    <tbody>
+      <tr><td>List price</td><td class="n">$259,000</td><td class="n">$285,000 <span style="color:var(--slate)">(from $297,000)</span></td></tr>
+      <tr><td>Beds / baths</td><td class="n">2 / 2</td><td class="n">3 / 2</td></tr>
+      <tr><td>Finished sq ft</td><td class="n">1,550</td><td class="n">1,620</td></tr>
+      <tr><td>Year built</td><td class="n">2005</td><td class="n">1991</td></tr>
+      <tr><td>Monthly HOA</td><td class="n">$300</td><td class="n">$279</td></tr>
+      <tr><td>Days on market</td><td class="n">11</td><td class="n">60</td></tr>
+      <tr><td>Pets</td><td>Cats and dogs; rules to verify</td><td>One dog maximum</td></tr>
+      <tr><td>Best feature</td><td>Newer build, main-floor bed and ¾ bath</td><td>Third bedroom, upper laundry, lower fee</td></tr>
+      <tr><td>Biggest tradeoff</td><td>Two bedrooms; higher fee</td><td>Fourteen years older; listing agent is the owner</td></tr>
+      <tr><td>Your score</td><td class="n">___ / 5</td><td class="n">___ / 5</td></tr>
+      <tr><td>Pursue?</td><td>Yes · Maybe · No</td><td>Yes · Maybe · No</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout">
+    <span class="lab">Blaise's read</span>
+    <p>Eleven days versus sixty, and a $12,000 reduction on the older home, is the most useful contrast on this page. It does not mean Cottage Drive is worse. It means there is likely more room to negotiate there, and less at Abercrombie.</p>
+  </div>
+
+  <h3 class="ptitle">Your ranking at the end of the tour</h3>
+  <div class="write"><h5>First choice, and why it beats the other</h5><div class="lines"><i></i><i></i></div></div>
+  <div class="write"><h5>What this tour changed about what you want</h5><div class="lines"><i></i><i></i></div></div>
+
+  <h3 class="ptitle">What happens next</h3>
+  <div class="next">
+    <ol><li>Verified comparable review for the home you prefer.</li><li>Full HOA package, financials and pending assessments.</li></ol>
+    <ol start="3"><li>Payment review with your lender.</li><li>Offer strategy — on your direction only.</li></ol>
+  </div>
+
+  <div class="advisor">
+    <div class="portrait"><span>Approved headshot<br>Charcoal blazer<br>primary · vertical<br>circular crop</span></div>
+    <div><p class="who">Blaise Smith, REALTOR®</p>
+      <p class="role">Buy Sell Home Team · RE/MAX Results</p>
+      <p class="tag2">Taking you to the dotted line and beyond.</p></div>
+    <div class="contact">blaise@buysellhometeam.com<br>(651) 571-4915<br>Greater Woodbury · Twin Cities</div>
+  </div>
+  <div class="foot"><span>Decision support only · Verify material facts before any purchase decision</span><span>Tour comparison</span></div>
+</section>
+
+<div class="secmark">Conditional modules</div>
+<p class="secnote">These attach to any property page when — and only when — the underlying data exists. Absent data removes the module; it never prints as an empty box or a row of N/A.</p>
+
+<div class="spec">
+  <h3>Association module — condo and townhome</h3>
+  <p class="sh">Attaches when an HOA fee is present. Shown with the retrieved Roseville figures, where the fee itself is the story.</p>
+  <dl class="stats four" style="margin-top:0">
+    <div class="stat"><dt><span class="pm pm-mls"></span> Monthly fee</dt><dd>$876</dd></div>
+    <div class="stat"><dt><span class="pm pm-mls"></span> Includes</dt><dd class="thin">Electric and gas — unusual for this association</dd></div>
+    <div class="stat"><dt><span class="pm pm-mls"></span> Pets</dt><dd class="thin">ESA or service letter only</dd></div>
+    <div class="stat"><dt><span class="pm pm-ver"></span> Assessments</dt><dd class="thin">Pending HOA package</dd></div>
+  </dl>
+  <div class="callout"><span class="lab">Why this one matters</span>
+  <p>The fee covers electric and gas, which most units in this association do not. $876 is high in absolute terms, but part of it is utility cost you would otherwise pay separately. Compare fee plus expected utilities between units, never the fee alone.</p></div>
+</div>
+
+<div class="spec">
+  <h3>Investment module — investor properties</h3>
+  <p class="sh">Attaches only when a buy box is on file. Every input carries its mark; every derived figure is marked calculated and shows the assumption it rests on. Figures below are structure only — no property is represented.</p>
+  <dl class="stats five" style="margin-top:0">
+    <div class="stat"><dt><span class="pm pm-ver"></span> Estimated rent</dt><dd class="thin">Rent study required</dd></div>
+    <div class="stat"><dt><span class="pm pm-pub"></span> Taxes</dt><dd class="thin">From record</dd></div>
+    <div class="stat"><dt><span class="pm pm-calc"></span> NOI</dt><dd class="thin">Derived</dd></div>
+    <div class="stat"><dt><span class="pm pm-calc"></span> Cap rate</dt><dd class="thin">Derived</dd></div>
+    <div class="stat"><dt><span class="pm pm-calc"></span> Cash-on-cash</dt><dd class="thin">Derived</dd></div>
+  </dl>
+  <div class="callout"><span class="lab">Assumption block — always printed beneath the metrics</span>
+  <p>Vacancy rate, management, maintenance reserve, turnover and repair budget, financing terms and down payment are stated explicitly as assumptions. A cap rate whose assumptions are not printed on the same page is not permitted to appear.</p></div>
+</div>
+
+<div class="spec">
+  <h3>What disappears, and when</h3>
+  <dl class="rules">
+    <dt>No HOA</dt><dd>Association module removed. No empty fee row anywhere.</dd>
+    <dt>Land</dt><dd>Beds, baths and finished square footage removed from the stat band and replaced with acreage, dimensions, zoning, taxes and parcel.</dd>
+    <dt>No verified comparables</dt><dd>Market section collapses to one line: value analysis pending verified MLS and comparable review. No empty CMA.</dd>
+    <dt>Single property</dt><dd>Tour cover, route and comparison pages are not generated.</dd>
+    <dt>No approved photography</dt><dd>Hero frame is removed rather than printed empty, and the address block expands to fill.</dd>
+    <dt>No buy box on file</dt><dd>Investment module does not appear. Investor metrics are never inferred.</dd>
+    <dt>Priorities not on file</dt><dd>Fit rows print as "Tell me today" rather than being invented.</dd>
+    <dt>Agent-only remarks</dt><dd>Never rendered in any mode. They live in the research packet only.</dd>
+  </dl>
+</div>
+
+</div>

@@ -208,5 +208,66 @@ read-back, and exactly-one-current-canonical verification.
 
 5. **CGQ-011** — unattended read-only scheduling, after a runtime smoke.
 
-**Only CGQ-001 blocks a built capability.** Everything else is correctness and hygiene; the system
+1c. **CGQ-013** — unblocks the Buyer Property Snapshot. **CGQ-014** — corrects live client-facing
+   representation language; high-stakes, Blaise approves. **CGQ-015** — headshot designation.
+
+## CGQ-013 — Adopt Buyer Property Tour & Value Guide v2.0 (Snapshot Mode) · **BLOCKING (operational)**
+
+- **TARGET** `Buyer Property Tour & Value Guide – Master Template`
+- **FILE ID** `18OIKz5AqJrRYG0g54vhqRFNbzPV-y_oJhpT1zj_ANQU` · **CURRENT VERSION** none (unversioned)
+- **TRIGGER** SOP 02 v1.12 §15 now requires client-facing deliverables to pass a visual-PDF QC gate,
+  hold to 3–5 pages for one or two properties, and present only the strongest 3–5 comps. §18 requires
+  fact classifications to survive into the downstream snapshot. The current Doc master satisfies none
+  of these, and two competing masters exist (IF-2026-09-01-018).
+- **EXACT PATCH**
+  1. Add a version line to the Doc master: `Version: 2.0 | Updated: <adoption date>`.
+  2. Adopt the content architecture, source-rail classification system, conditional property modes
+     (residential / condo-townhome / land / investment), single and tour formats, and the QC
+     checklist specified in `assets/buyer-property-snapshot/SNAPSHOT-SPEC.md`.
+     Rendered reference: https://claude.ai/code/artifact/092863e8-d403-49ce-88fb-d9ac7576721b
+  3. Absorb the scorecard from `Buyer Property Tour Notes & Rating Sheet – Master Template`
+     (`1WGBDQMXBhI4pVO8DvezIthQEoOPaNmEs9ZEBHsPxkhM`) and the stat band, comparison and decision
+     pages from `CLIENT-FACING MASTER - ...pdf` (`1RdATxPLoQJx7B3eWRy_v_-FJZs-IbU2G`).
+  4. Retitle both absorbed assets `LEGACY - <title> - Superseded <date> (v2.0)`.
+  5. Change note: consolidation of three masters into one versioned master; adds fact-classification
+     rail, conditional property modes, and the §15 page budget.
+- **CROSS-LINK CHECK** SOP 02 §3 (physical showing kit → now the snapshot scorecard), §15, §19.
+- **BLOCKING BECAUSE** the `buyer-property-snapshot` skill is built and cannot name one unambiguous
+  canonical master until this lands.
+- **DO NOT** overwrite the master in place without archive-first, and do not retire the PDF master
+  before the Doc master actually carries the design system.
+
+## CGQ-014 — Remove superseded pre-tour representation language from the client-facing master · **BLOCKING (high-stakes)**
+
+- **TARGET** `CLIENT-FACING MASTER - Buyer Property Tour & Value Guide.pdf`
+- **FILE ID** `1RdATxPLoQJx7B3eWRy_v_-FJZs-IbU2G` · page 10, "Important notes"
+- **TRIGGER** IF-2026-09-01-019. The master prints: *"Buyer representation and agency documents are
+  reviewed using brokerage-approved forms before private touring."* SOP 02 v1.11 (August 31, 2026)
+  established that full buyer representation is **not** a first-tour prerequisite.
+- **EXACT PATCH** replace that bullet with:
+  > Any written acknowledgment required before a private showing is handled personally by Blaise.
+  > Full buyer representation is established when you are ready to move forward — typically after a
+  > productive tour, or before we prepare an offer.
+- **CLASSIFICATION** HIGH-STAKES — client-facing representation language. Blaise + applicable
+  authority approve before it is applied. Confirm against current brokerage and MLS requirements at
+  the time of application; SOP 02 §10A deliberately does not own form selection.
+- **BLOCKING BECAUSE** the sentence is on an asset in active client-facing use and is now incorrect.
+- **ALSO** sweep every other client-facing buyer asset for the same sentence before closing.
+
+## CGQ-015 — Designate the current approved headshot · **NON-BLOCKING**
+
+- **TARGET** `INTERNAL - Canva Brand Rules & Master Links for Property, Tour & Seller Assets`
+- **FILE ID** `1esSVR8kCVQKvGdmr6KFUSpOJGkErOTwEQMPIkDxDz4A`
+- **TRIGGER** IF-2026-09-01-020. Eleven images in the headshot folder; exactly one is designated;
+  six undesignated files (five raw camera names) were added 2026-08-31.
+- **EXACT PATCH** add under **Approved brand rules**:
+  > Current approved headshot: `Blaise - Charcoal Blazer - Primary Headshot - Vertical.jpg`
+  > (fileId `1VmUojFEXSauNDt91TryoO8o5QWzRBN-P`). Resolve by fileId. Superseded images are retitled
+  > `LEGACY - ...`. A newer upload is not an approval.
+- **DECISION NEEDED FROM BLAISE** whether any 2026-08-31 image supersedes the Primary. Claude will
+  not infer it from an upload date.
+
+
+**CGQ-001, CGQ-012, CGQ-013 and CGQ-014 block a built capability or correct live client-facing
+language.** Everything else is correctness and hygiene; the system
 operates correctly without them.

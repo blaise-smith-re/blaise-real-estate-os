@@ -411,3 +411,127 @@ until a named precondition clears.
 
 One finding per issue. Never edit a finding's ID. Update `DISPOSITION` in place and move the entry to
 section 5 with a resolution date when closed. Never delete a finding.
+
+### IF-2026-09-01-018 — Three competing Buyer Property Tour & Value Guide masters
+
+```
+ID                IF-2026-09-01-018
+TRIGGER           Buyer Property Snapshot build. Canonical-asset check before creating anything.
+CONTROLLING       SOP 02 – Buyer Property Search, Showing & Value Analysis
+                  fileId 1xxYjWwspET-gR5gYYtOb6uHh7eYXiM0r0YxRubjlB28 · v1.12 (retrieved 2026-09-01)
+OBSERVED ISSUE    Three assets present themselves as the buyer tour master:
+                  (a) "Buyer Property Tour & Value Guide – Master Template" (Doc)
+                      18OIKz5AqJrRYG0g54vhqRFNbzPV-y_oJhpT1zj_ANQU — the only one named in SOP 02 §19
+                  (b) "CLIENT-FACING MASTER - Buyer Property Tour & Value Guide.pdf" (10-page design)
+                      1RdATxPLoQJx7B3eWRy_v_-FJZs-IbU2G — titled MASTER, not named in any SOP
+                  (c) "Buyer Property Tour Notes & Rating Sheet – Master Template"
+                      1WGBDQMXBhI4pVO8DvezIthQEoOPaNmEs9ZEBHsPxkhM — named in SOP 02 §3 as the
+                      physical showing kit, overlapping (a)'s scorecard content
+                  None carries a version line. None cross-references the others. The Doc master is
+                  the named authority but is the weakest of the three as a client deliverable, which
+                  is precisely the gap SOP 02 v1.12 §15 was written to close.
+WHY IT MATTERS    "Copy the master" is ambiguous. Three people could copy three different assets and
+                  all be following SOP 02. A client-facing deliverable is the single most visible
+                  output of the buyer workflow.
+IMPACT            Time: rework when the wrong master is copied. Risk: inconsistent client
+                  experience; divergent compliance language across assets (see IF-019).
+CLASSIFICATION    OPERATIONAL CHANGE
+EXACT PROPOSED CHANGE
+                  Consolidate to ONE master carrying a version line, adopting the content model in
+                  assets/buyer-property-snapshot/SNAPSHOT-SPEC.md as v2.0. Retire (b) and (c) to
+                  LEGACY - titles once (a) absorbs the design system and the scorecard.
+                  Full patch queued as CGQ-013.
+RELATED ASSETS    SOP 02 §3, §15, §19 · all three masters · Canva master template
+TESTING REQUIRED  Build one live client packet from the consolidated master and pass the §20 QC gate.
+DISPOSITION       REVIEW — route to ChatGPT / 04 via CGQ-013
+```
+
+### IF-2026-09-01-019 — Client-facing master contradicts the Tour-First compliance boundary
+
+```
+ID                IF-2026-09-01-019
+TRIGGER           Reading page 10 of the CLIENT-FACING MASTER PDF during the snapshot build.
+CONTROLLING       SOP 02 v1.12 · fileId 1xxYjWwspET-gR5gYYtOb6uHh7eYXiM0r0YxRubjlB28
+OBSERVED ISSUE    The 10-page client-facing master (1RdATxPLoQJx7B3eWRy_v_-FJZs-IbU2G) prints, under
+                  "Important notes": "Buyer representation and agency documents are reviewed using
+                  brokerage-approved forms before private touring."
+                  SOP 02 v1.11 (August 31, 2026) established the opposite: "Full Buyer Representation
+                  Agreement is not an internal first-tour prerequisite. Tour first, serve and learn,
+                  then establish full representation when the buyer is ready to move forward."
+WHY IT MATTERS    This is a CLIENT-FACING statement about representation, printed on an approved
+                  master, that no longer matches the controlling SOP. It could set a buyer's
+                  expectation that paperwork precedes a first showing — the exact friction v1.11 was
+                  written to remove — and it is the kind of language a buyer may rely on.
+IMPACT            Client: friction and confusion at first contact. Risk: a client-facing
+                  representation statement inconsistent with current operating policy.
+CLASSIFICATION    HIGH-STAKES CHANGE — client-facing representation language.
+EXACT PROPOSED CHANGE
+                  Replace with wording that states only what is true under v1.11/v1.12: any written
+                  acknowledgment required before a private tour is handled personally by Blaise, and
+                  full buyer representation is established under SOP 10 when the buyer is ready to
+                  move forward. Exact replacement text drafted in CGQ-014.
+                  NOT applied here. Claude did not reword it in the new design either — the line was
+                  dropped from the v2.0 layout and the correction routed, so implementation and
+                  canonical language do not silently diverge.
+RELATED ASSETS    CLIENT-FACING MASTER PDF p.10 · SOP 02 §10A · SOP 10
+TESTING REQUIRED  Confirm no other client-facing asset carries the superseded sentence.
+DISPOSITION       REVIEW — route to Blaise + ChatGPT / 04 via CGQ-014
+```
+
+### IF-2026-09-01-020 — No designated-current control on the headshot folder
+
+```
+ID                IF-2026-09-01-020
+TRIGGER           Resolving the approved Blaise headshot for the snapshot advisor card.
+CONTROLLING       INTERNAL - Canva Brand Rules & Master Links
+                  fileId 1esSVR8kCVQKvGdmr6KFUSpOJGkErOTwEQMPIkDxDz4A
+OBSERVED ISSUE    "01 - Headshots & Profile Photos" (1kVVi99CXOLjIXncY8iuulNXPDWZTrX8w) holds eleven
+                  images. Exactly one carries an approval designation in its title —
+                  "Blaise - Charcoal Blazer - Primary Headshot - Vertical.jpg"
+                  (1VmUojFEXSauNDt91TryoO8o5QWzRBN-P, May 2026). Six undesignated files were added on
+                  2026-08-31, five of them raw camera names (IMG_0279–IMG_0286) plus
+                  "Blaise light suit headshot". The brand rules document does not name a current
+                  headshot at all.
+WHY IT MATTERS    A newest-file heuristic would put an unreviewed camera roll image on a client
+                  deliverable. Recency is not approval.
+IMPACT            Risk: an unapproved image on a client-facing asset. Low time cost to fix.
+CLASSIFICATION    MINOR MAINTENANCE (repo side, applied) + OPERATIONAL CHANGE (Drive side, routed)
+EXACT PROPOSED CHANGE
+                  Repo side, APPLIED: source-registry key brand_headshot_primary pins the designated
+                  file by fileId with an explicit "never resolve by newest-file-in-folder" note.
+                  Drive side, ROUTED: add a "Current approved headshot" line to the Canva brand rules
+                  naming the fileId, and retitle superseded images "LEGACY - ...". Queued as CGQ-015.
+                  If one of the August 31 images is intended to supersede the Primary, Blaise
+                  designates it — Claude does not infer it from an upload date.
+RELATED ASSETS    Canva brand rules · headshot folder · every client-facing asset carrying attribution
+TESTING REQUIRED  Registry test asserts the headshot is pinned by fileId.
+DISPOSITION       PATCH (repo) / REVIEW (Drive, CGQ-015)
+```
+
+### IF-2026-09-01-021 — Fact classification did not survive into client deliverables
+
+```
+ID                IF-2026-09-01-021
+TRIGGER           Comparing SOP 02 §18's classification requirement against four delivered client guides.
+CONTROLLING       SOP 02 v1.12 §18 · fileId 1xxYjWwspET-gR5gYYtOb6uHh7eYXiM0r0YxRubjlB28
+OBSERVED ISSUE    §18 requires every material item to be classified (VERIFIED MLS FACT /
+                  LISTING-REPORTED / PUBLIC RECORD / CALCULATED / NOT VERIFIED / AGENT-ONLY) and the
+                  WORKBENCH HANDOFF STANDARD requires the downstream snapshot to "preserve all fact
+                  classifications". In the four delivered guides reviewed, classification survived
+                  only as prose — e.g. the Dallas guide's "the following still require professional
+                  MLS, disclosure, tax, and document verification" paragraph. Prose classification
+                  does not survive an edit, a rebuild, or a section being moved, and a reader cannot
+                  tell which specific line on a later page is verified.
+WHY IT MATTERS    Source blending is the failure mode the SOP is most concerned with. A structural
+                  control is enforceable; a paragraph is not.
+IMPACT            Risk: a listing-reported claim reading as a verified fact in a client's hands.
+CLASSIFICATION    OPERATIONAL CHANGE
+EXACT PROPOSED CHANGE
+                  Repo side, APPLIED: snapshot-schema.json makes the mark a required sibling of every
+                  fact-bearing value — a value without a mark is a build error — and the design
+                  system renders the mark in a dedicated left rail with a printed legend.
+                  Drive side, ROUTED with CGQ-013 as part of master v2.0.
+RELATED ASSETS    All four reviewed client guides · SOP 02 §18 · snapshot schema · design spec
+TESTING REQUIRED  Static test asserts every schema fact group documents the field_shape contract.
+DISPOSITION       PATCH (repo) / REVIEW (Drive, CGQ-013)
+```

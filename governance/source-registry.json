@@ -1,6 +1,6 @@
 {
-  "registry_version": "1.0.0",
-  "updated": "2026-08-31",
+  "registry_version": "1.2.0",
+  "updated": "2026-09-01",
   "phase": "Phase 2",
   "principle": "Stores POINTERS ONLY. Never store canonical source content in this repository. On any mismatch between version_pin and the retrieved live document, THE LIVE DRIVE DOCUMENT WINS.",
   "resolution_rules": [
@@ -17,7 +17,8 @@
     "routing": "Channel and handoff routing authority.",
     "canonical-prompt": "The approved business logic for an agent. Retrieved at runtime and followed; never copied into this repository.",
     "supporting": "Referenced by a canonical prompt as a controlling source for part of its workflow.",
-    "route-target": "Named as a handoff destination. POINTER ONLY - do not retrieve during a normal run."
+    "route-target": "Named as a handoff destination. POINTER ONLY - do not retrieve during a normal run.",
+    "canonical-template": "An approved client-facing master asset. Retrieved as the structural and brand reference. NEVER overwritten - client work is always a copy."
   },
   "sources": [
     {
@@ -164,14 +165,15 @@
       "title": "SOP 02 - Buyer Property Search, Showing & Value Analysis",
       "file_id": "1xxYjWwspET-gR5gYYtOb6uHh7eYXiM0r0YxRubjlB28",
       "authority": "controlling",
-      "version_pin": null,
-      "version_verified_at": "2026-08-31",
+      "version_pin": "1.12",
+      "version_verified_at": "2026-09-01",
       "owner_account": "bsmith@blaisesmithproperties.com",
       "drive_path": "",
       "required_by": [
-        "buyer-investor-ops"
+        "buyer-investor-ops",
+        "buyer-property-snapshot"
       ],
-      "verify": "Resolve by file_id. Reject any LEGACY/ARCHIVED title. Read the document's own Version line and record it; UNPINNED until a version is verified in a live run."
+      "verify": "Read the 'Version: 1.12' line near the top. Owns the client-facing production standard (\u00a715), the Matrix research operator prompt and Workbench handoff standard (\u00a718), file naming (\u00a719), and the visual-PDF QC gate (\u00a720)."
     },
     {
       "key": "sop_04_buyer_offer_strategy",
@@ -326,6 +328,76 @@
         "transaction-closing-ops"
       ],
       "verify": "Resolve by file_id. Reject any LEGACY/ARCHIVED title. Read the document's own Version line and record it; UNPINNED until a version is verified in a live run. Click Contracts is a browser lane - this SOP governs the handoff, not local execution."
+    },
+    {
+      "key": "master_buyer_tour_value_guide",
+      "title": "Buyer Property Tour & Value Guide \u2013 Master Template",
+      "file_id": "18OIKz5AqJrRYG0g54vhqRFNbzPV-y_oJhpT1zj_ANQU",
+      "authority": "canonical-template",
+      "version_pin": "unversioned",
+      "version_verified_at": "2026-09-01",
+      "owner_account": "bsmith@blaisesmithproperties.com",
+      "drive_path": "Blaise Real Estate OS / Client Deliverables",
+      "required_by": [
+        "buyer-property-snapshot"
+      ],
+      "verify": "The master named in SOP 02 \u00a719. NEVER overwrite. Carries no version line - see IF-2026-09-01-018. v2.0 adoption is queued as CGQ-013."
+    },
+    {
+      "key": "master_buyer_tour_value_guide_pdf",
+      "title": "CLIENT-FACING MASTER - Buyer Property Tour & Value Guide.pdf",
+      "file_id": "1RdATxPLoQJx7B3eWRy_v_-FJZs-IbU2G",
+      "authority": "canonical-template",
+      "version_pin": "unversioned",
+      "version_verified_at": "2026-09-01",
+      "owner_account": "bsmith@blaisesmithproperties.com",
+      "drive_path": "Blaise Real Estate OS / Client Deliverables",
+      "required_by": [
+        "buyer-property-snapshot"
+      ],
+      "verify": "10-page designed PDF master. Not named in SOP 02 \u00a719 - competes with the Doc master. Page 10 carries a pre-tour representation line that conflicts with SOP 02 v1.11. See IF-2026-09-01-018 / IF-2026-09-01-019."
+    },
+    {
+      "key": "master_tour_notes_rating_sheet",
+      "title": "Buyer Property Tour Notes & Rating Sheet \u2013 Master Template",
+      "file_id": "1WGBDQMXBhI4pVO8DvezIthQEoOPaNmEs9ZEBHsPxkhM",
+      "authority": "canonical-template",
+      "version_pin": "unversioned",
+      "version_verified_at": "2026-09-01",
+      "owner_account": "bsmith@blaisesmithproperties.com",
+      "drive_path": "Blaise Real Estate OS / Client Deliverables",
+      "required_by": [
+        "buyer-property-snapshot"
+      ],
+      "verify": "Print-only scorecard master named in SOP 02 \u00a73 (physical showing kit). Consolidated into the snapshot scorecard by CGQ-013."
+    },
+    {
+      "key": "brand_rules_canva_master",
+      "title": "INTERNAL - Canva Brand Rules & Master Links for Property, Tour & Seller Assets",
+      "file_id": "1esSVR8kCVQKvGdmr6KFUSpOJGkErOTwEQMPIkDxDz4A",
+      "authority": "supporting",
+      "version_pin": "unversioned",
+      "version_verified_at": "2026-09-01",
+      "owner_account": "bsmith@blaisesmithproperties.com",
+      "drive_path": "Blaise Real Estate OS / Brand",
+      "required_by": [
+        "buyer-property-snapshot"
+      ],
+      "verify": "Status line reads 'ACTIVE FOR NON-YLOPO CLIENT-FACING ASSETS'. Owns the approved brand rules: soft neutral ground, navy logo with clear space, navy corner accents, thin red detail lines, centered footer attribution."
+    },
+    {
+      "key": "brand_headshot_primary",
+      "title": "Blaise - Charcoal Blazer - Primary Headshot - Vertical.jpg",
+      "file_id": "1VmUojFEXSauNDt91TryoO8o5QWzRBN-P",
+      "authority": "supporting",
+      "version_pin": "n/a",
+      "version_verified_at": "2026-09-01",
+      "owner_account": "blaise.blueink@gmail.com",
+      "drive_path": "Blaise Real Estate OS / Brand / 01 - Headshots & Profile Photos",
+      "required_by": [
+        "buyer-property-snapshot"
+      ],
+      "verify": "The ONLY headshot carrying an approval designation in its title ('Primary Headshot'). Six undesignated images were added to the same folder on 2026-08-31. Resolve by this fileId - never by newest-file-in-folder. See IF-2026-09-01-020."
     }
   ]
 }

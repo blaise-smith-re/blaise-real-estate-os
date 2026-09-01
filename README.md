@@ -48,6 +48,9 @@ governance/
 .claude/
   agents/                    daily-revenue-command-center · client-prep-brief
   skills/                    retrieve-canonical-source · chicago-date-anchor · operator-execution-report
+                             connector-preflight · fub-controlled-write · chrome-operator-handoff
+                             buyer-property-snapshot
+  assets/                    client-facing deliverable schemas and design specs (no client data)
   settings.json              Permission enforcement (allow / deny)
 
 tests/                       Static suite, adversarial scenarios, synthetic fixtures

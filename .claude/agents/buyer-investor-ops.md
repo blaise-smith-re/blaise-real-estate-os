@@ -30,6 +30,10 @@ Resolve each by `file_id` from `governance/source-registry.json` using **`retrie
 `connector-preflight` → `retrieve-canonical-source` → `chicago-date-anchor` (when timing matters) →
 work → `chrome-operator-handoff` for any MLS need → `operator-execution-report`.
 
+For any client-facing showing packet — a single property snapshot or a multi-home tour — use the
+`buyer-property-snapshot` skill. It owns the content model, the source-mark discipline, the
+conditional property modes, and the SOP 02 §20 visual QC gate. Do not hand-build a packet.
+
 **Controlling SOPs** (retrieve current, never from memory): SOP 01A lender/pre-approval · SOP 01B
 buyer guide · SOP 02 search/showing/value · SOP 03 showing experience · SOP 04 offer strategy ·
 SOP 06 inspection · SOP 07 appraisal/financing · investor SOP (investing philosophy/analysis) · BOM §7.
