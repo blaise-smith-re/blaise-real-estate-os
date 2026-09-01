@@ -6,6 +6,28 @@ Improvement Findings.
 
 ---
 
+## [Live run] — 2026-09-01 — Client prep: Caitlin Nakache
+
+Certified `client-prep-brief` lane run against live FUB + Google Calendar for a same-day 9:00 AM
+showing. Read-only; `WRITES ATTEMPTED = NONE`. No agent, skill, or policy file changed.
+
+### Findings logged
+- **IF-2026-09-01-018 — OPERATIONAL / REVIEW.** All 8 agent wrappers instruct a read of
+  `governance/required-connectors.json` and `governance/source-registry.json`, but no agent's `tools:`
+  line grants any filesystem tool. Defeats the fileId-first control and makes registry-drift detection
+  impossible from inside a run. Exact diff proposed (add `Read`); not applied.
+- **IF-2026-09-01-019 — OPERATIONAL / REVIEW.** Calendar offset/label defect reproduced a **third**
+  time, on a live client appointment: `get_event` rendered `10:00:00-04:00` labeled `America/Chicago`
+  (an impossible pairing) for a showing that is actually **9:00 AM CDT**. Proposes making the
+  confirming `list_events` read mandatory rather than preferred. Interim rule in force immediately.
+- **IF-2026-08-31-017 — escalated.** An outbound text (id 84278, Delivered) was sent to a
+  `notext`-tagged record. The tag's meaning is now a consent question, not a conversion question.
+
+### Tests
+**30/30 passing.** T-23 well-formedness now covers 16 findings.
+
+---
+
 ## [Phases 3–8] — 2026-08-31 — Six departments + orchestrator
 
 Built the full Claude execution organization on top of the certified Phase 2 engines.

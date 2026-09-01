@@ -396,8 +396,100 @@ until a named precondition clears.
   proposes an outreach channel.
 - **TESTING REQUIRED** Confirm on the next two Zillow Preferred leads whether the tag appears
   pre-contact.
-- **DISPOSITION** **REVIEW** — Blaise to ask Brent. Until answered, agents surface the tag and let
-  Blaise decide the channel rather than silently suppressing or ignoring it.
+- **UPDATE 2026-09-01 — materially escalated.** On the same record (18524), an **outbound text was
+  actually sent** — text id 84278, 2026-08-31 19:29:57 CDT, deliveryStatus `Delivered`, from
+  6515714915 — to a contact carrying `notext`. This is no longer a hypothetical ambiguity: a message
+  has gone out against the tag. If `notext` encodes a real consumer consent choice, that is a
+  **consent/TCPA exposure**, not a conversion question. Resolving the tag's meaning is now
+  time-sensitive. No further text should be sent to a `notext`-tagged record until Brent answers.
+  Nothing was written to FUB by this run; the observation is read-only.
+- **DISPOSITION** **REVIEW — PRIORITY RAISED** — Blaise to ask Brent, now time-sensitive per the
+  2026-09-01 update. Until answered, agents surface the tag and let Blaise decide the channel rather
+  than silently suppressing or ignoring it, and flag any outbound text already sent against it.
+
+### IF-2026-09-01-018 — Every agent wrapper directs a filesystem read no agent can perform
+
+- **TRIGGER** Live client-prep run, Caitlin Nakache (personId 18524), 2026-09-01. The agent reported
+  it could not read `governance/required-connectors.json` or `governance/source-registry.json` and
+  fell back to live-retrieval preflight plus search-then-verify fileId resolution.
+- **CONTROLLING SOURCE** Repo-native: `.claude/agents/*.md` (all 8) · `governance/required-connectors.json` ·
+  `governance/source-registry.json` · `.claude/skills/connector-preflight` · `.claude/skills/retrieve-canonical-source`.
+- **OBSERVED ISSUE** All 8 agent wrappers instruct the agent to read `governance/required-connectors.json`
+  (8/8) and `governance/source-registry.json` (7/8). **No agent's `tools:` line grants any filesystem
+  tool** — no `Read`, `Bash`, `Glob`, or `Grep`. Verified: `grep -c "^tools:.*Read" .claude/agents/*.md`
+  returns `0` for all eight. Every agent is therefore instructed to perform a read it is structurally
+  incapable of performing.
+- **WHY IT MATTERS** This defeats the **fileId-first** control in CLAUDE.md §4.1. An agent that cannot
+  read the registry must resolve canonical sources **by title search** — the exact failure mode the rule
+  exists to prevent — and cannot perform the registry-pin-versus-live comparison that CLAUDE.md §4.3
+  requires to detect `REGISTRY DRIFT`. It also makes `connector-preflight` unable to read its own
+  declared required set. The 2026-09-01 run degraded safely and disclosed the gap, but **the disclosure
+  was the agent's judgment, not an enforced control** — a future run could silently present a
+  title-resolved source as registry-pinned.
+- **IMPACT** Wrong-source and stale-source risk on every controlled run, across all 8 agents. Registry
+  drift is currently undetectable from inside an agent run. No client harm observed in this run.
+- **CLASSIFICATION** **OPERATIONAL CHANGE.** Changing an agent's `tools:` line is a tool-permissions
+  change, named explicitly in the tier table. Classified upward per the classification rule even though
+  the grant is a local repo read that touches no connector and no business system.
+- **EXACT PROPOSED CHANGE** Grant read-only filesystem access scoped to repo governance files by adding
+  `Read` to the `tools:` frontmatter of all 8 agent definitions:
+  ```diff
+  - tools: Skill, mcp__Google_Drive__search_files, ...
+  + tools: Skill, Read, mcp__Google_Drive__search_files, ...
+  ```
+  `Read` is read-only and cannot write, execute, or reach any connector, so it does not expand any
+  action class and the Phase 2 `WRITES ATTEMPTED = NONE` invariant is unaffected.
+  **If instead the fallback is to be sanctioned rather than the gap closed**, amend Step 0 and Step 3 of
+  each wrapper to name the fallback explicitly (live-retrieval preflight; fileId resolved by search then
+  verified non-LEGACY) and **require** the run report to disclose that no registry pin comparison was
+  performed. Do not leave the wrapper instructing an impossible read either way.
+- **RELATED ASSETS** All 8 `.claude/agents/*.md` · `connector-preflight` · `retrieve-canonical-source` ·
+  `operator-execution-report` (GOVERNING SOURCES + VERSIONS block) · CLAUDE.md §4.1/§4.3.
+- **TESTING REQUIRED** New static test: for every agent, if the wrapper references a `governance/*.json`
+  path then the `tools:` line must grant a filesystem read tool. Behavioral: re-run a client-prep brief
+  and confirm the report cites a registry `fileId` **and** a pin-versus-live comparison result.
+- **DISPOSITION** **REVIEW** (ChatGPT / 04). Proposed diff above; not applied.
+
+### IF-2026-09-01-019 — Calendar offset/label defect reproduced a third time, on a live client appointment
+
+- **TRIGGER** Live client-prep run, Caitlin Nakache, 2026-09-01. `get_event` returned
+  `2026-09-01T10:00:00-04:00` labeled `timeZone: America/Chicago` for appointment 8876 / event
+  `nf84u6dstooi4scqosmr42i7io`.
+- **CONTROLLING SOURCE** Repo-native: `.claude/skills/chicago-date-anchor` Rule 3 ·
+  `governance/tool-policy.md` §4 timezone control.
+- **OBSERVED ISSUE** `-04:00` is **never** a valid America/Chicago offset. The absolute instant
+  (`2026-09-01T14:00:00Z`) is consistent across FUB and Calendar; only the rendered local time is wrong,
+  apparently rendered in the calendar's configured `America/New_York` zone while carrying a Chicago
+  label. A `list_events` read with an explicit timezone returned the correct `09:00:00-05:00`.
+  **Correct client-facing time: 9:00 AM CDT. A naive `get_event` read says 10:00 AM.**
+- **WHY IT MATTERS** This is the **third** documented reproduction (Client Prep Dallas pilot; Phase 1
+  Calendar verification; now live production). Rule 3 currently says *"Prefer a `list_events` read … to
+  confirm a **disputed** interval."* Nothing disputes an interval when only one read is taken — the
+  defect is invisible unless the operator already suspects it. The existing rule caught this only
+  because the agent independently noticed the impossible offset.
+- **IMPACT** A missed or late client showing. In this run it was a one-hour error on a first meeting
+  with a brand-new Zillow lead — arriving at 10:00 would have lost the client.
+- **CLASSIFICATION** **OPERATIONAL CHANGE.** Tightens a required verification step in a skill that
+  governs agent workflow. Classified upward per the classification rule; the change is strictly additive
+  and relaxes nothing.
+- **EXACT PROPOSED CHANGE** In `.claude/skills/chicago-date-anchor` Rule 3, replace the *"Prefer a
+  `list_events` read … to confirm a disputed interval"* bullet with a mandatory control:
+  ```
+  - **`get_event` and `search_events` rendered local times are not client-facing.** Before presenting
+    any client-facing time, confirm the interval with a `list_events` read passing an explicit
+    America/Chicago timezone. This is required on every run, not only when an interval is disputed.
+  - If a rendered offset is not a valid America/Chicago offset for that date (CST `-06:00`,
+    CDT `-05:00`), treat the rendered time as **defective**, not merely suspect, and report the
+    discrepancy in the run output.
+  ```
+  Mirror the same wording in `governance/tool-policy.md` §4 timezone control.
+- **RELATED ASSETS** `chicago-date-anchor` · `tool-policy.md` §4 · every agent that presents an
+  appointment time · `client-prep-brief` · `daily-revenue-command-center`.
+- **TESTING REQUIRED** Static: skill text asserts the mandatory confirming read. Behavioral: re-read
+  event `nf84u6dstooi4scqosmr42i7io` via both paths and confirm the run reports 9:00 AM CDT with the
+  discrepancy disclosed.
+- **DISPOSITION** **REVIEW** (ChatGPT / 04). Proposed diff above; not applied. **Interim operating rule
+  — effective now:** never present a Calendar time to Blaise or a client from `get_event` alone.
 
 ---
 
