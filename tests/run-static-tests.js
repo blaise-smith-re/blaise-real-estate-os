@@ -575,6 +575,45 @@ check('T-33', 'improvement-finding reporting discipline is defined', () => {
   return 'routine findings log quietly; material findings surface to Blaise';
 });
 
+check('T-34', 'agent source pins are present and match the registry exactly', () => {
+  // IF-2026-09-01-018 remediation #2. The Read grant is correct but a runtime may not expose a
+  // filesystem tool to subagents - live regression 2026-09-01 confirmed exactly that. Without a
+  // readable registry an agent degrades to TITLE resolution, which CLAUDE.md 4.1 forbids. Mirroring
+  // the fileId pointers into each wrapper removes the dependency; this test removes the drift risk.
+  const { execFileSync } = require('child_process');
+  const reg = new Map(json('governance/source-registry.json').sources.map(x => [x.key, x]));
+  const START = '<!-- SOURCE-PINS:START';
+
+  let pinned = 0;
+  for (const a of AGENTS) {
+    const md = read(`.claude/agents/${a}.md`);
+    assert(md.includes(START), `agent "${a}" has no generated source-pin block`);
+    const blockText = md.slice(md.indexOf(START), md.indexOf('<!-- SOURCE-PINS:END'));
+
+    const rows = [...blockText.matchAll(/^\| `([a-z0-9_]+)` \| `([A-Za-z0-9_-]+)` \|/gm)];
+    assert(rows.length > 0, `agent "${a}" source-pin block lists no pins`);
+    for (const [, key, fileId] of rows) {
+      const entry = reg.get(key);
+      assert(entry, `agent "${a}" pins unknown source key "${key}"`);
+      assert(entry.file_id === fileId,
+        `agent "${a}" pin for "${key}" is ${fileId} but registry says ${entry.file_id}`);
+      pinned++;
+    }
+    // A pin is a pointer. It must never carry the document's text.
+    assert(!/^(SECTION|Version:)/m.test(blockText), `agent "${a}" pin block contains document content`);
+    // The fallback must be stated, so a Read-less runtime degrades loudly instead of title-searching.
+    assert(/no pin-versus-registry comparison was performed/.test(blockText),
+      `agent "${a}" does not require disclosure when the registry cannot be read`);
+    assert(/[Nn]ever substitute a title search/.test(blockText),
+      `agent "${a}" does not forbid title-search fallback`);
+  }
+
+  // The generator is the only writer; a hand-edit must fail the build.
+  execFileSync(process.execPath, [path.join(ROOT, 'scripts/sync-source-pins.js'), '--check'],
+    { stdio: 'pipe' });
+  return `${pinned} pins across ${AGENTS.length} agents, all matching the registry`;
+});
+
 // ---------------------------------------------------------------- output
 
 const width = 62;

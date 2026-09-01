@@ -22,6 +22,17 @@ resolve to a LEGACY copy. Never resolve a canonical source by title search.
 
 ## Procedure
 
+0. **Get the `file_id`.** Two paths, in order:
+   - **Registry (preferred).** Read `governance/source-registry.json` and take the pinned `file_id`.
+   - **Wrapper pins (fallback).** If no filesystem read tool is available in this runtime — a real
+     condition, confirmed live on 2026-09-01 when subagents had no `Read` — use the generated
+     **SOURCE-PINS** table in your own agent wrapper. It mirrors the registry and is parity-enforced
+     by T-34, so the pin is trustworthy; what you lose is only the *comparison*.
+     **You must then state in the run report that no pin-versus-registry comparison was performed.**
+
+   **Under no circumstances fall back to a title search.** Losing the registry costs you drift
+   detection, not fileId discipline. A title search is how you end up on a `LEGACY -` twin.
+
 1. **Look up** the source in `governance/source-registry.json` by `key`. If the key is absent, stop:
    an unregistered source is not canonical. Raise an Improvement Finding to add it.
 2. **Retrieve** with `mcp__Google_Drive__read_file_content` using the registry `file_id`.

@@ -6,6 +6,48 @@ Improvement Findings.
 
 ---
 
+## [Regression + remediation] — 2026-09-01 — IF-018 fixed properly; root cause found
+
+Live regression against the same target (Caitlin Nakache, person 18524, event
+`nf84u6dstooi4scqosmr42i7io`) — run as a test, not a second brief.
+
+### IF-019 — PASS, and it found the root cause
+The mandatory reconciliation caught the defect live: `get_event` returned
+`2026-09-01T10:00:00-04:00` labeled `America/Chicago`; the explicit-timezone `list_events` read
+returned `09:00:00-05:00`. **9:00 AM CDT confirmed, corroborated four ways.**
+
+That same payload exposed **why**: the calendar's own default timezone is `America/New_York`.
+`get_event` renders into that Eastern default while stamping the field Chicago. Logged as
+**IF-2026-09-01-020** and surfaced to Blaise — the remedy is a Google account setting, not a repo
+change. The Rule 3 control stays regardless; it must not depend on a setting staying correct.
+
+### IF-018 — FAILED live, then fixed properly
+The `Read` grant is correct repo configuration but **a tool grant cannot create a capability the
+runtime withholds**: `Read` is disabled for this session including subagents (7 probes, identical
+error class). The agent correctly refused to title-resolve and returned HOLD — safe, but the control
+was inert.
+
+**Second remediation removes the runtime dependency.** `scripts/sync-source-pins.js` mirrors each
+wrapper's own `file_id` pins from the registry into a generated `SOURCE-PINS` block in the wrapper.
+A `file_id` is a pointer, not content, so this does not breach the no-cached-Drive-content rule —
+T-34 asserts that directly. The registry stays the single source of truth; the generator is the only
+writer; `--check` fails the build on a hand-edit.
+
+`retrieve-canonical-source` gains a step 0 naming both paths and **forbidding title-search fallback
+in the same breath**. What is genuinely lost without a readable registry is drift *detection*, and a
+run must now disclose that omission rather than let it pass silently.
+
+**Status:** fileId-first resolution RESTORED · registry-drift detection still blocked on a runtime
+that exposes a filesystem read tool to subagents.
+
+### Tests
+**50/50** — static 34/34 (new T-34: pins present, match the registry exactly, carry no document
+content, and require the fallback disclosure) · timezone 16/16.
+**Negative-tested:** substituting the LEGACY twin `1q_1vl_…` for the current `1ydJhE_…` makes T-34
+fail with the exact mismatch, then passes again on restore.
+
+---
+
 ## [Fixes] — 2026-09-01 — IF-018 + IF-019 applied; finding-surfacing rule
 
 Blaise directed direct repo-native application and clarified the authority boundary: **repo-native

@@ -471,6 +471,26 @@ until a named precondition clears.
   agent may grant `Write`, `Edit`, `NotebookEdit`, `Bash`, `Glob`, `Grep`, `Task`/`Agent`. 33/33 passing.
   **Not widened:** `Read` is read-only, reaches no connector, and creates no write class. The Phase 2
   invariant `WRITES ATTEMPTED = NONE` is structurally unchanged (T-28, T-12 still passing).
+- **REGRESSION 2026-09-01 — first remediation FAILED live; second remediation applied.** A live
+  regression run reported `Read` **unavailable**: *"No such tool available: Read. Read is disabled for
+  this session, in subagents as well as here."* `Bash`, `Glob`, `Grep`, `Write`, `Edit` likewise absent
+  (7 probes, identical error class). The grant is correct repo configuration, but **a tool grant cannot
+  create a capability the runtime withholds** — so the registry stayed unreadable and the agent still
+  could not resolve `prompt_client_prep_brief` by `fileId`. It correctly *declined* to title-resolve and
+  returned HOLD, which is the safe failure — but the control was still inert.
+  **Second remediation — remove the runtime dependency entirely.** `scripts/sync-source-pins.js` mirrors
+  each wrapper's own `file_id` pins from the registry into a generated `SOURCE-PINS` block in the
+  wrapper itself. A `file_id` is a **pointer, not content**, so this does not breach CLAUDE.md §4.8 /
+  T-02 / T-22 — asserted directly by T-34. The registry remains the single source of truth; the
+  generator is the only writer; `--check` mode fails the build on a hand-edit.
+  **Verified by negative test:** substituting the LEGACY twin `1q_1vl_…` for the current
+  `1ydJhE_…` makes T-34 fail with the exact mismatch. Restored, 34/34 pass.
+  **What is genuinely lost without a readable registry:** the pin-versus-live *comparison*, i.e.
+  `REGISTRY DRIFT` detection. `retrieve-canonical-source` step 0 now requires a run to **disclose** that
+  omission, and forbids title-search fallback in the same breath. Losing drift detection is acceptable;
+  losing fileId discipline is not.
+  **Status:** fileId-first resolution — **RESTORED**. Registry-drift detection — **still blocked on a
+  runtime that exposes a filesystem read tool to subagents.**
 
 ### IF-2026-09-01-019 — Calendar offset/label defect reproduced a third time, on a live client appointment
 
@@ -530,6 +550,36 @@ until a named precondition clears.
   unparseable instant. Static T-32 asserts the skill still carries the mandatory language, that all 8
   agents inherit it, and that the live case still reconciles to 9:00 AM CDT.
   **Drive-side language:** queued as CGQ-013, non-blocking. The repo fix did not wait on it.
+
+### IF-2026-09-01-020 — Google Calendar account default timezone is `America/New_York`
+
+- **TRIGGER** Live regression run, 2026-09-01, verifying the IF-019 fix. The reconciliation worked and
+  in doing so exposed **why** the defect exists.
+- **CONTROLLING SOURCE** Google Calendar connector, calendar `blaise@buysellhometeam.com`. Not a
+  repo-native or Drive-native document — this is an **account setting**.
+- **OBSERVED ISSUE** The `list_events` payload reports a calendar-level `"timeZone":"America/New_York"`.
+  `get_event` renders event local times **into that Eastern default** while stamping the field
+  `"timeZone":"America/Chicago"`. That is the mechanism behind all three reproductions: the instant is
+  always correct, the label is always Chicago, and the rendered wall-clock is always Eastern — one hour
+  fast for eight months of the year, and still one hour fast in CST.
+- **WHY IT MATTERS** This is the **root cause**, not another symptom. Every downstream control —
+  `chicago-date-anchor` Rule 3, the reconciliation script, T-32 — is compensation for a single wrong
+  account setting. The compensation is now solid and tested, but it is compensation.
+- **IMPACT** Every appointment time read from this calendar renders one hour fast until the setting is
+  changed. Missed or late client appointments.
+- **CLASSIFICATION** **MINOR MAINTENANCE** as a repo matter (nothing to change here — the control is
+  already applied and tested). The remedy itself is **outside repo authority**: it is Blaise's Google
+  account setting.
+- **EXACT PROPOSED CHANGE** No repo change. **Blaise:** Google Calendar → Settings → General →
+  Time zone → set primary timezone to **(GMT-06:00) Central Time – Chicago**. Existing events keep
+  their absolute instants and simply render correctly afterward.
+- **RELATED ASSETS** `chicago-date-anchor` · `tool-policy.md` §4 · `scripts/reconcile-appointment-time.js`
+  · all eight agents.
+- **TESTING REQUIRED** After the change, re-read event `nf84u6dstooi4scqosmr42i7io` via `get_event` and
+  confirm it renders `09:00:00-05:00`. **Keep Rule 3 reconciliation regardless** — the control must not
+  depend on an account setting staying correct.
+- **DISPOSITION** **SURFACED TO BLAISE 2026-09-01** (surfacing test 3: action only he can take). No repo
+  action outstanding.
 
 ---
 
