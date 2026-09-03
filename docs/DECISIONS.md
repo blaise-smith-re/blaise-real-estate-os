@@ -321,3 +321,37 @@ persistence method.
 
 **Consequence.** The runtime can manage by exception without creating a parallel task list, CRM, or
 decision database. Source systems and execution reports remain authoritative.
+
+## D-025 — Stage an exact FUB read adapter before exposing the connector
+
+**Date** 2026-09-03 · **Status** ACCEPTED
+
+**Context.** The private FUB MCP has a broad 25-read / 13-write operator surface, while the first
+provider-neutral runtime pilot needs only six reads. The current ChatGPT Work runtime exposes none of
+them.
+
+**Decision.** Implement a dependency-injected FUB adapter whose default surface is exactly
+`GET_CONTACT`, `GET_CONTACT_EVENTS`, `GET_CONTACT_NOTES`, `GET_CONTACT_APPOINTMENTS`, `SEARCH_TASKS`,
+and `GET_OPEN_TASKS`. Bind person reads to the Entity Registry ID, force complete Chicago-anchored
+task retrieval, reject write/unknown operations, and certify it first with synthetic responses.
+
+**Consequence.** Integration logic and failure behavior are testable without credentials or live
+client data. Synthetic PASS stages the adapter but does not put it in `live_adapters` or certify the
+production connector.
+
+## D-026 — Activation gates constrain effects, not OS depth
+
+**Date** 2026-09-03 · **Status** ACCEPTED
+
+**Context.** A read-only runtime status can be misread as the final operating model even though the
+department organization, controlled CRM write service, handoffs, and future scheduled cadence are
+already part of the design.
+
+**Decision.** Continue building the full operating-partner system while activating capabilities in
+evidence-backed layers: live reads, scheduled internal cadence, controlled record maintenance,
+event-driven orchestration, and bounded minor maintenance. Relationship conversations remain
+Blaise's responsibility.
+
+**Consequence.** Safety gates cannot silently turn into a shallow product specification. The target
+state and activation sequence are explicit in `docs/AUTOMATION-ACTIVATION-PLAN.md`; no gate by itself
+grants a new effect class.

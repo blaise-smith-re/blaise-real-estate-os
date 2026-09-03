@@ -12,6 +12,12 @@ node runtime/cli.js check
 
 Or run `npm test` followed by `npm run runtime:check`.
 
+Run the staged FUB adapter harness separately:
+
+```bash
+npm run certify:fub-read:synthetic
+```
+
 Every automated test is offline and synthetic. It makes zero network calls and zero writes to a
 business system.
 
@@ -37,6 +43,19 @@ These checks prove structural containment. They cannot prove agent judgment or c
 - source-evidence requirements;
 - Command Center completeness and priority order; and
 - Decision Queue non-persistence.
+
+The FUB adapter tests additionally prove:
+
+- exact stable-ID binding and mismatch refusal;
+- an exact six-operation pilot allowlist;
+- write-tool exposure detection;
+- forced complete task pagination in `America/Chicago`;
+- owner/contact and calendar-date bounds on task queries;
+- reported-only contact discovery; and
+- synthetic FUB adapter integration through `os.execution.v1`.
+
+The FUB harness proves adapter behavior offline. It does not certify live connector availability,
+OAuth scope separation, Drive/Calendar preflight, or a production record.
 
 ## Source-drift check
 

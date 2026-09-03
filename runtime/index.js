@@ -6,4 +6,5 @@ module.exports = {
   ...require('./registries'),
   ...require('./operations-bus'),
   ...require('./presentation'),
+  ...require('./adapters/fub-read'),
 };

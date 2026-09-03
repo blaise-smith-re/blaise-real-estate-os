@@ -578,6 +578,42 @@ check('T-36', 'repository contains no non-placeholder email or phone data', () =
   return 'all repository email and phone examples use reserved placeholders';
 });
 
+check('T-37', 'FUB adapter is staged, least-privilege, and synthetic-certified only', () => {
+  const adapter = read('runtime/adapters/fub-read.js');
+  const bootstrap = json('runtime/bootstrap.json');
+  const p = json('package.json');
+  for (const operation of ['GET_CONTACT', 'GET_CONTACT_EVENTS', 'GET_CONTACT_NOTES',
+    'GET_CONTACT_APPOINTMENTS', 'SEARCH_TASKS', 'GET_OPEN_TASKS']) {
+    assert(adapter.includes(operation), `FUB adapter missing pilot operation ${operation}`);
+  }
+  assert(/PILOT_OPERATIONS/.test(adapter), 'FUB adapter has no bounded pilot surface');
+  assert(/WRITE_TOOL_SUFFIXES/.test(adapter) && /FUB_WRITE_TOOL_REJECTED/.test(adapter),
+    'FUB adapter has no structural write-tool rejection');
+  assert(/America\/Chicago/.test(adapter) && /INCOMPLETE_RETRIEVAL/.test(adapter),
+    'FUB adapter lacks timezone/completeness controls');
+  assert(bootstrap.live_adapters.length === 0, 'synthetic adapter is incorrectly declared live');
+  assert(bootstrap.staged_adapters[0].status === 'SYNTHETIC_PASS_LIVE_CERTIFICATION_PENDING',
+    'staged adapter status overclaims production certification');
+  assert(/runtime\/cli\.js certify:fub-read --synthetic/.test(p.scripts['certify:fub-read:synthetic']),
+    'synthetic FUB certification command is not wired');
+  return 'six-operation pilot surface staged; write rejection and live HOLD intact';
+});
+
+check('T-38', 'automation target preserves depth and the human relationship boundary', () => {
+  const md = read('docs/AUTOMATION-ACTIVATION-PLAN.md');
+  for (const capability of ['Daily Desk / Command Center', 'Lead Conversion & FUB Desk',
+    'Marketing & Relationship Engine', 'Client Deliverables', 'Event-driven orchestration',
+    'Continuous improvement']) {
+    assert(md.includes(capability), `automation plan missing ${capability}`);
+  }
+  assert(/not a permanently read-only assistant/i.test(md), 'automation plan mistakes the gate for the target');
+  assert(/no independent calling, texting, emailing, or DMs/i.test(md),
+    'automation plan does not preserve Blaise relationship ownership');
+  assert(/No parallel CRM, task list,\ncalendar, or SOP library/.test(md),
+    'automation plan permits a parallel operating system');
+  return 'full operating-partner target is explicit; activation remains gated by effect class';
+});
+
 // ---------------------------------------------------------------- output
 
 const width = 62;

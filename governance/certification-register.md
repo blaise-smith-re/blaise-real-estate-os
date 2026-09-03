@@ -20,6 +20,7 @@ Record and Runtime Registries Sheet control when they differ from this file.
 | Capability Registry resolver | implemented; certified + Phase 2-enabled lanes only | registry staged, not live |
 | Entity Registry resolver | implemented; exact stable ID only | registry staged, not live |
 | Operations Bus | provider-neutral core implemented | **NOT LIVE** |
+| FUB read adapter | six-operation pilot surface implemented; synthetic PASS | **LIVE CERTIFICATION PENDING** |
 | Command Center | ranking/completeness gate implemented | presentation-only |
 | Decision Queue | in-memory implementation | presentation-only; never source of record |
 | Scheduler | no implementation enabled | **HOLD** |
@@ -32,7 +33,7 @@ Record and Runtime Registries Sheet control when they differ from this file.
 | Local analyze / summarize / validate / render-report | certified and Phase 2-enabled where recorded |
 | Google Calendar list/read lane | certified and Phase 2-enabled where recorded |
 | Google Drive reads | observed/provisional; use only where the live registry enables the exact class |
-| Follow Up Boss reads | **HOLD — no FUB read lane exposed in current ChatGPT Work runtime** |
+| Follow Up Boss reads | staged adapter synthetic PASS; **HOLD — no FUB read lane exposed in current ChatGPT Work runtime** |
 | Follow Up Boss writes | **PROHIBITED in Runtime Phase 2** |
 | Calendar, Drive, Gmail, publication, browser, scheduling writes | **PROHIBITED in Runtime Phase 2** |
 
@@ -52,10 +53,16 @@ provider-neutral runtime packages.
 
 ## Next certification gate
 
-1. Identify and expose the exact FUB read lane.
-2. Add it to the live Capability Registry with an evidence-backed certification state.
-3. Run one combined manual, read-only pilot through `os.execution.v1`.
-4. Confirm complete retrieval, exact entity resolution, source metadata, and zero effects.
-5. Certify the orchestrator/router only for the exercised scope.
+1. Provide a target-runtime FUB surface containing the six pilot reads and no reachable FUB writes.
+2. Ensure the client can authenticate with `fub:read` without requiring `fub:write`.
+3. Add the six exact operations to the live Capability Registry with evidence-backed states.
+4. Preflight FUB, Drive, and Calendar, then run one combined manual pilot through
+   `os.execution.v1`.
+5. Confirm complete task retrieval, exact entity binding, bounded list scope, source metadata, and
+   zero effects.
+6. Certify the orchestrator/router only for the exercised scope.
 
-Scheduling remains HOLD after this gate and requires separate certification.
+This is an activation gate, not the final automation target. The full department organization,
+controlled-write flow, handoffs, and future unattended cadence remain part of the build; each effect
+class activates only after its own authority and certification. See
+`docs/AUTOMATION-ACTIVATION-PLAN.md`.

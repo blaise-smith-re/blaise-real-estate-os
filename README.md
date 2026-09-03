@@ -17,12 +17,20 @@ second CRM, task list, calendar, document system, or SOP library.
 | Authority, Capability, and Entity Registry enforcement | **IMPLEMENTED — fixture-tested** |
 | Provider-neutral Operations Bus core | **IMPLEMENTED — read-only foundation** |
 | Command Center ranking and Decision Queue presentation | **IMPLEMENTED — memory-only** |
-| Live Follow Up Boss read adapter | **HOLD — lane not exposed in the current ChatGPT Work runtime** |
+| Follow Up Boss read adapter | **IMPLEMENTED — synthetic PASS; live lane pending** |
 | Combined production pilot and orchestrator certification | **NEXT** |
-| Scheduler, writes, sends, publication, and money movement | **HOLD** |
+| Full department organization and controlled FUB-write flow | **BUILT — activation gated** |
+| Scheduler and unattended internal orchestration | **DESIGNED TARGET — certification HOLD** |
+| Independent relationship outreach | **HUMAN-ONLY — Blaise owns conversations** |
 
 `FOUNDATION_READ_ONLY_NOT_LIVE` is an intentional status. The core is real and tested; it does not
 claim a connector exists until the exact lane is available and certified.
+
+Read-only is the current activation gate, not the target intelligence depth. The target operating
+model remains the complete OS: proactive opportunity discovery, daily prioritization, client prep,
+department routing, controlled CRM maintenance, exception handling, browser-operator handoffs, and
+continuous improvement. `docs/AUTOMATION-ACTIVATION-PLAN.md` shows what is built and what evidence
+unlocks each effect class.
 
 ## Runtime guarantees
 
@@ -47,6 +55,8 @@ runtime/
   registries.js        Authority, Capability, and Entity resolution
   operations-bus.js    State transitions, adapter selection, fail-closed execution
   presentation.js      Command Center ranking and in-memory Decision Queue
+  adapters/fub-read.js Exact read-tool allowlist, entity binding, completeness controls
+  certification/       Offline adapter certification harnesses
 
 governance/
   source-registry.json Current Drive fileId pointers after the 2026-09-03 cutover
@@ -77,6 +87,7 @@ Or, where package scripts are available:
 ```bash
 npm test
 npm run runtime:check
+npm run certify:fub-read:synthetic
 ```
 
 These checks make no network calls and perform no business-system writes.
@@ -90,10 +101,13 @@ containing `Superseded`, is evidence only and must never control a live workflow
 
 ## What clears the next gate
 
-1. Expose and identify the exact read-only Follow Up Boss lane in the target runtime.
-2. Record it in the Capability Registry and certify it against the active FUB System Runbook.
+1. Expose the six-operation Follow Up Boss pilot surface in the target runtime with no reachable
+   write tools and a read-only OAuth scope.
+2. Record those operations in the Capability Registry and certify them against the active FUB System
+   Runbook.
 3. Run one bounded combined manual pilot through `os.execution.v1` with complete source metadata and
    zero external effects.
 4. Certify orchestrator/router behavior from that evidence.
 
-Scheduling stays on HOLD after that milestone until its own bounded runtime smoke passes.
+Then activate the next effect class rather than stopping at read-only: scheduled internal cadence,
+controlled FUB maintenance, and event-driven orchestration each have their own bounded gate.

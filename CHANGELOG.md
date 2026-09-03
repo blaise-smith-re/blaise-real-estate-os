@@ -6,6 +6,50 @@ Improvement Findings.
 
 ---
 
+## [Runtime Phase 2B — Staged FUB Read Adapter] — 2026-09-03
+
+Implemented the first real provider adapter without claiming a live connection.
+
+### Runtime implemented
+
+- Added a dependency-injected FUB read adapter with a catalog of 25 connector reads and a default
+  six-operation surface for the combined Command Center + Client Prep pilot.
+- Bound person-scoped reads to exact Entity Registry FUB IDs and reject mismatched targets before any
+  connector call.
+- Forced complete `SEARCH_TASKS` retrieval with `fetch_all=true`, `America/Chicago`, an exact
+  owner/contact, and a bounded calendar-date query; partial or capped results return HOLD.
+- Classified `find_contact` as reported discovery rather than identity proof.
+- Added source evidence, bounded-list disclosure, credential rejection, exact tool availability,
+  and structural zero effects.
+
+### Certification and tests
+
+- Added `npm run certify:fub-read:synthetic`; all six pilot operations pass against synthetic
+  responses with zero effects.
+- Added runtime tests for stable-ID binding, mismatch refusal, task completeness, scope bounds,
+  unavailable/unknown/write operations, read-surface preflight, and Operations Bus integration.
+- Live certification remains pending because the FUB connector is not exposed in this runtime.
+
+### Full automation target preserved
+
+- Added `docs/AUTOMATION-ACTIVATION-PLAN.md` to distinguish the complete operating-partner target
+  from its current activation gate.
+- Recorded that read-only is not the final product: scheduled internal cadence, controlled FUB
+  maintenance, event-driven routing, and continuous improvement remain planned effect classes.
+- Kept relationship outreach human-owned and every production effect subject to its separate
+  authority and certification.
+
+### Connector finding
+
+- Added IF-2026-09-03-002: the current FUB MCP server requires `fub:read` and `fub:write` together and
+  advertises all write tools. Proposed a dedicated six-tool, `fub:read`-only endpoint before live OS
+  activation.
+
+### Not activated
+
+No live adapter, FUB write, message, schedule, publication, money movement, external persistence, or
+client-data commit was created.
+
 ## [Runtime Phase 2 — Read-Only Operations Bus Foundation] — 2026-09-03
 
 Aligned the repository to the completed Google Drive OS cutover and implemented the first
