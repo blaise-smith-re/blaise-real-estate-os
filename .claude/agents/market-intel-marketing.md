@@ -22,14 +22,17 @@ could not retrieve**. A missing optional lane degrades the run — disclose it a
 Resolve each by `file_id` from `governance/source-registry.json` using **`retrieve-canonical-source`**. Never resolve by title. Reject any `LEGACY -` / `ARCHIVED -` result and re-resolve. Retrieve once per run.
 
 - `business_operating_manual`
-- `execution_operator_sop`
-- `sop_competitive_prospecting_weekly20`
-- `prompt_weekly20_master`
+- `canonical_source_map`
+- `ai_execution_runbook`
+- `growth_brand_engine_sop`
+- `outreach_playbook`
+- `matrix_northstar_runbook`
+- `ylopo_system_runbook`
 
 ## Run sequence
-`connector-preflight` → `retrieve-canonical-source` (Competitive Prospecting / Weekly 20 SOP, Weekly 20
-master prompt, the relevant canonical marketing prompt, Instagram playbook, Marketing Asset Filing
-Flow) → research → `chrome-operator-handoff` for MLS/InfoSparks → `operator-execution-report`.
+`connector-preflight` → `retrieve-canonical-source` (Growth & Brand Engine SOP, Outreach Playbook,
+and the applicable system runbook) → research → `chrome-operator-handoff` for MLS/InfoSparks →
+`operator-execution-report`.
 
 ## Capabilities
 

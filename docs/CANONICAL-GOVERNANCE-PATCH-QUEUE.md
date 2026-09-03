@@ -1,5 +1,10 @@
 # Canonical Governance Patch Queue
 
+> **HISTORICAL — SUPERSEDED BY THE 2026-09-03 OS CUTOVER. DO NOT EXECUTE THIS QUEUE.** The former
+> canonical targets were retired and replaced by the consolidated Business Operating Manual,
+> lifecycle SOPs, system runbooks, Source Map, and Runtime Foundation controls. This file is retained
+> only as build history.
+
 Upstream changes to canonical **Google Drive** documents, batched for ChatGPT / 04 — Systems,
 Training & SOP Control.
 
@@ -127,7 +132,7 @@ read-back, and exactly-one-current-canonical verification.
 
 - **TARGET** Execution Operator SOP, GOOGLE DRIVE lane · **VERSION** 4.28
 - **EXACT PATCH** Record the authoritative connector account and require a retrieval test across
-  **both** owning accounts (`bsmith@blaisesmithproperties.com`, `blaise@buysellhometeam.com`) covering
+  **both** owning accounts (`primary-drive-account@example.invalid`, `brokerage-drive-account@example.invalid`) covering
   every fileId in the source registry. Canonical files are split across both; access must be proven by
   retrieval, never inferred from sharing. (IF-005)
 
@@ -170,7 +175,7 @@ read-back, and exactly-one-current-canonical verification.
   `1xxYjWwspET-gR5gYYtOb6uHh7eYXiM0r0YxRubjlB28` · also referenced by SOP 10 and the Execution
   Operator SOP ("A first-tour limited-agreement branch remains controlled by SOP 02").
 - **CURRENT VERIFIED VERSION** to be read at apply time (registry entry is UNPINNED).
-- **TRIGGER** Blaise directed on 2026-08-31, working the live Caitlin Nakache tour: **no buyer
+- **TRIGGER** Blaise directed on 2026-08-31, working the live SYNTHETIC_BUYER_E tour: **no buyer
   agreement is required before a tour.** The current first-tour limited-agreement branch caused a
   pre-tour blocker to be raised that does not reflect actual operating practice.
 - **EXACT PATCH** — replace the first-tour limited-agreement branch with:

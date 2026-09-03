@@ -26,8 +26,9 @@ resolve to a LEGACY copy. Never resolve a canonical source by title search.
    an unregistered source is not canonical. Raise an Improvement Finding to add it.
 2. **Retrieve** with `mcp__Google_Drive__read_file_content` using the registry `file_id`.
    Never substitute a search result.
-3. **Reject LEGACY/ARCHIVED, then recover (IF-014).** If the returned title begins with `LEGACY -` or
-   `ARCHIVED -`, contains `Superseded`, or otherwise conflicts with the expected title/status/folder:
+3. **Reject RETIRED/LEGACY/ARCHIVED, then recover.** If the returned title begins with `RETIRED -`,
+   `LEGACY -`, or `ARCHIVED -`, contains `Superseded`, or otherwise conflicts with the expected
+   title/status/folder:
 
    a. **HOLD only that controlled task.** Do not use the content. Do not edit the file. Continue any
       work that does not depend on this source.
@@ -67,7 +68,7 @@ Return this for every source retrieved, and carry it into `GOVERNING SOURCES + V
 ```
 SOURCE KEY        <registry key>
 FILE ID           <fileId actually retrieved>
-CURRENT TITLE     <title as returned by Drive>
+  CURRENT TITLE     <title as returned by Drive; never RETIRED/LEGACY/ARCHIVED>
 CURRENT VERSION   <version/date from the document itself, or UNPINNED>
 RETRIEVED AT      <ISO-8601 with America/Chicago offset>
 STATUS            CURRENT | REGISTRY DRIFT | UNPINNED | HOLD
@@ -79,9 +80,9 @@ AUTHORITY LEVEL   governing | controlling | routing | canonical-prompt | support
 - **Never cache canonical content** into this repository, an agent file, project knowledge, or a
   commit. Pointers only.
 - **Never paraphrase a canonical prompt from memory.** Retrieve it and follow the live text.
-- **Access is proven by retrieval, never inferred from sharing.** Canonical files are split across
-  `bsmith@blaisesmithproperties.com` and `blaise@buysellhometeam.com`. A successful share is not
-  a successful read.
+- **Access is proven by retrieval, never inferred from sharing.** Canonical files may be split across
+  `primary-drive-account@example.invalid` and `brokerage-drive-account@example.invalid`. A
+  successful share is not a successful read.
 - **`route-target` entries are pointers only.** Do not retrieve them during a normal run; name them
   as the handoff destination.
 - A retrieved document is authority for **its own scope only**. The authority order in `CLAUDE.md`

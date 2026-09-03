@@ -1,7 +1,8 @@
-# Blaise Real Estate OS — Claude Execution Layer
+# Blaise Real Estate OS — Runtime and Agent Compatibility Contract
 
-This repository is the **Claude Code execution and multi-agent operating layer** for Blaise Smith's
-real estate business. It governs every Claude Code session run in this repo.
+This repository is the **provider-neutral execution foundation and Claude compatibility layer** for
+Blaise Smith's real estate business. The active runtime phase is
+`FOUNDATION_READ_ONLY_NOT_LIVE`: manual, read-only, and zero external effects.
 
 Keep this file short and durable. Task logic belongs in agent definitions. Reusable procedure belongs
 in skills. **Business documentation belongs in Google Drive and must never be copied here.**
@@ -14,8 +15,8 @@ in skills. **Business documentation belongs in Google Drive and must never be co
   consequential actions.
 - **ChatGPT (Blaise Real Estate OS project)** — business orchestration, strategy, reasoning,
   source-control owner, canonical SOP/change-control owner, cross-system quality control.
-- **Claude** — **execution operator**. Carries out the approved system action, prepares or updates the
-  target record, reconciles output, verifies its own work, and reports the result.
+- **AI execution runtime** — prepares, analyzes, routes, reconciles, verifies, and reports only within
+  an exact active Authority and Capability Registry grant.
 - **The source system remains authoritative** in every case.
 
 This authority model is set by the Business Operating Manual §4.12. **Do not amend it from this
@@ -78,14 +79,17 @@ Full definitions: Business Operating Manual §4. See `governance/system-ownershi
 3. **If the registry pin differs from the live document, the live Drive document wins.** Proceed on
    the live document, flag `REGISTRY DRIFT`, and raise an Improvement Finding. Never proceed on a
    stale pin.
-4. **A document titled `LEGACY - …` or `ARCHIVED - …` is never authority.** If retrieval resolves to
+4. **A document titled `RETIRED - …`, `LEGACY - …`, or `ARCHIVED - …` is never authority.** If retrieval resolves to
    one, stop and re-resolve.
 5. Confirm title/version **once per continuous run**, not before every sub-step.
 6. If a canonical source cannot be retrieved, continue only through portions of the task that do not
    depend on unresolved policy. Stop at the policy boundary — not the whole workflow.
 7. **Access is proven by retrieval, never inferred from sharing.** Two accounts own canonical files
-   (`bsmith@blaisesmithproperties.com`, `blaise@buysellhometeam.com`).
+   (`primary-drive-account@example.invalid`, `brokerage-drive-account@example.invalid`).
 8. **Never cache Drive content into this repository**, into an agent file, or into project knowledge.
+9. **Never commit live client data.** Names, direct contact fields, CRM IDs, property activity,
+   relationship facts, task text, and live certification evidence belong in restricted systems—not
+   source control. Repository examples must be synthetic and use `.invalid` contact domains.
 
 Use the `retrieve-canonical-source` skill. Never rely on embedded or remembered SOP text.
 
@@ -98,18 +102,17 @@ Six departments plus an orchestrator. Charters: `governance/department-charters.
 | Agent | Role | Writes |
 |---|---|---|
 | `chief-of-staff` | Execution orchestrator — routes, reconciles, reports | none |
-| `lead-conversion-crm` | **The only FUB write path** | gated on CGQ-001 |
+| `lead-conversion-crm` | Prepares the only FUB write-request path | **no runtime writes granted** |
 | `buyer-investor-ops` | Buyer + investor prep, search, showings, offers, deal analysis | none |
 | `seller-listing-ops` | Consultation, CMA/pricing, launch, active listing, offers, relist | none |
 | `market-intel-marketing` | Weekly 20, market stats, content, campaigns | none |
 | `transaction-closing-ops` | Mutual acceptance → closing, deadlines, TC handoff | none |
-| `daily-revenue-command-center` | Daily ranked priorities — **CERTIFIED** | none |
-| `client-prep-brief` | 5-minute pre-conversation brief — **CERTIFIED** | none |
+| `daily-revenue-command-center` | Daily ranked priorities; historical pilot PASS, runtime recertification pending | none |
+| `client-prep-brief` | 5-minute brief; historical pilot PASS, runtime recertification pending | none |
 
-**Invariants.** One CRM write path · no parallel CRM, task list, calendar, transaction database or
-document system · every agent preflights connectors, resolves sources by `fileId`, and anchors dates
-to America/Chicago · MLS / Click Contracts / SkySlope / Ylopo / ShowingTime always route to the
-Chrome operator by formal handoff packet.
+**Invariants.** One CRM write-request path · no parallel CRM, task list, calendar, transaction
+database or document system · every agent preflights connectors, resolves sources by `fileId`, and
+anchors dates to America/Chicago · unreachable systems route by formal handoff packet.
 
 ---
 
@@ -124,10 +127,9 @@ Four classes. Certification is **action-class specific**.
 | **HUMAN-APPROVAL WRITE** | Requires Blaise's explicit approval for this exact action |
 | **HOLD / PROHIBITED** | Not permitted under any current authorization |
 
-> **One certified tool does not authorize other tools on the same connector.**
-> The Blaise FUB MCP exposes 38 tools. Only 3 write tools are certified
-> (`create_contact_note`, `create_contact_task`, `close_out_contact_interaction`) — and **none of
-> them are available to any Phase 2 agent.**
+> **One certified tool does not authorize other tools on the same connector.** The active Runtime
+> Phase 2 Capability Registry currently grants local compute and the specifically recorded read
+> lanes only. **No external write class is enabled.**
 
 **Every Phase 2 agent is READ-ONLY. `WRITES ATTEMPTED` must always equal `NONE`.**
 
@@ -137,11 +139,11 @@ Authoritative matrix: `governance/tool-policy.md`. Enforcement: `.claude/setting
 
 ## 6. STANDING HOLD
 
-- **Unattended / scheduled Claude agent execution is HOLD.** No cron, no Routine, no scheduled task,
-  no background job, no `/loop` for agent execution. The Execution Operator SOP holds this pending a
-  scheduler-runtime morning smoke proving the America/Chicago date anchor, complete task retrieval,
-  correct report generation, zero writes, and reliable delivery. **This repository has scheduling
-  capability; that capability must not be used for agent execution.**
+- **Unattended / scheduled agent execution is HOLD.** No cron, Routine, scheduled task, background
+  job, or `/loop`. The active runtime control record holds scheduling until a bounded smoke proves
+  the America/Chicago date anchor, complete retrieval, correct reporting, zero writes, and delivery.
+- The provider-neutral Operations Bus is a tested foundation and is **not live**.
+- The current ChatGPT Work runtime exposes no FUB read lane; never simulate one.
 - All FUB write tools — HOLD for Phase 2 agents.
 - All Gmail send / reply / forward / draft writes — HOLD.
 - All Calendar create / update / delete — HOLD.
@@ -150,7 +152,7 @@ Authoritative matrix: `governance/tool-policy.md`. Enforcement: `.claude/setting
   prohibit it regardless).
 - Northstar/Matrix, Click Contracts, SkySlope, Ylopo — **not reachable from this repository.** These
   are Claude-in-Chrome lanes. Route to the Chrome operator; see `docs/CHROME-OPERATOR-HANDOFF.md`.
-- Merging to `main` — requires Blaise + ChatGPT review.
+- Merging to `main` requires Blaise authorization and a passing review/test gate.
 
 ---
 

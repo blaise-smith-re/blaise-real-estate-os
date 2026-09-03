@@ -1,331 +1,241 @@
 {
-  "registry_version": "1.0.0",
-  "updated": "2026-08-31",
-  "phase": "Phase 2",
-  "principle": "Stores POINTERS ONLY. Never store canonical source content in this repository. On any mismatch between version_pin and the retrieved live document, THE LIVE DRIVE DOCUMENT WINS.",
+  "registry_version": "2.0.0",
+  "updated": "2026-09-03",
+  "phase": "Runtime Phase 2 — Read-Only Foundation",
+  "principle": "Stores POINTERS ONLY. Never store canonical source content in this repository. On any mismatch between a repository pointer and the current active source, THE LIVE DRIVE DOCUMENT WINS.",
+  "cutover": {
+    "completed": "2026-09-03",
+    "record_file_id": "1yF9vl8bArdSYsTG4HUPwzg2t8CyI3V3vf7AXtYyOEDI",
+    "rule": "The pre-cutover multi-document OS is retired. A RETIRED, LEGACY, ARCHIVED, or Superseded document is evidence only and never current authority."
+  },
   "resolution_rules": [
-    "Resolve every source by file_id. Never resolve by title search: titles change to 'LEGACY - <title> - Superseded <date> (vX.Y)' when a document is superseded, but the canonical document keeps its file_id and is edited in place.",
-    "Reject any retrieval whose live title begins with 'LEGACY -' or 'ARCHIVED -'. Stop and re-resolve.",
-    "Read the retrieved document's own version/date line and compare to version_pin.",
+    "Resolve every source by file_id. Never resolve current authority by title search.",
+    "Reject any retrieval whose live title begins with RETIRED -, LEGACY -, or ARCHIVED -, or contains Superseded.",
+    "Read the retrieved document's own version/date/status line and compare it to version_pin when a pin exists.",
     "version_pin mismatch => status REGISTRY DRIFT: proceed on the live document, raise an Improvement Finding, do not proceed on the pin.",
     "Retrieval failure on a required source => HOLD for the policy-dependent portion of the task only.",
-    "Access is proven by retrieval, never inferred from folder sharing. Canonical files are split across two owner accounts."
+    "Access is proven by retrieval, never inferred from repository visibility or folder sharing."
   ],
   "authority_levels": {
     "governing": "Business Operating Manual. Outranks SOPs.",
-    "controlling": "The SOP that controls this specific workflow.",
-    "routing": "Channel and handoff routing authority.",
-    "canonical-prompt": "The approved business logic for an agent. Retrieved at runtime and followed; never copied into this repository.",
-    "supporting": "Referenced by a canonical prompt as a controlling source for part of its workflow.",
-    "route-target": "Named as a handoff destination. POINTER ONLY - do not retrieve during a normal run."
+    "routing": "Canonical Source Map & Index.",
+    "controlling": "The active lifecycle SOP or system runbook controlling the workflow.",
+    "supporting": "An active playbook, competency map, or project instruction used within its scope.",
+    "template": "An approved master used to create a client-specific derivative; never overwrite the master.",
+    "runtime-control": "The active runtime phase, hold, and certification control record.",
+    "runtime-registry": "The staged Authority, Capability, Entity, Execution Contract, and Certification registries.",
+    "evidence": "A cutover or certification record; evidence, not business procedure."
   },
   "sources": [
     {
       "key": "business_operating_manual",
-      "title": "00 - Blaise Smith Business Operating Manual",
-      "file_id": "1HyBu_OcwTm8-_Aqh0hDcfIFGoor399gR8NHUMRJKAVc",
+      "title": "Business Operating Manual",
+      "file_id": "1YxG991_SXW8QTQvK_G1tOsd6il1mWzqdmVcnLwFFcX8",
       "authority": "governing",
-      "version_pin": "1.30",
-      "version_verified_at": "2026-08-31",
-      "owner_account": "bsmith@blaisesmithproperties.com",
-      "drive_path": "Blaise Real Estate OS / 01 - Dashboard",
-      "required_by": [
-        "daily-revenue-command-center",
-        "client-prep-brief",
-        "lead-conversion-crm",
-        "buyer-investor-ops",
-        "seller-listing-ops",
-        "market-intel-marketing",
-        "transaction-closing-ops",
-        "chief-of-staff"
-      ],
-      "verify": "Read the 'Version / Status' row of the header table. Expect '1.30 | Active Governing Manual'."
+      "version_pin": null,
+      "locator_verified_at": "2026-09-03",
+      "required_by": ["daily-revenue-command-center", "client-prep-brief", "lead-conversion-crm", "buyer-investor-ops", "seller-listing-ops", "market-intel-marketing", "transaction-closing-ops", "chief-of-staff"],
+      "verify": "Confirm the current title/status and that the document is not RETIRED, LEGACY, ARCHIVED, or Superseded."
     },
     {
-      "key": "execution_operator_sop",
-      "title": "SOP - Claude Execution Operator, Browser & API-MCP Integration Control",
-      "file_id": "1BuTAOheI3ykLZGJ3lLddHhVKMOIqkK_qX7f_YxYHbuU",
-      "authority": "controlling",
-      "version_pin": "4.28",
-      "version_verified_at": "2026-08-31",
-      "owner_account": "bsmith@blaisesmithproperties.com",
-      "drive_path": "Blaise Real Estate OS / 07 - Automation / Claude Browser Operator",
-      "required_by": [
-        "daily-revenue-command-center",
-        "client-prep-brief",
-        "lead-conversion-crm",
-        "buyer-investor-ops",
-        "seller-listing-ops",
-        "market-intel-marketing",
-        "transaction-closing-ops",
-        "chief-of-staff"
-      ],
-      "verify": "Read the 'Version:' line near the top. Expect '4.28'. This SOP owns the certification register, the Claude Code Multi-Agent Execution Lane, and every action-class gate."
-    },
-    {
-      "key": "workflow_channels_routing",
-      "title": "02 - ChatGPT Workflow Channels, Routing & Starter Scripts - Blaise Real Estate OS",
-      "file_id": "12Pg3pAXpPWfEf6_U6rFYrOM7WQSDVkM90CwJjujqiLE",
+      "key": "canonical_source_map",
+      "title": "Source Map & Index",
+      "file_id": "1UU8eQOElu388w2FA2gPJCMOKP7_EvQRNoPUthxc1_wg",
       "authority": "routing",
-      "version_pin": "4.2",
-      "version_verified_at": "2026-08-31",
-      "owner_account": "bsmith@blaisesmithproperties.com",
-      "drive_path": "Blaise Real Estate OS / 07 - Automation",
-      "required_by": [
-        "execution-layer",
-        "chief-of-staff"
-      ],
-      "verify": "Read the 'Version 4.2 | Active - Approved by Blaise' line. Owns the Claude Execution Task Packet and the ROUTING MAP. Required by the execution layer and by the orchestrator when built; NOT retrieved at runtime by either Phase 2 agent."
+      "version_pin": null,
+      "locator_verified_at": "2026-09-03",
+      "required_by": ["execution-layer", "daily-revenue-command-center", "client-prep-brief", "lead-conversion-crm", "buyer-investor-ops", "seller-listing-ops", "market-intel-marketing", "transaction-closing-ops", "chief-of-staff"],
+      "verify": "Confirm the active canonical set and use it to resolve workflow authority."
     },
     {
-      "key": "prompt_daily_revenue_command_center",
-      "title": "Claude Prompt - Daily Revenue Command Center",
-      "file_id": "1xV6ScXQJdXPb9t9rQZhJFFZkKwRH9fd0f1MtdnaAT6o",
-      "authority": "canonical-prompt",
-      "version_pin": "1.2",
-      "version_verified_at": "2026-08-31",
-      "owner_account": "bsmith@blaisesmithproperties.com",
-      "drive_path": "Blaise Real Estate OS / 07 - Automation / Reusable Claude Prompts / Operations & QC / Daily Revenue Command Center",
-      "required_by": [
-        "daily-revenue-command-center"
-      ],
-      "verify": "Read 'Version: 1.2 | Active'. This IS the agent's business logic. Retrieve and follow it at runtime; never copy it into the repository."
+      "key": "lead_conversion_sop",
+      "title": "Lead Conversion SOP",
+      "file_id": "1sBp77Ur1XS0vmon3IucNj_jfTEH49HeGZZdbfl8ilEk",
+      "authority": "controlling",
+      "version_pin": null,
+      "locator_verified_at": "2026-09-03",
+      "required_by": ["daily-revenue-command-center", "client-prep-brief", "lead-conversion-crm"],
+      "verify": "Confirm active status; controls lead conversion and client relationship workflow."
     },
     {
-      "key": "prompt_client_prep_brief",
-      "title": "Claude Prompt - Client Prep & 5-Minute Brief Engine",
-      "file_id": "1ydJhE_PoeZsUS-_LDKhKrKL4c9iY5SGUOqIouemkFIU",
-      "authority": "canonical-prompt",
-      "version_pin": "1.0",
-      "version_verified_at": "2026-08-31",
-      "owner_account": "bsmith@blaisesmithproperties.com",
-      "drive_path": "Blaise Real Estate OS / 07 - Automation / Reusable Claude Prompts / Operations & QC / Client Prep & 5-Minute Briefing",
-      "required_by": [
-        "client-prep-brief"
-      ],
-      "verify": "Read 'Version: 1.0 | Active'. This IS the agent's business logic. Retrieve and follow it at runtime; never copy it into the repository."
+      "key": "buyer_lifecycle_sop",
+      "title": "Buyer Lifecycle SOP",
+      "file_id": "1CpuX4d8B2zEhUNvtNr85Pj58Hn6tFhUNyL34Jpthghc",
+      "authority": "controlling",
+      "version_pin": null,
+      "locator_verified_at": "2026-09-03",
+      "required_by": ["buyer-investor-ops", "transaction-closing-ops"],
+      "verify": "Confirm active status; controls the consolidated buyer lifecycle."
     },
     {
-      "key": "fub_05_crm_documentation",
-      "title": "FUB 05 - CRM Documentation, Smart Lists & Daily-Weekly Rhythm SOP",
-      "file_id": "1rYWbmFnBG00zuZiQ6wZd3MI1eDIHpKxyOnjYQBYpnsk",
+      "key": "seller_lifecycle_sop",
+      "title": "Seller Lifecycle SOP",
+      "file_id": "1spF9YBm4CZIvsrfguL7LvrmzPCHnvxb7-xuolMCsp3g",
+      "authority": "controlling",
+      "version_pin": null,
+      "locator_verified_at": "2026-09-03",
+      "required_by": ["seller-listing-ops", "transaction-closing-ops"],
+      "verify": "Confirm active status; controls the consolidated seller lifecycle."
+    },
+    {
+      "key": "growth_brand_engine_sop",
+      "title": "Growth & Brand Engine SOP",
+      "file_id": "1HTnA5_pUCpi2y1wVOCBVjM-U1baaGGE3G_DdwBEsIl4",
+      "authority": "controlling",
+      "version_pin": null,
+      "locator_verified_at": "2026-09-03",
+      "required_by": ["market-intel-marketing"],
+      "verify": "Confirm active status; controls growth, brand, and market-facing preparation."
+    },
+    {
+      "key": "outreach_playbook",
+      "title": "Outreach Playbook",
+      "file_id": "1983apvmU9Xt81qmT9yQqxT6C_i2MXRQ9_nmGlfZtdL4",
       "authority": "supporting",
-      "version_pin": "1.8",
-      "version_verified_at": "2026-08-31",
-      "owner_account": "bsmith@blaisesmithproperties.com",
-      "drive_path": "Blaise Real Estate OS / 01 - Dashboard / Operations Manual & SOP Library / 04 - Follow Up Boss SOPs / 02 - CRM Operations & Controls",
-      "required_by": [
-        "daily-revenue-command-center",
-        "lead-conversion-crm"
-      ],
-      "verify": "Read the 'Version:' line near the top. Expect '1.8'. Named by the Command Center prompt as the ordering authority for daily control surfaces."
+      "version_pin": null,
+      "locator_verified_at": "2026-09-03",
+      "required_by": ["market-intel-marketing"],
+      "verify": "Confirm active status; use only within outreach preparation scope."
     },
     {
-      "key": "fub_06_automation_map",
-      "title": "FUB 06 - Automation Map, Guardrails & Improvement Log",
-      "file_id": "197OgqAyYpdx0dmwthzdCdOxmNsM9ZgKOKD1CVeNEbo8",
+      "key": "investor_playbook",
+      "title": "Investor Playbook",
+      "file_id": "1NKeXyw0k3q4jXx53YbyqvoFui4cXtImBRwUJy7YFP84",
       "authority": "supporting",
-      "version_pin": "1.8",
-      "version_verified_at": "2026-08-31",
-      "owner_account": "bsmith@blaisesmithproperties.com",
-      "drive_path": "Blaise Real Estate OS / 01 - Dashboard / Operations Manual & SOP Library / 04 - Follow Up Boss SOPs / 99 - Reference & Change Requests",
-      "required_by": [
-        "daily-revenue-command-center",
-        "lead-conversion-crm"
-      ],
-      "verify": "Read the 'Version:' line near the top. Expect '1.8'. Governs FUB automation behavior, the 38-tool inventory, the find_contact target-resolution limitation, and shared-configuration guardrails (Brent approval path)."
-    },
-    {
-      "key": "prompt_buyer_showing_prep",
-      "title": "Claude Prompt - Buyer Showing Prep & Client Deliverable Builder",
-      "file_id": "1qCCCucWG6q8p6JloP-qlrxkB8r8gecc8gUofB6otTlc",
-      "authority": "route-target",
       "version_pin": null,
-      "owner_account": "bsmith@blaisesmithproperties.com",
-      "required_by": [
-        "client-prep-brief"
-      ],
-      "verify": "POINTER ONLY. Named as a handoff destination for buyer showing/property deep work. Do not retrieve during a normal Client Prep run."
+      "locator_verified_at": "2026-09-03",
+      "required_by": ["buyer-investor-ops"],
+      "verify": "Confirm active status; use for investor analysis and client decision support."
     },
     {
-      "key": "prompt_seller_listing_appointment_prep",
-      "title": "Claude Prompt - Seller Listing Appointment Prep & Strategy Builder",
-      "file_id": "19fnN2nGYk-dHTLyL1gC-d617wwO1V9U1ae75x7WYKJ0",
-      "authority": "route-target",
+      "key": "competency_map",
+      "title": "Competency Map",
+      "file_id": "1FXtF6HUIohfRQgxNn-aWwNNP1xcVVR04YyxjQ6Csf64",
+      "authority": "supporting",
       "version_pin": null,
-      "owner_account": "bsmith@blaisesmithproperties.com",
-      "required_by": [
-        "client-prep-brief"
-      ],
-      "verify": "POINTER ONLY. Named as a handoff destination for seller listing appointment / CMA / pricing deep work. Do not retrieve during a normal Client Prep run."
+      "locator_verified_at": "2026-09-03",
+      "required_by": ["execution-layer"],
+      "verify": "Confirm active status; use for role and competency routing only."
     },
     {
-      "key": "sop_02_buyer_search_showing_value",
-      "title": "SOP 02 - Buyer Property Search, Showing & Value Analysis",
-      "file_id": "1xxYjWwspET-gR5gYYtOb6uHh7eYXiM0r0YxRubjlB28",
+      "key": "ai_execution_runbook",
+      "title": "AI Execution Runbook",
+      "file_id": "1pFUdBNfbPLBYSkyKj0_25wC6RuP6VKO1WnkOZ1EudJw",
+      "authority": "runtime-control",
+      "version_pin": null,
+      "locator_verified_at": "2026-09-03",
+      "required_by": ["execution-layer", "daily-revenue-command-center", "client-prep-brief", "lead-conversion-crm", "buyer-investor-ops", "seller-listing-ops", "market-intel-marketing", "transaction-closing-ops", "chief-of-staff"],
+      "verify": "Confirm active status; controls provider-neutral execution, state, interruption, and reporting behavior."
+    },
+    {
+      "key": "fub_system_runbook",
+      "title": "FUB System Runbook",
+      "file_id": "1dR1lv1VWfvzmozPo-rX7sbbZ_kWvuWSAzTCNvWMKWos",
       "authority": "controlling",
       "version_pin": null,
-      "version_verified_at": "2026-08-31",
-      "owner_account": "bsmith@blaisesmithproperties.com",
-      "drive_path": "",
-      "required_by": [
-        "buyer-investor-ops"
-      ],
-      "verify": "Resolve by file_id. Reject any LEGACY/ARCHIVED title. Read the document's own Version line and record it; UNPINNED until a version is verified in a live run."
+      "locator_verified_at": "2026-09-03",
+      "required_by": ["daily-revenue-command-center", "client-prep-brief", "lead-conversion-crm"],
+      "verify": "Confirm active status; controls Follow Up Boss behavior. Runtime Phase 2 remains read-only even if the runbook describes separately certified write classes."
     },
     {
-      "key": "sop_04_buyer_offer_strategy",
-      "title": "SOP 04 - Buyer Offer Strategy, Negotiation & Offer Writing",
-      "file_id": "1RnxBJAAtVbo25MFdBedpqw2_tYFBpaOcf330tZ7YRFY",
+      "key": "click_contracts_runbook",
+      "title": "Click Runbook",
+      "file_id": "1c2zCS--YaiQ2pRd9clgeJFhFlVgSe1sIdTULH5eN7ow",
       "authority": "controlling",
       "version_pin": null,
-      "version_verified_at": "2026-08-31",
-      "owner_account": "bsmith@blaisesmithproperties.com",
-      "drive_path": "",
-      "required_by": [
-        "buyer-investor-ops"
-      ],
-      "verify": "Resolve by file_id. Reject any LEGACY/ARCHIVED title. Read the document's own Version line and record it; UNPINNED until a version is verified in a live run."
+      "locator_verified_at": "2026-09-03",
+      "required_by": ["buyer-investor-ops", "seller-listing-ops", "transaction-closing-ops"],
+      "verify": "Confirm active status; controls Click Contracts handoff and execution boundaries."
     },
     {
-      "key": "sop_09_real_estate_investing",
-      "title": "SOP 09 - Real Estate Investing: Philosophy, Analysis & Client Style",
-      "file_id": "1RPycB3weYFkDSZNx4zLqQHaUFe0zhBAZMiGjGUeFrfM",
+      "key": "ylopo_system_runbook",
+      "title": "Ylopo Runbook",
+      "file_id": "1SfJbcUJRg9NgS_ZmYospgcTnHZt8pNxLK9_K-JTr6jA",
       "authority": "controlling",
       "version_pin": null,
-      "version_verified_at": "2026-08-31",
-      "owner_account": "bsmith@blaisesmithproperties.com",
-      "drive_path": "",
-      "required_by": [
-        "buyer-investor-ops"
-      ],
-      "verify": "Resolve by file_id. Reject any LEGACY/ARCHIVED title. Read the document's own Version line and record it; UNPINNED until a version is verified in a live run. NOTE: SOP-number collision with SOP 09 Buyer Post-Closing (IF-001) - resolve by file_id only, never by number."
+      "locator_verified_at": "2026-09-03",
+      "required_by": ["buyer-investor-ops", "seller-listing-ops", "market-intel-marketing"],
+      "verify": "Confirm active status; controls Ylopo master and client-specific derivative handling."
     },
     {
-      "key": "sop_01c_seller_listing_presentation",
-      "title": "SOP 01C - Seller Listing Presentation, Consultation & Filing",
-      "file_id": "13GhbiAw2j1heeHPIs6sU3ZjURMq5gTtoRqXRC0LZjMw",
+      "key": "matrix_northstar_runbook",
+      "title": "Matrix/Northstar Runbook",
+      "file_id": "17qIs8zxzXmph_bNewELNtiYKMjpH_GEggDeBbtPWSQc",
       "authority": "controlling",
       "version_pin": null,
-      "version_verified_at": "2026-08-31",
-      "owner_account": "bsmith@blaisesmithproperties.com",
-      "drive_path": "",
-      "required_by": [
-        "seller-listing-ops"
-      ],
-      "verify": "Resolve by file_id. Reject any LEGACY/ARCHIVED title. Read the document's own Version line and record it; UNPINNED until a version is verified in a live run. NOTE: superseded 2026-08-31 via NEW fileId (old 178kTdT... is now LEGACY) - see IF-014."
+      "locator_verified_at": "2026-09-03",
+      "required_by": ["buyer-investor-ops", "seller-listing-ops", "market-intel-marketing"],
+      "verify": "Confirm active status; controls MLS research and system handoff boundaries."
     },
     {
-      "key": "sop_01d_seller_cma_pricing",
-      "title": "SOP 01D - Seller CMA, Comparable Selection & Pricing Strategy",
-      "file_id": "1uS8cMEk055DX0hNvKqU2NZ2h96bVbN7sjywSlPS-49Q",
+      "key": "transaction_operations_runbook",
+      "title": "Transaction Runbook",
+      "file_id": "1qrVCQFsp5niiyJlIW3lz6i9nmmMUhwg7o8qVk-HivLk",
       "authority": "controlling",
       "version_pin": null,
-      "version_verified_at": "2026-08-31",
-      "owner_account": "bsmith@blaisesmithproperties.com",
-      "drive_path": "",
-      "required_by": [
-        "seller-listing-ops"
-      ],
-      "verify": "Resolve by file_id. Reject any LEGACY/ARCHIVED title. Read the document's own Version line and record it; UNPINNED until a version is verified in a live run."
+      "locator_verified_at": "2026-09-03",
+      "required_by": ["transaction-closing-ops"],
+      "verify": "Confirm active status; controls mutual acceptance through closing operations."
     },
     {
-      "key": "sop_15_active_listing_management",
-      "title": "SOP 15 - Active Listing Management, Showings, Feedback & Weekly Seller Updates",
-      "file_id": "1sB1fs5vjE9kOnW3r5aGYpKqAyGYIEGCWT43tZD3lzLg",
-      "authority": "controlling",
+      "key": "chatgpt_project_instructions",
+      "title": "Thin ChatGPT Project Instructions",
+      "file_id": "1opxdVwH2IhBSqK-C7OUNNEBgFpnNnyPDiQ4ULWnAS_k",
+      "authority": "supporting",
       "version_pin": null,
-      "version_verified_at": "2026-08-31",
-      "owner_account": "bsmith@blaisesmithproperties.com",
-      "drive_path": "",
-      "required_by": [
-        "seller-listing-ops"
-      ],
-      "verify": "Resolve by file_id. Reject any LEGACY/ARCHIVED title. Read the document's own Version line and record it; UNPINNED until a version is verified in a live run."
+      "locator_verified_at": "2026-09-03",
+      "required_by": ["execution-layer"],
+      "verify": "Confirm active status; routes to the canonical source set rather than duplicating it."
     },
     {
-      "key": "sop_16_seller_offer_review",
-      "title": "SOP 16 - Seller Offer Review, Net Analysis, Negotiation & Acceptance",
-      "file_id": "1AplOTXjwbGmS_aSDE9w6CZFrVYN7OJomsqW1pwsqA8A",
-      "authority": "controlling",
+      "key": "buyer_property_snapshot_master",
+      "title": "Buyer Property Snapshot master",
+      "file_id": "1xdWj1JyysxrBE6KJOOkPvqx0vCgbETfGC1wSjIfv7Iw",
+      "authority": "template",
       "version_pin": null,
-      "version_verified_at": "2026-08-31",
-      "owner_account": "bsmith@blaisesmithproperties.com",
-      "drive_path": "",
-      "required_by": [
-        "seller-listing-ops"
-      ],
-      "verify": "Resolve by file_id. Reject any LEGACY/ARCHIVED title. Read the document's own Version line and record it; UNPINNED until a version is verified in a live run."
+      "locator_verified_at": "2026-09-03",
+      "required_by": ["buyer-investor-ops"],
+      "verify": "MASTER POINTER. Duplicate for a client-specific deliverable; never overwrite the master."
     },
     {
-      "key": "sop_competitive_prospecting_weekly20",
-      "title": "SOP - Competitive Prospecting, Weekly 20 & Public-Record Opportunity Research Control",
-      "file_id": "1SoJz7EL9EFzuEbsnqG77YIbrU58DtfTPCHnwtuOIw2g",
-      "authority": "controlling",
+      "key": "buyer_cma_offer_strategy_master",
+      "title": "Buyer CMA & Offer Strategy master",
+      "file_id": "1Swx35VkVNiq6sJhrjTzY2xGLf1zYYbuLqoGqiSj0wyY",
+      "authority": "template",
       "version_pin": null,
-      "version_verified_at": "2026-08-31",
-      "owner_account": "bsmith@blaisesmithproperties.com",
-      "drive_path": "",
-      "required_by": [
-        "market-intel-marketing"
-      ],
-      "verify": "Resolve by file_id. Reject any LEGACY/ARCHIVED title. Read the document's own Version line and record it; UNPINNED until a version is verified in a live run."
+      "locator_verified_at": "2026-09-03",
+      "required_by": ["buyer-investor-ops"],
+      "verify": "MASTER POINTER. Duplicate for a client-specific deliverable; never overwrite the master."
     },
     {
-      "key": "prompt_weekly20_master",
-      "title": "MASTER PROMPT - Claude Weekly 20 Competitive Opportunity Quality Loop",
-      "file_id": "1tjX5Qd_W5LPvvUQF_NTs3GJ5el6VnYpx6toEb2jpyHY",
-      "authority": "canonical-prompt",
+      "key": "runtime_foundation_control",
+      "title": "Phase 2 — Read-Only Runtime Foundation Control Record",
+      "file_id": "1QQlyz8YIosmqquO18cTOpZwaskpg7tH8rgDp_ZqoRDA",
+      "authority": "runtime-control",
       "version_pin": null,
-      "version_verified_at": "2026-08-31",
-      "owner_account": "bsmith@blaisesmithproperties.com",
-      "drive_path": "",
-      "required_by": [
-        "market-intel-marketing"
-      ],
-      "verify": "Resolve by file_id. Reject any LEGACY/ARCHIVED title. Read the document's own Version line and record it; UNPINNED until a version is verified in a live run. This is the research engine business logic - retrieve and follow at runtime, never copy into the repository."
+      "locator_verified_at": "2026-09-03",
+      "required_by": ["execution-layer"],
+      "verify": "Confirm status FOUNDATION — READ-ONLY — NOT LIVE and apply every HOLD before runtime execution."
     },
     {
-      "key": "sop_05_mutual_acceptance_tc_handoff",
-      "title": "SOP 05 - Mutual Acceptance & Transaction Coordinator Handoff",
-      "file_id": "1Xi2WhNhqFHkkvJUyTz1as_i_IQxtoOUL910t2TyBY9Q",
-      "authority": "controlling",
+      "key": "runtime_registries_sheet",
+      "title": "Runtime Registries",
+      "file_id": "1Cr3SxGD00XFpck_f15oJL_wJPwWdE53W9kFiA0mdtO8",
+      "authority": "runtime-registry",
       "version_pin": null,
-      "version_verified_at": "2026-08-31",
-      "owner_account": "bsmith@blaisesmithproperties.com",
-      "drive_path": "",
-      "required_by": [
-        "transaction-closing-ops"
-      ],
-      "verify": "Resolve by file_id. Reject any LEGACY/ARCHIVED title. Read the document's own Version line and record it; UNPINNED until a version is verified in a live run."
+      "locator_verified_at": "2026-09-03",
+      "required_by": ["execution-layer"],
+      "verify": "Confirm the eight registry tabs and current active/phase2_enabled/certification fields before selecting a lane."
     },
     {
-      "key": "sop_17_seller_mutual_acceptance",
-      "title": "SOP 17 - Seller Mutual Acceptance & Transaction Coordinator Handoff",
-      "file_id": "10rabrsd8dCW4Z16CX_SQARx3mTDoDC5YBfI0GVXzS3M",
-      "authority": "controlling",
+      "key": "os_cutover_completion_record",
+      "title": "OS Cutover Completion Record",
+      "file_id": "1yF9vl8bArdSYsTG4HUPwzg2t8CyI3V3vf7AXtYyOEDI",
+      "authority": "evidence",
       "version_pin": null,
-      "version_verified_at": "2026-08-31",
-      "owner_account": "bsmith@blaisesmithproperties.com",
-      "drive_path": "",
-      "required_by": [
-        "transaction-closing-ops"
-      ],
-      "verify": "Resolve by file_id. Reject any LEGACY/ARCHIVED title. Read the document's own Version line and record it; UNPINNED until a version is verified in a live run."
-    },
-    {
-      "key": "sop_11_click_buyer_offer",
-      "title": "SOP 11 - Click Contracts Buyer Offer, Counteroffer & Filing Control",
-      "file_id": "1wEuPrHfDG945aET-GUDRgBhWpjTcE2yaI9IUsfEEit4",
-      "authority": "controlling",
-      "version_pin": null,
-      "version_verified_at": "2026-08-31",
-      "owner_account": "bsmith@blaisesmithproperties.com",
-      "drive_path": "",
-      "required_by": [
-        "transaction-closing-ops"
-      ],
-      "verify": "Resolve by file_id. Reject any LEGACY/ARCHIVED title. Read the document's own Version line and record it; UNPINNED until a version is verified in a live run. Click Contracts is a browser lane - this SOP governs the handoff, not local execution."
+      "locator_verified_at": "2026-09-03",
+      "required_by": ["execution-layer"],
+      "verify": "Evidence pointer. Confirms the active canonical set and retirement of the pre-cutover OS."
     }
   ]
 }

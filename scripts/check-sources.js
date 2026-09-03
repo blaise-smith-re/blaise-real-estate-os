@@ -57,7 +57,7 @@ function loadRegistry() {
 }
 
 function isLegacyTitle(t) {
-  return /^\s*(LEGACY|ARCHIVED)\s*-/i.test(t || '') || /\bSuperseded\b/i.test(t || '');
+  return /^\s*(RETIRED|LEGACY|ARCHIVED)\s*-/i.test(t || '') || /\bSuperseded\b/i.test(t || '');
 }
 
 // ------------------------------------------------------------------ plan
@@ -129,7 +129,7 @@ function verify() {
       rows.push([s.key, 'HOLD', `fileId mismatch: got ${g.file_id}`]); holds++; continue;
     }
     if (isLegacyTitle(g.title)) {
-      rows.push([s.key, 'HOLD', `LEGACY/ARCHIVED resolution: "${g.title}"`]); holds++; continue;
+      rows.push([s.key, 'HOLD', `RETIRED/LEGACY/ARCHIVED resolution: "${g.title}"`]); holds++; continue;
     }
     if (s.version_pin === null || s.version_pin === undefined) {
       rows.push([s.key, 'UNPINNED', `live "${g.version || 'no version line'}" - cannot drift-check`]); continue;

@@ -21,18 +21,22 @@ could not retrieve**. A missing optional lane degrades the run — disclose it a
 Resolve each by `file_id` from `governance/source-registry.json` using **`retrieve-canonical-source`**. Never resolve by title. Reject any `LEGACY -` / `ARCHIVED -` result and re-resolve. Retrieve once per run.
 
 - `business_operating_manual`
-- `execution_operator_sop`
-- `sop_02_buyer_search_showing_value`
-- `sop_04_buyer_offer_strategy`
-- `sop_09_real_estate_investing`
+- `canonical_source_map`
+- `ai_execution_runbook`
+- `buyer_lifecycle_sop`
+- `investor_playbook`
+- `matrix_northstar_runbook`
+- `click_contracts_runbook`
+- `ylopo_system_runbook`
+- `buyer_property_snapshot_master`
+- `buyer_cma_offer_strategy_master`
 
 ## Run sequence
 `connector-preflight` → `retrieve-canonical-source` → `chicago-date-anchor` (when timing matters) →
 work → `chrome-operator-handoff` for any MLS need → `operator-execution-report`.
 
-**Controlling SOPs** (retrieve current, never from memory): SOP 01A lender/pre-approval · SOP 01B
-buyer guide · SOP 02 search/showing/value · SOP 03 showing experience · SOP 04 offer strategy ·
-SOP 06 inspection · SOP 07 appraisal/financing · investor SOP (investing philosophy/analysis) · BOM §7.
+**Controlling sources** (retrieve current, never from memory): the consolidated Buyer Lifecycle SOP,
+Investor Playbook, and the system runbooks for Matrix/Northstar, Click Contracts, and Ylopo.
 
 ## Capabilities
 

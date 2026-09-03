@@ -1,41 +1,61 @@
 # Tests
 
-Two kinds of test, deliberately kept separate because they prove different things.
+The test layers are separate because they prove different things.
 
-## Static tests — runnable now
+## Full local gate
 
 ```bash
-node tests/run-static-tests.js     # exit 0 = pass
+node tests/run-static-tests.js
+node --test tests/runtime/*.test.js
+node runtime/cli.js check
 ```
 
-24 checks over registry integrity, tool-permission containment, agent guardrail presence, skill
-validity, and the no-cached-canonical-content rule. **Zero network calls. Zero writes.** Safe in CI.
+Or run `npm test` followed by `npm run runtime:check`.
 
-These prove what can be proven from files: that a prohibited tool is not reachable, that no canonical
-content was copied into the repo, that every agent tool is allowlisted. They cannot prove judgment.
+Every automated test is offline and synthetic. It makes zero network calls and zero writes to a
+business system.
+
+## Static invariants
+
+The static suite checks source-registry structure and cutover locators, retired-source rejection,
+tool-permission containment, agent guardrails, skill validity, bootstrap safety, runtime component
+presence, sensitive-field rejection, and the no-cached-canonical-content rule.
+
+These checks prove structural containment. They cannot prove agent judgment or connector behavior.
+
+## Runtime behavior
+
+`tests/runtime/` exercises the provider-neutral core:
+
+- manual-only and read-only contract enforcement;
+- zero external-effect budgets and adapter results;
+- credential and registry-PII rejection;
+- exact authority and entity resolution;
+- eligible certified-provider fallback;
+- HOLD on an unavailable/unverified FUB lane;
+- prompt-like record text kept behind the untrusted-data boundary;
+- source-evidence requirements;
+- Command Center completeness and priority order; and
+- Decision Queue non-persistence.
 
 ## Source-drift check
 
 ```bash
-node scripts/check-sources.js plan                         # what Claude must retrieve
-node scripts/check-sources.js verify --results <file.json> # adjudicate drift, exit 1 on HOLD
+node scripts/check-sources.js plan
+node scripts/check-sources.js verify --results <file.json>
 ```
 
-Two-part by necessity — Node cannot reach Drive (D-011). Claude retrieves; the script adjudicates.
+The first command emits the active Drive retrieval manifest. The second deterministically classifies
+CURRENT, REGISTRY DRIFT, UNPINNED, or HOLD from real retrieval results. Historical 2026-08-31 result
+files are retained as pre-cutover evidence and must not be reused as current results.
 
-- Live evidence: `tests/read-only/source-drift-run-2026-08-31.json` → `7 current / 0 drift / 0 hold`
-- Negative fixture: `tests/adversarial/drift-negative-fixture.json` → drift + LEGACY + mismatch all fire
+## Behavioral scenarios
 
-## Adversarial scenarios — behavioral, require a live agent
-
-`tests/adversarial/scenarios.md` — 12 scenarios. **Not covered by the static suite.**
-
-Three (A-4 scope escape, A-6 scheduling, A-12 canonical edit) are additionally enforced structurally:
-the tool is absent from the agent grant *and* denied in `.claude/settings.json`, so a judgment failure
-alone cannot produce the prohibited effect. The other nine depend on agent judgment and must be
-exercised live before either agent is production-certified.
+`tests/adversarial/scenarios.md` contains the pre-cutover agent scenarios. They remain useful as
+failure-mode evidence but do not certify the provider-neutral runtime. New live certification begins
+only after the exact FUB read lane is available and recorded in the active Capability Registry.
 
 ## Data rule
 
-**No real client data in this repository, ever.** Fixtures use `example.invalid` and the reserved
-`555-01xx` phone range. See `tests/fixtures/README.md`.
+No real client data belongs in this repository. Fixtures contain stable synthetic identifiers only;
+runtime registry fixtures reject direct PII and credential fields.

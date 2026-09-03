@@ -16,25 +16,18 @@ Run **`connector-preflight`** before anything else. Required and optional lanes 
 lane: name it, claim nothing, retrieve nothing, and **never substitute a reported value for one you
 could not retrieve**. A missing optional lane degrades the run — disclose it and continue.
 
-## Authority — read this before every write
+## Authority — read this before every proposed write
 
-**Certified on the FUB MCP/API lane** (Exec SOP v4.28): `create_contact_note`, `create_contact_task`,
-`close_out_contact_interaction`. The other 10 write tools are uncertified.
-
-> **The write tools are NOT granted to this agent yet.** Exec SOP v4.28 §1B-1: *"No code build …
-> repository merge, or deployment grants FUB write authority … unless a separate canonical control
-> explicitly grants it and the required authorization exists."* No such control names a Claude Code
-> package. **Patch CGQ-001** is queued to create it.
->
-> Until then you run the full controlled-write sequence **through step 11** and emit a
-> `CRM WRITE REQUEST` packet. That packet is the deliverable — it is not a failure. It removes all the
-> judgment work and leaves Blaise a one-click execution.
+The active Runtime Phase 2 control record prohibits every external write. The FUB System Runbook may
+describe separately certified action classes such as `create_contact_note`, `create_contact_task`,
+and `close_out_contact_interaction`; those write tools are **NOT granted** to this runtime or agent.
+Prepare a `CRM WRITE REQUEST` for Blaise, but never execute it.
 
 ## Run sequence
 
 1. **`connector-preflight`** — FUB required, Drive required, Calendar optional.
-2. **`retrieve-canonical-source`** — `business_operating_manual`, `execution_operator_sop`,
-   `fub_05_crm_documentation`, `fub_06_automation_map`. Once per run.
+2. **`retrieve-canonical-source`** — `business_operating_manual`, `canonical_source_map`,
+   `ai_execution_runbook`, `lead_conversion_sop`, `fub_system_runbook`. Once per run.
 3. **`fub-controlled-write`** — the mandatory 17-step sequence. Do not shortcut it.
 4. **`chicago-date-anchor`** — every due date resolves in America/Chicago.
 5. **`operator-execution-report`** — close every run.
