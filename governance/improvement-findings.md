@@ -420,6 +420,39 @@ until a named precondition clears.
   source-plan generation, and bootstrap check.
 - **DISPOSITION** — **PATCH — APPLIED** on 2026-09-03. No canonical Drive edit made.
 
+### IF-2026-09-03-002 — FUB MCP cannot present a least-privilege read-only client surface
+
+- **TRIGGER** — Target-runtime FUB adapter design and direct inspection of the private
+  `blaise-fub-mcp` server on 2026-09-03.
+- **CONTROLLING SOURCE FILE ID + VERSION** — Runtime Foundation Control Record
+  `1QQlyz8YIosmqquO18cTOpZwaskpg7tH8rgDp_ZqoRDA`, version unpinned; engineering evidence:
+  `blaise-fub-mcp/server.py` blob `a34122e2eb6ff215ecbce85569d384dcfd7c3568`.
+- **OBSERVED ISSUE** — The single MCP endpoint registers all 25 read tools and 13 write tools, while
+  its server-level `required_scopes` requires both `fub:read` and `fub:write` for every client.
+  Individual write functions re-check `fub:write`, but a client cannot authenticate to this endpoint
+  with read scope alone and the write tools remain present in its advertised surface.
+- **WHY IT MATTERS** — The Operations Bus first gate needs a least-privilege read lane. Giving a
+  read-only runtime a write-capable OAuth grant contradicts the active zero-effect control even when
+  the local adapter refuses to call write tools. Local containment and server-side authority should
+  agree.
+- **TIME / RISK / CLIENT IMPACT** — Blocks live FUB adapter certification. If bypassed, an accidental
+  alternate caller could reach a broader tool surface than the OS capability registry authorizes.
+- **CLASSIFICATION** — **OPERATIONAL CHANGE.** This changes connector packaging and authentication,
+  but narrows rather than grants authority.
+- **EXACT PROPOSED CHANGE** — Add a dedicated read-only MCP entrypoint and deployment that registers
+  only the six initial pilot tools (`get_contact`, `get_contact_events`, `get_contact_notes`,
+  `get_contact_appointments`, `search_tasks`, `get_open_tasks`) and requires only `fub:read`.
+  Preserve the full-operator endpoint separately. Expand the read endpoint only through
+  operation-specific certification; never add a write tool to it.
+- **RELATED ASSETS AFFECTED** — `blaise-fub-mcp` server entrypoints and deployment config; Auth0 API
+  scopes/application grants; OS Capability Registry; `runtime/adapters/fub-read.js`; connector
+  setup instructions.
+- **TESTING REQUIRED** — With a token containing `fub:read` and not `fub:write`, list tools and prove
+  exactly the six pilot reads are present; invoke each read on a Blaise-authorized target; prove all
+  13 write names are absent; then run the combined OS pilot with complete retrieval and zero effects.
+- **DISPOSITION** — **HOLD** for live adapter activation; connector patch and live recertification
+  required. The local synthetic adapter gate is implemented and passing.
+
 ## 5. Findings closed
 
 | ID | Resolution | Date |

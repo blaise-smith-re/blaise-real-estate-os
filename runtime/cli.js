@@ -5,6 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const { validateRegistryBundle } = require('./registries');
 const { assertZeroEffects, SCHEMA_VERSION } = require('./contract');
+const { runSyntheticFubReadCertification } = require('./certification/fub-read');
 
 const ROOT = path.resolve(__dirname, '..');
 
@@ -26,9 +27,23 @@ function check() {
   console.log(`live_adapters=${bootstrap.live_adapters.length} persistence=${bootstrap.persistence}`);
 }
 
-const command = process.argv[2] || 'check';
-if (command === 'check') check();
-else {
-  console.error(`Unknown command: ${command}. Use: check`);
+async function main() {
+  const command = process.argv[2] || 'check';
+  if (command === 'check') {
+    check();
+    return;
+  }
+  if (command === 'certify:fub-read' && process.argv.includes('--synthetic')) {
+    const report = await runSyntheticFubReadCertification();
+    console.log('FUB READ ADAPTER SYNTHETIC CERTIFICATION: PASS');
+    console.log(JSON.stringify(report, null, 2));
+    return;
+  }
+  console.error(`Unknown command: ${command}. Use: check | certify:fub-read --synthetic`);
   process.exitCode = 2;
 }
+
+main().catch((error) => {
+  console.error(`${error.code || error.name}: ${error.message}`);
+  process.exitCode = 1;
+});

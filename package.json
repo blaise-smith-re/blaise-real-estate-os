@@ -1,13 +1,14 @@
 {
   "name": "blaise-real-estate-os",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
-  "description": "Provider-neutral, read-only execution foundation for the Blaise Real Estate OS.",
+  "description": "Provider-neutral, certification-gated execution foundation for the Blaise Real Estate OS.",
   "scripts": {
     "test": "node tests/run-static-tests.js && node --test tests/runtime/*.test.js",
     "test:static": "node tests/run-static-tests.js",
     "test:runtime": "node --test tests/runtime/*.test.js",
-    "runtime:check": "node runtime/cli.js check"
+    "runtime:check": "node runtime/cli.js check",
+    "certify:fub-read:synthetic": "node runtime/cli.js certify:fub-read --synthetic"
   },
   "engines": {
     "node": ">=20"

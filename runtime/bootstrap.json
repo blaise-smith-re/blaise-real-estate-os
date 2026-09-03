@@ -1,5 +1,5 @@
 {
-  "runtime_version": "0.2.0",
+  "runtime_version": "0.3.0",
   "contract": "os.execution.v1",
   "status": "FOUNDATION_READ_ONLY_NOT_LIVE",
   "mode": "READ_ONLY",
@@ -18,8 +18,23 @@
     "canonical_source_map": "1UU8eQOElu388w2FA2gPJCMOKP7_EvQRNoPUthxc1_wg"
   },
   "live_adapters": [],
+  "staged_adapters": [
+    {
+      "adapter": "fub-read",
+      "status": "SYNTHETIC_PASS_LIVE_CERTIFICATION_PENDING",
+      "operations": [
+        "GET_CONTACT",
+        "GET_CONTACT_EVENTS",
+        "GET_CONTACT_NOTES",
+        "GET_CONTACT_APPOINTMENTS",
+        "SEARCH_TASKS",
+        "GET_OPEN_TASKS"
+      ]
+    }
+  ],
   "holds": [
     "FUB read lane is not exposed in the current ChatGPT Work runtime",
+    "The current FUB MCP server requires read and write OAuth scopes together; a read-only client surface is required before live activation",
     "Operations Bus is not live",
     "Scheduler remains HOLD",
     "Command Center and Decision Queue are presentation-only"
