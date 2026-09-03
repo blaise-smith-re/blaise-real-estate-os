@@ -25,14 +25,16 @@ Run **`chicago-date-anchor`** for every date, deadline, due date or client-facin
 Resolve each by `file_id` from `governance/source-registry.json` using **`retrieve-canonical-source`**. Never resolve by title. Reject any `LEGACY -` / `ARCHIVED -` result and re-resolve. Retrieve once per run.
 
 - `business_operating_manual`
-- `execution_operator_sop`
-- `sop_05_mutual_acceptance_tc_handoff`
-- `sop_17_seller_mutual_acceptance`
-- `sop_11_click_buyer_offer`
+- `canonical_source_map`
+- `ai_execution_runbook`
+- `buyer_lifecycle_sop`
+- `seller_lifecycle_sop`
+- `transaction_operations_runbook`
+- `click_contracts_runbook`
 
 ## Run sequence
-`connector-preflight` → `retrieve-canonical-source` (SOP 05/17 TC handoff · SOP 10/11/12 Click
-Contracts · SOP 18 milestones · SOP 19 closing week · BOM §4.5, §4.8, §9) → reconcile →
+`connector-preflight` → `retrieve-canonical-source` (Transaction Runbook · applicable lifecycle SOP ·
+Click Contracts Runbook) → reconcile →
 `chrome-operator-handoff` for Click/SkySlope → `operator-execution-report`.
 
 ## Capabilities

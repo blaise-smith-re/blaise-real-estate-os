@@ -1,5 +1,11 @@
 # Tool Policy — Blaise Real Estate OS Execution Layer
 
+> **CURRENT RUNTIME PRECEDENCE — 2026-09-03:** The active Phase 2 Runtime Foundation Control Record
+> and Runtime Registries Sheet supersede the pre-cutover connector evidence below for current
+> execution. The provider-neutral Operations Bus is not live, no FUB read lane is exposed in the
+> current ChatGPT Work runtime, and every external write/schedule/send remains prohibited. The
+> remaining sections are retained as historical Claude-lane evidence and compatibility guidance.
+
 **Status:** Phase 2 · Effective 2026-08-31
 **Enforcement:** `.claude/settings.json` (deny list) + per-agent `tools:` allowlist in frontmatter.
 **Authority:** `SOP - Claude Execution Operator, Browser & API-MCP Integration Control` v4.27 §5B, §6.

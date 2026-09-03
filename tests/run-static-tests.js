@@ -114,10 +114,11 @@ check('T-03', 'registry file_ids and keys are unique', () => {
   return `${keys.length} unique keys / file_ids`;
 });
 
-check('T-04', 'registry declares live-Drive-wins and LEGACY rejection', () => {
+check('T-04', 'registry declares live-Drive-wins and retired-source rejection', () => {
   const raw = read('governance/source-registry.json');
   assert(/LIVE DRIVE DOCUMENT WINS/i.test(raw), 'missing live-wins rule');
-  assert(/LEGACY/.test(raw) && /ARCHIVED/.test(raw), 'missing LEGACY/ARCHIVED rejection rule');
+  for (const marker of ['RETIRED', 'LEGACY', 'ARCHIVED'])
+    assert(raw.includes(marker), `missing ${marker} rejection rule`);
   assert(/never resolve by title|Never resolve.*by title/i.test(raw), 'missing never-resolve-by-title rule');
   return 'drift and LEGACY rules present';
 });
@@ -435,7 +436,7 @@ check('T-27', 'chief-of-staff routes only to agents that exist', () => {
   return 'all routing targets resolve to real agents';
 });
 
-check('T-28', 'FUB write authority is contained to one department and gated', () => {
+check('T-28', 'FUB write authority is structurally denied in the active runtime phase', () => {
   // No agent may hold a write tool - the gate is structural, not editorial.
   for (const a of AGENTS) {
     const tools = frontmatter(read(`.claude/agents/${a}.md`)).tools.split(',').map(t => t.trim());
@@ -446,16 +447,17 @@ check('T-28', 'FUB write authority is contained to one department and gated', ()
   const crm = read('.claude/agents/lead-conversion-crm.md');
   assert(/create_contact_note/.test(crm), 'CRM agent does not name the certified write classes');
   assert(/NOT granted|not granted/i.test(crm), 'CRM agent does not state the authority gate');
-  assert(/CGQ-001/.test(crm), 'CRM agent does not reference the blocking patch CGQ-001');
+  assert(/Runtime Phase 2/.test(crm), 'CRM agent does not cite the active runtime phase');
+  assert(/never execute/i.test(crm), 'CRM agent does not prohibit last-mile execution');
   for (const a of AGENTS.filter(x => x !== 'lead-conversion-crm')) {
     const md = read(`.claude/agents/${a}.md`);
     assert(!/create_contact_note|close_out_contact_interaction/.test(md),
       `non-CRM agent "${a}" names a certified write class`);
   }
-  return 'zero write tools granted; write path named only by lead-conversion-crm; gate cited';
+  return 'zero write tools granted; request path named only by lead-conversion-crm; Phase 2 prohibition cited';
 });
 
-check('T-29', 'canonical governance patch queue is well formed', () => {
+check('T-29', 'pre-cutover governance patch queue is explicitly historical', () => {
   const md = read('docs/CANONICAL-GOVERNANCE-PATCH-QUEUE.md');
   const ids = [...md.matchAll(/^## (CGQ-\d{3})/gm)].map(m => m[1]);
   assert(ids.length > 0, 'no patches queued');
@@ -465,8 +467,9 @@ check('T-29', 'canonical governance patch queue is well formed', () => {
     for (const f of ['TARGET', 'EXACT PATCH'])
       assert(body.includes(f), `${id} missing required field: ${f}`);
   }
-  assert(/CGQ-001/.test(md) && /BLOCKING/.test(md), 'blocking status not recorded');
-  return `${ids.length} patches queued, all with target and exact patch`;
+  assert(/HISTORICAL/.test(md) && /SUPERSEDED/.test(md) && /DO NOT EXECUTE/.test(md),
+    'historical queue is not clearly superseded');
+  return `${ids.length} historical patches retained as evidence; queue is non-executable`;
 });
 
 check('T-30', 'handoff integrity: every non-CRM department routes FUB writes to the CRM service', () => {
@@ -488,6 +491,91 @@ check('T-30', 'handoff integrity: every non-CRM department routes FUB writes to 
     }
   }
   return 'CRM write routing present in every specialist department; parallel systems only ever forbidden';
+});
+
+check('T-31', 'active source registry contains the consolidated cutover set, not retired locators', () => {
+  const r = json('governance/source-registry.json');
+  const ids = new Set(r.sources.map(s => s.file_id));
+  const required = [
+    '1YxG991_SXW8QTQvK_G1tOsd6il1mWzqdmVcnLwFFcX8',
+    '1UU8eQOElu388w2FA2gPJCMOKP7_EvQRNoPUthxc1_wg',
+    '1pFUdBNfbPLBYSkyKj0_25wC6RuP6VKO1WnkOZ1EudJw',
+    '1QQlyz8YIosmqquO18cTOpZwaskpg7tH8rgDp_ZqoRDA',
+    '1Cr3SxGD00XFpck_f15oJL_wJPwWdE53W9kFiA0mdtO8',
+  ];
+  const retired = [
+    '1HyBu_OcwTm8-_Aqh0hDcfIFGoor399gR8NHUMRJKAVc',
+    '1BuTAOheI3ykLZGJ3lLddHhVKMOIqkK_qX7f_YxYHbuU',
+    '12Pg3pAXpPWfEf6_U6rFYrOM7WQSDVkM90CwJjujqiLE',
+  ];
+  for (const id of required) assert(ids.has(id), `missing active cutover locator ${id}`);
+  for (const id of retired) assert(!ids.has(id), `retired locator remains active: ${id}`);
+  assert(r.cutover && r.cutover.completed === '2026-09-03', 'cutover metadata missing');
+  return 'active BOM, Source Map, AI Runbook, control record, and registry sheet present; retired roots absent';
+});
+
+check('T-32', 'runtime bootstrap is manual, read-only, zero-effect, and not-live', () => {
+  const b = json('runtime/bootstrap.json');
+  assert(b.status === 'FOUNDATION_READ_ONLY_NOT_LIVE', 'runtime status overclaims live operation');
+  assert(b.mode === 'READ_ONLY', 'runtime mode is not read-only');
+  assert(b.trigger_policy === 'MANUAL_ONLY', 'runtime trigger is not manual-only');
+  assert(b.persistence === 'NONE', 'runtime unexpectedly declares persistence');
+  assert(Array.isArray(b.live_adapters) && b.live_adapters.length === 0, 'runtime claims a live adapter');
+  for (const [key, value] of Object.entries(b.effect_budget || {}))
+    assert(value === 0, `nonzero bootstrap effect budget: ${key}`);
+  return 'manual-only, read-only, no persistence, no live adapters, all effect counters zero';
+});
+
+check('T-33', 'runtime implementation exposes the required foundation components', () => {
+  const files = ['contract.js', 'registries.js', 'operations-bus.js', 'presentation.js', 'cli.js'];
+  for (const file of files) assert(fs.existsSync(path.join(ROOT, 'runtime', file)), `missing runtime/${file}`);
+  const bus = read('runtime/operations-bus.js');
+  for (const state of ['READY', 'EXECUTING', 'COMPLETED', 'FAILED/EXCEPTION'])
+    assert(bus.includes(state), `Operations Bus missing state ${state}`);
+  return `${files.length} runtime components present with explicit state transitions`;
+});
+
+check('T-34', 'runtime registries reject credential and direct-PII fields', () => {
+  const registry = read('runtime/registries.js');
+  const contract = read('runtime/contract.js');
+  assert(/PII_IN_REGISTRY/.test(registry), 'no registry PII rejection');
+  assert(/CREDENTIAL_MATERIAL_REJECTED/.test(contract), 'no credential rejection');
+  return 'registry PII and credential rejection paths present';
+});
+
+check('T-35', 'runtime test suite is wired into the package test gate', () => {
+  const p = json('package.json');
+  assert(/run-static-tests/.test(p.scripts.test), 'package test omits static suite');
+  assert(/tests\/runtime/.test(p.scripts.test), 'package test omits runtime suite');
+  return 'static and runtime suites share one test gate';
+});
+
+check('T-36', 'repository contains no non-placeholder email or phone data', () => {
+  const skip = new Set(['.git', 'node_modules']);
+  const hits = [];
+  const email = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi;
+  const phone = /(?:\+?1[-. ]?)?\(?[2-9][0-9]{2}\)?[-. ]?[0-9]{3}[-. ]?[0-9]{4}/g;
+  (function walk(dir) {
+    for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+      if (skip.has(e.name)) continue;
+      const p = path.join(dir, e.name);
+      if (e.isDirectory()) { walk(p); continue; }
+      if (!/\.(md|json|js)$/.test(e.name)) continue;
+      if (p.endsWith(path.join('tests', 'run-static-tests.js'))) continue;
+      const body = fs.readFileSync(p, 'utf8');
+      for (const match of body.matchAll(email)) {
+        if (!match[0].toLowerCase().endsWith('@example.invalid'))
+          hits.push(`${path.relative(ROOT, p)} :: non-placeholder email`);
+      }
+      for (const match of body.matchAll(phone)) {
+        const digits = match[0].replace(/\D/g, '').replace(/^1(?=\d{10}$)/, '');
+        if (!/^55501\d{5}$/.test(digits))
+          hits.push(`${path.relative(ROOT, p)} :: non-placeholder phone`);
+      }
+    }
+  })(ROOT);
+  assert(hits.length === 0, `possible live contact data found:\n    ${hits.join('\n    ')}`);
+  return 'all repository email and phone examples use reserved placeholders';
 });
 
 // ---------------------------------------------------------------- output

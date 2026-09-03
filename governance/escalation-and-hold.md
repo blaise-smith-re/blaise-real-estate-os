@@ -1,5 +1,9 @@
 # Escalation, Hard Stops & Standing HOLD
 
+> **CURRENT RUNTIME PRECEDENCE — 2026-09-03:** Apply the active Runtime Foundation Control Record
+> before the historical bases below. Operations Bus **NOT LIVE**; FUB read lane unavailable in the
+> current ChatGPT Work runtime; scheduler and all external effects remain HOLD.
+
 **Authority:** Execution Operator SOP v4.27 (Workflow Method / HARD-STOP CONDITIONS) · BOM §3, §4.12.
 
 ---

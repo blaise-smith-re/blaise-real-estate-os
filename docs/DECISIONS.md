@@ -164,7 +164,7 @@ propose; it now requires `ORIGINAL CLAIM` + `CORRECTION` instead.
 **Date** 2026-08-31 · **Status** ACCEPTED · **Supersedes part of** the original D-012 assumption
 
 **Context.** Live adversarial scenario A-1 proved that `find_contact` **silently excludes Trash-stage
-records**. `find_contact("Dallas")` returns `total: 1` — but `find_contact("Bernard Johnson")` returns
+records**. `find_contact("SYNTHETIC_BUYER_A")` returns `total: 1` — but `find_contact("SYNTHETIC_CONTACT_B")` returns
 `total: 0` for a contact that demonstrably exists, is assigned to Blaise, has four open tasks and
 browsed the IDX the previous night. Last-name matching is not the cause: `"Petersen"` returns 1.
 
@@ -174,8 +174,8 @@ email/phone match, or matching relationship facts in the notes. A zero result ne
 a contact does not exist.
 
 **Consequence.** `client-prep-brief.md` and `tool-policy.md` patched (repo-native, within Phase 2
-authority). Canonical SOP note routed as IF-2026-08-31-010. The Dallas pilot identity was accepted
-only because tasks 30509 and 30536 independently carry personId 18476.
+authority). Canonical SOP note routed as IF-2026-08-31-010. The SYNTHETIC_BUYER_A pilot identity was accepted
+only because tasks 99001 and 99002 independently carry personId 90001.
 
 **Why this matters beyond the bug.** The one control protecting against a wrong-person brief was
 resting on an unverified assumption about connector behavior. It took a live adversarial probe to
@@ -214,9 +214,9 @@ treating reported data as retrieved data.
 ## D-017 — Corroboration establishes the right record, not global uniqueness
 **Date** 2026-08-31 · **Status** ACCEPTED · **Refines** D-014
 
-**Context.** A-1 recertification reached `find_contact("Dallas") → total: 1` and, per the hardened
-rule, declined to accept it. Identity was then established from Blaise's own dated task (30509)
-carrying personId 18476, plus a stable-ID read-back.
+**Context.** A-1 recertification reached `find_contact("SYNTHETIC_BUYER_A") → total: 1` and, per the hardened
+rule, declined to accept it. Identity was then established from Blaise's own dated task (99001)
+carrying personId 90001, plus a stable-ID read-back.
 
 **Decision.** Corroboration proves *this is the record the work is about* — it does not prove no other
 same-named record exists. A same-named Trash-stage record may remain invisible (IF-010) and does not
@@ -268,3 +268,56 @@ stopping at it, and **never** simulate, infer, or substitute remembered data.
 **Consequence.** Seller, buyer, market and transaction departments are all fully useful without MLS
 access. The failure mode this prevents — an undisclosed narrowing that looks complete — is the most
 likely way an agent here produces a plausible wrong answer.
+
+## D-021 — The 2026-09-03 consolidated Drive set is the only active knowledge authority
+
+**Date** 2026-09-03 · **Status** ACCEPTED · **Supersedes** pre-cutover source-pointer assumptions
+
+**Context.** The OS Cutover Completion Record confirms that the former multi-document OS was retired
+and replaced by a consolidated Business Operating Manual, Source Map, lifecycle SOPs, system
+runbooks, and approved masters. The repository still pointed to the retired set.
+
+**Decision.** Replace the active registry with the cutover set and reject `RETIRED -` titles with the
+same force as `LEGACY -`, `ARCHIVED -`, and `Superseded` titles. Historical evidence may keep old IDs,
+but no current wrapper or runtime manifest may use them as authority.
+
+**Consequence.** Runtime retrieval now begins from the current Source Map and controls. The old patch
+queue and pilot record remain visible but are explicitly non-executable historical evidence.
+
+## D-022 — Build a provider-neutral Operations Bus without claiming unavailable connectors
+
+**Date** 2026-09-03 · **Status** ACCEPTED
+
+**Context.** The Runtime Foundation Control Record stages the registries but holds the Operations Bus
+and scheduler. The current ChatGPT Work runtime exposes no Follow Up Boss read lane.
+
+**Decision.** Implement the runtime as a connector-agnostic core. An adapter can run only when its
+Capability Registry row is active, certified, Phase 2-enabled, read-only, and currently available.
+Otherwise the request returns HOLD; the runtime never fabricates an adapter or substitutes remembered
+data.
+
+**Consequence.** The core can be tested and integrated now without overstating operational readiness.
+FUB adapter certification remains an evidence gate, not a coding shortcut.
+
+## D-023 — Runtime Phase 2 has a structural zero-effect budget
+
+**Date** 2026-09-03 · **Status** ACCEPTED
+
+**Decision.** `os.execution.v1` accepts manual, read-only events only. The event budget and adapter
+result must both report zero writes, messages, schedules, and money movement. Any nonzero effect is a
+hard failure, even if an underlying system describes a separately certified write class.
+
+**Consequence.** The active Runtime Foundation Control Record wins over older lane-specific write
+evidence. No build, deployment, or connector availability can silently promote the runtime to write
+authority.
+
+## D-024 — Command Center and Decision Queue are views, never systems of record
+
+**Date** 2026-09-03 · **Status** ACCEPTED
+
+**Decision.** Command Center refuses incomplete retrieval and excludes synthetic artifacts from live
+prioritization. Decision Queue stores unresolved execution reports in memory only and exposes no
+persistence method.
+
+**Consequence.** The runtime can manage by exception without creating a parallel task list, CRM, or
+decision database. Source systems and execution reports remain authoritative.

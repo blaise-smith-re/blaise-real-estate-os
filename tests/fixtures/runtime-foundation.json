@@ -1,0 +1,61 @@
+{
+  "registry_version": "fixture-1",
+  "authority_rules": [
+    {
+      "rule_id": "AUTH-READ-LOCAL-001",
+      "authority_key": "authority.local.read",
+      "action_class": "READ",
+      "scope": ["analysis.daily", "analysis.client-prep"],
+      "active": true,
+      "phase2_enabled": true
+    }
+  ],
+  "capabilities": [
+    {
+      "capability_id": "CAP-LOCAL-ANALYZE-001",
+      "capability_key": "local.analyze",
+      "operation": "ANALYZE",
+      "provider": "local",
+      "adapter": "local-primary",
+      "mode": "READ",
+      "certification_status": "CERTIFIED",
+      "active": true,
+      "phase2_enabled": true,
+      "priority": 10
+    },
+    {
+      "capability_id": "CAP-LOCAL-ANALYZE-002",
+      "capability_key": "local.analyze",
+      "operation": "ANALYZE",
+      "provider": "local-fallback",
+      "adapter": "local-fallback",
+      "mode": "READ",
+      "certification_status": "CERTIFIED",
+      "active": true,
+      "phase2_enabled": true,
+      "priority": 20
+    },
+    {
+      "capability_id": "CAP-FUB-CONTACT-READ-001",
+      "capability_key": "fub.contact.read",
+      "operation": "GET_CONTACT",
+      "provider": "fub",
+      "adapter": "fub",
+      "mode": "READ",
+      "certification_status": "UNVERIFIED",
+      "active": true,
+      "phase2_enabled": false,
+      "priority": 10
+    }
+  ],
+  "entities": [
+    {
+      "internal_id": "workflow:daily-command-center",
+      "entity_type": "workflow",
+      "external_ids": {
+        "runtime": "daily-command-center-v1"
+      },
+      "active": true
+    }
+  ]
+}

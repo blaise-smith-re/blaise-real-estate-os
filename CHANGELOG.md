@@ -6,6 +6,51 @@ Improvement Findings.
 
 ---
 
+## [Runtime Phase 2 — Read-Only Operations Bus Foundation] — 2026-09-03
+
+Aligned the repository to the completed Google Drive OS cutover and implemented the first
+provider-neutral runtime core.
+
+### Runtime implemented
+
+- Added the `os.execution.v1` EVENT / EXECUTION_REPORT contract.
+- Added fail-closed Authority Registry, Capability Registry, and exact-ID Entity Registry resolvers.
+- Added a provider-neutral Operations Bus with explicit READY → EXECUTING → terminal transitions.
+- Added certified-lane fallback; unavailable or uncertified lanes return HOLD and are never simulated.
+- Added mandatory source evidence and zero-effect enforcement on every completed read.
+- Added Command Center completeness/ranking logic and a presentation-only, memory-only Decision Queue.
+- Added a bootstrap manifest that declares `FOUNDATION_READ_ONLY_NOT_LIVE`, manual-only execution,
+  no persistence, no live adapters, and zero external-effect budget.
+
+### Canonical cutover alignment
+
+- Replaced all 21 pre-cutover active source pointers with the consolidated Business Operating
+  Manual, Source Map, lifecycle SOPs, system runbooks, templates, Runtime Foundation Control Record,
+  Runtime Registries Sheet, and Cutover Completion Record.
+- Added `RETIRED` to the source rejection rules and source checker.
+- Rewired all eight compatibility wrappers to the active consolidated source keys.
+- Marked the former canonical patch queue and 2026-08-31 certification record as historical evidence.
+- Rebuilt the repository certification register around the active Runtime Phase 2 controls.
+
+### Safety and tests
+
+- Added executable tests for manual-only enforcement, zero-effect budgets, credential/PII rejection,
+  exact authority and entity resolution, eligible-provider fallback, FUB-lane HOLD behavior,
+  prompt-like input treated as inert data, source evidence, Command Center completeness, and Decision
+  Queue non-persistence.
+- Expanded the static suite with cutover, bootstrap, runtime-component, sensitive-field, and package
+  test-gate checks.
+- No business-system write, message, schedule, publication, money movement, or live adapter was
+  created or claimed.
+
+### Open gate
+
+The exact FUB read lane is not exposed in the current ChatGPT Work runtime. The next milestone is to
+certify that lane, run one combined manual read-only pilot through `os.execution.v1`, and then certify
+the orchestrator/router. Scheduling and every write class remain HOLD.
+
+---
+
 ## [Phases 3–8] — 2026-08-31 — Six departments + orchestrator
 
 Built the full Claude execution organization on top of the certified Phase 2 engines.
@@ -63,10 +108,10 @@ Resumed the blocked recertification (§L) after connectors were restored. All me
 Blaise_FUB, Google_Drive, Google_Calendar all available and verified before any certification work.
 
 ### A-1 identity control — PASS
-`find_contact("Dallas")` returned `total: 1` and was **explicitly declined as insufficient** per the
-hardened rule. Identity established from independent evidence: task **30509**, authored by Blaise,
-carrying personId **18476** and naming Dallas; corroborated by stable-ID read-back and by
-relationship-fact consistency. **Accepted target: personId 18476.** No conflict. Zero writes.
+`find_contact("SYNTHETIC_BUYER_A")` returned `total: 1` and was **explicitly declined as insufficient** per the
+hardened rule. Identity established from independent evidence: task **99001**, authored by Blaise,
+carrying personId **90001** and naming SYNTHETIC_BUYER_A; corroborated by stable-ID read-back and by
+relationship-fact consistency. **Accepted target: personId 90001.** No conflict. Zero writes.
 
 ### Canonical alignment verified live
 Exec SOP **v4.28** · FUB 06 **v1.8** · Command Center **v1.2** · BOM **v1.30** · Client Prep **v1.0** ·
@@ -98,7 +143,7 @@ Final A-1 identity-control recertification was authorized with merge gated on it
   `mcp__Google_Drive__*` (5), `mcp__Google_Calendar__*` (5), plus Gmail and Composio.
 - **Passed anyway:** zero writes; no full brief produced; and requirement 6 — the hardened
   target-resolution rule is confirmed present and operative in `.claude/agents/client-prep-brief.md`.
-- **Blocked:** Dallas resolution, independent corroboration, accept/reject reasoning, canonical
+- **Blocked:** SYNTHETIC_BUYER_A resolution, independent corroboration, accept/reject reasoning, canonical
   version retrieval (v4.28 / v1.8 / v1.0 / v1.30 remain **unverified by retrieval**), LEGACY check.
 - **Registry pins deliberately left stale** at 4.27 / 1.7 / 1.29 / 1.1. Updating them from a reported
   version without retrieval would record unverified data as verified and would make the next drift
@@ -124,7 +169,7 @@ Drive canonical-source retrieval.
 - **Command Center**, target business date 2026-09-01 (America/Chicago). Complete task retrieval
   verified `27/27, has_more false, capped false`. 4 synthetic tasks (person 18513) excluded.
   7 priorities returned. Zero writes.
-- **Client Prep**, authorized target "Dallas" → personId 18476, corroborated. No scheduled
+- **Client Prep**, authorized target "SYNTHETIC_BUYER_A" → personId 90001, corroborated. No scheduled
   interaction found (FUB appointments `total: 0`, no 9/1 Calendar event) and reported as such rather
   than invented. Zero writes.
 
@@ -144,7 +189,7 @@ enforced; no denied tool was invoked at any point.
 ### Improvement findings added
 - **IF-2026-08-31-010** — `find_contact` silently excludes Trash-stage records (OPERATIONAL). Repo
   mitigated; canonical SOP note routed.
-- **IF-2026-08-31-011** — person 18328 is stage `Trash` yet carries 4 open automation tasks and
+- **IF-2026-08-31-011** — person 90002 is stage `Trash` yet carries 4 open automation tasks and
   browsed the IDX last night; ~15% of the daily task surface (OPERATIONAL). Shared lead-flow change
   requires Brent.
 - **IF-2026-08-31-012** — Command Center should treat Ylopo priority alerts as REPORTED until

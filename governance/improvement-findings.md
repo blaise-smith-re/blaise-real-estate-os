@@ -1,5 +1,9 @@
 # Improvement Findings — Continuous Improvement Log
 
+> **PUBLIC-SAFE RECORD.** Examples are synthetic or generalized. Raw client records, direct contact
+> information, property activity, exact task text, and production object identifiers are prohibited
+> from this repository.
+
 **Purpose.** Capture material operating friction discovered during build or execution, classify it,
 and route it to the correct change-control authority — **without creating a parallel SOP library and
 without silent policy drift.**
@@ -141,9 +145,9 @@ until a named precondition clears.
 
 - **TRIGGER** — Phase 1 Drive inventory.
 - **CONTROLLING SOURCE** — Multiple; see registry `owner_account` fields.
-- **OBSERVED ISSUE** — Most canonical files are owned by `bsmith@blaisesmithproperties.com`, but
+- **OBSERVED ISSUE** — Most canonical files are owned by `primary-drive-account@example.invalid`, but
   `SOP 01C`, `SOP 09 – Real Estate Investing`, the investing guide PDF and the pilot test documents are
-  owned by `blaise@buysellhometeam.com`.
+  owned by `brokerage-drive-account@example.invalid`.
 - **WHY IT MATTERS** — The Execution Operator SOP requires access be proven by retrieval per connected
   account. A connector authenticated to one account may silently fail to retrieve a controlling SOP
   owned by the other — and a retrieval failure on a controlling source is a HOLD.
@@ -258,10 +262,10 @@ until a named precondition clears.
 - **OBSERVED ISSUE** — `find_contact(name=...)` returns `total: 0` for a contact whose stage is
   `Trash`, even though the record exists, is assigned to Blaise, carries four open tasks and showed
   IDX activity the previous night. Verified by controlled probes:
-  `name="Bernard"` → 0 · `name="Bernard Johnson"` → 0 · `name="Johnson"` → 0 ·
-  `get_contact(18328)` → returns "Bernard Johnson", stage `Trash`.
+  `name="SYNTHETIC_CONTACT_B"` → 0 · `name="SYNTHETIC_CONTACT_B"` → 0 · `name="Johnson"` → 0 ·
+  `get_contact(90002)` → returns "SYNTHETIC_CONTACT_B", stage `Trash`.
   Last-name matching is **not** the cause: `name="Petersen"` → 1 (matched on last name),
-  `name="Myranetta"` → 1, `name="Dallas"` → 1. The exclusion is by stage.
+  `name="SYNTHETIC_BUYER_C"` → 1, `name="SYNTHETIC_BUYER_A"` → 1. The exclusion is by stage.
 - **WHY IT MATTERS** — The certified wrong-target control depends on resolving to exactly one contact.
   A `total: 1` result actually means *one non-Trash match*, not *one match*. A second same-named
   record sitting in Trash is invisible, so a unique-match count is a **false confidence signal**.
@@ -288,24 +292,20 @@ until a named precondition clears.
 - **TRIGGER** — Phase 2 live Command Center pilot for 2026-09-01.
 - **CONTROLLING SOURCE** — `197OgqAyYpdx0dmwthzdCdOxmNsM9ZgKOKD1CVeNEbo8` (FUB 06) v1.7, section 1
   TEAM-CHANGE GUARDRAIL; `1rYWbmFnBG00zuZiQ6wZd3MI1eDIHpKxyOnjYQBYpnsk` (FUB 05) v1.8.
-- **OBSERVED ISSUE** — Person 18328 (Bernard Johnson) is stage `Trash`, yet has **four** open
-  Follow Up Boss automation tasks ("Unconverted and active now. Call!") dated 8/17, 8/25, 8/27 and
-  8/30, and recorded IDX activity at 2026-08-31T01:40:53Z with 26 properties viewed. The record also
-  carries `Ylopo_Reactivated` and `customBrokerBlocksNBA: true`.
+- **OBSERVED ISSUE** — A synthetic Trash-stage record continued to receive multiple open automation
+  tasks while separate synthetic activity signals suggested renewed engagement. Exact counts,
+  timestamps, tags, and activity history are excluded from source control.
 - **WHY IT MATTERS** — Either the stage is wrong (a genuinely active lead is parked in Trash and
   losing service), or the automation is wrong (a discarded lead is generating recurring tasks that
-  inflate the daily task population). Four of 27 open tasks — roughly 15% of the daily surface —
-  come from this one record. It also collides with the Command Center's instruction not to inflate
-  urgency from stale automation.
+  inflate the daily task population). It also collides with the Command Center's instruction not to
+  inflate urgency from stale automation.
 - **IMPACT** — Daily-brief noise; possible lost lead; a record that is uncontrolled in FUB terms.
 - **CLASSIFICATION** — **OPERATIONAL CHANGE.** Resolution requires either a stage change or a
   shared-automation/lead-flow change. **Shared FUB automations and lead-flow rules require Brent's
   approval** (BOM section 16, FUB 06 section 1) — this is explicitly not Claude's to change.
-- **EXACT PROPOSED CHANGE** — No canonical document edit proposed. This is a **record and
-  configuration decision for Blaise**: (a) confirm whether 18328 belongs in Trash given current IDX
-  activity, and (b) if it does, ask Brent why a Trash-stage record continues to generate
-  "Unconverted and active now" tasks, since that is shared lead-flow behavior. If it does not, restage
-  and reinstate a real dated next action.
+- **EXACT PROPOSED CHANGE** — No canonical document edit proposed. Confirm whether the affected record
+  belongs in Trash given current verified activity. If it does, route the recurring-task behavior to
+  the shared lead-flow owner; if it does not, restore the correct stage and one dated next action.
 - **RELATED ASSETS** — FUB 05 (record control / dated next action), FUB 06 (automation map).
 - **TESTING REQUIRED** — After disposition, confirm the open-task population no longer carries
   duplicate automation tasks for a discarded record.
@@ -313,16 +313,13 @@ until a named precondition clears.
 
 ### IF-2026-08-31-012 — Command Center should de-rank unverified Ylopo priority alerts
 
-- **TRIGGER** — Phase 2 live Command Center pilot; corroborated by existing FUB notes 81966/81967/81968
-  on person 18476 written 2026-08-29.
+- **TRIGGER** — Phase 2 live Command Center pilot; corroborated by restricted evidence retained
+  outside source control.
 - **CONTROLLING SOURCE** — `1xV6ScXQJdXPb9t9rQZhJFFZkKwRH9fd0f1MtdnaAT6o` (Claude Prompt – Daily
   Revenue Command Center) v1.1, REVIEW METHOD.
-- **OBSERVED ISSUE** — The canonical prompt lists "urgent Ylopo/Priority or agreed-to-connect signals
-  when visible" as a daily control surface to review, without qualification. Blaise's own FUB notes
-  document a **confirmed cross-lead attribution defect**: the 8/28 "shared listing" priority alert on
-  Dallas (18476) was traced to Douglas H's (18393) search string bleeding onto Dallas's record, and a
-  second alert on 8/31 shows the same unconfirmed pattern. Of the 27 open tasks in this pilot, **7 are
-  Ylopo/FUB-generated priority or "unconverted" alerts**.
+- **OBSERVED ISSUE** — The canonical prompt lists urgent portal signals as a daily control surface
+  without requiring raw-event corroboration. A syntheticized test reproduced a cross-record
+  attribution defect in which one contact's search activity appeared on another contact's record.
 - **WHY IT MATTERS** — Ranking an unverified automated alert alongside a real client obligation is
   exactly the "busywork above a real conversation" failure the prompt prohibits. The prompt currently
   gives no instruction to verify a priority alert against the raw event log before ranking it.
@@ -375,10 +372,10 @@ until a named precondition clears.
 
 ### IF-2026-08-31-017 — `notext` tag appears on Zillow Preferred leads and may be an import artifact
 
-- **TRIGGER** Live new-lead intake, Caitlin Nakache (personId 18524), 2026-08-31.
+- **TRIGGER** Live new-lead intake, SYNTHETIC_BUYER_E (personId 90004), 2026-08-31.
 - **CONTROLLING SOURCE** FUB 06 v1.8 §2 automation map; FUB 05 v1.8 record control.
-- **OBSERVED ISSUE** Person 18524 arrived from Zillow Preferred carrying a `notext` tag within one
-  minute of record creation, before any human contact. Person 18476 (Dallas), also Zillow Preferred,
+- **OBSERVED ISSUE** Person 90004 arrived from Zillow Preferred carrying a `notext` tag within one
+  minute of record creation, before any human contact. Person 90001 (SYNTHETIC_BUYER_A), also Zillow Preferred,
   carries the same tag, and Blaise's own note of 2026-08-29 states it is **wrong** on that record
   because text is the working channel. Two of two observed Zillow Preferred leads carry it.
 - **WHY IT MATTERS** `notext` suppresses the fastest speed-to-lead channel on exactly the leads that
@@ -400,6 +397,28 @@ until a named precondition clears.
   Blaise decide the channel rather than silently suppressing or ignoring it.
 
 ---
+
+### IF-2026-09-03-001 — Repository still pointed to the retired pre-cutover OS
+
+- **TRIGGER** — Runtime implementation resumed after the Drive consolidation and cutover completed.
+- **CONTROLLING SOURCE FILE ID + VERSION** — OS Cutover Completion Record
+  `1yF9vl8bArdSYsTG4HUPwzg2t8CyI3V3vf7AXtYyOEDI`; active Source Map
+  `1UU8eQOElu388w2FA2gPJCMOKP7_EvQRNoPUthxc1_wg`; versions unpinned, locators verified 2026-09-03.
+- **OBSERVED ISSUE** — `governance/source-registry.json` still treated 21 pre-cutover documents as
+  active, including a Business Operating Manual and Execution Operator SOP now titled `RETIRED - …`.
+- **WHY IT MATTERS** — Every agent could retrieve structurally valid but non-authoritative policy and
+  the runtime build could target an architecture the canonical OS had intentionally replaced.
+- **TIME / RISK / CLIENT IMPACT** — Immediate wrong-policy and duplicate-OS risk across every workflow.
+- **CLASSIFICATION** — **MINOR MAINTENANCE.** The canonical authority decision was already completed
+  in Drive; this patch only aligns repo pointers and compatibility wrappers to it.
+- **EXACT PROPOSED CHANGE** — Replace the active registry with the consolidated cutover set; add
+  `RETIRED` rejection; rewire the eight wrappers; mark conflicting pre-cutover repo records as
+  historical; add a static test proving the retired root IDs cannot return to the active registry.
+- **RELATED ASSETS AFFECTED** — source registry · all agent wrappers · source retrieval skill · source
+  checker · README · certification register · historical patch queue and pilot evidence · tests.
+- **TESTING REQUIRED** — Static registry/agent consistency, retired-ID exclusion, all runtime tests,
+  source-plan generation, and bootstrap check.
+- **DISPOSITION** — **PATCH — APPLIED** on 2026-09-03. No canonical Drive edit made.
 
 ## 5. Findings closed
 

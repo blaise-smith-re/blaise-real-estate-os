@@ -40,8 +40,8 @@ department. Routing overhead that adds no judgment is pure latency.
 Resolve each by `file_id` from `governance/source-registry.json` using **`retrieve-canonical-source`**. Never resolve by title. Reject any `LEGACY -` / `ARCHIVED -` result and re-resolve. Retrieve once per run.
 
 - `business_operating_manual`
-- `execution_operator_sop`
-- `workflow_channels_routing`
+- `canonical_source_map`
+- `ai_execution_runbook`
 
 ## Routing map
 

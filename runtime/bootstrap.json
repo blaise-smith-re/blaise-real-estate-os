@@ -1,0 +1,27 @@
+{
+  "runtime_version": "0.2.0",
+  "contract": "os.execution.v1",
+  "status": "FOUNDATION_READ_ONLY_NOT_LIVE",
+  "mode": "READ_ONLY",
+  "trigger_policy": "MANUAL_ONLY",
+  "persistence": "NONE",
+  "effect_budget": {
+    "external_writes": 0,
+    "external_messages": 0,
+    "schedules_created": 0,
+    "money_moved": 0
+  },
+  "canonical_pointers": {
+    "runtime_foundation_control": "1QQlyz8YIosmqquO18cTOpZwaskpg7tH8rgDp_ZqoRDA",
+    "runtime_registries_sheet": "1Cr3SxGD00XFpck_f15oJL_wJPwWdE53W9kFiA0mdtO8",
+    "ai_execution_runbook": "1pFUdBNfbPLBYSkyKj0_25wC6RuP6VKO1WnkOZ1EudJw",
+    "canonical_source_map": "1UU8eQOElu388w2FA2gPJCMOKP7_EvQRNoPUthxc1_wg"
+  },
+  "live_adapters": [],
+  "holds": [
+    "FUB read lane is not exposed in the current ChatGPT Work runtime",
+    "Operations Bus is not live",
+    "Scheduler remains HOLD",
+    "Command Center and Decision Queue are presentation-only"
+  ]
+}

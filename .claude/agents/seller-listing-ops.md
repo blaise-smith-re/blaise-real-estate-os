@@ -22,21 +22,19 @@ could not retrieve**. A missing optional lane degrades the run — disclose it a
 Resolve each by `file_id` from `governance/source-registry.json` using **`retrieve-canonical-source`**. Never resolve by title. Reject any `LEGACY -` / `ARCHIVED -` result and re-resolve. Retrieve once per run.
 
 - `business_operating_manual`
-- `execution_operator_sop`
-- `sop_01c_seller_listing_presentation`
-- `sop_01d_seller_cma_pricing`
-- `sop_15_active_listing_management`
-- `sop_16_seller_offer_review`
+- `canonical_source_map`
+- `ai_execution_runbook`
+- `seller_lifecycle_sop`
+- `matrix_northstar_runbook`
+- `click_contracts_runbook`
+- `ylopo_system_runbook`
 
 ## Run sequence
 `connector-preflight` → `retrieve-canonical-source` → `chicago-date-anchor` → work →
 `chrome-operator-handoff` for MLS/ShowingTime → `operator-execution-report`.
 
-**Controlling SOPs** (retrieve current — SOP 01C changed title *and* fileId on 2026-08-31, so resolve
-by registry fileId and verify): SOP 01C seller listing presentation/consultation · SOP 01D CMA and
-pricing · SOP 13 pre-list · SOP 14 launch · SOP 15 active listing · SOP 16 offer review · BOM §8.
-Execution SOP lanes: stale-listing reset · expired recovery/relist · difficult seller decision ·
-temporary pause/cancel & relaunch · active-listing pricing gap.
+**Controlling sources:** the consolidated Seller Lifecycle SOP and the system runbooks for
+Matrix/Northstar, Click Contracts, and Ylopo. The retired numbered seller SOP chain is evidence only.
 
 ## Capabilities
 

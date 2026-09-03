@@ -1,114 +1,99 @@
-# blaise-real-estate-os
+# Blaise Real Estate OS
 
-**Claude Code execution and multi-agent operating layer for Blaise Smith's real estate business.**
-Buy Sell Home Team | RE/MAX Results.
+Provider-neutral execution foundation for Blaise Smith's real estate business — Buy Sell Home Team,
+RE/MAX Results.
 
----
+## Current state
 
-## What this repository is
+The **knowledge layer is complete and consolidated in Google Drive**. This repository now implements
+the next phase: a bounded runtime foundation that can consume those authorities without becoming a
+second CRM, task list, calendar, document system, or SOP library.
 
-The **execution layer**. It holds agent definitions, reusable skills, tests, source pointers, tool
-policy, and engineering documentation.
-
-## What this repository is NOT
-
-A CRM · a task manager · a document system of record · a calendar · a transaction database · a client
-record · a parallel SOP library.
-
-**Google Drive is canonical for all business documentation** — the Business Operating Manual, SOPs,
-approved prompts and templates, client assets, transaction records. None of it is copied here. Agents
-retrieve it live, by `fileId`, at runtime.
-
-## Authority model
-
-| Role | Owns |
+| Layer | Status |
 |---|---|
-| **Blaise Smith** | Principal. Final business decision-maker. Approves all consequential actions. |
-| **ChatGPT** (Real Estate OS project) | Business orchestration, strategy, source control, SOP change control, cross-system QC |
-| **Claude** | **Execution operator** — analysis, preparation, routing, certified execution, QC |
-| **Source systems** | Always authoritative |
+| Canonical Business Operating Manual, lifecycle SOPs, system runbooks, and templates | **COMPLETE — Drive is authoritative** |
+| Source cutover from the retired pre-2026-09-03 OS | **COMPLETE** |
+| `os.execution.v1` event/report contract | **IMPLEMENTED** |
+| Authority, Capability, and Entity Registry enforcement | **IMPLEMENTED — fixture-tested** |
+| Provider-neutral Operations Bus core | **IMPLEMENTED — read-only foundation** |
+| Command Center ranking and Decision Queue presentation | **IMPLEMENTED — memory-only** |
+| Live Follow Up Boss read adapter | **HOLD — lane not exposed in the current ChatGPT Work runtime** |
+| Combined production pilot and orchestrator certification | **NEXT** |
+| Scheduler, writes, sends, publication, and money movement | **HOLD** |
 
-Set by Business Operating Manual §4.12. **Not amendable from this repository.**
+`FOUNDATION_READ_ONLY_NOT_LIVE` is an intentional status. The core is real and tested; it does not
+claim a connector exists until the exact lane is available and certified.
 
-## Layout
+## Runtime guarantees
 
-```
-CLAUDE.md                    Operating contract for every session in this repo
-CHANGELOG.md                 What changed, when, why
+- Manual trigger only; scheduled or unattended execution is rejected.
+- Read-only action class only; every external-effect counter must remain zero.
+- Exact active authority rule required; ambiguity fails closed.
+- Exact stable entity ID required; ambiguous or missing targets stop before an adapter call.
+- Only active, certified, Phase 2-enabled capabilities may run.
+- Provider fallback is allowed only to another eligible certified lane; otherwise the result is HOLD.
+- Source metadata is mandatory on every completed execution report.
+- Registry snapshots reject credentials and direct PII fields.
+- Source control accepts synthetic examples only; live client/contact records and raw pilot evidence
+  stay in restricted operating systems.
+- Decision Queue is presentation-only and memory-only; source systems remain authoritative.
+
+## Repository layout
+
+```text
+runtime/
+  bootstrap.json       Phase mode, canonical pointers, zero-effect budget, active holds
+  contract.js          os.execution.v1 validation and source-evidence rules
+  registries.js        Authority, Capability, and Entity resolution
+  operations-bus.js    State transitions, adapter selection, fail-closed execution
+  presentation.js      Command Center ranking and in-memory Decision Queue
 
 governance/
-  source-registry.json       ★ fileId pointers + version pins. THE keystone artifact.
-  system-ownership.md        Which system owns what (pointer to BOM §4)
-  tool-policy.md             READ / CERTIFIED WRITE / APPROVAL / HOLD, per connector
-  certification-register.md  Agent certification status (mirror of Execution SOP §5B)
-  handoff-contract.md        Task Packet + Operator Execution Report
-  escalation-and-hold.md     Hard stops and the standing HOLD list
-  improvement-findings.md    Continuous improvement log, three-tier change model
+  source-registry.json Current Drive fileId pointers after the 2026-09-03 cutover
+  tool-policy.md       Local tool containment and historical connector evidence
+  *.md                 Ownership, handoff, holds, findings, and certification records
 
 .claude/
-  agents/                    daily-revenue-command-center · client-prep-brief
-  skills/                    retrieve-canonical-source · chicago-date-anchor · operator-execution-report
-  settings.json              Permission enforcement (allow / deny)
+  agents/              Read-only compatibility wrappers for the department model
+  skills/              Retrieval, date, report, preflight, and handoff procedures
+  settings.json        Structural deny rules for writes and scheduling
 
-tests/                       Static suite, adversarial scenarios, synthetic fixtures
-scripts/check-sources.js     Source-drift checker
-docs/                        DECISIONS · PHASE-2-CERTIFICATION · CHROME-OPERATOR-HANDOFF ·
-                             SOP-MAINTENANCE-CERTIFICATION-PATH
+tests/
+  runtime/             Executable runtime behavior and failure-mode tests
+  fixtures/            Synthetic data only
+  adversarial/         Historical and current behavioral scenarios
 ```
 
-## Departments
-
-| Agent | Purpose | Writes |
-|---|---|---|
-| `chief-of-staff` | Execution orchestrator — routes, reconciles, reports | none |
-| `lead-conversion-crm` | **The only FUB write path** — closeouts, notes, dated next actions | gated (CGQ-001) |
-| `buyer-investor-ops` | Buyer/investor prep, search, showings, offers, deal analysis | none |
-| `seller-listing-ops` | Consultation, CMA/pricing, launch, active listing, offers, relist | none |
-| `market-intel-marketing` | Weekly 20, market stats, content, campaign prep | none |
-| `transaction-closing-ops` | Mutual acceptance → closing, deadlines, TC handoff | none |
-
-Charters: `governance/department-charters.md` · Flows: `docs/END-TO-END-FLOWS.md`
-
-## Agents — Phase 2
-
-Both are **manual invocation only** and **read-only**. `WRITES ATTEMPTED` is always `NONE`.
-
-| Agent | Purpose | Sources | Status |
-|---|---|---|---|
-| `daily-revenue-command-center` | Ranked daily priority brief, 5–8 items | FUB + Calendar (read) | PROVISIONAL — static PASS, live pilot pending |
-| `client-prep-brief` | ~5-minute pre-conversation brief for one named client | FUB + Calendar (read) | PROVISIONAL — static PASS, live pilot pending |
-
-Business logic for both lives in Drive and is retrieved at runtime. The agent files are wrappers.
-
-## Quick start
+## Run locally
 
 ```bash
-node tests/run-static-tests.js                 # 24 static checks, exit 0 = pass
-node scripts/check-sources.js plan             # what to retrieve from Drive
-node scripts/check-sources.js verify --results tests/read-only/source-drift-run-2026-08-31.json
+node tests/run-static-tests.js
+node --test tests/runtime/*.test.js
+node runtime/cli.js check
 ```
 
-## Standing HOLDs
+Or, where package scripts are available:
 
-**Unattended / scheduled agent execution · all FUB writes · all Gmail · all Calendar writes · all Drive
-business-record writes · all external communication · browser automation · merge to `main`.**
+```bash
+npm test
+npm run runtime:check
+```
 
-Full list with basis: `governance/escalation-and-hold.md`.
+These checks make no network calls and perform no business-system writes.
 
-> This repository *has* scheduling capability. It must not be used for agent execution — that would
-> silently defeat an active certification gate. See HOLD H-1.
+## Canonical-source rule
 
-## Not reachable from here
+Google Drive owns business policy and procedure. This repository stores pointers and runtime code,
+never copied SOP bodies. Resolve current authority by `file_id` from
+`governance/source-registry.json`. A title beginning `RETIRED -`, `LEGACY -`, or `ARCHIVED -`, or
+containing `Superseded`, is evidence only and must never control a live workflow.
 
-Claude Code has **no browser lane**. Northstar/Matrix, Click Contracts, SkySlope, Ylopo and
-ShowingTime are Claude-in-Chrome lanes — certified there, unreachable here. Agents must disclose the
-gap and route it, never simulate the data. See `docs/CHROME-OPERATOR-HANDOFF.md`.
+## What clears the next gate
 
-## Contributing
+1. Expose and identify the exact read-only Follow Up Boss lane in the target runtime.
+2. Record it in the Capability Registry and certify it against the active FUB System Runbook.
+3. Run one bounded combined manual pilot through `os.execution.v1` with complete source metadata and
+   zero external effects.
+4. Certify orchestrator/router behavior from that evidence.
 
-Repo-native engineering documentation may be maintained directly. Canonical Drive business
-documentation may not — produce an exact proposed diff as an Improvement Finding and route it to
-ChatGPT / 04 — Systems, Training & SOP Control.
-
-Update `CHANGELOG.md` and `docs/DECISIONS.md` in the same session as the change. Never change business
-policy, authority, or a certification gate in a commit.
+Scheduling stays on HOLD after that milestone until its own bounded runtime smoke passes.
