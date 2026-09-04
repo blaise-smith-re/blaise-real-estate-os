@@ -27,15 +27,6 @@
       "mcp__Blaise_FUB__get_users",
       "mcp__Blaise_FUB__search_deals",
       "mcp__Blaise_FUB__search_tasks",
-      "mcp__Google_Calendar__get_event",
-      "mcp__Google_Calendar__list_calendars",
-      "mcp__Google_Calendar__list_events",
-      "mcp__Google_Calendar__search_events",
-      "mcp__Google_Drive__get_file_metadata",
-      "mcp__Google_Drive__read_file_content",
-      "mcp__Google_Drive__search_files"
-    ],
-    "deny": [
       "mcp__Blaise_FUB__create_contact_note",
       "mcp__Blaise_FUB__create_contact_task",
       "mcp__Blaise_FUB__close_out_contact_interaction",
@@ -49,6 +40,15 @@
       "mcp__Blaise_FUB__merge_contact_tags",
       "mcp__Blaise_FUB__log_external_call_record",
       "mcp__Blaise_FUB__log_external_text_record",
+      "mcp__Google_Calendar__get_event",
+      "mcp__Google_Calendar__list_calendars",
+      "mcp__Google_Calendar__list_events",
+      "mcp__Google_Calendar__search_events",
+      "mcp__Google_Drive__get_file_metadata",
+      "mcp__Google_Drive__read_file_content",
+      "mcp__Google_Drive__search_files"
+    ],
+    "deny": [
       "mcp__Gmail",
       "mcp__Gmail__send_message",
       "mcp__Gmail__reply",

@@ -1,8 +1,9 @@
 # Blaise Real Estate OS — Runtime and Agent Compatibility Contract
 
 This repository is the **provider-neutral execution foundation and Claude compatibility layer** for
-Blaise Smith's real estate business. The active runtime phase is
-`FOUNDATION_READ_ONLY_NOT_LIVE`: manual, read-only, and zero external effects.
+Blaise Smith's real estate business. The active runtime is
+`READ_WRITE_RUNTIME_READY_FOR_LIVE_ATTACHMENT`: manual reads plus owner-authorized internal FUB
+maintenance. Blaise reviews before SEND / SUBMIT / PUBLISH / SIGN / SPEND.
 
 Keep this file short and durable. Task logic belongs in agent definitions. Reusable procedure belongs
 in skills. **Business documentation belongs in Google Drive and must never be copied here.**
@@ -70,9 +71,10 @@ Full definitions: Business Operating Manual §4. See `governance/system-ownershi
 
 ---
 
-## 4. SOURCE RETRIEVAL — MANDATORY BEFORE CONTROLLED WORK
+## 4. SOURCE RETRIEVAL — WHEN THE WORK DEPENDS ON POLICY
 
-1. Retrieve canonical sources **by `fileId` from `governance/source-registry.json`** — never by title
+1. When a decision materially depends on policy or procedure, retrieve the relevant canonical source
+   **by `fileId` from `governance/source-registry.json`** — never by title
    search. Titles change when a document is superseded; `fileId` is stable.
 2. Read the retrieved document's own version/date line. Record it in the run report as
    `GOVERNING SOURCES + VERSIONS`.
@@ -102,7 +104,7 @@ Six departments plus an orchestrator. Charters: `governance/department-charters.
 | Agent | Role | Writes |
 |---|---|---|
 | `chief-of-staff` | Execution orchestrator — routes, reconciles, reports | none |
-| `lead-conversion-crm` | Prepares the only FUB write-request path | **no runtime writes granted** |
+| `lead-conversion-crm` | Maintains individual FUB records through the only write path | **all 13 bounded FUB writes** |
 | `buyer-investor-ops` | Buyer + investor prep, search, showings, offers, deal analysis | none |
 | `seller-listing-ops` | Consultation, CMA/pricing, launch, active listing, offers, relist | none |
 | `market-intel-marketing` | Weekly 20, market stats, content, campaigns | none |
@@ -110,7 +112,7 @@ Six departments plus an orchestrator. Charters: `governance/department-charters.
 | `daily-revenue-command-center` | Daily ranked priorities; historical pilot PASS, runtime recertification pending | none |
 | `client-prep-brief` | 5-minute brief; historical pilot PASS, runtime recertification pending | none |
 
-**Invariants.** One CRM write-request path · no parallel CRM, task list, calendar, transaction
+**Invariants.** One CRM write path · no parallel CRM, task list, calendar, transaction
 database or document system · every agent preflights connectors, resolves sources by `fileId`, and
 anchors dates to America/Chicago · unreachable systems route by formal handoff packet.
 
@@ -118,20 +120,18 @@ anchors dates to America/Chicago · unreachable systems route by formal handoff 
 
 ## 5. PERMISSION MODEL
 
-Four classes. Certification is **action-class specific**.
+Four practical classes:
 
 | Class | Meaning |
 |---|---|
 | **READ** | Retrieval and analysis only |
-| **CERTIFIED REVERSIBLE WRITE** | A specific tool, certified for a specific action class, with mandatory read-back |
-| **HUMAN-APPROVAL WRITE** | Requires Blaise's explicit approval for this exact action |
+| **INTERNAL MAINTENANCE** | Owner-authorized FUB record updates with exact targeting and read-back |
+| **EXTERNAL-ACTION REVIEW** | Blaise reviews immediately before SEND / SUBMIT / PUBLISH / SIGN / SPEND |
 | **HOLD / PROHIBITED** | Not permitted under any current authorization |
 
-> **One certified tool does not authorize other tools on the same connector.** The active Runtime
-> Phase 2 Capability Registry currently grants local compute and the specifically recorded read
-> lanes only. **No external write class is enabled.**
-
-**Every Phase 2 agent is READ-ONLY. `WRITES ATTEMPTED` must always equal `NONE`.**
+Only `lead-conversion-crm` may invoke FUB writes. Other departments route CRM outcomes to it. This
+keeps one source of truth without making Blaise approve routine note, task, contact, appointment,
+deal, channel, tag, or interaction-log maintenance.
 
 Authoritative matrix: `governance/tool-policy.md`. Enforcement: `.claude/settings.json`.
 
@@ -142,9 +142,10 @@ Authoritative matrix: `governance/tool-policy.md`. Enforcement: `.claude/setting
 - **Unattended / scheduled agent execution is HOLD.** No cron, Routine, scheduled task, background
   job, or `/loop`. The active runtime control record holds scheduling until a bounded smoke proves
   the America/Chicago date anchor, complete retrieval, correct reporting, zero writes, and delivery.
-- The provider-neutral Operations Bus is a tested foundation and is **not live**.
-- The current ChatGPT Work runtime exposes no FUB read lane; never simulate one.
-- All FUB write tools — HOLD for Phase 2 agents.
+- The standalone provider-neutral Operations Bus has no persistent host; Codex currently invokes the
+  deployed FUB MCP services directly.
+- FUB internal maintenance is authorized only through `lead-conversion-crm`; appointment invitations
+  remain off unless Blaise separately approves the outward send.
 - All Gmail send / reply / forward / draft writes — HOLD.
 - All Calendar create / update / delete — HOLD.
 - All Composio / Instagram writes — HOLD.
@@ -192,7 +193,7 @@ a task completed unless the action actually occurred **and was independently ver
 
 ## 9. EFFICIENCY
 
-Do not add ritual micro-approvals to low-risk certified read-only work. Once scope and exact target
+Do not add ritual micro-approvals to reads or internal maintenance. Once scope and exact target
 are clear, execute end-to-end: no serial preview → screenshot → approval cycles, no reloading
 unchanged sources, no re-proving established infrastructure. Trust tested tools until evidence
 indicates a problem; when something is materially off, stop only the affected step, diagnose, and

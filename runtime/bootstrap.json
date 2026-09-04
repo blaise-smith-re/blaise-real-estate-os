@@ -1,14 +1,14 @@
 {
-  "runtime_version": "0.3.0",
+  "runtime_version": "0.4.0",
   "contract": "os.execution.v1",
-  "status": "FOUNDATION_READ_ONLY_NOT_LIVE",
-  "mode": "READ_ONLY",
+  "status": "READ_WRITE_RUNTIME_READY_FOR_LIVE_ATTACHMENT",
+  "mode": "READ_AND_INTERNAL_WRITE",
   "trigger_policy": "MANUAL_ONLY",
   "persistence": "NONE",
   "effect_budget": {
-    "external_writes": 0,
+    "external_writes": 2,
     "external_messages": 0,
-    "schedules_created": 0,
+    "schedules_created": 1,
     "money_moved": 0
   },
   "canonical_pointers": {
@@ -21,7 +21,7 @@
   "staged_adapters": [
     {
       "adapter": "fub-read",
-      "status": "SYNTHETIC_PASS_LIVE_CERTIFICATION_PENDING",
+      "status": "RUNTIME_READY_LIVE_SMOKE_PENDING",
       "operations": [
         "GET_CONTACT",
         "GET_CONTACT_EVENTS",
@@ -30,13 +30,31 @@
         "SEARCH_TASKS",
         "GET_OPEN_TASKS"
       ]
+    },
+    {
+      "adapter": "fub-write",
+      "status": "RUNTIME_READY_LIVE_SMOKE_PENDING",
+      "operations": [
+        "CREATE_CONTACT_NOTE",
+        "CREATE_CONTACT_TASK",
+        "UPDATE_CONTACT_TASK",
+        "UPDATE_CONTACT_PROFILE",
+        "REPLACE_CONTACT_CHANNELS",
+        "MERGE_CONTACT_TAGS",
+        "CREATE_CONTACT_APPOINTMENT",
+        "UPDATE_CONTACT_APPOINTMENT",
+        "CREATE_CONTACT_DEAL",
+        "UPDATE_CONTACT_DEAL",
+        "LOG_EXTERNAL_CALL_RECORD",
+        "LOG_EXTERNAL_TEXT_RECORD",
+        "CLOSE_OUT_CONTACT_INTERACTION"
+      ]
     }
   ],
   "holds": [
-    "FUB read lane is not exposed in the current ChatGPT Work runtime",
-    "The current FUB MCP server requires read and write OAuth scopes together; a read-only client surface is required before live activation",
-    "Operations Bus is not live",
+    "Restart Codex in the trusted project so both deployed FUB MCP services load from .codex/config.toml, then run one practical read and internal-write smoke",
+    "The standalone Operations Bus has no persistent host; Codex currently invokes the deployed MCP services directly",
     "Scheduler remains HOLD",
-    "Command Center and Decision Queue are presentation-only"
+    "Command Center and Decision Queue remain presentation-only"
   ]
 }

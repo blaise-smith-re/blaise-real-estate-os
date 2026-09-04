@@ -10,7 +10,7 @@ certified — and they are unreachable from here.
 
 | Connector | Status |
 |---|---|
-| Blaise FUB MCP (38 tools) | Reachable · reads granted · **all 13 writes denied in Phase 2** |
+| Blaise FUB MCP (38 tools) | Reachable · reads + all 13 internal-maintenance writes granted to CRM service |
 | Google Drive | Reachable · reads granted · writes denied |
 | Google Calendar | Reachable · reads granted · writes denied |
 | Gmail | Reachable but **withheld entirely** in Phase 2 (D-010) |

@@ -33,8 +33,8 @@ These checks prove structural containment. They cannot prove agent judgment or c
 
 `tests/runtime/` exercises the provider-neutral core:
 
-- manual-only and read-only contract enforcement;
-- zero external-effect budgets and adapter results;
+- manual read and internal-write contract enforcement;
+- bounded effect budgets with zero messages and money movement;
 - credential and registry-PII rejection;
 - exact authority and entity resolution;
 - eligible certified-provider fallback;
@@ -53,6 +53,11 @@ The FUB adapter tests additionally prove:
 - owner/contact and calendar-date bounds on task queries;
 - reported-only contact discovery; and
 - synthetic FUB adapter integration through `os.execution.v1`.
+- all 13 internal-maintenance operations are allowlisted through one write adapter;
+- exact contact binding and forced live execution;
+- appointment invitations remain disabled at the internal-write boundary;
+- duplicate no-ops and note/task closeout effect counts are accurate; and
+- partial/unverified writes preserve their effect count and surface for reconciliation.
 
 The FUB harness proves adapter behavior offline. It does not certify live connector availability,
 OAuth scope separation, Drive/Calendar preflight, or a production record.

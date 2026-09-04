@@ -4,7 +4,7 @@ const crypto = require('crypto');
 const { ZERO_EFFECTS, scanForCredentialMaterial } = require('../contract');
 const { RuntimeHoldError, ContractError } = require('../errors');
 
-const DEFAULT_TOOL_PREFIX = 'mcp__Blaise_FUB__';
+const DEFAULT_TOOL_PREFIX = 'mcp__blaise_fub_read_only__';
 const CHICAGO_TIMEZONE = 'America/Chicago';
 
 const READ_OPERATIONS = Object.freeze({

@@ -44,7 +44,7 @@ function frontmatter(md) {
   return out;
 }
 
-// Canonical FUB write tools. Any of these reachable by a Phase 2 agent is a hard failure.
+// Canonical FUB internal-maintenance tools. Only the CRM service may hold these.
 const FUB_WRITE_TOOLS = [
   'create_contact_note', 'create_contact_task', 'close_out_contact_interaction',
   'create_contact_appointment', 'update_contact_appointment', 'create_contact_deal',
@@ -139,11 +139,13 @@ check('T-05', 'every source required by an agent exists in the registry', () => 
 
 // ---------------------------------------------------------------- permissions
 
-check('T-06', 'settings.json denies all 13 FUB write tools', () => {
-  const d = json('.claude/settings.json').permissions.deny;
-  const miss = FUB_WRITE_TOOLS.filter(t => !d.includes(t));
-  assert(miss.length === 0, `not denied: ${miss.join(', ')}`);
-  return '13/13 FUB write tools denied';
+check('T-06', 'settings.json allows all 13 FUB maintenance tools', () => {
+  const p = json('.claude/settings.json').permissions;
+  const missing = FUB_WRITE_TOOLS.filter(t => !p.allow.includes(t));
+  const denied = FUB_WRITE_TOOLS.filter(t => p.deny.includes(t));
+  assert(missing.length === 0, `not allowed: ${missing.join(', ')}`);
+  assert(denied.length === 0, `still denied: ${denied.join(', ')}`);
+  return '13/13 FUB maintenance tools allowed';
 });
 
 check('T-07', 'settings.json denies Calendar / Drive / Gmail writes', () => {
@@ -167,14 +169,20 @@ check('T-09', 'settings.json allow and deny lists do not overlap', () => {
   return 'no contradictory permission entries';
 });
 
-check('T-10', 'no agent grants a write tool in its frontmatter', () => {
-  const banned = [...FUB_WRITE_TOOLS, ...OTHER_WRITE_TOOLS, ...SCHEDULING_TOOLS];
+check('T-10', 'only the CRM service holds FUB maintenance tools', () => {
   for (const a of AGENTS) {
     const tools = frontmatter(read(`.claude/agents/${a}.md`)).tools.split(',').map(t => t.trim());
-    const bad = tools.filter(t => banned.includes(t));
-    assert(bad.length === 0, `agent "${a}" grants: ${bad.join(', ')}`);
+    const fubWrites = tools.filter(t => FUB_WRITE_TOOLS.includes(t));
+    if (a === 'lead-conversion-crm') {
+      const missing = FUB_WRITE_TOOLS.filter(t => !tools.includes(t));
+      assert(missing.length === 0, `CRM service is missing: ${missing.join(', ')}`);
+    } else {
+      assert(fubWrites.length === 0, `agent "${a}" grants FUB writes: ${fubWrites.join(', ')}`);
+    }
+    const forbidden = tools.filter(t => OTHER_WRITE_TOOLS.includes(t) || SCHEDULING_TOOLS.includes(t));
+    assert(forbidden.length === 0, `agent "${a}" grants out-of-scope writes: ${forbidden.join(', ')}`);
   }
-  return 'both agents are write-free';
+  return 'all 13 FUB writes belong to lead-conversion-crm; no parallel write service';
 });
 
 check('T-11', 'every agent tool is explicitly allowed in settings.json', () => {
@@ -208,14 +216,17 @@ check('T-12', 'no agent is granted Gmail, Composio, Bash, Write, or Edit', () =>
 check('T-13', 'every agent declares an explicit write posture', () => {
   for (const a of AGENTS) {
     const md = read(`.claude/agents/${a}.md`);
-    assert(/read-only|No writes|zero writes|NOT granted|write authority/i.test(md),
+    assert(/read-only|No writes|zero writes|NOT granted|write authority|internal update|maintenance/i.test(md),
       `agent "${a}" does not state its write posture`);
   }
   for (const a of PHASE2) {
     const md = read(`.claude/agents/${a}.md`);
     assert(/\bNONE\b/.test(md), `Phase 2 agent "${a}" does not declare NONE writes`);
   }
-  return `${AGENTS.length} agents declare write posture; ${PHASE2.length} Phase 2 agents declare NONE`;
+  const crm = read('.claude/agents/lead-conversion-crm.md');
+  assert(/maintains Blaise's individual FUB records autonomously/i.test(crm),
+    'CRM service does not declare active internal-maintenance authority');
+  return `${AGENTS.length} agents declare write posture; CRM maintenance active; ${PHASE2.length} read agents declare NONE`;
 });
 
 check('T-14', 'agents carry required boundary guardrails', () => {
@@ -436,25 +447,26 @@ check('T-27', 'chief-of-staff routes only to agents that exist', () => {
   return 'all routing targets resolve to real agents';
 });
 
-check('T-28', 'FUB write authority is structurally denied in the active runtime phase', () => {
-  // No agent may hold a write tool - the gate is structural, not editorial.
+check('T-28', 'FUB write authority is structurally isolated to the CRM service', () => {
   for (const a of AGENTS) {
     const tools = frontmatter(read(`.claude/agents/${a}.md`)).tools.split(',').map(t => t.trim());
-    const bad = tools.filter(t => FUB_WRITE_TOOLS.includes(t));
-    assert(bad.length === 0, `agent "${a}" grants FUB write tool(s): ${bad.join(', ')}`);
+    const granted = tools.filter(t => FUB_WRITE_TOOLS.includes(t));
+    if (a === 'lead-conversion-crm') {
+      assert(granted.length === FUB_WRITE_TOOLS.length, `CRM service holds ${granted.length}/13 FUB writes`);
+    } else {
+      assert(granted.length === 0, `agent "${a}" grants FUB write tool(s): ${granted.join(', ')}`);
+    }
   }
-  // Only the CRM department may describe itself as the write path.
   const crm = read('.claude/agents/lead-conversion-crm.md');
-  assert(/create_contact_note/.test(crm), 'CRM agent does not name the certified write classes');
-  assert(/NOT granted|not granted/i.test(crm), 'CRM agent does not state the authority gate');
-  assert(/Runtime Phase 2/.test(crm), 'CRM agent does not cite the active runtime phase');
-  assert(/never execute/i.test(crm), 'CRM agent does not prohibit last-mile execution');
+  assert(/AI maintains Blaise's individual FUB records autonomously/i.test(crm),
+    'CRM service does not state active maintenance authority');
+  assert(/Sending anything/i.test(crm), 'CRM service does not preserve the external-send boundary');
   for (const a of AGENTS.filter(x => x !== 'lead-conversion-crm')) {
     const md = read(`.claude/agents/${a}.md`);
     assert(!/create_contact_note|close_out_contact_interaction/.test(md),
       `non-CRM agent "${a}" names a certified write class`);
   }
-  return 'zero write tools granted; request path named only by lead-conversion-crm; Phase 2 prohibition cited';
+  return 'all 13 internal writes isolated to lead-conversion-crm; external-send boundary preserved';
 });
 
 check('T-29', 'pre-cutover governance patch queue is explicitly historical', () => {
@@ -514,16 +526,18 @@ check('T-31', 'active source registry contains the consolidated cutover set, not
   return 'active BOM, Source Map, AI Runbook, control record, and registry sheet present; retired roots absent';
 });
 
-check('T-32', 'runtime bootstrap is manual, read-only, zero-effect, and not-live', () => {
+check('T-32', 'runtime bootstrap enables manual reads and bounded internal writes', () => {
   const b = json('runtime/bootstrap.json');
-  assert(b.status === 'FOUNDATION_READ_ONLY_NOT_LIVE', 'runtime status overclaims live operation');
-  assert(b.mode === 'READ_ONLY', 'runtime mode is not read-only');
+  assert(b.status === 'READ_WRITE_RUNTIME_READY_FOR_LIVE_ATTACHMENT', 'runtime status is stale or overclaims live operation');
+  assert(b.mode === 'READ_AND_INTERNAL_WRITE', 'runtime mode does not include read and internal write');
   assert(b.trigger_policy === 'MANUAL_ONLY', 'runtime trigger is not manual-only');
   assert(b.persistence === 'NONE', 'runtime unexpectedly declares persistence');
   assert(Array.isArray(b.live_adapters) && b.live_adapters.length === 0, 'runtime claims a live adapter');
-  for (const [key, value] of Object.entries(b.effect_budget || {}))
-    assert(value === 0, `nonzero bootstrap effect budget: ${key}`);
-  return 'manual-only, read-only, no persistence, no live adapters, all effect counters zero';
+  assert(b.effect_budget.external_writes === 2, 'combined note/task write budget must equal 2');
+  assert(b.effect_budget.schedules_created === 1, 'appointment-record budget must equal 1');
+  assert(b.effect_budget.external_messages === 0 && b.effect_budget.money_moved === 0,
+    'external sends and money must remain outside internal-write authority');
+  return 'manual reads + internal writes ready; messages/money remain zero; live smoke pending';
 });
 
 check('T-33', 'runtime implementation exposes the required foundation components', () => {
@@ -578,8 +592,9 @@ check('T-36', 'repository contains no non-placeholder email or phone data', () =
   return 'all repository email and phone examples use reserved placeholders';
 });
 
-check('T-37', 'FUB adapter is staged, least-privilege, and synthetic-certified only', () => {
+check('T-37', 'FUB read and write adapters enforce their separate effect boundaries', () => {
   const adapter = read('runtime/adapters/fub-read.js');
+  const writeAdapter = read('runtime/adapters/fub-write.js');
   const bootstrap = json('runtime/bootstrap.json');
   const p = json('package.json');
   for (const operation of ['GET_CONTACT', 'GET_CONTACT_EVENTS', 'GET_CONTACT_NOTES',
@@ -592,11 +607,19 @@ check('T-37', 'FUB adapter is staged, least-privilege, and synthetic-certified o
   assert(/America\/Chicago/.test(adapter) && /INCOMPLETE_RETRIEVAL/.test(adapter),
     'FUB adapter lacks timezone/completeness controls');
   assert(bootstrap.live_adapters.length === 0, 'synthetic adapter is incorrectly declared live');
-  assert(bootstrap.staged_adapters[0].status === 'SYNTHETIC_PASS_LIVE_CERTIFICATION_PENDING',
-    'staged adapter status overclaims production certification');
+  assert(bootstrap.staged_adapters.length === 2 &&
+    bootstrap.staged_adapters.every(item => item.status === 'RUNTIME_READY_LIVE_SMOKE_PENDING'),
+    'both adapters must be ready with practical live smoke pending');
+  for (const operation of ['CREATE_CONTACT_NOTE', 'UPDATE_CONTACT_PROFILE',
+    'CREATE_CONTACT_APPOINTMENT', 'UPDATE_CONTACT_DEAL', 'CLOSE_OUT_CONTACT_INTERACTION']) {
+    assert(writeAdapter.includes(operation), `FUB write adapter missing ${operation}`);
+  }
+  assert(/execute = true/.test(writeAdapter), 'write adapter does not force execution');
+  assert(/external_communication_disabled/.test(writeAdapter), 'write adapter does not preserve send boundary');
+  assert(/assertEffectsWithinBudget/.test(writeAdapter), 'write adapter does not enforce effect budgets');
   assert(/runtime\/cli\.js certify:fub-read --synthetic/.test(p.scripts['certify:fub-read:synthetic']),
     'synthetic FUB certification command is not wired');
-  return 'six-operation pilot surface staged; write rejection and live HOLD intact';
+  return 'six-tool read lane and all-13 write lane ready; exact boundaries enforced';
 });
 
 check('T-38', 'automation target preserves depth and the human relationship boundary', () => {
@@ -607,11 +630,41 @@ check('T-38', 'automation target preserves depth and the human relationship boun
     assert(md.includes(capability), `automation plan missing ${capability}`);
   }
   assert(/not a permanently read-only assistant/i.test(md), 'automation plan mistakes the gate for the target');
-  assert(/no independent calling, texting, emailing, or DMs/i.test(md),
-    'automation plan does not preserve Blaise relationship ownership');
+  assert(/SEND \/ SUBMIT \/ PUBLISH \/ SIGN \/ SPEND/i.test(md),
+    'automation plan does not preserve Blaise external-action review boundary');
   assert(/No parallel CRM, task list,\ncalendar, or SOP library/.test(md),
     'automation plan permits a parallel operating system');
-  return 'full operating-partner target is explicit; activation remains gated by effect class';
+  return 'full operating-partner target is explicit; internal maintenance active; external review preserved';
+});
+
+check('T-39', 'project Codex config enables separate read and full FUB operators', () => {
+  const config = read('.codex/config.toml');
+  assert(/mcp_optional_startup_grace_ms\s*=\s*0/.test(config),
+    'Codex config does not wait through optional-server cold starts');
+  assert(/\[mcp_servers\.blaise_fub_read_only\][\s\S]*?enabled\s*=\s*true/.test(config),
+    'read-only FUB MCP is not enabled');
+  assert(/\[mcp_servers\.blaise_fub_full\][\s\S]*?enabled\s*=\s*true/.test(config),
+    'full FUB operator is not enabled');
+  const readSection = config.match(
+    /\[mcp_servers\.blaise_fub_read_only\]([\s\S]*?)\[mcp_servers\.blaise_fub_full\]/,
+  );
+  assert(readSection, 'bounded read-only FUB config section is missing');
+  for (const tool of ['get_contact', 'get_contact_events', 'get_contact_notes',
+    'get_contact_appointments', 'search_tasks', 'get_open_tasks']) {
+    assert(readSection[1].includes(`"${tool}"`), `read-only FUB config missing ${tool}`);
+  }
+  for (const writeTool of ['create_contact_note', 'create_contact_task', 'update_contact_task',
+    'update_contact_profile', 'merge_contact_tags']) {
+    assert(!readSection[1].includes(writeTool), `read-only FUB config exposes ${writeTool}`);
+  }
+  const fullSection = config.match(/\[mcp_servers\.blaise_fub_full\]([\s\S]*)$/);
+  assert(fullSection, 'full FUB config section is missing');
+  for (const fullName of FUB_WRITE_TOOLS.map(t => t.split('__').pop())) {
+    assert(fullSection[1].includes(`"${fullName}"`), `full FUB config missing ${fullName}`);
+  }
+  assert(/default_tools_approval_mode\s*=\s*"auto"/.test(fullSection[1]),
+    'full FUB internal maintenance is not configured for standing auto approval');
+  return 'cold-start wait enabled; six-tool read lane and all-13 write lane enabled';
 });
 
 // ---------------------------------------------------------------- output

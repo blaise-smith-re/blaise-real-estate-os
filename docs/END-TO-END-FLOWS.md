@@ -3,7 +3,7 @@
 How the departments compose. Every arrow is a handoff under
 `governance/handoff-contract.md`. **FUB is the source of truth at every step where a person exists.**
 
-Legend: `[R]` read-only · `[W]` CRM write path (pending CGQ-001) · `[H]` Chrome-operator handoff ·
+Legend: `[R]` read-only · `[W]` active internal CRM write path · `[H]` Chrome-operator handoff ·
 `[B]` Blaise acts.
 
 ---

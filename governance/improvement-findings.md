@@ -420,7 +420,7 @@ until a named precondition clears.
   source-plan generation, and bootstrap check.
 - **DISPOSITION** — **PATCH — APPLIED** on 2026-09-03. No canonical Drive edit made.
 
-### IF-2026-09-03-002 — FUB MCP cannot present a least-privilege read-only client surface
+### IF-2026-09-03-002 — FUB MCP could not present a least-privilege read-only client surface
 
 - **TRIGGER** — Target-runtime FUB adapter design and direct inspection of the private
   `blaise-fub-mcp` server on 2026-09-03.
@@ -450,8 +450,12 @@ until a named precondition clears.
 - **TESTING REQUIRED** — With a token containing `fub:read` and not `fub:write`, list tools and prove
   exactly the six pilot reads are present; invoke each read on a Blaise-authorized target; prove all
   13 write names are absent; then run the combined OS pilot with complete retrieval and zero effects.
-- **DISPOSITION** — **HOLD** for live adapter activation; connector patch and live recertification
-  required. The local synthetic adapter gate is implemented and passing.
+- **DISPOSITION** — **CONNECTOR PATCH APPLIED** on 2026-09-04. The dedicated
+  `blaise-fub-readonly.onrender.com` service is deployed and its OAuth protected-resource discovery
+  advertises only `fub:read`; the separate full operator advertises `fub:read` and `fub:write`.
+  Project-scoped Codex configuration now waits through the Render cold start and enables exactly the
+  six read tools. Live six-operation invocation and combined-pilot evidence remain pending; this
+  finding is no longer the connector-build blocker.
 
 ## 5. Findings closed
 

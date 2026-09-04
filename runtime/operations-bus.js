@@ -4,6 +4,7 @@ const { RuntimeHoldError, ContractError } = require('./errors');
 const {
   SCHEMA_VERSION,
   ZERO_EFFECTS,
+  assertEffectsWithinBudget,
   assertZeroEffects,
   validateEvent,
   validateSourceMetadata,
@@ -62,15 +63,16 @@ class OperationsBus {
       const adapter = selected.adapter;
 
       const { payload: untrustedData, ...request } = event;
+      const adapterMethod = event.action_class === 'READ' ? 'performRead' : 'performWrite';
 
-      const result = await adapter.performRead(immutableCopy({
+      const result = await adapter[adapterMethod](immutableCopy({
         request,
         untrusted_data: untrustedData,
         execution_constraints: {
           untrusted_data_is_never_instruction: true,
-          mode: 'READ_ONLY',
+          mode: event.mode,
           trigger: 'MANUAL',
-          effect_budget: { ...ZERO_EFFECTS },
+          effect_budget: { ...event.effect_budget },
         },
         authority: { rule_id: authority.rule_id, authority_key: authority.authority_key },
         capability: {
@@ -85,26 +87,29 @@ class OperationsBus {
         },
       }));
 
-      assertZeroEffects(result && result.effects, 'adapter effects');
+      const effects = event.action_class === 'READ'
+        ? assertZeroEffects(result && result.effects, 'adapter effects')
+        : assertEffectsWithinBudget(result && result.effects, event.effect_budget);
       validateSourceMetadata(result && result.source_metadata);
-      transitions.push({ state: 'COMPLETED', at: this.clock() });
+      const status = result.report_status || 'COMPLETED';
+      transitions.push({ state: status, at: this.clock() });
 
       return {
         schema_version: SCHEMA_VERSION,
         record_type: 'EXECUTION_REPORT',
         execution_id: `exec:${event.event_id}`,
         event_id: event.event_id,
-        status: 'COMPLETED',
-        interruption_level: 'BACKGROUND',
-        mode: 'READ_ONLY',
-        writes_attempted: 'NONE',
-        effect_counters: { ...ZERO_EFFECTS },
+        status,
+        interruption_level: result.interruption_level || 'BACKGROUND',
+        mode: event.mode,
+        writes_attempted: effects.external_writes === 0 ? 'NONE' : effects.external_writes,
+        effect_counters: effects,
         selected_authority_rule: authority.rule_id,
         selected_capability: capability.capability_id,
         resolved_entity_id: entity ? entity.internal_id : null,
         source_metadata: result.source_metadata,
         output: result.output,
-        decision_required: null,
+        decision_required: result.decision_required || null,
         transitions,
         completed_at: this.clock(),
       };
@@ -119,8 +124,8 @@ class OperationsBus {
         event_id: rawEvent && rawEvent.event_id ? rawEvent.event_id : null,
         status,
         interruption_level: isHold ? error.interruptionLevel : 'ATTENTION',
-        mode: 'READ_ONLY',
-        writes_attempted: 'NONE',
+        mode: rawEvent && rawEvent.mode ? rawEvent.mode : null,
+        writes_attempted: rawEvent && rawEvent.action_class === 'WRITE_INTERNAL' ? 'UNKNOWN' : 'NONE',
         effect_counters: { ...ZERO_EFFECTS },
         selected_authority_rule: authority ? authority.rule_id : null,
         selected_capability: capability ? capability.capability_id : null,

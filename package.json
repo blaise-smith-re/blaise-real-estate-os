@@ -1,8 +1,8 @@
 {
   "name": "blaise-real-estate-os",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
-  "description": "Provider-neutral, certification-gated execution foundation for the Blaise Real Estate OS.",
+  "description": "Provider-neutral read and internal-write runtime for the Blaise Real Estate OS.",
   "scripts": {
     "test": "node tests/run-static-tests.js && node --test tests/runtime/*.test.js",
     "test:static": "node tests/run-static-tests.js",

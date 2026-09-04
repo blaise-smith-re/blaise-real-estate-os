@@ -10,7 +10,7 @@ const {
 const { OperationsBus } = require('../../runtime');
 
 const NOW = '2026-09-03T12:00:00.000Z';
-const PREFIX = 'mcp__Blaise_FUB__';
+const PREFIX = 'mcp__blaise_fub_read_only__';
 const PILOT_TOOLS = [
   'get_contact',
   'get_contact_events',

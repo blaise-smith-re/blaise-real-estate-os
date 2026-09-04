@@ -48,7 +48,7 @@ function resolveAuthority(event, rules) {
     throw new RuntimeHoldError(
       'AUTHORITY_NOT_EXACT',
       matches.length === 0
-        ? 'No active Phase 2 authority rule permits this exact read'
+        ? 'No active authority rule permits this exact action'
         : 'More than one active authority rule matched; registry ambiguity must be resolved',
       { authority_key: event.authority_key, scope: event.scope, match_count: matches.length },
       { status: 'READY FOR BLAISE', interruptionLevel: 'ATTENTION' },
@@ -89,19 +89,21 @@ function resolveEntity(entityRef, entities) {
 }
 
 async function selectCapability(event, capabilities, adapters) {
+  const requiredMode = event.action_class === 'READ' ? 'READ' : 'WRITE_INTERNAL';
+  const method = event.action_class === 'READ' ? 'performRead' : 'performWrite';
   const eligible = capabilities
     .filter((capability) =>
       capability.active === true &&
       capability.phase2_enabled === true &&
       capability.certification_status === 'CERTIFIED' &&
-      capability.mode === 'READ' &&
+      capability.mode === requiredMode &&
       capability.capability_key === event.capability_key &&
       capability.operation === event.operation)
     .sort((a, b) => Number(a.priority || 100) - Number(b.priority || 100));
 
   for (const capability of eligible) {
     const adapter = adapters[capability.adapter];
-    if (!adapter || typeof adapter.performRead !== 'function') continue;
+    if (!adapter || typeof adapter[method] !== 'function') continue;
     const available = typeof adapter.isAvailable === 'function'
       ? await adapter.isAvailable(capability)
       : true;
@@ -110,8 +112,8 @@ async function selectCapability(event, capabilities, adapters) {
 
   throw new RuntimeHoldError(
     'CAPABILITY_UNAVAILABLE',
-    'No certified, Phase 2-enabled, currently available read lane matched the request',
-    { capability_key: event.capability_key, operation: event.operation, eligible_count: eligible.length },
+    'No enabled, currently available capability matched the exact requested action',
+    { capability_key: event.capability_key, operation: event.operation, mode: requiredMode, eligible_count: eligible.length },
     { status: 'WAITING', interruptionLevel: 'QUEUE' },
   );
 }

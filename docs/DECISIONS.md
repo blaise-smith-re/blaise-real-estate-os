@@ -226,7 +226,7 @@ need to be ruled out when the triggering task points at a specific ID.
 search. Agents must state the residual limit rather than implying uniqueness was proven.
 
 ## D-018 — Build the CRM department fully; gate only the last-mile tool grant
-**Date** 2026-08-31 · **Status** ACCEPTED
+**Date** 2026-08-31 · **Status** SUPERSEDED by D-027
 
 **Context.** Phase 3 mandate: build the write-capable CRM department. Exec SOP v4.28 §1B-1, retrieved
 live: no build, test, merge or deployment grants FUB write authority without a separate canonical
@@ -301,7 +301,7 @@ FUB adapter certification remains an evidence gate, not a coding shortcut.
 
 ## D-023 — Runtime Phase 2 has a structural zero-effect budget
 
-**Date** 2026-09-03 · **Status** ACCEPTED
+**Date** 2026-09-03 · **Status** SUPERSEDED by D-027
 
 **Decision.** `os.execution.v1` accepts manual, read-only events only. The event budget and adapter
 result must both report zero writes, messages, schedules, and money movement. Any nonzero effect is a
@@ -355,3 +355,22 @@ Blaise's responsibility.
 **Consequence.** Safety gates cannot silently turn into a shallow product specification. The target
 state and activation sequence are explicit in `docs/AUTOMATION-ACTIVATION-PLAN.md`; no gate by itself
 grants a new effect class.
+
+## D-027 — Owner authorizes all bounded FUB internal maintenance
+
+**Date** 2026-09-04 · **Status** ACCEPTED · **Supersedes** D-018 and D-023
+
+**Decision.** Enable both FUB lanes now. The separate six-tool service remains available for
+least-privilege research. The full 38-tool service is enabled, and all 13 bounded FUB write tools are
+assigned exclusively to `lead-conversion-crm`. AI may maintain Blaise's individual notes, tasks,
+profile fields, existing stages, channels, approved tags, appointments, deals, and interaction logs
+without per-action approval.
+
+**Boundary.** Blaise reviews immediately before SEND / SUBMIT / PUBLISH / SIGN / SPEND. Internal FUB
+maintenance is not an external send. Appointment invitations are disabled in the internal-write
+adapter; shared team configuration remains outside this grant.
+
+**Consequence.** `os.execution.v1` supports `READ_ONLY/READ` and
+`INTERNAL_WRITE/WRITE_INTERNAL`. One event permits at most two FUB writes and one appointment record,
+with zero external messages and zero money movement. Live restart and a practical smoke remain; no
+additional per-tool certification sequence blocks ordinary use.

@@ -6,6 +6,33 @@ Improvement Findings.
 
 ---
 
+## [FUB Read + Internal Write Activation] — 2026-09-04
+
+- Enabled both deployed FUB MCP services in project Codex configuration: six-tool least-privilege
+  read lane plus the full 25-read / 13-write operator.
+- Added `FubWriteAdapter` covering every bounded FUB maintenance operation with exact-contact
+  binding, forced execution, effect budgets, duplicate no-op accounting, partial-write reporting,
+  and appointment invitations disabled.
+- Extended `os.execution.v1` and the Operations Bus for `INTERNAL_WRITE/WRITE_INTERNAL` while keeping
+  external messages and money movement at zero.
+- Granted all 13 FUB maintenance tools only to `lead-conversion-crm`; removed the obsolete 17-step
+  approval packet and repo-level FUB write denials.
+- Updated active runtime, department, tool-policy, activation, and decision records. The earlier
+  read-only attachment step below is retained only as changelog history and is superseded here.
+
+---
+
+## [Codex MCP Attachment Patch] — 2026-09-04
+
+- Added trusted-project Codex configuration for the deployed read-only and full FUB MCP services.
+- Enabled only the six-operation read pilot; kept the full operator disabled for the next effect class.
+- Extended optional MCP startup waiting to cover Render cold starts that previously omitted the FUB
+  tool inventory from newly loaded threads.
+- Updated the runtime hold and IF-2026-09-03-002 to reflect that the least-privilege endpoint is now
+  deployed; live six-operation invocation remains pending.
+
+---
+
 ## [Runtime Phase 2B — Staged FUB Read Adapter] — 2026-09-03
 
 Implemented the first real provider adapter without claiming a live connection.

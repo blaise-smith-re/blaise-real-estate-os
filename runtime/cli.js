@@ -4,7 +4,7 @@
 const fs = require('fs');
 const path = require('path');
 const { validateRegistryBundle } = require('./registries');
-const { assertZeroEffects, SCHEMA_VERSION } = require('./contract');
+const { normalizeEffects, SCHEMA_VERSION } = require('./contract');
 const { runSyntheticFubReadCertification } = require('./certification/fub-read');
 
 const ROOT = path.resolve(__dirname, '..');
@@ -17,10 +17,14 @@ function check() {
   const bootstrap = readJson('runtime/bootstrap.json');
   const fixture = readJson('tests/fixtures/runtime-foundation.json');
   if (bootstrap.contract !== SCHEMA_VERSION) throw new Error('bootstrap contract version mismatch');
-  if (bootstrap.mode !== 'READ_ONLY' || bootstrap.trigger_policy !== 'MANUAL_ONLY') {
-    throw new Error('bootstrap must remain READ_ONLY and MANUAL_ONLY');
+  if (bootstrap.mode !== 'READ_AND_INTERNAL_WRITE' || bootstrap.trigger_policy !== 'MANUAL_ONLY') {
+    throw new Error('bootstrap must declare READ_AND_INTERNAL_WRITE and MANUAL_ONLY');
   }
-  assertZeroEffects(bootstrap.effect_budget, 'bootstrap effect_budget');
+  const budget = normalizeEffects(bootstrap.effect_budget);
+  if (budget.external_writes > 2 || budget.schedules_created > 1 ||
+      budget.external_messages !== 0 || budget.money_moved !== 0) {
+    throw new Error('bootstrap exceeds internal-maintenance effect limits');
+  }
   validateRegistryBundle(fixture);
   console.log('RUNTIME FOUNDATION CHECK: PASS');
   console.log(`contract=${bootstrap.contract} mode=${bootstrap.mode} trigger=${bootstrap.trigger_policy}`);

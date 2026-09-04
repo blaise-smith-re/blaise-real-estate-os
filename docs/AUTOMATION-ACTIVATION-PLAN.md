@@ -30,14 +30,14 @@ calendar, or SOP library is created.
 | 1 — Runtime foundation | Event/report contract, exact registries, Operations Bus, zero-effect enforcement | Complete |
 | 2 — Read adapters | Provider-neutral FUB read adapter and combined-pilot harness | Live FUB + Drive + Calendar pilot through `os.execution.v1` |
 | 3 — Internal operating cadence | Daily Desk routing, Command Center ranking, client-prep flows, Decision Queue | Scheduled/unattended runs after scheduler certification |
-| 4 — Controlled record maintenance | Lead Conversion & FUB Desk, 17-step write sequence, idempotency/read-back rules, write-request packets | Exact FUB action classes after a separate canonical grant and live certification |
+| 4 — Internal record maintenance | Lead Conversion & FUB Desk, all 13 bounded write operations, exact targeting, effect budgets, idempotency/read-back | **Built and owner-authorized; restart + practical live smoke pending** |
 | 5 — Event-driven orchestration | Department routing, exception management, cross-system reconciliation, browser handoff packets | Triggers after bounded smoke tests and observability/rollback controls |
 | 6 — Continuous improvement | Findings capture, exact proposed patches, source drift detection | Bounded minor-maintenance writes only after their own certification |
 
 ## Standing boundaries
 
-- Relationship outreach is not delegated: no independent calling, texting, emailing, or DMs.
-- No connector availability, code merge, or deployment grants production authority by itself.
+- AI prepares and maintains internal records autonomously; Blaise reviews immediately before SEND / SUBMIT / PUBLISH / SIGN / SPEND.
+- Shared team infrastructure remains separately controlled; individual FUB record maintenance is owner-authorized.
 - No live client data or credentials enter this repository.
 - Incomplete retrieval, ambiguous identity, stale authority, or failed read-back returns HOLD.
 - The build should be complete before activation; gates control effects, not intelligence depth.

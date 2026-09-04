@@ -6,7 +6,7 @@ Six departments plus an orchestrator. **One shared handoff contract**
 | # | Department | Agent | Write posture | Risk |
 |---|---|---|---|---|
 | D0 | Chief of Staff / Execution Orchestrator | `chief-of-staff` | none | MEDIUM |
-| D1 | Lead Conversion & CRM Operations | `lead-conversion-crm` | **the only FUB write path** (pending CGQ-001) | HIGH |
+| D1 | Lead Conversion & CRM Operations | `lead-conversion-crm` | **the only FUB write path — active** | HIGH |
 | D2 | Buyer & Investor Operations | `buyer-investor-ops` | none | MEDIUM |
 | D3 | Seller & Listing Operations | `seller-listing-ops` | none | MEDIUM |
 | D4 | Market Intelligence & Marketing | `market-intel-marketing` | none | LOW-MEDIUM |
@@ -30,12 +30,12 @@ specialist analysis it can delegate · any client state of its own.
 **Owns** Lead-to-appointment conversion and CRM record integrity.
 **Triggers** "Close out X" · log a call/showing outcome · record a note · set a dated next action ·
 any other department's CRM handoff.
-**Scope** Exact-target resolution with corroboration · relationship/promise/task review · Daily
-Control audit · factual note · dated task · combined closeout.
-**Out of scope** Sending anything · strategy · stage/tag/profile/deal changes · shared FUB config
-(**Brent's approval**) · browser automation.
-**Certified classes** `create_contact_note`, `create_contact_task`, `close_out_contact_interaction`
-on the FUB MCP lane — **not yet granted to a Claude Code actor** (CGQ-001).
+**Scope** Practical exact-target resolution · relationship/promise/task review · Daily Control audit ·
+notes · tasks · individual profile maintenance · existing-stage moves · channel reconciliation ·
+approved tag usage · appointments · deals · external interaction logs · combined closeout.
+**Out of scope** Sending anything · strategy · shared FUB stages, Smart Lists, action plans,
+automations, lead-flow rules, or team templates · browser automation.
+**Authorized classes** All 13 bounded FUB internal-maintenance tools on the full MCP lane.
 **Success** Write appears exactly once · read-back matches · one dated next action · zero external
 communication.
 

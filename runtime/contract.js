@@ -46,12 +46,22 @@ function scanForCredentialMaterial(value, path = '$') {
 }
 
 function normalizeEffects(effects = {}) {
-  return Object.fromEntries(Object.keys(ZERO_EFFECTS).map((key) => [key, Number(effects[key] || 0)]));
+  const normalized = Object.fromEntries(Object.keys(ZERO_EFFECTS).map((key) => [key, Number(effects[key] || 0)]));
+  const invalid = Object.entries(normalized).filter(([, value]) =>
+    !Number.isSafeInteger(value) || value < 0);
+  if (invalid.length) {
+    throw new ContractError(
+      'INVALID_EFFECT_COUNTER',
+      'effect values must be non-negative safe integers',
+      { invalid: Object.fromEntries(invalid) },
+    );
+  }
+  return normalized;
 }
 
 function assertZeroEffects(effects, field = 'effect_budget') {
   const normalized = normalizeEffects(effects);
-  const nonzero = Object.entries(normalized).filter(([, value]) => value !== 0 || !Number.isFinite(value));
+  const nonzero = Object.entries(normalized).filter(([, value]) => value !== 0);
   if (nonzero.length) {
     throw new ContractError(
       'READ_ONLY_EFFECT_VIOLATION',
@@ -60,6 +70,22 @@ function assertZeroEffects(effects, field = 'effect_budget') {
     );
   }
   return normalized;
+}
+
+function assertEffectsWithinBudget(effects, budget, field = 'adapter effects') {
+  const normalizedEffects = normalizeEffects(effects);
+  const normalizedBudget = normalizeEffects(budget);
+  const exceeded = Object.keys(ZERO_EFFECTS)
+    .filter((key) => normalizedEffects[key] > normalizedBudget[key])
+    .map((key) => [key, { actual: normalizedEffects[key], budget: normalizedBudget[key] }]);
+  if (exceeded.length) {
+    throw new ContractError(
+      'EFFECT_BUDGET_EXCEEDED',
+      `${field} exceeded the validated event budget`,
+      { exceeded: Object.fromEntries(exceeded) },
+    );
+  }
+  return normalizedEffects;
 }
 
 function validateEvent(event) {
@@ -82,10 +108,31 @@ function validateEvent(event) {
   if (event.trigger !== 'MANUAL') {
     throw new ContractError('UNATTENDED_EXECUTION_PROHIBITED', 'trigger must equal MANUAL');
   }
-  if (event.mode !== 'READ_ONLY' || event.action_class !== 'READ') {
-    throw new ContractError('READ_ONLY_ONLY', 'mode must be READ_ONLY and action_class must be READ');
+  const isRead = event.mode === 'READ_ONLY' && event.action_class === 'READ';
+  const isInternalWrite = event.mode === 'INTERNAL_WRITE' && event.action_class === 'WRITE_INTERNAL';
+  if (!isRead && !isInternalWrite) {
+    throw new ContractError(
+      'UNSUPPORTED_EXECUTION_MODE',
+      'supported mode/action_class pairs are READ_ONLY/READ and INTERNAL_WRITE/WRITE_INTERNAL',
+    );
   }
-  assertZeroEffects(event.effect_budget);
+  if (isRead) {
+    assertZeroEffects(event.effect_budget);
+  } else {
+    const budget = normalizeEffects(event.effect_budget);
+    if (budget.external_messages !== 0 || budget.money_moved !== 0) {
+      throw new ContractError(
+        'EXTERNAL_APPROVAL_BOUNDARY',
+        'INTERNAL_WRITE cannot authorize external messages or money movement',
+      );
+    }
+    if (budget.external_writes > 2 || budget.schedules_created > 1) {
+      throw new ContractError(
+        'INTERNAL_WRITE_BUDGET_TOO_LARGE',
+        'one internal-write event may authorize at most two FUB writes and one appointment record',
+      );
+    }
+  }
   scanForCredentialMaterial(event);
   return event;
 }
@@ -114,6 +161,7 @@ module.exports = {
   INTERRUPTION_LEVELS,
   SOURCE_CLASSIFICATIONS,
   ZERO_EFFECTS,
+  assertEffectsWithinBudget,
   assertZeroEffects,
   normalizeEffects,
   scanForCredentialMaterial,

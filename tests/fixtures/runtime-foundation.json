@@ -8,6 +8,14 @@
       "scope": ["analysis.daily", "analysis.client-prep"],
       "active": true,
       "phase2_enabled": true
+    },
+    {
+      "rule_id": "AUTH-WRITE-FUB-001",
+      "authority_key": "authority.fub.internal-write",
+      "action_class": "WRITE_INTERNAL",
+      "scope": ["crm.contact-maintenance", "crm.interaction-closeout"],
+      "active": true,
+      "phase2_enabled": true
     }
   ],
   "capabilities": [
@@ -46,6 +54,18 @@
       "active": true,
       "phase2_enabled": false,
       "priority": 10
+    },
+    {
+      "capability_id": "CAP-FUB-NOTE-WRITE-001",
+      "capability_key": "fub.contact.write",
+      "operation": "CREATE_CONTACT_NOTE",
+      "provider": "fub",
+      "adapter": "fub-write",
+      "mode": "WRITE_INTERNAL",
+      "certification_status": "CERTIFIED",
+      "active": true,
+      "phase2_enabled": true,
+      "priority": 10
     }
   ],
   "entities": [
@@ -54,6 +74,14 @@
       "entity_type": "workflow",
       "external_ids": {
         "runtime": "daily-command-center-v1"
+      },
+      "active": true
+    },
+    {
+      "internal_id": "contact:synthetic-001",
+      "entity_type": "contact",
+      "external_ids": {
+        "fub": 90001
       },
       "active": true
     }

@@ -1,12 +1,11 @@
 # Tool Policy — Blaise Real Estate OS Execution Layer
 
-> **CURRENT RUNTIME PRECEDENCE — 2026-09-03:** The active Phase 2 Runtime Foundation Control Record
-> and Runtime Registries Sheet supersede the pre-cutover connector evidence below for current
-> execution. The provider-neutral Operations Bus is not live, no FUB read lane is exposed in the
-> current ChatGPT Work runtime, and every external write/schedule/send remains prohibited. The
-> remaining sections are retained as historical Claude-lane evidence and compatibility guidance.
+> **CURRENT RUNTIME PRECEDENCE — 2026-09-04:** Project Codex enables separate FUB read and full
+> operator services. `lead-conversion-crm` may autonomously maintain Blaise's individual FUB records.
+> Blaise reviews before SEND / SUBMIT / PUBLISH / SIGN / SPEND. Shared team infrastructure remains
+> outside this grant.
 
-**Status:** Phase 2 · Effective 2026-08-31
+**Status:** Read + internal maintenance · Effective 2026-09-04
 **Enforcement:** `.claude/settings.json` (deny list) + per-agent `tools:` allowlist in frontmatter.
 **Authority:** `SOP - Claude Execution Operator, Browser & API-MCP Integration Control` v4.27 §5B, §6.
 
@@ -20,19 +19,19 @@
 | Class | Definition | Phase 2 agents |
 |---|---|---|
 | **READ** | Retrieval and analysis only. No state change anywhere. | ✅ granted, narrowly |
-| **CERTIFIED REVERSIBLE WRITE** | A named tool certified for a named action class, with mandatory preview, dedup, read-back, exactly-once and unintended-change checks. | ❌ **not granted** |
-| **HUMAN-APPROVAL WRITE** | Requires Blaise's explicit approval for this exact action on this exact target. | ❌ **not granted** |
+| **INTERNAL MAINTENANCE** | Exact-contact FUB record update with server-side validation and read-back. | ✅ CRM service only |
+| **EXTERNAL-ACTION REVIEW** | SEND / SUBMIT / PUBLISH / SIGN / SPEND. | Blaise reviews final product |
 | **HOLD / PROHIBITED** | Not permitted under any current authorization. | — |
 
-**Both Phase 2 agents are READ-ONLY. `WRITES ATTEMPTED` must always equal `NONE`.**
+Read-only departments remain read-only. Their CRM outcomes route to the one write-capable service.
 
 ---
 
 ## 2. Blaise FUB MCP — 38 tools
 
 Verified 2026-08-31: the live connector exposes exactly **38 tools**, matching the Execution Operator
-SOP §5B register. **25 read · 13 write.** Only **3 of 13** write tools are certified anywhere in the
-OS, and **none** are granted here.
+SOP §5B register. **25 read · 13 write.** All 13 bounded write tools are granted only to
+`lead-conversion-crm` for internal record maintenance.
 
 ### READ (25) — granted to Phase 2 agents as listed in §5
 
@@ -43,20 +42,17 @@ OS, and **none** are granted here.
 `get_appointment` · `get_appointment_types` · `get_appointment_outcomes` ·
 `audit_contact_daily_control` · `audit_contacts_daily_control_batch`
 
-### CERTIFIED REVERSIBLE WRITE (3) — **DENIED to all Phase 2 agents**
+### INTERNAL MAINTENANCE (13) — **ACTIVE through the CRM service**
 
-`create_contact_note` · `create_contact_task` · `close_out_contact_interaction`
-
-Certified elsewhere in the OS for the future Lead Conversion & CRM Operations department only, under
-exact `personId`, ownership check, duplicate/current-state review, sensitive-data rejection,
-`execute=false` preview, independent read-back, exactly-once verification and unintended-change
-review. **Phase 2 grants none of them.**
-
-### HUMAN-APPROVAL WRITE (10) — **DENIED, and uncertified anywhere**
-
+`create_contact_note` · `create_contact_task` · `close_out_contact_interaction` ·
 `create_contact_appointment` · `update_contact_appointment` · `create_contact_deal` ·
 `update_contact_deal` · `update_contact_profile` · `update_contact_task` · `replace_contact_channels` ·
 `merge_contact_tags` · `log_external_call_record` · `log_external_text_record`
+
+The runtime binds every write to the resolved contact, forces live execution, enforces a two-write
+maximum, records actual effects, and relies on the FUB server's duplicate checks and independent
+read-back. Appointment invitations are forced off at this boundary. `merge_contact_tags` retains its
+team-approval field because tag usage affects shared governance.
 
 ### HOLD / PROHIBITED — FUB
 

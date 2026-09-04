@@ -1,0 +1,76 @@
+# Project-scoped Codex MCP configuration for the Blaise Real Estate OS.
+# OAuth credentials remain in Codex's credential store; no secret belongs here.
+
+# Render may need more than Codex's default one-second optional startup grace
+# after an idle period. Wait for the configured startup timeout so the FUB
+# tool inventory is not silently omitted from a newly loaded thread.
+mcp_optional_startup_grace_ms = 0
+
+[mcp_servers.blaise_fub_read_only]
+url = "https://blaise-fub-readonly.onrender.com/mcp"
+auth = "oauth"
+enabled = true
+required = false
+startup_timeout_sec = 60
+tool_timeout_sec = 60
+enabled_tools = [
+  "get_contact",
+  "get_contact_events",
+  "get_contact_notes",
+  "get_contact_appointments",
+  "search_tasks",
+  "get_open_tasks",
+]
+default_tools_approval_mode = "auto"
+
+# The full operator owns internal FUB maintenance. Server-side checks still
+# enforce exact targeting, sensitive-data rejection, existing-stage validation,
+# read-back, and explicit authorization before an appointment invitation.
+[mcp_servers.blaise_fub_full]
+url = "https://blaise-fub-mcp.onrender.com/mcp"
+auth = "oauth"
+enabled = true
+required = false
+startup_timeout_sec = 60
+tool_timeout_sec = 60
+enabled_tools = [
+  "find_contact",
+  "get_contact",
+  "get_contact_events",
+  "get_contact_notes",
+  "get_contact_calls",
+  "get_contact_text_messages",
+  "search_tasks",
+  "get_open_tasks",
+  "get_task",
+  "get_contact_appointments",
+  "get_appointment",
+  "get_active_deals",
+  "search_deals",
+  "get_deal",
+  "get_stages",
+  "get_users",
+  "get_user",
+  "get_timeframes",
+  "get_custom_fields",
+  "get_deal_custom_fields",
+  "get_pipelines",
+  "get_appointment_types",
+  "get_appointment_outcomes",
+  "audit_contact_daily_control",
+  "audit_contacts_daily_control_batch",
+  "create_contact_note",
+  "create_contact_task",
+  "update_contact_task",
+  "update_contact_profile",
+  "replace_contact_channels",
+  "merge_contact_tags",
+  "create_contact_appointment",
+  "update_contact_appointment",
+  "create_contact_deal",
+  "update_contact_deal",
+  "log_external_call_record",
+  "log_external_text_record",
+  "close_out_contact_interaction",
+]
+default_tools_approval_mode = "auto"
