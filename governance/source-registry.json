@@ -209,11 +209,11 @@
     },
     {
       "key": "runtime_foundation_control",
-      "title": "Phase 2 — Read-Only Runtime Foundation Control Record",
+      "title": "Blaise Real Estate OS — Read & Internal-Write Runtime Control",
       "file_id": "1QQlyz8YIosmqquO18cTOpZwaskpg7tH8rgDp_ZqoRDA",
       "authority": "runtime-control",
       "version_pin": null,
-      "locator_verified_at": "2026-09-03",
+      "locator_verified_at": "2026-09-04",
       "required_by": ["execution-layer"],
       "verify": "Confirm status FOUNDATION — READ-ONLY — NOT LIVE and apply every HOLD before runtime execution."
     },
