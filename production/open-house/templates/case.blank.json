@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "identity": {
+    "address": null,
+    "city": null,
+    "mls": null,
+    "listing_agent": null
+  },
+  "event": {
+    "date": null,
+    "start": "13:00",
+    "end": "15:00",
+    "timezone": "America/Chicago",
+    "confirmed": false,
+    "preview_event_copy": false
+  },
+  "property": {
+    "price": null,
+    "beds": null,
+    "baths": null,
+    "bath_detail": null,
+    "sqft": null,
+    "garage": null,
+    "lot": null,
+    "hoa": {
+      "status": "unknown",
+      "amount": null,
+      "frequency": null,
+      "show_no_hoa": false
+    }
+  },
+  "marketing": {
+    "positioning": null,
+    "features": [],
+    "required_disclaimer": null,
+    "disclaimer_source": null
+  },
+  "internal": {
+    "at_a_glance": [],
+    "talking_points": [],
+    "do_not_freestyle": [],
+    "disclosed": [],
+    "alternatives": [],
+    "conversation_starters": [],
+    "access": [],
+    "history": [],
+    "source_conflicts": [],
+    "sources": []
+  },
+  "media": {
+    "rights": "NEEDS CONFIRMATION",
+    "mls": null,
+    "candidates": []
+  },
+  "portraits": {
+    "recent_ids": [],
+    "candidates": []
+  },
+  "sign_route": {
+    "map_source": null,
+    "checked_at": null,
+    "stops": []
+  },
+  "governance_receipt": [],
+  "recordkeeping": {
+    "drive_event_folder_id": null
+  }
+}

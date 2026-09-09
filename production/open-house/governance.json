@@ -1,0 +1,17 @@
+{
+  "source_map": "1UU8eQOElu388w2FA2gPJCMOKP7_EvQRNoPUthxc1_wg",
+  "sources": {
+    "growth": "1HTnA5_pUCpi2y1wVOCBVjM-U1baaGGE3G_DdwBEsIl4",
+    "blueprint": "1VxOR63FsLfTUPBNfO-cqSDL6oltpNAPmF0oUq1n7z1s",
+    "lead": "1sBp77Ur1XS0vmon3IucNj_jfTEH49HeGZZdbfl8ilEk",
+    "matrix": "17qIs8zxzXmph_bNewELNtiYKMjpH_GEggDeBbtPWSQc",
+    "execution": "1pFUdBNfbPLBYSkyKj0_25wC6RuP6VKO1WnkOZ1EudJw"
+  },
+  "excluded_statuses": [
+    "LEGACY",
+    "RETIRED",
+    "SUPERSEDED",
+    "ARCHIVED"
+  ],
+  "rule": "Resolve current IDs/status from Source Map before each production job; cached locators are not evidence of current authority."
+}
