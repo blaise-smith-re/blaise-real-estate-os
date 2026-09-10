@@ -15,6 +15,7 @@ mcp_optional_startup_grace_ms = 0
 [mcp_servers.blaise_fub_full]
 url = "https://blaise-fub-mcp.onrender.com/mcp"
 auth = "oauth"
+scopes = ["fub:read", "fub:write"]
 enabled = true
 required = false
 startup_timeout_sec = 60
@@ -61,10 +62,11 @@ enabled_tools = [
 ]
 default_tools_approval_mode = "auto"
 
-# PROPOSED: requires the existing Auth0 tenant to import/authorize this native
-# CIMD client before rollout. This public ID contains no secret and makes client
-# registration fail closed: Codex skips DCR rather than creating another app.
+# Reuse the existing public native application. This ID contains no secret;
+# Codex skips registration, preventing DCR application growth on new machines.
+# Both callback path and port match the application's verified allowlist.
 # See docs/FUB-OAUTH-CONNECTION.md. Do not substitute a confidential client secret.
 [mcp_servers.blaise_fub_full.oauth]
-client_id = "https://chatgpt.com/oauth/codex/Msr2-imGFcgW/client.json"
-callback_url = "http://127.0.0.1/callback/Msr2-imGFcgW"
+client_id = "zVnhfzFBR7aX6np3JSAXf0Cnohu8fWuH"
+callback_url = "http://127.0.0.1:57185/callback/Msr2-imGFcgW"
+callback_port = 57185

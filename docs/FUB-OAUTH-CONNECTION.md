@@ -11,14 +11,22 @@ The primary implementation and recovery record is
 
 - Keep the full MCP endpoint, existing 38-tool allowlist and all workflow authority.
 - Remove the active retired `blaise_fub_read_only` config entry, not its history.
-- Pin the public native client ID
-  `https://chatgpt.com/oauth/codex/Msr2-imGFcgW/client.json` and its server-specific
-  loopback path. Codex skips registration for a configured client ID. The client
-  must first be imported and authorized in Auth0; until then this branch is not
-  a working production configuration and login must not be represented as fixed.
-- Leave the callback port ephemeral. The hosted native metadata omits the port;
-  Auth0's variable-port acceptance remains part of live acceptance. No wildcard
-  callback, token extraction, client secret, FUB credential or new proxy.
+- Pin the existing public native client ID `zVnhfzFBR7aX6np3JSAXf0Cnohu8fWuH`.
+  Codex skips registration for a configured client ID. The Auth0 dashboard
+  verified this existing native application, Google connection and both delegated
+  full-MCP permissions. No new application or tenant change is needed.
+- Set callback URL `http://127.0.0.1:57185/callback/Msr2-imGFcgW` and listener port
+  `57185`, matching the existing allowed URI. Identify any port conflict before
+  retrying; do not randomize the callback or kill an unrelated process.
+- Set explicit server scopes `["fub:read", "fub:write"]`. A controlled 0.154 login
+  without them selected generic OIDC scopes and omitted FUB permissions. The
+  corrected request used both FUB scopes, one correct resource and PKCE S256.
+  It reached Google's account chooser and completed after owner sign-in.
+
+The tenant supports DCR but has CIMD registration disabled and an application
+quota warning. Reusing this native client avoids a new import and tenant-wide
+changes. CIMD is a possible future migration, not a dependency. No wildcard,
+token extraction, client secret, FUB credential or new proxy is introduced.
 
 The exact callback ID is derived from the complete full-MCP URL, so it remains
 stable across machines connecting to that URL. A future endpoint change requires
@@ -44,9 +52,10 @@ Drive body, source-registry status, tool-policy permission, schedule or producti
 family changes in this patch. No release certification is claimed.
 
 The saved Lead Engine Matrix checkpoint does not need repeating after auth recovery.
-Its exact Anthony Nguyen relationship lookup remains pending until a successful
-bounded response and identity adjudication are recorded. This patch does not edit
-the checkpoint, board or PR #6.
+Its exact Anthony Nguyen lookup succeeded during this infrastructure validation
+with zero returned matches. This does not prove absence under another identity.
+The checkpoint may resume using that result; this patch does not edit the
+checkpoint, board or PR #6.
 
 ## Validation for this proposal
 
@@ -55,5 +64,13 @@ failures (T-10/11/12/19/23/25/28/38) were independently reproduced in an untouch
 worktree at `f9633c8`. T-39 now checks the owner-directed single connection,
 reusable public client, exact callback and retained read/write tools. A TOML parse
 and semantic comparison verified the full server's original settings and all 38
-tools are unchanged apart from the added public OAuth identity. Live login,
-restart, exact read and client-count checks remain pending Auth0 dashboard access.
+tools are retained alongside the added public OAuth identity and explicit scopes.
+Live login and repeat login succeeded using the same existing client. Separate
+Codex processes enumerated all 38 tools; one exact read succeeded. The dashboard
+still showed the same five application rows, with no new registration.
+The full API's offline access is OFF and maximum token lifetime is 86,400 seconds.
+Refresh across expiration is not enabled; owner approval is pending for that
+consequential API setting and the additional `offline_access` scope. The current
+configuration preserves the verified two-scope login until that decision.
+The old Google 401 still lacks parameter-specific evidence; the verified scope
+defect and development-key warnings do not establish that error's precise cause.

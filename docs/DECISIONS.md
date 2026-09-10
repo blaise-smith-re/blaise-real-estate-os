@@ -407,9 +407,11 @@ additional per-tool certification sequence blocks ordinary use.
 **Date** 2026-09-10 · **Status** PROPOSED technical implementation; read-only-lane retirement OWNER-DIRECTED
 
 **Decision.** Retire the active separate read-only OAuth configuration, retaining historical
-records. Propose one Auth0-imported public native CIMD identity pinned in Codex, so new
-computers do not create disposable DCR clients. Tenant provisioning and successful live
-acceptance are prerequisites to rollout. No secret-based Codex configuration is proposed.
+records. Reuse the existing public native application pinned in Codex, with its verified
+callback/port and explicit FUB scopes, so new computers do not create disposable DCR
+clients or request generic OIDC scopes. CIMD remains a possible reviewed migration;
+no new import or tenant change is required for this fallback. Successful live acceptance
+remains required. No secret-based Codex configuration is proposed.
 
 **Boundary.** This narrows connection topology only. The full tool allowlist and existing
 write controls are unchanged; Lead Engine may use only its exact read facade. No business

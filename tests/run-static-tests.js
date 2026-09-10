@@ -656,12 +656,15 @@ check('T-39', 'project Codex config uses one full FUB operator and a reusable pu
   }
   assert(/default_tools_approval_mode\s*=\s*"auto"/.test(fullSection[1]),
     'full FUB internal maintenance is not configured for standing auto approval');
-  assert(config.includes('client_id = "https://chatgpt.com/oauth/codex/Msr2-imGFcgW/client.json"'),
+  assert(config.includes('client_id = "zVnhfzFBR7aX6np3JSAXf0Cnohu8fWuH"'),
     'public client pin is missing; login could fall back to DCR');
-  assert(config.includes('callback_url = "http://127.0.0.1/callback/Msr2-imGFcgW"'),
-    'callback does not match the full-server native CIMD document');
+  assert(config.includes('callback_url = "http://127.0.0.1:57185/callback/Msr2-imGFcgW"'),
+    'callback does not match the existing native application allowlist');
+  assert(/^callback_port\s*=\s*57185$/m.test(config), 'listener port differs from allowed callback');
+  assert(fullSection[1].includes('scopes = ["fub:read", "fub:write"]'),
+    'explicit FUB scopes missing; discovery may request generic OIDC scopes');
   assert(!/^\s*(client_secret|bearer_token)\s*=/m.test(config), 'OAuth secret embedded in config');
-  return 'one full lane; bounded reads and all-13 writes retained; public client pin skips DCR; tenant provisioning still required';
+  return 'one full lane; bounded reads and all-13 writes retained; existing public client skips DCR; explicit FUB scopes and exact callback';
 });
 
 // ---------------------------------------------------------------- output
