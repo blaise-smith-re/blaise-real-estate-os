@@ -533,3 +533,7 @@ review, no merge or governing promotion.
 - **CHANGE** — Task-local browser resume, restricted full-server read facade, source-backed host cases, opportunity classes and action-specific participation checks.
 - **VERIFICATION** — Fourteen correction tests plus 29 existing family tests pass. Live Matrix research supports two seller cases and two host proposals; relists and weak signals are excluded at the unchanged floor. Authentication is distinguished from full-server scope and lookup success.
 - **DISPOSITION** — Implemented for continued review on PR #6; no governing promotion, release or certification expansion. Work/owner must assess recurring business usefulness. Private review evidence records the final FUB state.
+
+### IF-2026-09-10-LE02 — Release disposition, 2026-09-10
+
+Blaise authorized the final PR #6 release path after the supported seller/host demonstration and completed bounded relationship lookup. The research snapshot and source timestamps remain unchanged; the relationship reconciliation does not inflate scores or remove contact gates. Released for agent-operated research/prep after relevant validation; recurring conversion effectiveness remains a business outcome to evaluate. No governing promotion or certification expansion.

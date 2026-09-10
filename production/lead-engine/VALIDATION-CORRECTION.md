@@ -1,6 +1,6 @@
 # Readiness correction — September 10, 2026
 
-**NOT APPROVED FOR RELEASE.** Existing `codex/lead-engine-v1` branch, PR #6 and private Drive review package. No merge, governing promotion or Work project installation. The initial demonstration (zero sellers/hosts) remains historical evidence in VALIDATION.md; it did not meet the owner's business-production standard.
+**Historical pre-release validation.** The subsequent owner-authorized release is recorded in [RELEASE.md](RELEASE.md). At this correction checkpoint the status was NOT APPROVED FOR RELEASE. Existing `codex/lead-engine-v1` branch, PR #6 and private Drive review package. No merge, governing promotion or Work project installation. The initial demonstration (zero sellers/hosts) remains historical evidence in VALIDATION.md; it did not meet the owner's business-production standard.
 
 ## Engineering
 

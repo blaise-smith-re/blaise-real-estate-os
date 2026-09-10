@@ -444,3 +444,9 @@ policy, canonical source, schedule, client record or Lead Engine PR #6 is modifi
 **Integration.** The existing full FUB connection may expose a restricted exact-read facade. Authentication scope and effect authority remain separate. Preserve app/configuration; no broad discovery, new connection or writer. Distinguish auth callback success from actual read results.
 
 **Evidence and boundary.** Repeat Matrix research supports two seller cases and two host proposals plus one pipeline relationship. Private evidence records qualifications, relist exclusions, source restrictions and final lookup state. Released families and governing sources remain unchanged. No certification expansion, release, merge, installation, operational write, spending, outreach or schedule.
+
+## Lead Engine v1 release
+
+**Date** 2026-09-10 · **Status** OWNER-AUTHORIZED RELEASE
+
+Blaise directed completion of the final release path for PR #6 after accepting durable FUB authentication. Release the reviewed agent-operated research/preparation family on current main; preserve the saved Matrix checkpoint and reconcile the completed bounded no-match lookup. This changes software release status only. Governing pointers remain proposals; no Work project setting, outbound authority, FUB writer, schedule or automatic service is installed. Relevant family/runtime checks and portable verification apply; the eight previously reproduced repository static failures remain disclosed in the release record.

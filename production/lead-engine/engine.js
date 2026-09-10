@@ -77,7 +77,7 @@ function buildBoard(pack, {now=new Date().toISOString(),synthetic=false}={}) {
   const effects={...ZERO_EFFECTS}; assertZeroEffects(effects);
   return {schema_version:'blaise.lead-engine.v1',board_id:'board-'+sha({now,request,candidates}).slice(0,12),mode:pack.mode,
     generated_at:now,business_date:new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(now)),timezone:'America/Chicago',
-    request,coverage,candidates,rejected,class_counts:Object.fromEntries(CLASSES.map(k=>[k,candidates.filter(c=>c.opportunity_class.label===k).length])),release_status:'NOT APPROVED FOR RELEASE — Work/owner review required',sources:[...evidence.records.values()],governance:pack.governance||[],effects,
+    request,coverage,candidates,rejected,class_counts:Object.fromEntries(CLASSES.map(k=>[k,candidates.filter(c=>c.opportunity_class.label===k).length])),release_status:'Lead Engine v1 released for agent-operated research/prep; pursuit and contact require separate review',sources:[...evidence.records.values()],governance:pack.governance||[],effects,
     limitations:['Agent-operated research; no background acquisition or monitoring.','Source observations are scoped, not a complete market census.','Rank weights are reviewable implementation defaults; Work owns business judgment.']};
 }
 module.exports={buildBoard,requestDefaults,DEFAULT_GEOGRAPHY};

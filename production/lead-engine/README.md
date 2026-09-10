@@ -4,7 +4,7 @@ An agent-operated research and preparation companion. Start in **Blaise RE — G
 
 The engine returns a small ranked Opportunity Board, factual provenance, unknowns, value angles, contact holds, conditional prep and reasons for inclusion/exclusion. Five is a ceiling by default, not a quota. A source limitation or weak candidate reduces the slate.
 
-**Not approved for release.** Human cards distinguish **MONEY NOW** (plausible near-term seller/hosting business), **PIPELINE** (timely professional business context), and **NETWORK / KNOWLEDGE** (service readiness without a demand signal). Each retains the numerical score and evidence. Counts never present five service relationships as five sales opportunities.
+**Released for agent-operated research and preparation under Blaise’s September 10, 2026 release instruction.** See [release record](RELEASE.md). Human cards distinguish **MONEY NOW** (plausible near-term seller/hosting business), **PIPELINE** (timely professional business context), and **NETWORK / KNOWLEDGE** (service readiness without a demand signal). Each retains the numerical score and evidence. Counts never present five service relationships as five sales opportunities.
 
 Authenticated property research now has a task-local checkpoint and explicit login/resume path: [BROWSER-RESUME.md](BROWSER-RESUME.md). Preserve completed research while Blaise authenticates. Exact shortlist-only CRM recovery uses the existing connection and adapter: [FUB-READ-RECOVERY.md](FUB-READ-RECOVERY.md).
 
@@ -43,4 +43,4 @@ See [INPUT.md](INPUT.md) for the pack contract and fictional test fixture genera
 
 Research is not contact authorization. ELIGIBLE means the documented gate has current support for that exact target and channel; it still authorizes no send. Personal outreach, hosting commitments, spending and FUB actions retain their separate controls. No automated outreach, contact creation, schedules, Operations Bus or live client-system writer is introduced.
 
-This family is implemented for Work/owner review. Governing pointers in [WORK-REVIEW-PATCH.md](WORK-REVIEW-PATCH.md) remain proposed. Existing released production families and governing sources are preserved. Live demonstration coverage, exact Git/Drive status and known gaps live in the private review package and [VALIDATION.md](VALIDATION.md).
+This family is released as a manually invoked, agent-operated production companion. Governing pointers in [WORK-REVIEW-PATCH.md](WORK-REVIEW-PATCH.md) remain proposed. Existing released production families and governing sources are preserved. Live demonstration coverage, exact Git/Drive status and known gaps live in the private review package and [VALIDATION.md](VALIDATION.md).

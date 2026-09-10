@@ -6,6 +6,13 @@ Improvement Findings.
 
 ---
 
+## [Lead Engine v1 — released for agent-operated research/prep] — 2026-09-10
+
+- Owner directed the final release of PR #6 after accepted FUB recovery. Current main is integrated; the completed exact no-match result and its nonexistence caveat remain in the existing private package.
+- Updated software release labels without changing scoring, sources, contact gates or tool authority. Saved Matrix research is preserved; no new research, CRM read/write or OAuth test.
+- Release documentation records applicable test results, inherited static failures and the distinction between repository availability and uninstalled Work/governance pointers.
+
+
 ## [Full FUB OAuth connection proposal] — 2026-09-10
 
 - Removed the owner-retired read-only MCP from active project configuration while preserving historical evidence.
