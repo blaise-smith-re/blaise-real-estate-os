@@ -410,8 +410,12 @@ additional per-tool certification sequence blocks ordinary use.
 records. Reuse the existing public native application pinned in Codex, with its verified
 callback/port and explicit FUB scopes, so new computers do not create disposable DCR
 clients or request generic OIDC scopes. CIMD remains a possible reviewed migration;
-no new import or tenant change is required for this fallback. Successful live acceptance
-remains required. No secret-based Codex configuration is proposed.
+no new import or tenant-wide registration change is required for this fallback.
+The owner subsequently approved API offline access and bounded rotating refresh
+tokens on this existing client. Add only `offline_access`, retaining both FUB
+permissions and the 24-hour access lifetime. Live issuance, renewal/rotation,
+new-process tools and one bounded read passed. Repository merge remains pending;
+no secret-based Codex configuration is proposed.
 
 **Boundary.** This narrows connection topology only. The full tool allowlist and existing
 write controls are unchanged; Lead Engine may use only its exact read facade. No business

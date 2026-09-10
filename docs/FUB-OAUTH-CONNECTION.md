@@ -14,19 +14,23 @@ The primary implementation and recovery record is
 - Pin the existing public native client ID `zVnhfzFBR7aX6np3JSAXf0Cnohu8fWuH`.
   Codex skips registration for a configured client ID. The Auth0 dashboard
   verified this existing native application, Google connection and both delegated
-  full-MCP permissions. No new application or tenant change is needed.
+  full-MCP permissions. No new application or tenant-wide registration change is needed.
 - Set callback URL `http://127.0.0.1:57185/callback/Msr2-imGFcgW` and listener port
   `57185`, matching the existing allowed URI. Identify any port conflict before
   retrying; do not randomize the callback or kill an unrelated process.
-- Set explicit server scopes `["fub:read", "fub:write"]`. A controlled 0.154 login
+- Set explicit server scopes `["fub:read", "fub:write", "offline_access"]`. A controlled 0.154 login
   without them selected generic OIDC scopes and omitted FUB permissions. The
   corrected request used both FUB scopes, one correct resource and PKCE S256.
   It reached Google's account chooser and completed after owner sign-in.
+- The owner approved adding only `offline_access`. API offline access is now ON;
+  access tokens retain the 86,400-second lifetime. The existing native client uses
+  rotation, 7-day idle expiry, 30-day maximum expiry and 5-second overlap/reuse
+  protection. No new FUB permission, client, secret or MRRT was introduced.
 
 The tenant supports DCR but has CIMD registration disabled and an application
 quota warning. Reusing this native client avoids a new import and tenant-wide
 changes. CIMD is a possible future migration, not a dependency. No wildcard,
-token extraction, client secret, FUB credential or new proxy is introduced.
+browser token extraction, client secret, FUB credential or new proxy is introduced.
 
 The exact callback ID is derived from the complete full-MCP URL, so it remains
 stable across machines connecting to that URL. A future endpoint change requires
@@ -68,9 +72,14 @@ tools are retained alongside the added public OAuth identity and explicit scopes
 Live login and repeat login succeeded using the same existing client. Separate
 Codex processes enumerated all 38 tools; one exact read succeeded. The dashboard
 still showed the same five application rows, with no new registration.
-The full API's offline access is OFF and maximum token lifetime is 86,400 seconds.
-Refresh across expiration is not enabled; owner approval is pending for that
-consequential API setting and the additional `offline_access` scope. The current
-configuration preserves the verified two-scope login until that decision.
+After owner approval, fresh login issued a refresh token with exactly the three
+configured scopes. A controlled local cache-expiry trigger caused Codex's own
+client to renew and rotate it; Auth0 logged the exchange at 23:08:58.874 UTC.
+The store stayed encrypted, no credential values were printed, and provider
+lifetime/system time remained unchanged. This was a real renewal, not a claim
+that 24 hours elapsed. A subsequent new process loaded all 38 tools and its one
+authorized bounded read succeeded. The application inventory stayed unchanged.
+Fresh sign-in remains expected at refresh idle/maximum expiry or revocation.
+The durable-authentication change is ready for Work review; PRs remain unmerged.
 The old Google 401 still lacks parameter-specific evidence; the verified scope
 defect and development-key warnings do not establish that error's precise cause.

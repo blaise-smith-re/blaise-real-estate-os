@@ -661,8 +661,8 @@ check('T-39', 'project Codex config uses one full FUB operator and a reusable pu
   assert(config.includes('callback_url = "http://127.0.0.1:57185/callback/Msr2-imGFcgW"'),
     'callback does not match the existing native application allowlist');
   assert(/^callback_port\s*=\s*57185$/m.test(config), 'listener port differs from allowed callback');
-  assert(fullSection[1].includes('scopes = ["fub:read", "fub:write"]'),
-    'explicit FUB scopes missing; discovery may request generic OIDC scopes');
+  assert(fullSection[1].includes('scopes = ["fub:read", "fub:write", "offline_access"]'),
+    'explicit FUB scopes or approved refresh scope missing');
   assert(!/^\s*(client_secret|bearer_token)\s*=/m.test(config), 'OAuth secret embedded in config');
   return 'one full lane; bounded reads and all-13 writes retained; existing public client skips DCR; explicit FUB scopes and exact callback';
 });
