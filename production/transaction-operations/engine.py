@@ -6,6 +6,7 @@ from decimal import Decimal
 from dateutil.parser import parse as parse_date
 from sources import Sources, EvidenceError, require, normalized, timestamp, digest, source_date, source_instant
 from deadlines import calculate, readable_due
+from presentation import resolve_identity,brokerage,party_bindings,client_actions,MILESTONES,SPECIALIST_KINDS
 ROOT=Path(__file__).resolve().parent
 def read(p):return json.loads(Path(p).read_text(encoding="utf-8"))
 def write(p,obj):Path(p).write_text(json.dumps(obj,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
@@ -55,6 +56,7 @@ def reconcile(case,analysis,source_dir,previous=None):
     require(case.get("side") in ("buyer","seller"),"Side required")
     require(case.get("mode") in ("synthetic","live"),"Explicit synthetic/live mode required")
     require(case.get("client",{}).get("id") and case["client"].get("name"),"Exact client identity required")
+    identity=resolve_identity(case);parties=party_bindings(case)
     timestamp(case["as_of"])
     require(case.get("timezone")=="America/Chicago","Resolve Minnesota business timezone explicitly")
     src=Sources(source_dir,case["sources"],case["mode"]=="synthetic")
@@ -112,6 +114,7 @@ def reconcile(case,analysis,source_dir,previous=None):
             conflicts.add(item["id"]);holds.append(item["title"]+": conflicting controlling obligations")
             continue
         entry=copy.deepcopy(item)
+        entry["audience_actions"]=client_actions(item,case,src)
         due=calculate(item["due"],anchors) if valid else {"date":None,"at":None,"timezone":item["due"].get("timezone"),"label":"Unknown","hold":"Verify controlling executed package","explanation":None}
         if valid and item["due"].get("evidence"):src.cite(item["due"]["evidence"])
         entry.update(amount=amount if valid else None,label=check["method"] if valid else "Unknown",due=due,evidence=ref,controlling=valid,progress="Open",progress_evidence=None)
@@ -143,7 +146,7 @@ def reconcile(case,analysis,source_dir,previous=None):
     obligations.sort(key=lambda x:(x["progress"] in ("Completed","Received"),x["due"].get("date") or "9999",x["id"]))
     for o in obligations:
         if o["controlling"] and o["due"].get("hold"):holds.append(o["title"]+": "+o["due"]["hold"])
-        if o["owner_status"]!="assigned" and o["progress"] not in ("Completed","Received"):holds.append(o["title"]+": confirm responsible operational owner")
+        if o["owner_status"]!="assigned" and o["progress"] not in ("Completed","Received"):holds.append(o["title"]+": confirm follow-through owner and role")
         if o["controlling"] and o["progress"] not in ("Completed","Received") and o["due"].get("at") and timestamp(o["due"]["at"])<timestamp(case["as_of"]):holds.append(o["title"]+": due time has passed without verified completion; contact the responsible owner")
     changes=[]
     if previous:
@@ -178,6 +181,9 @@ def reconcile(case,analysis,source_dir,previous=None):
         if o["controlling"] and o["due"].get("date") and o["progress"] not in ("Completed","Received"):
             advisories.append({"label":"SYNTHETIC — DO NOT ADD TO CALENDAR" if case["mode"]=="synthetic" else "ADD TO CALENDAR","title":o["title"],"date":o["due"]["date"],"at":o["due"]["at"],"timezone":o["due"]["timezone"],"missing":o["due"].get("hold"),"owner":o.get("owner"),"client":case["client"]["name"],"property":case["property"]["address"],"source":o["evidence"],"created":False})
     result={"schema":"transaction-preparation.v1","mode":case["mode"],"case_id":case["id"],"client_id":case["client"]["id"],"client_name":case["client"]["name"],"property":case["property"],"side":case["side"],"as_of":case["as_of"],"acceptance":base_status,"obligations":obligations,"people":assigned,"holds":holds,"priorities":priorities,"recommendation":recommendation,"changes":changes,"updates":updates,"calendar_advisories":advisories,"chronology":chronology,"external_effects":{"crm":0,"send":0,"calendar":0,"submission":0,"payment":0,"schedule":0}}
+    result["business_identity"]=identity
+    result["formal_transaction_identity"]={"blaise_brokerage":brokerage(identity,"formal_transaction"),"scope":"Current business identity; verify the executed record independently. This field does not establish the broker named in an original."}
+    result["parties"]=parties
     result["handoffs"]=handoffs(case,result)
     result["proposals"]=proposals(case,result)
     folder=case.get("filing",{})
@@ -191,17 +197,21 @@ def handoffs(case,r):
         person=next((p for p in case.get("people",[]) if p["role"]==role),None)
         known=person and person["assignment_status"]=="assigned"
         recipient=person.get("name") if known else None
-        eligible=[o for o in r["obligations"] if o["controlling"] and o["progress"] not in ("Completed","Received") and role in o.get("handoff_roles",[])]
+        eligible=[o for o in r["obligations"] if o["controlling"] and o["progress"] not in ("Completed","Received") and (role in o.get("handoff_roles",[]) or (role=="client" and o.get("audience_actions"))) and (role=="client" or o["kind"] in SPECIALIST_KINDS[role])]
         if not eligible and role!="client" and not (role=="tc" and known and not r["acceptance"]["valid"]):continue
         lines=[]
         if not r["acceptance"]["valid"]:lines=["I’m verifying the complete executed package before confirming the transaction deadlines. I’ll update you when the missing evidence is resolved."]
+        elif role=="client":
+            lines=["Here is your transaction update for "+case["property"]["address"]+"."]
+            actions=list(dict.fromkeys(a["text"] for o in eligible for a in o.get("audience_actions",[])))
+            if actions:lines.append("Your next steps\n"+"\n".join(actions))
+            else:lines.append("I have no confirmed action to request from you in this update. I’ll let you know when your input is needed.")
+            if eligible:
+                lines.append("Transaction milestones — for awareness\n"+"\n".join(MILESTONES[o["kind"]]+": "+readable_due(o["due"])+"." for o in eligible))
         else:
-            lines=["Here is what needs attention next for "+case["property"]["address"]+"."]
-            for o in eligible:
-                label={"earnest_money":"Earnest money","inspection":"Inspection obligation","closing":"Closing","possession":"Possession","financing":"Financing milestone","title":"Title milestone","other":"Contract obligation"}[o["kind"]]
-                lines.append(label+": "+readable_due(o["due"])+".")
-            if role=="client" and not eligible:lines.append("The assigned specialists are handling the current items. I’ll bring you the decisions that need your input.")
-            if role=="tc":lines.append("Please confirm ownership of the open items listed here; completed work is excluded.")
+            lines=["Please review these milestones within your role for "+case["property"]["address"]+"."]
+            for o in eligible:lines.append(MILESTONES[o["kind"]]+": "+readable_due(o["due"])+".")
+            if role=="tc":lines.append("Please confirm the items within your assignment and any status still needed from the other party’s team; completed work is excluded.")
             if role=="title":lines.append("Please confirm the assigned closer and the appropriate next file step, consistent with the client’s provider choice.")
             if role=="lender":lines.append("Please confirm the next financing milestone and any item needed from our client." if case["side"]=="buyer" else "Please confirm the buyer’s next financing milestone and any timing issue affecting closing.")
         lines.append("Blaise Smith | Call or text 870-692-2205")

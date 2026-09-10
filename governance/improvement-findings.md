@@ -480,6 +480,13 @@ until a named precondition clears.
 - **DISPOSITION** — Review implementation only. Governing production pointers remain proposed in `production/transaction-operations/WORK-REVIEW-PATCH.md`. No live end-to-end or runtime deployment claim.
 - **PORTABLE READBACK CORRECTION** — Fresh bundle regeneration exposed a Windows default-encoding conversion in a date separator. Restored UTF-8 source text and added exact Unicode/PDF text checks. Compare actual PDF pixels as well as layout bounds before treating a portable rebuild as equivalent.
 
+### IF-2026-09-10-TX-002 — Contextual identity and recipient ownership
+
+- **OBSERVED GAP** — Transaction presentation hard-coded a stale brokerage; one open-milestone introduction implied client action regardless of represented side, and party owners appeared under an operational-owner label.
+- **CHANGE** — Resolve separately attributed public/legal identity, reject cross-context substitutes, require explicit supported client actions, filter specialist lanes and display human party roles. Correct only the seller example’s buyer-deposit visibility wording; preserve original evidence, deadline engine and approved styles.
+- **VERIFICATION** — Focused tests exercise stale/public-in-legal rejection, buyer/seller action isolation, supported access without an inferred buyer deadline, specialist lanes and exact private owner fields. Same-ID review artifacts and source bundle receive regenerated print/phone outputs with independent readback. The delivery record holds actual results.
+- **DISPOSITION** — Implemented for focused review in PR #5, unmerged. No governing promotion, live client use, runtime activation or new certification gate.
+
 ## 5. Findings closed
 
 | ID | Resolution | Date |

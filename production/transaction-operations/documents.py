@@ -6,6 +6,7 @@ from zoneinfo import ZoneInfo
 from decimal import Decimal
 from deadlines import readable_due
 from engine import ROOT,write
+from presentation import brokerage,owner_label
 def e(value):return html.escape(str(value))
 def p(text,cls=""):return '<p class="'+cls+'">'+e(text)+'</p>'
 def section(title,body,cls=""):return '<section class="'+cls+'"><h2>'+e(title)+'</h2>'+body+'</section>'
@@ -72,7 +73,7 @@ def generate(r,out):
         value=Decimal(o["amount"]) if o.get("amount") is not None else None
         amount=(" · $"+format(value,",.0f" if value==value.to_integral_value() else ",.2f")) if value is not None else ""
         detail=p(readable_due(o["due"])+amount,"factline")
-        detail+=p("Responsible: "+(o["responsible_party"] if o["controlling"] else "To verify from executed evidence")+" · Operational owner: "+(o.get("owner") or "To confirm")+" ("+o["owner_status"]+")")
+        detail+=p("Contract responsibility: "+(o["responsible_party"] if o["controlling"] else "To verify from executed evidence")+" · Follow-through: "+owner_label(o,r)+" ("+o["owner_status"]+")")
         detail+=p(o["progress"]+(" · "+o["next_action"] if o["progress"] not in ("Completed","Received","Delegated") else " · No duplicate Blaise task"))
         detail+=p(source(o),"source")
         body+=section(o["title"],detail,"obligation")
@@ -80,12 +81,12 @@ def generate(r,out):
     if r["updates"]:body+=section("Latest source updates",''.join(p(x["summary"]+" · "+x["label"]) for x in r["updates"]))
     people=[]
     for person in r["people"]:
-        role={"tc":"Transaction coordinator","client":"Client","lender":"Lender","title":"Title / closing"}[person["role"]]
+        role={"tc":"Transaction coordinator","client":r["side"].title()+" client","lender":"Lender","title":"Title / closing"}[person["role"]]
         people.append(p(role+": "+(person.get("name") if person["assignment_status"]=="assigned" else "To confirm")+" · "+person["assignment_status"]))
     body+=section("People and handoffs",''.join(people)+p("Recipient drafts are separate and unsent. Confirm missing routing before use."))
     calendar="SYNTHETIC — DO NOT ADD TO CALENDAR" if synthetic else ("ADD TO CALENDAR" if r["calendar_advisories"] else "No verified Calendar advisory")
     body+=section(calendar,p("Use the dates, sources and owners shown above; confirm any missing time. No event, reminder or monitoring has been created.") if r["calendar_advisories"] else p("Dependent terms remain unresolved. No Calendar event or reminder was created."))
-    footer='<footer><div>Buy Sell Home Team · RE/MAX Advantage Plus<br>Blaise Smith · 870-692-2205</div><div data-page>Private · for Blaise’s review</div></footer>'
+    footer='<footer><div>'+e(brokerage(r['business_identity'],'public_footer'))+'<br>Blaise Smith · 870-692-2205</div><div data-page>Private · for Blaise’s review</div></footer>'
     contents='<main class="padfolio transaction">'+header+heading+'<div class="content">'+body+'</div>'+footer+'</main>'
     manifest=[]
     for mode in ("Print","Phone"):

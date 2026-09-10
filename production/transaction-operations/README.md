@@ -6,8 +6,8 @@ For a later change: “Reconcile this amendment and the latest transaction updat
 
 ## What this produces
 
-- Private Transaction Start/Update Brief: content-driven Letter pages and a genuinely single-column phone HTML/PDF. Recommendation first; obligations, responsible parties, operational owners, source labels, changes and missing evidence follow.
-- Separate client, actual assigned TC, lender and title drafts, each unsent and with routing status. The brief and source/provenance files are not client attachments.
+- Private Transaction Start/Update Brief: content-driven Letter pages and a genuinely single-column phone HTML/PDF. Recommendation first; obligations, contractual responsibility, follow-through owners with human roles, source labels, changes and missing evidence follow.
+- Separate client, actual assigned TC, lender and title drafts, each unsent and with routing status. Client next steps require a supported action for that exact buyer/seller; remaining useful dates are milestones for awareness. Specialists receive only relevant lane items. The brief and source/provenance files are not client attachments.
 - Minimal field/note and existing-folder filing **proposals**, using existing `lead-conversion-crm` routing. No compulsory task, deal, note, new folder or duplicate TC work.
 - Per-run evidence output with exact source version, locator, page, section, quotation and SHA-256 where bytes are available. This is generated provenance, not another maintained contract abstract or transaction database.
 
@@ -29,6 +29,8 @@ python verify.py ../transaction-review
 ```
 
 Run these commands from the extracted source directory, or `production/transaction-operations` in a checkout. Use a fresh output directory **outside** the repository/source; prior runs are never overwritten. If using an existing Chrome installation, set `CHROME_PATH` to its executable. If Playwright is installed elsewhere, set `PLAYWRIGHT_MODULE` to that module directory. `--node` accepts an installed Node executable. On Windows, `tzdata` supplies the timezone database.
+
+Public footers use the current **Buy Sell Home Team · RE/MAX Results** affiliation. Formal brokerage fields use **Collopy Real Estate, Inc. d/b/a RE/MAX Results**. Both are resolved and attributed in task-local inputs under the current Manual and explicit owner identity decision; neither silently substitutes for the other. Executed-source identities remain separately verified.
 
 For an actual case, Codex creates task-local `case.json` and `analysis.json` after reading the originals and binding the exact request. The fictional interpreter in `fixture_pack.py` is only for the demonstration text layout; it is never the live interpretation route.
 

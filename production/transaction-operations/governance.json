@@ -15,5 +15,11 @@
   "live_end_to_end_demonstrated": false,
   "source_system_writes": false,
   "calendar_mutation": false,
-  "background_monitoring": false
+  "background_monitoring": false,
+  "identity_guard": {
+    "public_affiliation": "Buy Sell Home Team · RE/MAX Results",
+    "legal_brokerage": "Collopy Real Estate, Inc. d/b/a RE/MAX Results",
+    "authority": "Owner-confirmed contextual identity correction; public affiliation also confirmed by current Business Operating Manual",
+    "purpose": "Validate task-local resolved identity; this is not a cached Drive body or proof of an executed contract entity."
+  }
 }

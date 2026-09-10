@@ -92,6 +92,10 @@ def fixture(folder,side="buyer",phase="start"):
         "private_strategy":"CONFIDENTIAL-CASH-RESERVE-42817",
         "filing":{"lifetime":"synthetic://client-lifetime","transaction":"synthetic://existing-offer-folder"},
         "crm_snapshot":{"coverage":"bounded_read","client_id":"synthetic-"+side,"stage":"Active","note_fingerprints":[]}}
+    case["party_roles"]={"synthetic-buyer":"buyer","synthetic-seller":"seller"}
+    case["business_identity"]={
+        "public_affiliation":{"value":"Buy Sell Home Team · RE/MAX Results","authority":"Business Operating Manual — current identity, resolved for review","locator":"https://docs.google.com/document/d/1YxG991_SXW8QTQvK_G1tOsd6il1mWzqdmVcnLwFFcX8/edit","verified_at":"2026-09-09T23:32:54-05:00"},
+        "legal_brokerage":{"value":"Collopy Real Estate, Inc. d/b/a RE/MAX Results","authority":"Blaise owner decision — Transaction Operations focused review identity correction","locator":"owner-decision://transaction-operations-v1/focused-review/brokerage-identity","verified_at":"2026-09-09T23:32:54-05:00"}}
     pa=interpreted_document(folder,"pa","pa","agreement","executed",ACCEPT,INC)
     pa["incorporates"]=[{"id":"terms","evidence":cite(folder,"pa",1,"Incorporated records",INC)}]
     att=interpreted_document(folder,"terms","terms","attachment","executed",ACCEPT,"No further incorporated record in this test attachment.")
@@ -104,13 +108,16 @@ def fixture(folder,side="buyer",phase="start"):
             "owner_status":"unknown" if index==0 and side=="seller" else "assigned",
             "next_action":("Confirm the actual receipt through the assigned coordinator","Confirm the inspection plan and protect the response deadline","Confirm the closing appointment time with the closer","Confirm the agreed possession arrangements")[index],
             "handoff_roles":(["client","tc"],["client","tc"],["tc","lender","title"],["client","title"])[index]})
+    target=obligations[1] if side=="buyer" else obligations[3]
+    target["client_actions"]=[{"party_id":case["client"]["id"],"kind":"buyer_inspection" if side=="buyer" else "seller_possession","evidence":target["evidence"]}]
     # A useful title setup item is an obligation only when evidenced in the actual source;
     # here that evidence is not present until the update, so no generic checklist entry is manufactured.
     analysis={"case_id":case["id"],"base_document":"pa","documents":[pa,att],"obligations":obligations,"updates":[],
-        "recommendation":{"text":"Confirm the inspection plan with "+client+".","reason":"The response deadline is the next buyer decision; the assigned coordinator can handle deposit follow-through." if side=="buyer" else "Confirm the inspection arrangements and who will handle deposit follow-through; the TC assignment is still open.","evidence":[obligations[1]["evidence"]]} }
+        "recommendation":{"text":"Confirm the inspection plan with "+client+".","reason":"The response deadline is the next buyer decision; the assigned coordinator can handle deposit follow-through." if side=="buyer" else "The buyer’s team handles the deposit and inspection response; confirm their status and any request that needs the seller’s input.","evidence":[obligations[1]["evidence"]]} }
     if side=="seller":
-        analysis["recommendation"]["text"]="Confirm the coordinator assignment and inspection arrangements."
-        obligations[0]["next_action"]="Confirm who owns deposit follow-through and obtain receipt evidence"
+        analysis["recommendation"]["text"]="Request buyer-side deposit and inspection status; confirm any seller action needed."
+        obligations[1]["next_action"]="Confirm the buyer’s inspection status and any access request requiring the seller’s input"
+        obligations[0]["next_action"]="Request receipt confirmation from the buyer’s agent; buyer-side deposit administration stays with their team"
     if phase=="update":
         am=interpreted_document(folder,"amend","amend","amendment","executed","Acceptance and delivery illustration: final acceptance 2026-09-16T11:00:00-05:00; delivered to both parties at that instant.","Amendment inventory: this test amendment follows Agreement v1; no further incorporated record.")
         dr=interpreted_document(folder,"draft","draft","amendment","draft",None,None)

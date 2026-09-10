@@ -17,6 +17,13 @@ def check(out,render=False):
     for name in SCENARIOS:
         root=out/name;r=read(root/'private-provenance.json');o={x['id']:x for x in r['obligations']}
         require(r['mode']=='synthetic',name+' synthetic label')
+        require(r['formal_transaction_identity']['blaise_brokerage']=='Collopy Real Estate, Inc. d/b/a RE/MAX Results',name+' legal brokerage in formal field')
+        require(r['business_identity']['public_affiliation']['value']=='Buy Sell Home Team · RE/MAX Results',name+' public identity')
+        client=next(d['body'] for d in r['handoffs'] if d['role']=='client')
+        if name!='missing-execution':
+            actions=client.split('Your next steps\n')[1].split('Transaction milestones — for awareness')[0]
+            require(('move-out and key handoff' in actions) if name=='seller-start' else ('inspection plan' in actions),name+' role-specific action')
+            require('Earnest money' not in actions and ('inspection' not in actions.lower() if name=='seller-start' else 'move-out' not in actions),name+' no other-party action')
         require(all(v==0 for v in r['external_effects'].values()),name+' no effects')
         require(all(x['created'] is False and x['label']=='SYNTHETIC — DO NOT ADD TO CALENDAR' for x in r['calendar_advisories']),name+' no event')
         require(r['proposals']['tasks']==[],name+' no compulsory task')
@@ -49,8 +56,13 @@ def check(out,render=False):
                 text=page.extract_text();require('SYNTHETIC' in text and '870-692-2205' in text,'page label/contact')
                 require('\u00c2' not in text and '\u00c3' not in text,'PDF text encoding')
                 require('garage_min' not in text and 'owner_status' not in text,'human labels')
+                require('Buy Sell Home Team' in text and 'RE/MAX Results' in text and 'RE/MAX Advantage Plus' not in text,'current public footer')
+                require('Collopy' not in text,'legal field kept separate from ordinary footer')
                 require(abs(float(page.mediabox.width)-(292.5 if phone else 612))<1,'actual PDF width')
                 if not phone:require(float(page.mediabox.height)==792,'actual Letter page')
+            alltext=' '.join((' '.join(page.extract_text() for page in reader.pages)).split())
+            require('Contract responsibility:' in alltext and 'Follow-through:' in alltext and 'Operational owner:' not in alltext,'separate human ownership labels')
+            require('seller · '+('client' if name=='seller-start' else 'other party') in alltext,'party role visible')
             results.append({'file':p.relative_to(out).as_posix(),'pages':len(reader.pages),'sha256':hashlib.sha256(p.read_bytes()).hexdigest()})
     for p in sorted((out/'source-pack').glob('*.pdf')):
         reader=PdfReader(p)
