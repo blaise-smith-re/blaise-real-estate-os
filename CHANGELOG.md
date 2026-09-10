@@ -6,6 +6,13 @@ Improvement Findings.
 
 ---
 
+## [Showing & Tour Experience v1 review] — 2026-09-09
+
+- Focused review corrections: keep each property's fit, response and disposition separate; explicitly scope recommendations/commitments; preserve booking slots alongside reported attendance and actual times; use plain-English reading labels. Proposed everyday entry starts in the buyer's Workbench under Blaise RE — Buyers. Same review PR and Drive IDs; no governing promotion.
+- Added the Codex-operated private five-section Padfolio workflow, one-page print and single-column phone generation, and a before/after synthetic tour demonstration.
+- Added evidence-bound debrief, field-level CRM/search proposals, serious-interest handoff, duplicate suppression and render checks. No source-system writer or new client presentation.
+- Preserved existing Roadmaps, approved assets and open-house source. Minimal governing pointer/guide edits are proposed for Work review only; Git/Drive delivery records determine actual release state.
+
 ## [Open House Explicit Event Hours] — 2026-09-09
 
 - Removed implicit event hours from open-house intake: both CLI times are required and blank-template times are null.

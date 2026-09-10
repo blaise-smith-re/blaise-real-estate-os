@@ -1,0 +1,74 @@
+{
+  "status": "REVIEW PROPOSAL — preserves existing governing masters",
+  "source_map": "1UU8eQOElu388w2FA2gPJCMOKP7_EvQRNoPUthxc1_wg",
+  "sources": {
+    "manual": {
+      "id": "1YxG991_SXW8QTQvK_G1tOsd6il1mWzqdmVcnLwFFcX8",
+      "title": "Blaise Smith Business Operating Manual",
+      "url": "https://docs.google.com/document/d/1YxG991_SXW8QTQvK_G1tOsd6il1mWzqdmVcnLwFFcX8/edit"
+    },
+    "execution": {
+      "id": "1pFUdBNfbPLBYSkyKj0_25wC6RuP6VKO1WnkOZ1EudJw",
+      "title": "AI Execution Runbook",
+      "url": "https://docs.google.com/document/d/1pFUdBNfbPLBYSkyKj0_25wC6RuP6VKO1WnkOZ1EudJw/edit"
+    },
+    "buyer": {
+      "id": "1CpuX4d8B2zEhUNvtNr85Pj58Hn6tFhUNyL34Jpthghc",
+      "title": "Buyer Lifecycle SOP",
+      "url": "https://docs.google.com/document/d/1CpuX4d8B2zEhUNvtNr85Pj58Hn6tFhUNyL34Jpthghc/edit"
+    },
+    "padfolio": {
+      "id": "11TX9H98JUehaN4z3PUIpxexRipCuVYY8Rv8pWLbE5RU",
+      "title": "MASTER — Buyer Showing Padfolio Prep Brief",
+      "url": "https://docs.google.com/document/d/11TX9H98JUehaN4z3PUIpxexRipCuVYY8Rv8pWLbE5RU/edit"
+    },
+    "brand": {
+      "id": "1VxOR63FsLfTUPBNfO-cqSDL6oltpNAPmF0oUq1n7z1s",
+      "title": "Blaise RE OS — Brand & Client Experience Blueprint",
+      "url": "https://docs.google.com/document/d/1VxOR63FsLfTUPBNfO-cqSDL6oltpNAPmF0oUq1n7z1s/edit"
+    },
+    "offer": {
+      "id": "1Swx35VkVNiq6sJhrjTzY2xGLf1zYYbuLqoGqiSj0wyY",
+      "title": "MASTER — Property & Offer Strategy",
+      "url": "https://docs.google.com/document/d/1Swx35VkVNiq6sJhrjTzY2xGLf1zYYbuLqoGqiSj0wyY/edit"
+    },
+    "personal": {
+      "id": "1Evf9ulfBkrCR8lTXY_fHExb77ON3NiFHHtERvGEA0H4",
+      "title": "Blaise — My Step-by-Step SOPs",
+      "url": "https://docs.google.com/document/d/1Evf9ulfBkrCR8lTXY_fHExb77ON3NiFHHtERvGEA0H4/edit"
+    },
+    "fub": {
+      "id": "1dR1lv1VWfvzmozPo-rX7sbbZ_kWvuWSAzTCNvWMKWos",
+      "title": "Follow Up Boss System Runbook",
+      "url": "https://docs.google.com/document/d/1dR1lv1VWfvzmozPo-rX7sbbZ_kWvuWSAzTCNvWMKWos/edit"
+    },
+    "ylopo": {
+      "id": "1SfJbcUJRg9NgS_ZmYospgcTnHZt8pNxLK9_K-JTr6jA",
+      "title": "Ylopo System Runbook",
+      "url": "https://docs.google.com/document/d/1SfJbcUJRg9NgS_ZmYospgcTnHZt8pNxLK9_K-JTr6jA/edit"
+    },
+    "matrix": {
+      "id": "17qIs8zxzXmph_bNewELNtiYKMjpH_GEggDeBbtPWSQc",
+      "title": "Matrix / Northstar MLS System Runbook",
+      "url": "https://docs.google.com/document/d/17qIs8zxzXmph_bNewELNtiYKMjpH_GEggDeBbtPWSQc/edit"
+    },
+    "click": {
+      "id": "1c2zCS--YaiQ2pRd9clgeJFhFlVgSe1sIdTULH5eN7ow",
+      "title": "Click Contracts System Runbook",
+      "url": "https://docs.google.com/document/d/1c2zCS--YaiQ2pRd9clgeJFhFlVgSe1sIdTULH5eN7ow/edit"
+    },
+    "communication": {
+      "id": "1983apvmU9Xt81qmT9yQqxT6C_i2MXRQ9_nmGlfZtdL4",
+      "title": "Outreach & Communication Playbook",
+      "url": "https://docs.google.com/document/d/1983apvmU9Xt81qmT9yQqxT6C_i2MXRQ9_nmGlfZtdL4/edit"
+    },
+    "roadmap_print": {
+      "id": "1kPLsn0ymHcnOyC8s5q4oAB8GNvM9yJvD",
+      "title": "Blaise-Buyer-Roadmap-Print.pdf"
+    },
+    "roadmap_mobile": {
+      "id": "1N6R2bDMPEU6lq1uKnabYZWK3k3r4xJ4g",
+      "title": "Blaise-Buyer-Roadmap-Mobile.pdf"
+    }
+  }
+}
