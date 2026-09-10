@@ -30,6 +30,14 @@ Blaise completed Auth0 login in the Google profile associated with the connectio
 
 At this validation checkpoint, the configured-scope flow still required a successful callback and actual exact lookup. The private review manifest records the final live outcome. Do not infer a CRM read from authentication or a fictional adapter test. See [FUB-READ-RECOVERY.md](FUB-READ-RECOVERY.md).
 
-## Boundary
+## Integration for final Work review — September 10
+
+After Work approval, MCP PR #5 and OS PR #7 were merged in that order. PR #6 incorporates OS main `6d186ed948696994dcb7cb0166fac1b38b447b47`; only overlapping changelog, decision and improvement entries needed conflict resolution, with both sides retained. No Lead Engine executable behavior, ranking defaults, contact controls or runtime adapter changed.
+
+One fresh Codex 0.154.0 process from the trusted OS workspace initialized the full server authenticated with all 38 tools. The completed exact shortlist read from infrastructure acceptance is reconciled as **zero bounded matches**, with the name-search nonexistence caveat. No new FUB query or OAuth test was needed. The original Matrix checkpoint, observed times, candidate order, scores and class counts are preserved; a dated private addendum and updated selected prep distinguish the completed relationship check from source freshness and outreach readiness.
+
+The original FUB diagnosis above is historical. Durable authentication is accepted; the old Google 401 cause is OPEN / UNVERIFIED and Google development keys are non-blocking hardening. The existing private Drive package and portable source are updated in place. PR #6 remains open and unmerged for final Work release review.
+
+## Boundary (unchanged)
 
 The correction demonstrates actual property research and a more useful slate; it does not establish repeatable conversion or revenue. Work/owner must review before release. No outreach, FUB write, registration, Calendar action, MLS mutation, monitoring, schedule or spending. Authorized private review filing and repository publication are recorded separately from the engine's zero operational effects. Released production families, source registry, audit and governing bodies remain unchanged. Governing pointers remain proposals.
