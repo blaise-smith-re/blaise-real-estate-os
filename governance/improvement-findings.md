@@ -497,3 +497,21 @@ until a named precondition clears.
 
 One finding per issue. Never edit a finding's ID. Update `DISPOSITION` in place and move the entry to
 section 5 with a resolution date when closed. Never delete a finding.
+
+## IF-2026-09-10-FUB-OAUTH — Disposable OAuth registration and stale lane configuration
+
+**Evidence:** The full MCP's public discovery advertises DCR but omits CIMD support;
+Codex 0.154.0 Auto falls back to DCR. Owner reports repeated apps exhausted tenant
+capacity; dashboard logs and quota warning now independently confirm the mechanism.
+Active OS config also still enabled the owner-retired read-only service. A controlled
+0.154 request selected OIDC scopes unless explicit FUB scopes were configured.
+**Technical proposal:** Reuse the existing native application's public ID, verified
+callback/port and explicit FUB scopes; no new app or tenant-wide registration change. Remove only the
+active retired connection entry, retain history and tool/workflow controls.
+**Business-governance proposal for Work:** Reconcile any current connection-topology
+references after technical review. No canonical policy edit or certification claim made.
+**Status:** Login/repeated login, new-process tools, one exact read and unchanged
+application inventory verified. Owner-approved offline access, bounded rotation
+and only the `offline_access` scope were subsequently applied and live renewal
+verified. Historical Google 401 cause remains unresolved; separate infrastructure
+review, no merge or governing promotion.

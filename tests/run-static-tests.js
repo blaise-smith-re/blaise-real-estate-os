@@ -637,34 +637,34 @@ check('T-38', 'automation target preserves depth and the human relationship boun
   return 'full operating-partner target is explicit; internal maintenance active; external review preserved';
 });
 
-check('T-39', 'project Codex config enables separate read and full FUB operators', () => {
+check('T-39', 'project Codex config uses one full FUB operator and a reusable public client', () => {
   const config = read('.codex/config.toml');
   assert(/mcp_optional_startup_grace_ms\s*=\s*0/.test(config),
     'Codex config does not wait through optional-server cold starts');
-  assert(/\[mcp_servers\.blaise_fub_read_only\][\s\S]*?enabled\s*=\s*true/.test(config),
-    'read-only FUB MCP is not enabled');
+  assert(!/^\[mcp_servers\.blaise_fub_read_only\]/m.test(config),
+    'retired read-only OAuth lane must not be configured');
   assert(/\[mcp_servers\.blaise_fub_full\][\s\S]*?enabled\s*=\s*true/.test(config),
     'full FUB operator is not enabled');
-  const readSection = config.match(
-    /\[mcp_servers\.blaise_fub_read_only\]([\s\S]*?)\[mcp_servers\.blaise_fub_full\]/,
-  );
-  assert(readSection, 'bounded read-only FUB config section is missing');
-  for (const tool of ['get_contact', 'get_contact_events', 'get_contact_notes',
-    'get_contact_appointments', 'search_tasks', 'get_open_tasks']) {
-    assert(readSection[1].includes(`"${tool}"`), `read-only FUB config missing ${tool}`);
-  }
-  for (const writeTool of ['create_contact_note', 'create_contact_task', 'update_contact_task',
-    'update_contact_profile', 'merge_contact_tags']) {
-    assert(!readSection[1].includes(writeTool), `read-only FUB config exposes ${writeTool}`);
-  }
-  const fullSection = config.match(/\[mcp_servers\.blaise_fub_full\]([\s\S]*)$/);
+  const fullSection = config.match(/\[mcp_servers\.blaise_fub_full\]([\s\S]*?)\[mcp_servers\.blaise_fub_full\.oauth\]/);
   assert(fullSection, 'full FUB config section is missing');
+  for (const tool of ['find_contact', 'get_contact', 'get_contact_events', 'get_contact_notes',
+    'get_contact_appointments', 'search_tasks', 'get_open_tasks']) {
+    assert(fullSection[1].includes(`"${tool}"`), `full FUB config missing bounded read ${tool}`);
+  }
   for (const fullName of FUB_WRITE_TOOLS.map(t => t.split('__').pop())) {
     assert(fullSection[1].includes(`"${fullName}"`), `full FUB config missing ${fullName}`);
   }
   assert(/default_tools_approval_mode\s*=\s*"auto"/.test(fullSection[1]),
     'full FUB internal maintenance is not configured for standing auto approval');
-  return 'cold-start wait enabled; six-tool read lane and all-13 write lane enabled';
+  assert(config.includes('client_id = "zVnhfzFBR7aX6np3JSAXf0Cnohu8fWuH"'),
+    'public client pin is missing; login could fall back to DCR');
+  assert(config.includes('callback_url = "http://127.0.0.1:57185/callback/Msr2-imGFcgW"'),
+    'callback does not match the existing native application allowlist');
+  assert(/^callback_port\s*=\s*57185$/m.test(config), 'listener port differs from allowed callback');
+  assert(fullSection[1].includes('scopes = ["fub:read", "fub:write", "offline_access"]'),
+    'explicit FUB scopes or approved refresh scope missing');
+  assert(!/^\s*(client_secret|bearer_token)\s*=/m.test(config), 'OAuth secret embedded in config');
+  return 'one full lane; bounded reads and all-13 writes retained; existing public client skips DCR; explicit FUB scopes and exact callback';
 });
 
 // ---------------------------------------------------------------- output

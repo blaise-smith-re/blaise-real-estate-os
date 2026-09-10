@@ -6,22 +6,8 @@
 # tool inventory is not silently omitted from a newly loaded thread.
 mcp_optional_startup_grace_ms = 0
 
-[mcp_servers.blaise_fub_read_only]
-url = "https://blaise-fub-readonly.onrender.com/mcp"
-auth = "oauth"
-enabled = true
-required = false
-startup_timeout_sec = 60
-tool_timeout_sec = 60
-enabled_tools = [
-  "get_contact",
-  "get_contact_events",
-  "get_contact_notes",
-  "get_contact_appointments",
-  "search_tasks",
-  "get_open_tasks",
-]
-default_tools_approval_mode = "auto"
+# The owner retired blaise_fub_read_only on 2026-09-10. Historical deployment
+# and certification evidence remains in Git. New machines use only the full MCP.
 
 # The full operator owns internal FUB maintenance. Server-side checks still
 # enforce exact targeting, sensitive-data rejection, existing-stage validation,
@@ -29,6 +15,7 @@ default_tools_approval_mode = "auto"
 [mcp_servers.blaise_fub_full]
 url = "https://blaise-fub-mcp.onrender.com/mcp"
 auth = "oauth"
+scopes = ["fub:read", "fub:write", "offline_access"]
 enabled = true
 required = false
 startup_timeout_sec = 60
@@ -74,3 +61,12 @@ enabled_tools = [
   "close_out_contact_interaction",
 ]
 default_tools_approval_mode = "auto"
+
+# Reuse the existing public native application. This ID contains no secret;
+# Codex skips registration, preventing DCR application growth on new machines.
+# Both callback path and port match the application's verified allowlist.
+# See docs/FUB-OAUTH-CONNECTION.md. Do not substitute a confidential client secret.
+[mcp_servers.blaise_fub_full.oauth]
+client_id = "zVnhfzFBR7aX6np3JSAXf0Cnohu8fWuH"
+callback_url = "http://127.0.0.1:57185/callback/Msr2-imGFcgW"
+callback_port = 57185

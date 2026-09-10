@@ -6,6 +6,13 @@ Improvement Findings.
 
 ---
 
+## [Full FUB OAuth connection proposal] — 2026-09-10
+
+- Removed the owner-retired read-only MCP from active project configuration while preserving historical evidence.
+- Pinned the existing public native application, its verified loopback callback/port and explicit FUB scopes. Login, repeated login, fresh-process tool access and one exact read passed without new Auth0 applications. Historical Google 401 cause remains unresolved.
+- Applied owner-approved offline access and added only `offline_access`. Verified real refresh issuance, renewal and rotation with a local cache-expiry trigger, then new-process tools and a bounded read. Access lifetime remains 24 hours; refresh has 7-day idle/30-day maximum expiry and 5-second overlap. Credentials stayed encrypted and unprinted.
+- Kept the full tool allowlist, workflow write authority, governing sources, released families and Lead Engine PR #6 unchanged. Added operator-run connection and acceptance notes; no secrets, CRM writes or schedules.
+
 ## [Transaction Operations v1 — focused review corrections] — 2026-09-10
 
 - Resolved public and legal brokerage identity separately from attributed task-local governing inputs; added guards against stale affiliation and team-name substitution in formal fields. Original evidence remains unchanged.
