@@ -6,22 +6,8 @@
 # tool inventory is not silently omitted from a newly loaded thread.
 mcp_optional_startup_grace_ms = 0
 
-[mcp_servers.blaise_fub_read_only]
-url = "https://blaise-fub-readonly.onrender.com/mcp"
-auth = "oauth"
-enabled = true
-required = false
-startup_timeout_sec = 60
-tool_timeout_sec = 60
-enabled_tools = [
-  "get_contact",
-  "get_contact_events",
-  "get_contact_notes",
-  "get_contact_appointments",
-  "search_tasks",
-  "get_open_tasks",
-]
-default_tools_approval_mode = "auto"
+# The owner retired blaise_fub_read_only on 2026-09-10. Historical deployment
+# and certification evidence remains in Git. New machines use only the full MCP.
 
 # The full operator owns internal FUB maintenance. Server-side checks still
 # enforce exact targeting, sensitive-data rejection, existing-stage validation,
@@ -74,3 +60,11 @@ enabled_tools = [
   "close_out_contact_interaction",
 ]
 default_tools_approval_mode = "auto"
+
+# PROPOSED: requires the existing Auth0 tenant to import/authorize this native
+# CIMD client before rollout. This public ID contains no secret and makes client
+# registration fail closed: Codex skips DCR rather than creating another app.
+# See docs/FUB-OAUTH-CONNECTION.md. Do not substitute a confidential client secret.
+[mcp_servers.blaise_fub_full.oauth]
+client_id = "https://chatgpt.com/oauth/codex/Msr2-imGFcgW/client.json"
+callback_url = "http://127.0.0.1/callback/Msr2-imGFcgW"

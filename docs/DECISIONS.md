@@ -402,3 +402,15 @@ adapter; shared team configuration remains outside this grant.
 `INTERNAL_WRITE/WRITE_INTERNAL`. One event permits at most two FUB writes and one appointment record,
 with zero external messages and zero money movement. Live restart and a practical smoke remain; no
 additional per-tool certification sequence blocks ordinary use.
+
+## D-028 — One full FUB MCP with reusable public OAuth client identity
+**Date** 2026-09-10 · **Status** PROPOSED technical implementation; read-only-lane retirement OWNER-DIRECTED
+
+**Decision.** Retire the active separate read-only OAuth configuration, retaining historical
+records. Propose one Auth0-imported public native CIMD identity pinned in Codex, so new
+computers do not create disposable DCR clients. Tenant provisioning and successful live
+acceptance are prerequisites to rollout. No secret-based Codex configuration is proposed.
+
+**Boundary.** This narrows connection topology only. The full tool allowlist and existing
+write controls are unchanged; Lead Engine may use only its exact read facade. No business
+policy, canonical source, schedule, client record or Lead Engine PR #6 is modified.

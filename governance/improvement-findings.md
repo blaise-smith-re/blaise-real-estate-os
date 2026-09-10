@@ -497,3 +497,14 @@ until a named precondition clears.
 
 One finding per issue. Never edit a finding's ID. Update `DISPOSITION` in place and move the entry to
 section 5 with a resolution date when closed. Never delete a finding.
+
+## IF-2026-09-10-FUB-OAUTH — Disposable OAuth registration and stale lane configuration
+
+**Evidence:** The full MCP's public discovery advertises DCR but omits CIMD support;
+Codex 0.154.0 Auto falls back to DCR. Owner reports repeated apps exhausted tenant
+capacity. Active OS config also still enabled the owner-retired read-only service.
+**Technical proposal:** One provisioned native CIMD client pinned by its public URL;
+remove only the active retired connection entry, retain history and tool/workflow controls.
+**Business-governance proposal for Work:** Reconcile any current connection-topology
+references after technical review. No canonical policy edit or certification claim made.
+**Status:** Pending Auth0 provisioning and live acceptance; separate infrastructure review.
