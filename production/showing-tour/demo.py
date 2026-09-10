@@ -13,7 +13,7 @@ def run(out,node,render=True):
     after["sources"].append({"id":"attendance","kind":"Blaise notes","title":"Synthetic after-tour notes",
         "locator":"synthetic://transcript/after","as_of":"2032-04-18T13:00:00-05:00","synthetic":True,
         "attended_properties":["p1","p2"],"quote":"We toured both homes."})
-    after["buyer"]["latest_event"]="Apr 18 tour notes: Example Ridge first; request seepage records."
+    after["buyer"]["latest_event"]="Apr 18: both homes toured; property responses below."
     for p in after["properties"]:
         p["showings"].append({"status":"completed","date":"2032-04-18","start":None,"end":None,
             "source":"attendance","attendance_evidence":"attendance","as_of":"2032-04-18T13:00:00-05:00"})

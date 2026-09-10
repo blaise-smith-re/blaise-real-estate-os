@@ -45,6 +45,8 @@
       "property_id": "p1",
       "interest": "serious",
       "summary": "First choice; serious interest, with seepage questions unresolved.",
+      "fit": "Two-car garage meets the confirmed minimum; basement condition still needs review.",
+      "disposition": "Keep under consideration; no offer decision yet.",
       "evidence": [
         "e1"
       ],
@@ -68,7 +70,9 @@
     {
       "property_id": "p2",
       "interest": "low",
-      "summary": "Second choice; one-car garage does not meet the buyer’s stated need.",
+      "summary": "Second choice; cosmetic kitchen work is acceptable, but the one-car garage does not work.",
+      "fit": "Garage falls short of the confirmed minimum; cosmetic kitchen work is acceptable.",
+      "disposition": "Set aside based on the confirmed garage requirement.",
       "evidence": [
         "e3"
       ],
@@ -104,9 +108,10 @@
     }
   ],
   "recommendation": {
+    "scope": "property",
     "action": "verify",
     "property_id": "p1",
-    "text": "Request the seepage and repair records for Example Ridge, then review what remains unresolved.",
+    "text": "Request seepage and repair records.",
     "evidence": [
       "e1",
       "e6"
@@ -114,6 +119,8 @@
   },
   "commitments": [
     {
+      "scope": "property",
+      "property_id": "p1",
       "owner": "Blaise",
       "text": "Request seepage and repair records.",
       "due": null,

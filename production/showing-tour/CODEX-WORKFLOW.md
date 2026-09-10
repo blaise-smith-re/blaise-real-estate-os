@@ -2,6 +2,8 @@
 
 Thin execution wrapper under current canonical authority. No policy bodies are cached here.
 
+Everyday entry: Blaise starts in the buyer's Workbench under **Blaise RE — Buyers**. Work keeps the relationship context and routes production to Codex when needed. Do not require Blaise to prepare JSON, select files or manage tool handoffs. Direct Codex use is also available when the buyer/property context is supplied.
+
 ## Before showing
 
 1. Resolve the current sources in governance.json; use the current Source Map for drift. Read the Buyer Lifecycle and Padfolio master, current brand direction and task-relevant runbooks. Preserve existing approved guides. The owner is the business decision-maker.
@@ -15,14 +17,16 @@ Thin execution wrapper under current canonical authority. No policy bodies are c
 
 ## After showing
 
-1. Bind the actual notes/transcript to the same buyer and properties. Separate actual attendance evidence from an earlier booking. Preserve unknown actual times.
+1. Bind the actual notes/transcript to the same buyer and properties. Keep prior booking/request records; append separate attendance evidence with only reported actual times. Completion never confirms a requested slot or inherits scheduled times. Preserve null actual times and show booking and attendance separately.
 2. Codex interprets the complete transcript. Write the exact UTF-8 transcript SHA-256 and literal supporting quotes into a fresh interpretation. Summarize buyer preference/ranking, concerns and interest faithfully; label buyer-confirmed, Blaise observation and hypothesis. Quote matching alone does not validate meaning. Review every conclusion against its quotation and context.
-3. Produce one next recommendation: pursue, compare, verify, refine_search, lender or move_on. Use one useful next step in the personal draft. Preserve channel restrictions/opt-outs; flag current automation overlap. Do not assert that Raiya was paused, consent granted or a draft sent.
+3. Produce one next recommendation: pursue, compare, verify, refine_search, lender or move_on. Set scope to property with the exact property_id, or tour with property_id null; do the same for each commitment. Give each property its own supported fit and disposition. Never copy one property's next move onto another brief. Label whole-tour context explicitly. Use one useful next step in the personal draft. Preserve channel restrictions/opt-outs; flag current automation overlap. Do not assert that Raiya was paused, consent granted or a draft sent.
 4. Serious buyer-confirmed interest triggers a handoff of current facts, financing and gaps to the existing Property & Offer Strategy before offer-price advice. Do not generate another CMA or price recommendation in this brief.
 5. Recommend only useful field-by-field Ylopo changes. A single reaction is not permission to rewrite all filters. Explicit confirmation can support a proposed filter; observations/hypotheses stay ranking guidance or questions. Resolve the exact useful saved alert before an edit. Use only a vendor-permitted route; otherwise hand Blaise the exact alert and controls for manual work. Agent-view results QA, save/readback and copying the exact saved-alert client link are separate checks. Never open buyer-login links or assume FUB's link changed.
 6. Propose a minimal FUB note only when useful and dated tasks only for actual useful commitments. Before accepted live maintenance, read the exact record for equivalent existing note/task content; map normalized fingerprints to that fresh read, not an empty default. Route through lead-conversion-crm and current FUB/AI Runbooks. Independently read back any later authorized change.
 7. Generate the after-tour Padfolio and compact recap. A private strategy pack is never listing-agent feedback. If later asked for listing-agent feedback, prepare a separate minimal draft containing only appropriate property observations/logistics; exclude buyer budget, leverage, urgency, criteria and offer strategy.
 8. Return draft/proposed versus completed states plainly. This v1 build performs no sends, bookings, source mutations, authentication changes, schedules, publication or spend.
+
+Reading views must use plain-English field labels; retain exact controls in technical proposals. Distinguish buyer-confirmed preferences, proposed changes and independently read-back applied changes. This generator produces proposals only. Consolidate repeated source badges without hiding reported facts, unknowns or conflicts; summarize confirmed feedback once while retaining full evidence privately.
 
 ## Release and filing
 

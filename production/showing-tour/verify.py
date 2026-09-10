@@ -20,6 +20,13 @@ def verify(out):
                 report["links"].append({"href":href,"navigated":False})
         for pdf in folder.glob("*.pdf"):
             reader=PdfReader(pdf)
+            all_text=" ".join(" ".join(p.extract_text().split()) for p in reader.pages)
+            require("garage_min" not in all_text,"Technical field leaked into a reading PDF")
+            if phase=="after" and pdf.name.startswith("02-Private-Padfolio"):
+                require("seepage" not in all_text.lower(),"Other property's next move leaked into Sample Lane")
+                require("Requested (unconfirmed)" in all_text and "11 AM–11:30 AM CT" in all_text,"Requested booking history lost")
+                require("Reported toured" in all_text and "actual times not reported" in all_text,"Attendance must stay separate from booked hours")
+                require("Set aside" in all_text and "proposed, not applied" in all_text,"Property disposition or proposal state lost")
             if "Padfolio" in pdf.name:
                 expected=2 if pdf.name in ("Private-Padfolio-Print.pdf","Private-Padfolio-Phone.pdf") else 1
                 require(len(reader.pages)==expected,"Wrong number of Padfolio pages")
@@ -42,6 +49,11 @@ def verify(out):
     require(len(r["offer_handoffs"])==1 and len(r["criteria_changes"])==2,"Demonstration lost its meaningful handoffs")
     require(r["criteria_changes"][0]["treatment"]=="filter" and r["criteria_changes"][1]["treatment"]=="question","Evidence distinction lost")
     before=read(out/"before/private-working.json")
+    after=read(out/"after/private-working.json")
+    for pid in ("p1","p2"):
+        require(after["appointments"][pid]["booking"]==before["appointments"][pid]["booking"],"Completion erased booking history")
+        attendance=after["appointments"][pid]["attendance"]
+        require(attendance["start"] is None and attendance["end"] is None,"Synthetic actual times must remain unknown")
     require(before["resolved_facts"]["p2"]["hoa"]["value"] is None,"Unknown HOA became a fact")
     require(len(before["calendar_advisories"])==1 and before["calendar_advisories"][0]["synthetic_demonstration"],"Advisory scope changed")
     (out/"artifact-verification.json").write_text(json.dumps(report,indent=2),encoding="utf-8")

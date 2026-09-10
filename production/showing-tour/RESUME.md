@@ -2,6 +2,8 @@
 
 Owner scope: Showing & Tour Experience v1 review build. Open-house source and all Lever deliverables remain unchanged.
 
+Focused correction pass stays on PR #4 and the existing Drive review folder/file IDs. Property feedback now requires fit/disposition; recommendations and commitments require scope (property with property_id, or tour with null property_id). appointment_history preserves booking and attendance independently. Reading labels translate technical fields; JSON proposals retain exact keys. Tests: 50. The proposed human guide starts in the buyer's Workbench under Blaise RE — Buyers. Do not merge or promote governing edits during this pass.
+
 Entry points: engine.py for Codex-normalized preparation/debrief; demo.py for the two synthetic plain-language triggers; render.cjs for print/phone PDFs and measured QA. documents.py preserves the Padfolio's five sections. README.md is the human/operator guide; CODEX-WORKFLOW.md is the thin execution wrapper. governance.json holds pointers only.
 
 Use the actual Git checkout, verify remote/branch/status, and inspect PR/Drive state before resuming. Intended remote is blaise-smith-re/blaise-real-estate-os; build branch codex/showing-tour-experience-v1. Check the delivery record in the separately filed review folder for the actual source revision and file IDs. Do not recreate the Drive folder or assume this branch merged.

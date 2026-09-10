@@ -370,6 +370,8 @@ grants a new effect class.
 
 **Decision.** Implement the two Codex-operated showing/prep and notes/debrief triggers using the current five-section Padfolio master. Print and reflowed phone are formats of the same private brief. Keep evidence, CRM/search proposals and serious-interest handoff separate from client communication.
 
+**Owner review correction.** Each property retains its own response, fit and disposition; recommendations and commitments explicitly identify property or whole-tour scope. Scheduled/requested slots remain separate from reported attendance and actual times. Human views translate fields and distinguish confirmed preferences from proposed/applied changes. Proposed human-guide entry starts in the buyer's Workbench under Blaise RE — Buyers, with Codex production when needed and direct Codex use still available. This is a correction to the existing review workflow, not governing promotion.
+
 **Boundary.** This build has no live writer, booking, send, schedule or publication path. Existing Buyer Roadmap and Property & Offer Strategy remain controlling. New governing pointers and human-guide text are proposed to Work; they are not silently applied. Owner review and the normal merge process remain.
 
 ## D-027 — Owner authorizes all bounded FUB internal maintenance

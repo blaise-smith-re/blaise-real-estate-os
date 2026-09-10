@@ -50,13 +50,21 @@ def facts_for(prop, sources):
         else: result[field] = dict(latest[0])
     return result
 
-def showing_for(prop):
-    if not prop["showings"]:
-        return {"status": "planned", "date": None, "start": None, "end": None, "source": None}
-    newest = max(instant(x["as_of"]) for x in prop["showings"])
-    latest = [x for x in prop["showings"] if instant(x["as_of"]) == newest]
+def latest_showing(rows):
+    if not rows: return None
+    newest = max(instant(x["as_of"]) for x in rows)
+    latest = [x for x in rows if instant(x["as_of"]) == newest]
     require(len({json.dumps(x, sort_keys=True) for x in latest}) == 1, "Conflicting showing state needs resolution")
     return latest[0]
+
+def appointment_history(prop):
+    """Booking slots and reported attendance are independent evidence, never fallback times."""
+    return {"booking": latest_showing([x for x in prop["showings"] if x["status"] != "completed"]),
+        "attendance": latest_showing([x for x in prop["showings"] if x["status"] == "completed"]),
+        "history": sorted(prop["showings"], key=lambda x: instant(x["as_of"]))}
+
+def showing_for(prop):
+    return latest_showing(prop["showings"]) or {"status": "planned", "date": None, "start": None, "end": None, "source": None}
 
 def validate_case(c):
     private_check(c)
@@ -99,7 +107,7 @@ def validate_case(c):
                 require(event.get("attendance_evidence") in sources, "Booking is not attendance")
                 attended=sources[event["attendance_evidence"]]
                 require(attended["kind"] in ("Blaise notes", "Communication") and p["id"] in attended.get("attended_properties",[]) and attended.get("quote"), "Attendance needs property-specific notes or communication evidence")
-        showing_for(p)
+        showing_for(p); appointment_history(p)
     dc = c["document_check"]
     require(dc["status"] in ("verified", "unknown", "missing", "conflict"), "Invalid pre-tour document check")
     if dc["status"] == "verified":
@@ -160,6 +168,7 @@ def validate_debrief(c, notes, interpretation):
         pid = feedback["property_id"]
         require(pid in props and pid not in seen, "One debrief entry per property")
         seen.add(pid); require(feedback["interest"] in ("serious", "considering", "low", "unknown"), "Invalid interest")
+        require(feedback.get("fit") and feedback.get("disposition"), "Property feedback needs its own fit and disposition")
         support(feedback, pid, feedback["interest"] == "serious")
         for claim in feedback["claims"]:
             ev = support(claim, pid)
@@ -173,10 +182,17 @@ def validate_debrief(c, notes, interpretation):
         require(change["reason"], "Explain each proposed change")
     recommendation = d["recommendation"]
     require(recommendation["action"] in ACTIONS and recommendation["text"], "Exactly one useful next recommendation required")
-    support(recommendation)
-    if recommendation.get("property_id"): require(recommendation["property_id"] in props, "Wrong recommendation property")
+    def scoped_support(item, confirmed=False):
+        require(item.get("scope") in ("property", "tour"), "Explicit property or whole-tour scope required")
+        if item["scope"] == "property":
+            require(item.get("property_id") in props, "Wrong scoped property")
+            support(item, item["property_id"], confirmed)
+        else:
+            require(item.get("property_id") is None, "Whole-tour scope cannot imply one property")
+            support(item, confirmed=confirmed)
+    scoped_support(recommendation)
     for commitment in d["commitments"]:
-        support(commitment, confirmed=True)
+        scoped_support(commitment, confirmed=True)
         require(commitment["owner"] and commitment["text"], "Commitment needs owner and action")
         if commitment.get("due"): date.fromisoformat(commitment["due"])
     if d.get("followup"):

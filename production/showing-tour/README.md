@@ -4,6 +4,8 @@ Private, Codex-operated preparation and debrief, ready for owner review. This is
 
 ## Blaise's two requests
 
+Start in the buyer's Workbench under **Blaise RE — Buyers**. Work uses the buyer context and involves Codex for production when needed; Blaise does not manage technical files. Direct Codex use remains available with the exact buyer and property context.
+
 **Before:** “Prepare me to show [address/MLS] to [buyer].” List each address for a small tour. Codex resolves the exact relationship, current facts and showing state, then produces one Letter page per property and the same content reflowed for a phone. Unknown financing or intake fields stay unknown; no default hours or assumed bookings. Review the private brief on your phone or print it. Use the current document check before touring. The evergreen Buyer Roadmap is offered when useful at the first showing, not as homework.
 
 **After:** “Here's how the showing went: [notes or dictated transcript].” Say what the buyer actually said, what you noticed, any ranking or serious interest, and anything you agreed to do. No new questionnaire or recorder is needed. Codex returns the updated brief, one recommendation, a personal draft and useful field-level search/CRM proposals. Review them before any separate live execution. Serious interest leads to the existing Property & Offer Strategy before offer-price advice.
@@ -44,6 +46,9 @@ render.cjs blocks network resources and never follows document links. Verify can
 
 - Every property fact has field, value, label, source and timezone-aware as_of. Its source binds the property and current MLS record. Current-record evidence wins over an old listing, even if the historical export was retrieved later. Equal-time contradictions remain unknown/CONFLICT.
 - Showing states are planned, requested, confirmed, cancelled or completed. Confirmation requires date, both times and ShowingTime evidence. Completion requires separate attendance evidence. Nulls never become example hours. Calendar coverage is independent.
+- Preserve scheduled/requested slots separately from reported attendance and actual attendance times. The reading views show both; completion does not confirm a requested slot or copy its hours into actual attendance.
+- Each property's response, fit and disposition stays bound to that property. Recommendations and commitments require explicit property or whole-tour scope. A recommendation for one property never becomes another property's next action.
+- Human reading views use plain-English field labels and distinguish confirmed preferences from proposed updates. Exact field names remain in technical proposals; this generator applies no search changes. Repeated MLS badges are consolidated while unknown, reported and conflicting facts remain labeled.
 - Identity and CRM/search snapshots bind the same exact buyer. No broad relationship sweep. Source links belong in private-working.json.
 - Notes interpretations bind case, buyer, full transcript hash, exact quoted evidence and property. Claims distinguish buyer-confirmed, Blaise observation and hypothesis. The short buyer-response summary must preserve every material buyer-confirmed conclusion; the full claim/evidence record stays in the private debrief.
 - Only explicit buyer-confirmed changes may become proposed filters. Provisional ideas remain ranking guidance or questions. Preserve other saved-alert criteria, frequency and status.
