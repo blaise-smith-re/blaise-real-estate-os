@@ -1,0 +1,134 @@
+{
+  "case_id": "SYNTHETIC-TOUR-01",
+  "buyer_id": "SYNTHETIC-BUYER-01",
+  "transcript_sha256": "b999d040fd69ff13249bdb5bd670e4e67142bc86f8e25d07382f4e6f0bc550ab",
+  "evidence": [
+    {
+      "id": "e1",
+      "property_id": "p1",
+      "basis": "buyer-confirmed",
+      "quote": "This is my first choice. I am seriously considering it, but I want to understand the basement seepage before deciding."
+    },
+    {
+      "id": "e2",
+      "property_id": null,
+      "basis": "buyer-confirmed",
+      "quote": "A two-car garage is a must. Keep the search at two or more."
+    },
+    {
+      "id": "e3",
+      "property_id": "p2",
+      "basis": "buyer-confirmed",
+      "quote": "This is second. I could handle cosmetic kitchen changes, but the one-car garage does not work."
+    },
+    {
+      "id": "e4",
+      "property_id": "p1",
+      "basis": "Blaise observation",
+      "quote": "I noticed Morgan spent more time in the kitchen at Example Ridge."
+    },
+    {
+      "id": "e5",
+      "property_id": null,
+      "basis": "hypothesis",
+      "quote": "I wonder if outdoor space matters more than Morgan has said; I need to ask."
+    },
+    {
+      "id": "e6",
+      "property_id": "p1",
+      "basis": "buyer-confirmed",
+      "quote": "Morgan agreed I should request the seepage and repair records. No deadline was agreed."
+    }
+  ],
+  "feedback": [
+    {
+      "property_id": "p1",
+      "interest": "serious",
+      "summary": "First choice; serious interest, with seepage questions unresolved.",
+      "evidence": [
+        "e1"
+      ],
+      "claims": [
+        {
+          "text": "First choice; understand seepage before deciding.",
+          "label": "buyer-confirmed",
+          "evidence": [
+            "e1"
+          ]
+        },
+        {
+          "text": "Spent more time in this kitchen.",
+          "label": "Blaise observation",
+          "evidence": [
+            "e4"
+          ]
+        }
+      ]
+    },
+    {
+      "property_id": "p2",
+      "interest": "low",
+      "summary": "Second choice; one-car garage does not meet the buyer’s stated need.",
+      "evidence": [
+        "e3"
+      ],
+      "claims": [
+        {
+          "text": "Cosmetic kitchen work is acceptable; one-car garage does not work.",
+          "label": "buyer-confirmed",
+          "evidence": [
+            "e3"
+          ]
+        }
+      ]
+    }
+  ],
+  "criteria_changes": [
+    {
+      "field": "garage_min",
+      "value": 2,
+      "treatment": "filter",
+      "reason": "Buyer explicitly confirmed two or more spaces as a must.",
+      "evidence": [
+        "e2"
+      ]
+    },
+    {
+      "field": "preferences",
+      "value": "Ask whether outdoor space is a priority.",
+      "treatment": "question",
+      "reason": "Blaise’s hypothesis needs buyer confirmation; do not narrow the alert.",
+      "evidence": [
+        "e5"
+      ]
+    }
+  ],
+  "recommendation": {
+    "action": "verify",
+    "property_id": "p1",
+    "text": "Request the seepage and repair records for Example Ridge, then review what remains unresolved.",
+    "evidence": [
+      "e1",
+      "e6"
+    ]
+  },
+  "commitments": [
+    {
+      "owner": "Blaise",
+      "text": "Request seepage and repair records.",
+      "due": null,
+      "task_useful": false,
+      "evidence": [
+        "e6"
+      ]
+    }
+  ],
+  "followup": {
+    "channel": "sms",
+    "text": "Morgan, Example Ridge is your first choice, with the basement still the key question. I’ll request the seepage and repair records so we can review what they clarify before you decide.",
+    "evidence": [
+      "e1",
+      "e6"
+    ]
+  }
+}

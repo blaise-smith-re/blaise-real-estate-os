@@ -364,6 +364,14 @@ grants a new effect class.
 
 **Scope.** Narrow correction under the owner's production-closeout instruction. Approved designs and existing cases are unchanged. Git history and the canonical source-bundle manifest record delivery; supplying hours never authorizes public release.
 
+## D-029 — Showing production follows the existing private Padfolio master
+
+**Date** 2026-09-09 · **Status** IMPLEMENTED FOR REVIEW under the owner's build brief
+
+**Decision.** Implement the two Codex-operated showing/prep and notes/debrief triggers using the current five-section Padfolio master. Print and reflowed phone are formats of the same private brief. Keep evidence, CRM/search proposals and serious-interest handoff separate from client communication.
+
+**Boundary.** This build has no live writer, booking, send, schedule or publication path. Existing Buyer Roadmap and Property & Offer Strategy remain controlling. New governing pointers and human-guide text are proposed to Work; they are not silently applied. Owner review and the normal merge process remain.
+
 ## D-027 — Owner authorizes all bounded FUB internal maintenance
 
 **Date** 2026-09-04 · **Status** ACCEPTED · **Supersedes** D-018 and D-023

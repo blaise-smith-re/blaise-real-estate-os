@@ -1,0 +1,371 @@
+{
+  "schema": "1.0",
+  "mode": "synthetic",
+  "case_id": "SYNTHETIC-TOUR-01",
+  "first_showing": true,
+  "sources": [
+    {
+      "id": "relationship",
+      "kind": "FUB",
+      "title": "Fictional relationship snapshot",
+      "locator": "synthetic://buyer/morgan-ellis",
+      "as_of": "2032-04-16T15:00:00-05:00",
+      "synthetic": true
+    },
+    {
+      "id": "communications",
+      "kind": "Communication",
+      "title": "Fictional buyer conversation",
+      "locator": "synthetic://conversation/01",
+      "as_of": "2032-04-16T15:00:00-05:00",
+      "synthetic": true
+    },
+    {
+      "id": "booking",
+      "kind": "ShowingTime",
+      "title": "Fictional booking view",
+      "locator": "synthetic://showing/01",
+      "as_of": "2032-04-16T15:00:00-05:00",
+      "synthetic": true
+    },
+    {
+      "id": "requirements",
+      "kind": "Click",
+      "title": "Fictional unresolved document check",
+      "locator": "synthetic://documents/check",
+      "as_of": "2032-04-16T15:00:00-05:00",
+      "synthetic": true
+    },
+    {
+      "id": "matrixp1",
+      "kind": "Matrix",
+      "property_id": "p1",
+      "record": "SYN-200",
+      "title": "Fictional current listing 1",
+      "locator": "synthetic://listing/p1",
+      "as_of": "2032-04-16T15:00:00-05:00",
+      "synthetic": true
+    },
+    {
+      "id": "matrixp2",
+      "kind": "Matrix",
+      "property_id": "p2",
+      "record": "SYN-201",
+      "title": "Fictional current listing 2",
+      "locator": "synthetic://listing/p2",
+      "as_of": "2032-04-16T15:00:00-05:00",
+      "synthetic": true
+    },
+    {
+      "id": "oldlisting",
+      "kind": "Matrix",
+      "property_id": "p1",
+      "record": "SYN-OLD",
+      "title": "Fictional historical cancelled listing",
+      "locator": "synthetic://listing/old",
+      "as_of": "2032-04-01T10:00:00-05:00",
+      "synthetic": true
+    }
+  ],
+  "properties": [
+    {
+      "id": "p1",
+      "address": "100 Example Ridge",
+      "city": "Fictional Minnesota community",
+      "mls": "SYN-200",
+      "fit": "Two-car garage and usable kitchen align with confirmed priorities.",
+      "walk": [
+        "Observe basement walls and flooring",
+        "Compare kitchen work space",
+        "Check garage usability"
+      ],
+      "questions": [
+        "How does the kitchen work for you?",
+        "What would you need to understand about the basement?"
+      ],
+      "opening": "Let’s walk first, then compare what matters most to you.",
+      "alternative": "200 Sample Lane tests the tradeoff between condition and room size.",
+      "decision_prompt": "Relative preference, basement questions and whether interest is serious.",
+      "pre_recommendation": "Verify the seepage history before drawing a condition conclusion.",
+      "facts": [
+        {
+          "field": "history",
+          "value": "Cancelled; old listing",
+          "source": "oldlisting",
+          "as_of": "2032-04-17T10:00:00-05:00",
+          "label": "verified MLS"
+        },
+        {
+          "field": "price",
+          "value": 595000,
+          "source": "matrixp1",
+          "as_of": "2032-04-16T15:00:00-05:00",
+          "label": "verified MLS"
+        },
+        {
+          "field": "beds",
+          "value": 3,
+          "source": "matrixp1",
+          "as_of": "2032-04-16T15:00:00-05:00",
+          "label": "verified MLS"
+        },
+        {
+          "field": "bath_detail",
+          "value": "2 full + 1 half baths",
+          "source": "matrixp1",
+          "as_of": "2032-04-16T15:00:00-05:00",
+          "label": "verified MLS"
+        },
+        {
+          "field": "sqft",
+          "value": 2180,
+          "source": "matrixp1",
+          "as_of": "2032-04-16T15:00:00-05:00",
+          "label": "verified MLS"
+        },
+        {
+          "field": "home",
+          "value": "1998 single-family · 2-car garage · 0.24 acre",
+          "source": "matrixp1",
+          "as_of": "2032-04-16T15:00:00-05:00",
+          "label": "verified MLS"
+        },
+        {
+          "field": "history",
+          "value": "Active · 19 DOM · reduced from $615,000; CDOM unknown",
+          "source": "matrixp1",
+          "as_of": "2032-04-16T15:00:00-05:00",
+          "label": "verified MLS"
+        },
+        {
+          "field": "hoa",
+          "value": "$180 quarterly",
+          "source": "matrixp1",
+          "as_of": "2032-04-16T15:00:00-05:00",
+          "label": "verified MLS"
+        },
+        {
+          "field": "taxes",
+          "value": "$6,420 / year",
+          "source": "matrixp1",
+          "as_of": "2032-04-16T15:00:00-05:00",
+          "label": "verified MLS"
+        },
+        {
+          "field": "updates",
+          "value": "Kitchen updated in 2028; permits not reviewed",
+          "source": "matrixp1",
+          "as_of": "2032-04-16T15:00:00-05:00",
+          "label": "listing-reported"
+        },
+        {
+          "field": "disclosures",
+          "value": "Seller disclosure received; basement seepage reported",
+          "source": "matrixp1",
+          "as_of": "2032-04-16T15:00:00-05:00",
+          "label": "listing-reported"
+        }
+      ],
+      "concerns": [
+        {
+          "text": "Seepage history needs documents and qualified follow-up; do not diagnose.",
+          "label": "unknown",
+          "source": "matrixp1"
+        }
+      ],
+      "agent_intel": "No direct agent response.",
+      "gaps": [
+        "Seepage details and any repair records",
+        "Current lender terms and usable funds"
+      ],
+      "showings": [
+        {
+          "status": "confirmed",
+          "date": "2032-04-18",
+          "start": "10:00",
+          "end": "10:30",
+          "source": "booking",
+          "as_of": "2032-04-16T15:00:00-05:00"
+        }
+      ]
+    },
+    {
+      "id": "p2",
+      "address": "200 Sample Lane",
+      "city": "Fictional Minnesota community",
+      "mls": "SYN-201",
+      "fit": "More interior space at a lower list price; garage may be a tradeoff.",
+      "walk": [
+        "Compare kitchen circulation",
+        "Observe roof from ground level",
+        "Check garage dimensions"
+      ],
+      "questions": [
+        "How much kitchen work would feel manageable?",
+        "How does this compare with the first home?"
+      ],
+      "opening": "Let’s use this stop to test the tradeoffs we just discussed.",
+      "alternative": "Compare with 100 Example Ridge; no additional stop is booked.",
+      "decision_prompt": "Kitchen tolerance, garage need and ranking against the first home.",
+      "pre_recommendation": "Compare garage usability and renovation tolerance; resolve missing records.",
+      "facts": [
+        {
+          "field": "price",
+          "value": 579000,
+          "source": "matrixp2",
+          "as_of": "2032-04-16T15:00:00-05:00",
+          "label": "verified MLS"
+        },
+        {
+          "field": "beds",
+          "value": 3,
+          "source": "matrixp2",
+          "as_of": "2032-04-16T15:00:00-05:00",
+          "label": "verified MLS"
+        },
+        {
+          "field": "bath_detail",
+          "value": "2 full baths",
+          "source": "matrixp2",
+          "as_of": "2032-04-16T15:00:00-05:00",
+          "label": "verified MLS"
+        },
+        {
+          "field": "sqft",
+          "value": 2260,
+          "source": "matrixp2",
+          "as_of": "2032-04-16T15:00:00-05:00",
+          "label": "verified MLS"
+        },
+        {
+          "field": "home",
+          "value": "1986 single-family · 1-car garage · 0.29 acre",
+          "source": "matrixp2",
+          "as_of": "2032-04-16T15:00:00-05:00",
+          "label": "verified MLS"
+        },
+        {
+          "field": "history",
+          "value": "Active · 8 DOM · unchanged price; CDOM unknown",
+          "source": "matrixp2",
+          "as_of": "2032-04-16T15:00:00-05:00",
+          "label": "verified MLS"
+        },
+        {
+          "field": "hoa",
+          "value": null,
+          "source": "matrixp2",
+          "as_of": "2032-04-16T15:00:00-05:00",
+          "label": "unknown"
+        },
+        {
+          "field": "taxes",
+          "value": "$5,960 / year",
+          "source": "matrixp2",
+          "as_of": "2032-04-16T15:00:00-05:00",
+          "label": "verified MLS"
+        },
+        {
+          "field": "updates",
+          "value": "Original kitchen; roof age not provided",
+          "source": "matrixp2",
+          "as_of": "2032-04-16T15:00:00-05:00",
+          "label": "listing-reported"
+        },
+        {
+          "field": "disclosures",
+          "value": "Disclosure not yet received; request current copy",
+          "source": "matrixp2",
+          "as_of": "2032-04-16T15:00:00-05:00",
+          "label": "listing-reported"
+        }
+      ],
+      "concerns": [
+        {
+          "text": "HOA status and roof age are unresolved; do not assume no dues or a recent roof.",
+          "label": "unknown",
+          "source": "matrixp2"
+        }
+      ],
+      "agent_intel": "No direct agent response.",
+      "gaps": [
+        "HOA status",
+        "Roof age",
+        "Current disclosure"
+      ],
+      "showings": [
+        {
+          "status": "requested",
+          "date": "2032-04-18",
+          "start": "11:00",
+          "end": "11:30",
+          "source": "booking",
+          "as_of": "2032-04-16T15:00:00-05:00"
+        }
+      ]
+    }
+  ],
+  "tour_order": [
+    "p1",
+    "p2"
+  ],
+  "buyer": {
+    "id": "SYNTHETIC-BUYER-01",
+    "name": "Morgan Ellis",
+    "identity_source": "relationship",
+    "why_now": "Lease ends this summer (reported).",
+    "priorities": [
+      "Two-car garage",
+      "Usable kitchen",
+      "Three bedrooms"
+    ],
+    "tradeoffs": "Cosmetic work acceptable; verify basement condition.",
+    "decision_makers": "Morgan decides; lender unknown.",
+    "financing": "Preapproval reported; letter unreviewed.",
+    "comfortable_budget": "Comfortable up to $600,000",
+    "lender_approval": "approval maximum unknown",
+    "latest_event": "Apr 16 buyer message: compare these two homes.",
+    "preferred_channel": "SMS",
+    "allowed_channels": [
+      "sms"
+    ],
+    "opted_out": [],
+    "channel_note": "Sample permits SMS; check current opt-outs.",
+    "automation_overlap": "Synthetic snapshot shows an active automated nurture; check for conflicting messages before any personal send."
+  },
+  "document_check": {
+    "status": "unknown",
+    "display": "Verify current requirements and executed originals before touring.",
+    "requirements_source": "requirements",
+    "original_source": null,
+    "verification": null
+  },
+  "crm_snapshot": {
+    "buyer_id": "SYNTHETIC-BUYER-01",
+    "source": "relationship",
+    "note_hashes": [],
+    "task_hashes": []
+  },
+  "search": {
+    "buyer_id": "SYNTHETIC-BUYER-01",
+    "id": "SYNTHETIC-ALERT-01",
+    "criteria": {
+      "garage_min": 1,
+      "condition": "cosmetic work acceptable",
+      "preferences": "outdoor space flexible"
+    },
+    "alert_status": "Active (synthetic)",
+    "frequency": "Daily (synthetic)",
+    "client_link": null
+  },
+  "route_note": "Example Ridge first, Sample Lane second; proposed sequence, travel time not verified.",
+  "calendar": {
+    "coverage": "incomplete",
+    "coverage_note": "Calendar coverage is incomplete; reconcile other commitments before confirming a route."
+  },
+  "links": {
+    "roadmap_print": "https://drive.google.com/file/d/1kPLsn0ymHcnOyC8s5q4oAB8GNvM9yJvD/view",
+    "roadmap_mobile": "https://drive.google.com/file/d/1N6R2bDMPEU6lq1uKnabYZWK3k3r4xJ4g/view",
+    "offer_strategy": "https://docs.google.com/presentation/d/1Swx35VkVNiq6sJhrjTzY2xGLf1zYYbuLqoGqiSj0wyY/edit"
+  }
+}

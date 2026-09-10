@@ -464,6 +464,13 @@ until a named precondition clears.
 - **VERIFICATION** — Synthetic missing-both/start-only/end-only cases reproduced the defect before the patch; regression tests cover rejection before directory creation and exact explicit-time preservation.
 - **DISPOSITION** — Correction implemented under the owner's bounded closeout instruction. Use Git merge history and the canonical source-bundle manifest for delivery status. Real case records remain outside the repository.
 
+### IF-2026-09-09-002 — Showing notes need evidence distinctions at generation
+
+- **OBSERVED GAP** — The current Padfolio and Buyer Lifecycle define the showing/debrief boundaries, but the checked repository had no production generator enforcing property-bound observations, confirmed criteria and booking-versus-attendance state.
+- **CHANGE** — Added the owner-requested showing production companion with exact transcript quotations, separate evidence labels, field-level proposals, genuine attendance evidence and duplicate checks. Reused approved visual assets and the five-section scope.
+- **VERIFICATION** — Synthetic tests exercise wrong-target evidence, provisional criteria, booking/attendance confusion, source conflicts, channel restrictions and duplicate closeout. Render checks cover the print/phone outputs; a live pilot is not claimed.
+- **DISPOSITION** — Implementation is for owner review. Proposed Source Map, Buyer Lifecycle and personal-guide pointers remain in production/showing-tour/WORK-REVIEW-PATCH.md for Work review; no business-policy promotion occurred.
+
 ## 5. Findings closed
 
 | ID | Resolution | Date |
