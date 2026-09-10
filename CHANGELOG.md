@@ -6,6 +6,12 @@ Improvement Findings.
 
 ---
 
+## [Transaction Operations v1 — private review] — 2026-09-09
+
+- Added the agent-operated accepted-contract start/update companion: source-bound obligations, explicit execution coverage, deadline arithmetic without defaults, actual ownership, separate recipient drafts and minimal field/filing proposals.
+- Added fictional PDF source packs, buyer/seller and amendment/missing-evidence/human-verification demonstrations, regression tests, private print/phone generation and a portable source bundle builder. Approved shared renderer, typography and assets remain unchanged.
+- Corrected stale transaction-wrapper Calendar/provider-hop wording to the current Runbook. Governing companion/Workbench additions remain proposed; no live record, contract, send, Calendar, monitor, payment or scheduling effect. Delivery record and review PR determine actual committed/filed status; live end-to-end use is not demonstrated.
+
 ## [Showing & Tour Experience v1 review] — 2026-09-09
 
 - Focused review corrections: keep each property's fit, response and disposition separate; explicitly scope recommendations/commitments; preserve booking slots alongside reported attendance and actual times; use plain-English reading labels. Proposed everyday entry starts in the buyer's Workbench under Blaise RE — Buyers. Same review PR and Drive IDs; no governing promotion.
