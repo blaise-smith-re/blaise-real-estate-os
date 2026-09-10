@@ -515,3 +515,25 @@ application inventory verified. Owner-approved offline access, bounded rotation
 and only the `offline_access` scope were subsequently applied and live renewal
 verified. Historical Google 401 cause remains unresolved; separate infrastructure
 review, no merge or governing promotion.
+
+## IF-2026-09-10-LE01 — Research freshness and cross-lane pursuit must be distinct
+
+- **TRIGGER** — Live Lead Engine review encountered a stale FSBO/sold conflict and a builder relationship sharing a professional contact with a speculative host listing.
+- **OBSERVED GAP** — A fresh retrieval can conceal an older source observation; grouping person and property status together can incorrectly suppress a useful professional relationship.
+- **CHANGE** — Preserve observation versus retrieval versus meaningful-event dates, suppress exact-identity status conflicts, and adjudicate shared professional pursuit after property validation. Reject weak host candidates rather than using asking price as buyer-fit evidence.
+- **VERIFICATION** — Focused tests cover old crawl times, adverse/malformed duplicates, within-candidate status conflicts, cross-lane pursuit and shared do-not-contact suppression. Live host scored 41.5 and was excluded at the 55 floor.
+- **DISPOSITION** — Implemented for review in production/lead-engine; no governing promotion or certification change. Work should evaluate the live slate before adopting ranking defaults.
+
+## IF-2026-09-10-LE02 — Research infrastructure must not inflate business opportunity counts
+
+- **FOLLOW-UP VERIFICATION** — Accepted MCP/OS auth fixes merged; a fresh trusted-workspace process initializes all 38 tools. The completed exact read is reconciled as zero bounded matches, not proof of global absence. Existing private board/checkpoint retained without new Matrix research or score inflation; final Work release review remains.
+
+- **TRIGGER** — Owner review rejected a demonstration with zero seller/host opportunities and five professional/service relationships.
+- **OBSERVED GAP** — Authentication could stall property research; a read-only-prefix assumption hid an existing exact-read route; generic contact holds obscured event participation; service readiness could appear to satisfy a sales count.
+- **CHANGE** — Task-local browser resume, restricted full-server read facade, source-backed host cases, opportunity classes and action-specific participation checks.
+- **VERIFICATION** — Fourteen correction tests plus 29 existing family tests pass. Live Matrix research supports two seller cases and two host proposals; relists and weak signals are excluded at the unchanged floor. Authentication is distinguished from full-server scope and lookup success.
+- **DISPOSITION** — Implemented for continued review on PR #6; no governing promotion, release or certification expansion. Work/owner must assess recurring business usefulness. Private review evidence records the final FUB state.
+
+### IF-2026-09-10-LE02 — Release disposition, 2026-09-10
+
+Blaise authorized the final PR #6 release path after the supported seller/host demonstration and completed bounded relationship lookup. The research snapshot and source timestamps remain unchanged; the relationship reconciliation does not inflate scores or remove contact gates. Released for agent-operated research/prep after relevant validation; recurring conversion effectiveness remains a business outcome to evaluate. No governing promotion or certification expansion.

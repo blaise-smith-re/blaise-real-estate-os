@@ -420,3 +420,33 @@ no secret-based Codex configuration is proposed.
 **Boundary.** This narrows connection topology only. The full tool allowlist and existing
 write controls are unchanged; Lead Engine may use only its exact read facade. No business
 policy, canonical source, schedule, client record or Lead Engine PR #6 is modified.
+
+## D-031 — Lead research is task-local evidence and preparation
+
+**Date** 2026-09-10 · **Status** IMPLEMENTED FOR REVIEW under the owner's Lead Engine v1 build brief
+
+**Decision.** Add a bounded agent-operated production companion for seller, open-house host and professional relationship opportunities. Supported host tools acquire current permitted observations; pure code normalizes, deduplicates, explains scores and prepares a small board. Source failures reduce coverage instead of triggering scraping fallbacks or synthetic replacements. General research stays outside FUB and Git. Exact shortlist lookup reuses the existing read adapter; later selected-person maintenance belongs to lead-conversion-crm.
+
+**Evidence boundary.** Public publisher claims stay attributed; freshness tracks source observation and meaningful events separately. A reviewed contact gate is per-target/per-channel and never sends. Outcome aggregation uses actual downstream evidence without inferred funnel transitions. Production has no crawler, persistent candidate store, writer, schedule or Operations Bus.
+
+**Ownership and release.** Work owns business criteria, value strategy and contact review; Codex owns implementation and supported research execution; Blaise owns pursuit and conversations. This implements the later explicit OpenAI-first owner direction without reviving old provider ownership. The thin repository skill is available for Codex; the Growth & Marketing Work pointer is proposed, not installed. Existing production families, source registry and governing bodies remain unchanged. No certification expansion; owner review and passing applicable merge requirements still apply.
+
+## Lead Engine v1 production-readiness correction
+
+**Integration update.** Work accepted durable FUB authentication and authorized MCP PR #5 then OS PR #7 merges. Lead Engine incorporates the new main and reconciles the completed bounded no-match result in private review evidence. This does not approve Lead Engine release, change contact authority or establish global CRM nonexistence. Saved Matrix observations and original ranking are retained.
+
+**Date** 2026-09-10 · **Status** IMPLEMENTED FOR CONTINUED REVIEW; NOT APPROVED FOR RELEASE
+
+**Decision.** Preserve the accepted architecture and PR #6 while making authenticated property research resumable within one private run. Keep completed public research and query position through login/MFA. Use supported browser controls and displayed criteria; TNAFS is not a Withdrawn alias.
+
+**Business truth.** Separate MONEY NOW, PIPELINE and NETWORK / KNOWLEDGE; service readiness never fills a sales-opportunity quota. Hosts require cited business cases. Public networking participation prerequisites are separate from cold-contact eligibility. Research executes no action.
+
+**Integration.** The existing full FUB connection may expose a restricted exact-read facade. Authentication scope and effect authority remain separate. Preserve app/configuration; no broad discovery, new connection or writer. Distinguish auth callback success from actual read results.
+
+**Evidence and boundary.** Repeat Matrix research supports two seller cases and two host proposals plus one pipeline relationship. Private evidence records qualifications, relist exclusions, source restrictions and final lookup state. Released families and governing sources remain unchanged. No certification expansion, release, merge, installation, operational write, spending, outreach or schedule.
+
+## Lead Engine v1 release
+
+**Date** 2026-09-10 · **Status** OWNER-AUTHORIZED RELEASE
+
+Blaise directed completion of the final release path for PR #6 after accepting durable FUB authentication. Release the reviewed agent-operated research/preparation family on current main; preserve the saved Matrix checkpoint and reconcile the completed bounded no-match lookup. This changes software release status only. Governing pointers remain proposals; no Work project setting, outbound authority, FUB writer, schedule or automatic service is installed. Relevant family/runtime checks and portable verification apply; the eight previously reproduced repository static failures remain disclosed in the release record.

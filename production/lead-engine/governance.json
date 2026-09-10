@@ -1,0 +1,16 @@
+{
+  "status": "IMPLEMENTATION FOR REVIEW — no governing promotion",
+  "sources": {
+    "business_operating_manual": "1YxG991_SXW8QTQvK_G1tOsd6il1mWzqdmVcnLwFFcX8",
+    "canonical_source_map": "1UU8eQOElu388w2FA2gPJCMOKP7_EvQRNoPUthxc1_wg",
+    "ai_execution_runbook": "1pFUdBNfbPLBYSkyKj0_25wC6RuP6VKO1WnkOZ1EudJw",
+    "growth_brand_engine_sop": "1HTnA5_pUCpi2y1wVOCBVjM-U1baaGGE3G_DdwBEsIl4",
+    "lead_conversion_sop": "1sBp77Ur1XS0vmon3IucNj_jfTEH49HeGZZdbfl8ilEk",
+    "outreach_playbook": "1983apvmU9Xt81qmT9yQqxT6C_i2MXRQ9_nmGlfZtdL4",
+    "brand_client_experience_blueprint": "1VxOR63FsLfTUPBNfO-cqSDL6oltpNAPmF0oUq1n7z1s"
+  },
+  "conditional_sources": {
+    "matrix_northstar_runbook": "17qIs8zxzXmph_bNewELNtiYKMjpH_GEggDeBbtPWSQc"
+  },
+  "note": "Stable pointers verified through the owner's current source registry and live Drive retrieval. No bodies cached. Current Source Map resolves drift; audit and later owner decisions retain precedence. The GitHub root registry is older than the current owner-supplied workspace registry. Do not revive its stale provider ownership or promote this companion into policy."
+}
