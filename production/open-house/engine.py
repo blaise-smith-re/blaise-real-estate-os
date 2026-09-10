@@ -212,7 +212,7 @@ def prepare(path,out,node,render=True):
 def main():
     p=argparse.ArgumentParser(description='Codex-operated Open House Experience production')
     sub=p.add_subparsers(dest='cmd',required=True)
-    a=sub.add_parser('init');a.add_argument('--address',required=True);a.add_argument('--mls',required=True);a.add_argument('--agent',required=True);a.add_argument('--date',required=True);a.add_argument('--start',default='13:00');a.add_argument('--end',default='15:00');a.add_argument('--case',required=True)
+    a=sub.add_parser('init');a.add_argument('--address',required=True);a.add_argument('--mls',required=True);a.add_argument('--agent',required=True);a.add_argument('--date',required=True);a.add_argument('--start',required=True);a.add_argument('--end',required=True);a.add_argument('--case',required=True)
     a=sub.add_parser('build');a.add_argument('--input',required=True);a.add_argument('--out',required=True);a.add_argument('--node',required=True)
     args=p.parse_args()
     if args.cmd=='init':

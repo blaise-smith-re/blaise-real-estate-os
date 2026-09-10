@@ -356,6 +356,14 @@ Blaise's responsibility.
 state and activation sequence are explicit in `docs/AUTOMATION-ACTIVATION-PLAN.md`; no gate by itself
 grants a new effect class.
 
+## D-028 — Open-house intake requires explicit event hours
+
+**Date** 2026-09-09 · **Status** ACCEPTED
+
+**Decision.** Remove implicit start/end values from the open-house CLI and blank intake. Each case supplies its own proposed or verified hours; supplying hours does not confirm the event or authorize release.
+
+**Scope.** Narrow correction under the owner's production-closeout instruction. Approved designs and existing cases are unchanged. Git history and the canonical source-bundle manifest record delivery; supplying hours never authorizes public release.
+
 ## D-027 — Owner authorizes all bounded FUB internal maintenance
 
 **Date** 2026-09-04 · **Status** ACCEPTED · **Supersedes** D-018 and D-023

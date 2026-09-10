@@ -8,8 +8,8 @@
   },
   "event": {
     "date": null,
-    "start": "13:00",
-    "end": "15:00",
+    "start": null,
+    "end": null,
     "timezone": "America/Chicago",
     "confirmed": false,
     "preview_event_copy": false

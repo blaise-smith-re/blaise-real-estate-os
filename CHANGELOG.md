@@ -6,6 +6,11 @@ Improvement Findings.
 
 ---
 
+## [Open House Explicit Event Hours] — 2026-09-09
+
+- Removed implicit event hours from open-house intake: both CLI times are required and blank-template times are null.
+- Added synthetic CLI regression coverage for missing times, exact supplied times and unconfirmed event state. No rendering, design, property-data or business-system change.
+
 ## [FUB Read + Internal Write Activation] — 2026-09-04
 
 - Enabled both deployed FUB MCP services in project Codex configuration: six-tool least-privilege
