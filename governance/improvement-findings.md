@@ -457,6 +457,13 @@ until a named precondition clears.
   six read tools. Live six-operation invocation and combined-pilot evidence remain pending; this
   finding is no longer the connector-build blocker.
 
+### IF-2026-09-09-001 — Open-house intake silently supplied event hours
+
+- **OBSERVED ISSUE** — `engine.py init` accepted omitted start/end arguments and copied fixed hours into a new case; `templates/case.blank.json` also contained those hours. This contradicted the case-specific proposed-date/time workflow.
+- **CHANGE** — Require both CLI times and keep blank-template times null. Preserve explicit values and the unconfirmed event state. No design, source-system or business-policy change.
+- **VERIFICATION** — Synthetic missing-both/start-only/end-only cases reproduced the defect before the patch; regression tests cover rejection before directory creation and exact explicit-time preservation.
+- **DISPOSITION** — Correction implemented under the owner's bounded closeout instruction. Use Git merge history and the canonical source-bundle manifest for delivery status. Real case records remain outside the repository.
+
 ## 5. Findings closed
 
 | ID | Resolution | Date |

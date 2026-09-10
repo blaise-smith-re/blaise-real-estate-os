@@ -17,6 +17,8 @@ Use the bundled Python/Node returned by Codex's dependency loader; Python needs 
 
 Every build uses a fresh output directory. `init` creates a valid blank intake and explicit research state; it does not fabricate a completed event package from four fields. Continue with the agent workflow automatically within the task. The build performs validation, image selection/crops, portrait rotation, two print PDFs, eight individual social assets, digital Host Brief and seven operational documents, provenance/release state and filing manifest. No board by default. No live connector mutation is implemented.
 
+Both `--start` and `--end` are required for `init`; the command's example hours are not defaults. Missing hours remain null in the blank template, and supplied hours do not confirm an event.
+
 ## Output separation
 - `output/print`: exactly handout + sign-in PDFs/HTML; only these are custom print pieces.
 - `output/social`: eight individual digital assets; their PNG exports are in previews. Still-image Reel cover plus separate shot plan, not a rendered video.

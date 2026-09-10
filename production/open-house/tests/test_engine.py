@@ -1,4 +1,4 @@
-import copy,hashlib,json,sys,tempfile,unittest
+import copy,hashlib,json,subprocess,sys,tempfile,unittest
 from pathlib import Path
 from PIL import Image
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
@@ -59,6 +59,24 @@ class ProductionRules(unittest.TestCase):
             results=media.ingest(p/'download.json',p/'case');self.assertEqual(len(results),1);self.assertEqual(results[0]['sha256'],before);self.assertEqual(engine.digest(p/'test.jpg'),before)
     def test_blank_case_has_no_pilot_facts(self):
         c=engine.read(engine.ROOT/'templates/case.blank.json');self.assertIsNone(c['property']['price']);self.assertIsNone(c['identity']['address']);self.assertFalse(c['event']['confirmed']);self.assertEqual(c['media']['candidates'],[])
+        self.assertIsNone(c['event']['start']);self.assertIsNone(c['event']['end'])
+    def test_init_requires_each_event_time_without_creating_case(self):
+        for times in [[],['--start','11:15'],['--end','14:45']]:
+            with self.subTest(times=times), tempfile.TemporaryDirectory() as d:
+                target=Path(d)/'synthetic-case'
+                result=subprocess.run([sys.executable,str(engine.ROOT/'engine.py'),'init','--address','100 Synthetic Way','--mls','SYNTHETIC','--agent','Example Agent','--date','2032-04-18','--case',str(target),*times],capture_output=True,text=True)
+                self.assertEqual(result.returncode,2,result.stderr)
+                for flag in ['--start','--end']:
+                    if flag not in times:self.assertIn(flag,result.stderr)
+                self.assertFalse(target.exists(),'Incomplete hours must not create a case')
+    def test_init_preserves_explicit_hours_without_confirming_event(self):
+        with tempfile.TemporaryDirectory() as d:
+            target=Path(d)/'synthetic-case'
+            result=subprocess.run([sys.executable,str(engine.ROOT/'engine.py'),'init','--address','100 Synthetic Way','--mls','SYNTHETIC','--agent','Example Agent','--date','2032-04-18','--start','11:15','--end','14:45','--case',str(target)],capture_output=True,text=True)
+            self.assertEqual(result.returncode,0,result.stderr)
+            event=engine.read(target/'case.json')['event']
+            self.assertEqual((event['start'],event['end']),('11:15','14:45'))
+            self.assertFalse(event['confirmed']);self.assertFalse(event['preview_event_copy'])
     def test_invalid_blank_cannot_publish(self):
         with self.assertRaises(ValueError):engine.validate_case(engine.read(engine.ROOT/'templates/case.blank.json'))
 if __name__=='__main__':unittest.main()
