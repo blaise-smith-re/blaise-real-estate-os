@@ -364,6 +364,16 @@ grants a new effect class.
 
 **Scope.** Narrow correction under the owner's production-closeout instruction. Approved designs and existing cases are unchanged. Git history and the canonical source-bundle manifest record delivery; supplying hours never authorizes public release.
 
+## D-030 — Accepted-contract preparation uses controlling originals and actual ownership
+
+**Date** 2026-09-09 · **Status** IMPLEMENTED FOR REVIEW under the owner's accepted-contract build instruction
+
+**Decision.** Add a reusable private Transaction Start/Update production companion under the existing Transaction Operations Runbook. The everyday entry is the exact client's transaction Workbench under **Blaise RE — Sellers & Transactions**, with Work retaining business context and Codex providing production when needed. Direct Codex remains available. Complete original evidence or explicit original-source human verification controls; source-read, human-verified, reported, derived and unknown states remain distinct. Preserve executed amendment chronology and actual specialist ownership; never make a later draft controlling or create duplicate Blaise work.
+
+**Focused review correction (2026-09-10).** Distinguish the public affiliation (Buy Sell Home Team · RE/MAX Results) from the legal brokerage (Collopy Real Estate, Inc. d/b/a RE/MAX Results), with attributed current input and no cross-context fallback. Client actions are role-specific and separate from milestone awareness. Human views distinguish contract responsibility from follow-through and identify client/party roles; seller-side deposit work is visibility/confirmation through the buyer’s team. These accepted corrections are implemented in the existing review branch; governing additions remain proposed.
+
+**Boundary.** The owner authorized implementation, fictional testing, a pushed dedicated branch, one unmerged review PR and private Drive review delivery. Governing additions remain proposed. This is no parallel transaction database, permanent contract abstract, scheduler or live business-system writer. It does not modify approved Showing & Tour, open-house/Lever, Roadmaps or Property & Offer Strategy. No new certification gate applies to ordinary client work.
+
 ## D-029 — Showing production follows the existing private Padfolio master
 
 **Date** 2026-09-09 · **Status** IMPLEMENTED FOR REVIEW under the owner's build brief

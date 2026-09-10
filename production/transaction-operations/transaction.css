@@ -1,0 +1,16 @@
+/* Extends the existing approved Padfolio family; that source remains unchanged. */
+.transaction .lead{font-size:20px;font-weight:600;line-height:1.25;margin-bottom:6px}
+.transaction .content{flex:0 0 auto}.transaction .content>section{break-inside:avoid}
+.transaction .source{font-size:12px;color:var(--muted);margin-top:4px}
+.transaction .obligation h2{border:0;margin:0;padding:0}
+.transaction .obligation{border-bottom:1px solid var(--line);padding-bottom:7px}
+.transaction footer{min-height:36px;flex-shrink:0}
+.print .transaction{padding:26px 42px 22px;position:relative}
+.print .transaction footer{position:absolute;left:42px;right:42px;bottom:22px}
+.print .transaction .title{padding:15px 0}
+.print .transaction .content{padding-bottom:50px}
+.phone .transaction .lead{font-size:23px;line-height:1.35}
+.phone .transaction .source{font-size:15px;line-height:1.4}
+.phone .transaction .obligation{padding-bottom:20px}
+.phone .transaction .content{padding:0}.phone .transaction footer{position:static}
+.phone .transaction header .kicker{font-size:10px}

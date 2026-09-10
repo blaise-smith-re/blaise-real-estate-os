@@ -472,6 +472,21 @@ until a named precondition clears.
 - **FOCUSED REVIEW CORRECTION** — The first renderer repeated a property-specific recommendation across the tour and displayed only the latest appointment event. Separate booking/attendance views, explicit action scopes and property-specific fit/disposition correct those defects. Human labels and consolidated badges improve reading without changing exact technical fields or hiding uncertainty. Eleven additional regression tests cover the corrected behavior; Workbench-first wording remains proposed for Work review.
 - **DISPOSITION** — Implementation is for owner review. Proposed Source Map, Buyer Lifecycle and personal-guide pointers remain in production/showing-tour/WORK-REVIEW-PATCH.md for Work review; no business-policy promotion occurred.
 
+### IF-2026-09-09-TX-001 — Evidence chronology and task-local transaction preparation
+
+- **OBSERVED GAP** — No accepted-contract production companion existed in the checked repository. The existing transaction wrapper also retained stale text making Calendar control contract deadlines and requiring a provider hop despite current Runbook source rules.
+- **CHANGE** — Added the owner-requested private start/update artifact workflow, evidence checks and fictional demonstrations. Corrected only the stale wrapper routing/authority wording; retained its tool grants. The new generator preserves executed predecessors, unknown times and actual TC completion instead of silently selecting drafts or duplicating work.
+- **VERIFICATION** — Focused tests cover source mismatch, incomplete execution, human verification, deadline arithmetic/DST, amendment conflicts, receipt ownership, confidentiality and repeat processing. Actual print/phone rendering and portable regeneration are part of the separate review delivery record.
+- **DISPOSITION** — Review implementation only. Governing production pointers remain proposed in `production/transaction-operations/WORK-REVIEW-PATCH.md`. No live end-to-end or runtime deployment claim.
+- **PORTABLE READBACK CORRECTION** — Fresh bundle regeneration exposed a Windows default-encoding conversion in a date separator. Restored UTF-8 source text and added exact Unicode/PDF text checks. Compare actual PDF pixels as well as layout bounds before treating a portable rebuild as equivalent.
+
+### IF-2026-09-10-TX-002 — Contextual identity and recipient ownership
+
+- **OBSERVED GAP** — Transaction presentation hard-coded a stale brokerage; one open-milestone introduction implied client action regardless of represented side, and party owners appeared under an operational-owner label.
+- **CHANGE** — Resolve separately attributed public/legal identity, reject cross-context substitutes, require explicit supported client actions, filter specialist lanes and display human party roles. Correct only the seller example’s buyer-deposit visibility wording; preserve original evidence, deadline engine and approved styles.
+- **VERIFICATION** — Focused tests exercise stale/public-in-legal rejection, buyer/seller action isolation, supported access without an inferred buyer deadline, specialist lanes and exact private owner fields. Same-ID review artifacts and source bundle receive regenerated print/phone outputs with independent readback. The delivery record holds actual results.
+- **DISPOSITION** — Implemented for focused review in PR #5, unmerged. No governing promotion, live client use, runtime activation or new certification gate.
+
 ## 5. Findings closed
 
 | ID | Resolution | Date |

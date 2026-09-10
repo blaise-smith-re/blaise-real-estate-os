@@ -1,0 +1,25 @@
+{
+  "status": "IMPLEMENTED FOR REVIEW — governing additions proposed, not applied",
+  "version": "1.0.0-review",
+  "everyday_entry": "Client transaction Workbench under Blaise RE — Sellers & Transactions",
+  "source_ids": {
+    "business_operating_manual": "1YxG991_SXW8QTQvK_G1tOsd6il1mWzqdmVcnLwFFcX8",
+    "canonical_source_map": "1UU8eQOElu388w2FA2gPJCMOKP7_EvQRNoPUthxc1_wg",
+    "ai_execution_runbook": "1pFUdBNfbPLBYSkyKj0_25wC6RuP6VKO1WnkOZ1EudJw",
+    "transaction_operations_runbook": "1qrVCQFsp5niiyJlIW3lz6i9nmmMUhwg7o8qVk-HivLk",
+    "click_contracts_runbook": "1c2zCS--YaiQ2pRd9clgeJFhFlVgSe1sIdTULH5eN7ow",
+    "fub_runbook": "1dR1lv1VWfvzmozPo-rX7sbbZ_kWvuWSAzTCNvWMKWos",
+    "personal_operator_guide": "1Evf9ulfBkrCR8lTXY_fHExb77ON3NiFHHtERvGEA0H4",
+    "brand_client_experience_blueprint": "1VxOR63FsLfTUPBNfO-cqSDL6oltpNAPmF0oUq1n7z1s"
+  },
+  "live_end_to_end_demonstrated": false,
+  "source_system_writes": false,
+  "calendar_mutation": false,
+  "background_monitoring": false,
+  "identity_guard": {
+    "public_affiliation": "Buy Sell Home Team · RE/MAX Results",
+    "legal_brokerage": "Collopy Real Estate, Inc. d/b/a RE/MAX Results",
+    "authority": "Owner-confirmed contextual identity correction; public affiliation also confirmed by current Business Operating Manual",
+    "purpose": "Validate task-local resolved identity; this is not a cached Drive body or proof of an executed contract entity."
+  }
+}

@@ -6,6 +6,18 @@ Improvement Findings.
 
 ---
 
+## [Transaction Operations v1 — focused review corrections] — 2026-09-10
+
+- Resolved public and legal brokerage identity separately from attributed task-local governing inputs; added guards against stale affiliation and team-name substitution in formal fields. Original evidence remains unchanged.
+- Made client drafts action/awareness and represented-role specific; kept specialists within their lanes. Human print/phone ownership labels distinguish contractual responsibility, follow-through, party role and assignment state. Seller example requests buyer-team deposit status instead of assigning buyer administration to Blaise.
+- Added focused regressions and PDF checks; refreshed the same synthetic review package/source bundle. PR #5 stays unmerged and governing additions proposed. Approved styling, executed-source/deadline logic and all released production families are unchanged. Actual commit and Drive readback are recorded with the review delivery.
+
+## [Transaction Operations v1 — private review] — 2026-09-09
+
+- Added the agent-operated accepted-contract start/update companion: source-bound obligations, explicit execution coverage, deadline arithmetic without defaults, actual ownership, separate recipient drafts and minimal field/filing proposals.
+- Added fictional PDF source packs, buyer/seller and amendment/missing-evidence/human-verification demonstrations, regression tests, private print/phone generation and a portable source bundle builder. Approved shared renderer, typography and assets remain unchanged.
+- Corrected stale transaction-wrapper Calendar/provider-hop wording to the current Runbook. Governing companion/Workbench additions remain proposed; no live record, contract, send, Calendar, monitor, payment or scheduling effect. Delivery record and review PR determine actual committed/filed status; live end-to-end use is not demonstrated.
+
 ## [Showing & Tour Experience v1 review] — 2026-09-09
 
 - Focused review corrections: keep each property's fit, response and disposition separate; explicitly scope recommendations/commitments; preserve booking slots alongside reported attendance and actual times; use plain-English reading labels. Proposed everyday entry starts in the buyer's Workbench under Blaise RE — Buyers. Same review PR and Drive IDs; no governing promotion.
