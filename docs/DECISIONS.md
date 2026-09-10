@@ -402,3 +402,13 @@ adapter; shared team configuration remains outside this grant.
 `INTERNAL_WRITE/WRITE_INTERNAL`. One event permits at most two FUB writes and one appointment record,
 with zero external messages and zero money movement. Live restart and a practical smoke remain; no
 additional per-tool certification sequence blocks ordinary use.
+
+## D-031 — Lead research is task-local evidence and preparation
+
+**Date** 2026-09-10 · **Status** IMPLEMENTED FOR REVIEW under the owner's Lead Engine v1 build brief
+
+**Decision.** Add a bounded agent-operated production companion for seller, open-house host and professional relationship opportunities. Supported host tools acquire current permitted observations; pure code normalizes, deduplicates, explains scores and prepares a small board. Source failures reduce coverage instead of triggering scraping fallbacks or synthetic replacements. General research stays outside FUB and Git. Exact shortlist lookup reuses the existing read adapter; later selected-person maintenance belongs to lead-conversion-crm.
+
+**Evidence boundary.** Public publisher claims stay attributed; freshness tracks source observation and meaningful events separately. A reviewed contact gate is per-target/per-channel and never sends. Outcome aggregation uses actual downstream evidence without inferred funnel transitions. Production has no crawler, persistent candidate store, writer, schedule or Operations Bus.
+
+**Ownership and release.** Work owns business criteria, value strategy and contact review; Codex owns implementation and supported research execution; Blaise owns pursuit and conversations. This implements the later explicit OpenAI-first owner direction without reviving old provider ownership. The thin repository skill is available for Codex; the Growth & Marketing Work pointer is proposed, not installed. Existing production families, source registry and governing bodies remain unchanged. No certification expansion; owner review and passing applicable merge requirements still apply.

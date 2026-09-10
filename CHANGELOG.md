@@ -6,6 +6,14 @@ Improvement Findings.
 
 ---
 
+## [Lead Engine v1 — private review] — 2026-09-10
+
+- Added `production/lead-engine`: bounded agent research adapters, attributed task-local candidate model, transparent ranking and exclusions, exact identity/shared-pursuit deduplication, held contact prep, selected-detail refresh and evidence-only outcome summaries.
+- Reused the existing runtime source/effect helpers and bounded FUB read adapter. Added a thin `.agents/skills/lead-engine` entry; proposed the Growth & Marketing Work pointer without editing governing sources or installing project settings.
+- Added 29 focused tests and a manifest-based portable bundle. Existing 40 runtime tests pass; the same eight static failures reproduce on untouched main (see `production/lead-engine/VALIDATION.md`). No certification expansion.
+- Live research attempted all three lanes. Five professional opportunities surfaced; authenticated seller access remains blocked and the inspected host candidate scored below the quality floor. All contact gates remain held; no FUB lookup was claimed and no outreach or live client-system change occurred.
+- Real candidate/evidence artifacts are private and outside Git. Existing released production families, registry and audit are unchanged. Dedicated review branch/PR remain subject to owner review; no merge or activation.
+
 ## [Transaction Operations v1 — focused review corrections] — 2026-09-10
 
 - Resolved public and legal brokerage identity separately from attributed task-local governing inputs; added guards against stale affiliation and team-name substitution in formal fields. Original evidence remains unchanged.

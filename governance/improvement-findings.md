@@ -497,3 +497,11 @@ until a named precondition clears.
 
 One finding per issue. Never edit a finding's ID. Update `DISPOSITION` in place and move the entry to
 section 5 with a resolution date when closed. Never delete a finding.
+
+## IF-2026-09-10-LE01 — Research freshness and cross-lane pursuit must be distinct
+
+- **TRIGGER** — Live Lead Engine review encountered a stale FSBO/sold conflict and a builder relationship sharing a professional contact with a speculative host listing.
+- **OBSERVED GAP** — A fresh retrieval can conceal an older source observation; grouping person and property status together can incorrectly suppress a useful professional relationship.
+- **CHANGE** — Preserve observation versus retrieval versus meaningful-event dates, suppress exact-identity status conflicts, and adjudicate shared professional pursuit after property validation. Reject weak host candidates rather than using asking price as buyer-fit evidence.
+- **VERIFICATION** — Focused tests cover old crawl times, adverse/malformed duplicates, within-candidate status conflicts, cross-lane pursuit and shared do-not-contact suppression. Live host scored 41.5 and was excluded at the 55 floor.
+- **DISPOSITION** — Implemented for review in production/lead-engine; no governing promotion or certification change. Work should evaluate the live slate before adopting ranking defaults.
