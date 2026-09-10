@@ -47,6 +47,7 @@ def check(out,render=False):
             require(len(reader.pages)==(1 if phone else 2),'expected final page count '+str(p))
             for index,page in enumerate(reader.pages):
                 text=page.extract_text();require('SYNTHETIC' in text and '870-692-2205' in text,'page label/contact')
+                require('\u00c2' not in text and '\u00c3' not in text,'PDF text encoding')
                 require('garage_min' not in text and 'owner_status' not in text,'human labels')
                 require(abs(float(page.mediabox.width)-(292.5 if phone else 612))<1,'actual PDF width')
                 if not phone:require(float(page.mediabox.height)==792,'actual Letter page')

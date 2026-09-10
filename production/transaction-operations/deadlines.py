@@ -54,6 +54,6 @@ def calculate(rule, anchors):
 def readable_due(due):
     if not due.get("date"): return "To verify"
     day=date.fromisoformat(due["date"]).strftime("%b %d, %Y")
-    if not due.get("at"):return day+" Â· time to verify"
+    if not due.get("at"):return day+" · time to verify"
     dt=timestamp(due["at"])
-    return day+" Â· "+dt.strftime("%I:%M %p").lstrip("0")+" "+dt.astimezone(ZoneInfo(due["timezone"])).tzname()
+    return day+" · "+dt.strftime("%I:%M %p").lstrip("0")+" "+dt.astimezone(ZoneInfo(due["timezone"])).tzname()

@@ -478,6 +478,7 @@ until a named precondition clears.
 - **CHANGE** — Added the owner-requested private start/update artifact workflow, evidence checks and fictional demonstrations. Corrected only the stale wrapper routing/authority wording; retained its tool grants. The new generator preserves executed predecessors, unknown times and actual TC completion instead of silently selecting drafts or duplicating work.
 - **VERIFICATION** — Focused tests cover source mismatch, incomplete execution, human verification, deadline arithmetic/DST, amendment conflicts, receipt ownership, confidentiality and repeat processing. Actual print/phone rendering and portable regeneration are part of the separate review delivery record.
 - **DISPOSITION** — Review implementation only. Governing production pointers remain proposed in `production/transaction-operations/WORK-REVIEW-PATCH.md`. No live end-to-end or runtime deployment claim.
+- **PORTABLE READBACK CORRECTION** — Fresh bundle regeneration exposed a Windows default-encoding conversion in a date separator. Restored UTF-8 source text and added exact Unicode/PDF text checks. Compare actual PDF pixels as well as layout bounds before treating a portable rebuild as equivalent.
 
 ## 5. Findings closed
 

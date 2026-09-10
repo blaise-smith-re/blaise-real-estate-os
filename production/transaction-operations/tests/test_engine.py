@@ -205,6 +205,9 @@ class TransactionTests(unittest.TestCase):
         self.assertNotIn('needed from our client',draft['body'])
 
 class DateTests(unittest.TestCase):
+    def test_readable_due_preserves_unicode_separator(self):
+        from deadlines import readable_due
+        self.assertEqual(readable_due({'date':'2026-10-16','at':None}),'Oct 16, 2026 \u00b7 time to verify')
     def setUp(self):
         self.anchors={"acceptance":{"at":"2026-09-04T15:00:00-05:00","verified":True}}
         self.rule={"type":"relative","days":3,"unit":"calendar","include_anchor":False,"anchor":"acceptance","time":"17:00","timezone":"America/Chicago","adjustment":"none"}
