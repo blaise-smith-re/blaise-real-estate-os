@@ -6,6 +6,14 @@ Improvement Findings.
 
 ---
 
+## [Lead Engine v1 — readiness correction, not released] — 2026-09-10
+
+- Added private Matrix pause/resume with displayed-criteria checks, preserved completed research and bounded idempotent observations. Documented the actual authenticated path and unsupported Withdrawn status.
+- Added MONEY NOW / PIPELINE / NETWORK / KNOWLEDGE classes and separate event participation prerequisites. Kept numerical ranking and cold-contact controls; host candidates need a cited business case.
+- Restored existing full-server exact-read routing through a restricted facade. Diagnosed authentication/profile and scope requirements without changing MCP configuration or the runtime write guard; final lookup state is explicit in the existing review package.
+- Repeated all live lanes: two seller cases, two host proposals and one pipeline relationship surfaced at the unchanged 55 floor. Active relists and weak signals were excluded. No operational writes, contact, registration or scheduling.
+- 43 focused and 40 runtime tests pass; inherited static failures remain. Same branch, PR #6 and private Drive package; no release or merge.
+
 ## [Lead Engine v1 — private review] — 2026-09-10
 
 - Added `production/lead-engine`: bounded agent research adapters, attributed task-local candidate model, transparent ranking and exclusions, exact identity/shared-pursuit deduplication, held contact prep, selected-detail refresh and evidence-only outcome summaries.

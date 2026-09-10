@@ -4,6 +4,10 @@ An agent-operated research and preparation companion. Start in **Blaise RE — G
 
 The engine returns a small ranked Opportunity Board, factual provenance, unknowns, value angles, contact holds, conditional prep and reasons for inclusion/exclusion. Five is a ceiling by default, not a quota. A source limitation or weak candidate reduces the slate.
 
+**Not approved for release.** Human cards distinguish **MONEY NOW** (plausible near-term seller/hosting business), **PIPELINE** (timely professional business context), and **NETWORK / KNOWLEDGE** (service readiness without a demand signal). Each retains the numerical score and evidence. Counts never present five service relationships as five sales opportunities.
+
+Authenticated property research now has a task-local checkpoint and explicit login/resume path: [BROWSER-RESUME.md](BROWSER-RESUME.md). Preserve completed research while Blaise authenticates. Exact shortlist-only CRM recovery uses the existing connection and adapter: [FUB-READ-RECOVERY.md](FUB-READ-RECOVERY.md).
+
 ## Run
 
 Requires Node.js 20+; no npm dependencies, database, API keys or daemon.
@@ -27,6 +31,8 @@ Outputs are UTF-8 Markdown, responsive self-contained HTML, JSON board and evide
 - `evidence.js`, `model.js`: source permission, timestamps, bounded excerpts, evidence categories, normalized identity and source-backed decisions.
 - `ranking.js`: adjustable explicit weights and penalties. See [SCORING.md](SCORING.md).
 - `gates.js`: current per-target/per-channel eligibility adjudication. Public details never establish consent.
+- `readiness.js`: opportunity classes and action-specific readiness. Public in-person events require registration, guest/membership eligibility, Blaise availability and spending review; attendance is not mislabeled as cold outreach. No action is executed.
+- `research-session.js`, `session-cli.js`: bounded pause/resume, displayed-criteria checks, retained result position and idempotent observations. No persistent service or scheduler.
 - `relationship.js`: reuses `runtime/adapters/fub-read.js` for a single exact shortlist-name lookup capped at three. Discovery is not identity proof. No FUB writes are exposed.
 - `detail.js`: binds rank to a saved board ID, rechecks eligibility after refresh and returns opener, 2–4 questions, one next commitment. Old prep is withdrawn when the refreshed candidate no longer qualifies.
 - `outcomes.js`: pure aggregation of evidence pointers; no transaction/financial ledger and no inferred funnel transitions.

@@ -412,3 +412,15 @@ additional per-tool certification sequence blocks ordinary use.
 **Evidence boundary.** Public publisher claims stay attributed; freshness tracks source observation and meaningful events separately. A reviewed contact gate is per-target/per-channel and never sends. Outcome aggregation uses actual downstream evidence without inferred funnel transitions. Production has no crawler, persistent candidate store, writer, schedule or Operations Bus.
 
 **Ownership and release.** Work owns business criteria, value strategy and contact review; Codex owns implementation and supported research execution; Blaise owns pursuit and conversations. This implements the later explicit OpenAI-first owner direction without reviving old provider ownership. The thin repository skill is available for Codex; the Growth & Marketing Work pointer is proposed, not installed. Existing production families, source registry and governing bodies remain unchanged. No certification expansion; owner review and passing applicable merge requirements still apply.
+
+## Lead Engine v1 production-readiness correction
+
+**Date** 2026-09-10 · **Status** IMPLEMENTED FOR CONTINUED REVIEW; NOT APPROVED FOR RELEASE
+
+**Decision.** Preserve the accepted architecture and PR #6 while making authenticated property research resumable within one private run. Keep completed public research and query position through login/MFA. Use supported browser controls and displayed criteria; TNAFS is not a Withdrawn alias.
+
+**Business truth.** Separate MONEY NOW, PIPELINE and NETWORK / KNOWLEDGE; service readiness never fills a sales-opportunity quota. Hosts require cited business cases. Public networking participation prerequisites are separate from cold-contact eligibility. Research executes no action.
+
+**Integration.** The existing full FUB connection may expose a restricted exact-read facade. Authentication scope and effect authority remain separate. Preserve app/configuration; no broad discovery, new connection or writer. Distinguish auth callback success from actual read results.
+
+**Evidence and boundary.** Repeat Matrix research supports two seller cases and two host proposals plus one pipeline relationship. Private evidence records qualifications, relist exclusions, source restrictions and final lookup state. Released families and governing sources remain unchanged. No certification expansion, release, merge, installation, operational write, spending, outreach or schedule.

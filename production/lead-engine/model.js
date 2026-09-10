@@ -33,6 +33,9 @@ function normalizeCandidate(raw, evidence) {
   }
   requireThat(Object.keys(raw.assessments).every(k=>ASSESSMENTS.includes(k)), 'Only permitted service scoring dimensions accepted');
   for (const k of ['why_blaise','value_angle']) { requireThat(raw[k]?.text, k+' required'); refs(raw[k].refs); }
+  if(raw.host_business_case){requireThat(raw.host_business_case.text,'Host business case needs an explanation');refs(raw.host_business_case.refs);}
+  if(raw.event_participation)refs(raw.event_participation.refs);
+  if(raw.next_research){requireThat(raw.next_research.text,'Next research step needs an explanation');refs(raw.next_research.refs);}
   requireThat(Array.isArray(raw.unknowns) && raw.unknowns.length <= 15, 'Material unknowns required');
   requireThat(raw.prep?.opener && Array.isArray(raw.prep.discovery) && raw.prep.discovery.length >= 2 && raw.prep.discovery.length <= 4 && raw.prep.next_commitment, 'Opener, 2–4 discovery points and one commitment required');
   const identity = normalized(raw.target_key);

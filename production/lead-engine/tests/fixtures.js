@@ -14,6 +14,7 @@ function fixture(lane='seller',n=1) {
     prep:{opener:'Conditional fictional coaching opener',discovery:['What outcome matters?','What would be useful?'],next_commitment:'Agree on one brief strategy discussion'}};
   facts.find(f=>f.id==='status').value=c.current_status.value;
   facts.find(f=>f.id==='event').value=c.latest_meaningful_event.at;
+  if(lane==='open-house'){facts.push({id:'host-fit',field:'market_position',text:'Fictional current market position supports comparing a host proposal',quote:'Status active',source:source.id,state:'reported'});c.host_business_case={text:'Fictional supported host fit',refs:['host-fit']};}
   return {mode:'synthetic',governance,request:{},sources:[source],candidates:[c],coverage:[{lane,attempt_status:'SYNTHETIC-ONLY'}]};
 }
 module.exports={NOW,fixture,governance};

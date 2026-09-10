@@ -39,3 +39,11 @@ For selected detail, pass a freshly researched pack and optional exact relations
 ## Outcome evidence
 
 `outcomes` reads a private array of evidence events with stage, candidate_id, lane, geography, signal_type, value_angle, source_name, occurred_at, and `evidence: {locator,record_id,system,verified_by,verified_at,classification:'verified'}`. Stages are exported in outcomes.js. Only a separately authorized financial source may support GCI amount/currency. A board artifact supports surfaced; it cannot support attempted, appointment, signed client or closing. Do not invent intermediate funnel steps. The output aggregates pointers and counts only; actual relationship, transaction and financial records remain in their owning systems.
+
+## Opportunity classes, action readiness and resume
+
+The engine derives `opportunity_class` and `class_counts`; callers cannot self-label a resource as MONEY NOW. Scores remain unchanged underneath the classification. Active host candidates require `host_business_case: {text, refs}` citing observed/reported facts with field `hosting_need`, `buyer_fit` or `market_position`. All refs must resolve; a mere active status is insufficient. Optional `next_research: {text, refs}` supplies a concrete source-backed first research step while outreach is held.
+
+`proposed_action` defaults to `cold-outreach`; the only other supported action is `public-event`. That action requires a professional `business-event`, a fact with field `public_in_person_event` and value `true`, and `event_participation: {refs}`. Participation checks are registration, membership_guest_eligibility, blaise_availability and spending_approval. A `participation_review` may resolve a check only with an exact target-bound, current verified `participation.<check>` evidence claim and reason. A source-reported ticket price is not spending approval. Unresolved prerequisites remain visible; executable is always false. The event's cold-contact state remains available separately for any later follow-up.
+
+See BROWSER-RESUME.md for task-local session/observation fields and commands. Checkpoints are private artifacts outside Git, not CRM records. Failed or incomplete queries do not erase completed research. Never store session-bearing URLs, OAuth material, full MLS pages, incidental public-record parties or private financial histories.

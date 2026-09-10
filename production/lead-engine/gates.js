@@ -25,8 +25,9 @@ function contactGate(c, evidence) {
   return {state:missing.length?'HOLD-VERIFY':'ELIGIBLE',label:missing.length?HOLD:'ELIGIBLE — prepare for Blaise review; research never authorizes send',missing,executable:false};
 }
 function firstMove(c) {
+  if(c.action_readiness?.action==='public-event') return 'Check registration, membership/guest eligibility, Blaise’s availability and any spending approval. If Blaise chooses to attend, prepare normal in-person introductions; no cold-call gate is required for attendance. Do not register, pay or add Calendar entries.';
   if (c.contact_eligibility.state === 'DO-NOT-CONTACT') return 'Do not contact. Suppress pursuit and retain only the minimal suppression evidence in the authorized system.';
-  if (c.contact_eligibility.state !== 'ELIGIBLE') return 'Research further: recheck the current source, resolve the exact relationship and contact gate. No cold outreach is executable.';
+  if (c.contact_eligibility.state !== 'ELIGIBLE') return (c.next_research?.text||'Recheck the current source and resolve the exact relationship.')+' Resolve the exact target/channel contact gate before any outreach. No cold outreach is executable.';
   return 'Prepare '+c.contact_review.channel+' for Blaise’s exact-action review; resolve current availability before making any promise.';
 }
 module.exports = { CHECKS, HOLD, contactGate, firstMove };

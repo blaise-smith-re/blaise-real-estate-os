@@ -5,6 +5,7 @@ const { LANES, normalizeCandidate, identityKeys } = require('./model');
 const { contactGate, firstMove } = require('./gates');
 const { rank } = require('./ranking');
 const { verifyGovernance } = require('./governance');
+const {CLASSES,classify,actionReadiness}=require('./readiness');
 const DEFAULT_GEOGRAPHY=[{city:'Woodbury',state:'MN'},{city:'Cottage Grove',state:'MN'},{city:'Lake Elmo',state:'MN'},{city:'Oakdale',state:'MN'},{city:'Maplewood',state:'MN'},{city:'Stillwater',state:'MN'},{city:'Afton',state:'MN'},{city:'Newport',state:'MN'},{city:'Saint Paul Park',state:'MN'}];
 function requestDefaults(r={}) {
   const result={geography:DEFAULT_GEOGRAPHY,lanes:LANES,limit:5,minimum_score:55,...r};
@@ -25,7 +26,8 @@ function buildBoard(pack, {now=new Date().toISOString(),synthetic=false}={}) {
     try {
       let c=normalizeCandidate(raw,evidence);
       if(!request.lanes.includes(c.lane)) continue;
-      c.contact_eligibility=contactGate(c,evidence); c.recommended_first_move=firstMove(c); c=rank(c,evidence,request);
+      c.contact_eligibility=contactGate(c,evidence); c.opportunity_class=classify(c,evidence.now);
+      c.action_readiness=actionReadiness(c,evidence); c.recommended_first_move=firstMove(c); c=rank(c,evidence,request);
       eligible.push(c);
     } catch(e) { rejected.push({target:raw.display_name||'Unnamed',reason:e.message}); if(raw.target_key) for(const key of identityKeys(raw)) unresolvedKeys.add(key); }
   }
@@ -47,6 +49,7 @@ function buildBoard(pack, {now=new Date().toISOString(),synthetic=false}={}) {
     else if(['sold','pending','unknown','off-market'].includes(c.current_status.value)) reason='No current qualifying opportunity status';
     else if(c.lane==='seller' && !['expired','canceled','withdrawn','fsbo'].includes(c.current_status.value)) reason='Seller signal does not match current status (possible relist)';
     else if(c.lane==='open-house'&&c.current_status.value!=='active') reason='Host opportunity requires active listing';
+    else if(c.lane==='open-house'&&!c.host_business_case?.refs?.some(id=>c.facts.some(f=>f.id===id&&['hosting_need','buyer_fit','market_position'].includes(f.field)&&f.state!=='inferred'))) reason='Host needs source-backed buyer fit, hosting need or market-position business case';
     else if(c.lane==='professional'&&c.current_status.value!=='operating') reason='Professional opportunity requires current operation';
     else if(!c.market_match) reason='Outside requested geography';
     else if(c.status_age_days>(c.lane==='professional'?30:7)) reason='Stale current-status evidence; reopen source';
@@ -74,7 +77,7 @@ function buildBoard(pack, {now=new Date().toISOString(),synthetic=false}={}) {
   const effects={...ZERO_EFFECTS}; assertZeroEffects(effects);
   return {schema_version:'blaise.lead-engine.v1',board_id:'board-'+sha({now,request,candidates}).slice(0,12),mode:pack.mode,
     generated_at:now,business_date:new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(now)),timezone:'America/Chicago',
-    request,coverage,candidates,rejected,sources:[...evidence.records.values()],governance:pack.governance||[],effects,
+    request,coverage,candidates,rejected,class_counts:Object.fromEntries(CLASSES.map(k=>[k,candidates.filter(c=>c.opportunity_class.label===k).length])),release_status:'NOT APPROVED FOR RELEASE — Work/owner review required',sources:[...evidence.records.values()],governance:pack.governance||[],effects,
     limitations:['Agent-operated research; no background acquisition or monitoring.','Source observations are scoped, not a complete market census.','Rank weights are reviewable implementation defaults; Work owns business judgment.']};
 }
 module.exports={buildBoard,requestDefaults,DEFAULT_GEOGRAPHY};

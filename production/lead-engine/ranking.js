@@ -20,7 +20,8 @@ function rank(c, evidence, request) {
   let score=0;
   for (const [k,w] of Object.entries(weights)) { components[k].weight=w; components[k].points=+(components[k].value*w/4).toFixed(2); score+=components[k].points; }
   const penalties=[];
-  if(c.contact_eligibility.state==='HOLD-VERIFY') penalties.push({points:8,reason:'Contact gate unresolved'});
+  if(c.action_readiness?.action==='public-event') {if(c.action_readiness.missing.length)penalties.push({points:8,reason:'Event participation prerequisites unresolved (not a cold-contact gate)'});}
+  else if(c.contact_eligibility.state==='HOLD-VERIFY') penalties.push({points:8,reason:'Contact gate unresolved'});
   if(c.latest_meaningful_event.kind!=='dated-event') penalties.push({points:5,reason:'No dated decision point'});
   if(c.unknowns.length) penalties.push({points:Math.min(c.unknowns.length*2,10),reason:`${c.unknowns.length} material unknowns`});
   if(c.relationship_check.state==='NOT-CHECKED') penalties.push({points:3,reason:'Existing relationship not checked'});

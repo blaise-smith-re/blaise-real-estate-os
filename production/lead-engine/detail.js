@@ -24,12 +24,14 @@ function opportunityDetail(board, rank, {freshPack,now=new Date().toISOString(),
     relationship=relationshipReview;
   }
   const dnc=c.contact_eligibility.state==='DO-NOT-CONTACT'||relationship.state==='DO-NOT-CONTACT';
+  const publicEvent=c.action_readiness?.action==='public-event';
   const ready=!dnc&&refresh==='RECHECKED'&&['EXISTING-EXACT','BOUNDED-NO-MATCH'].includes(relationship.state)&&c.contact_eligibility.state==='ELIGIBLE';
   return {board_id:board.board_id,candidate_id:c.candidate_id,target:c.display_name,
-    opener:dnc?null:c.prep.opener,state:dnc?'DO-NOT-CONTACT':ready?'PREPARED FOR BLAISE REVIEW':'HOLD — research/prep only; not executable outreach',
+    opener:dnc?null:c.prep.opener,state:dnc?'DO-NOT-CONTACT':publicEvent?(refresh==='RECHECKED'?c.action_readiness.label:'RECHECK EVENT DETAILS'):ready?'PREPARED FOR BLAISE REVIEW':'HOLD — research/prep only; not executable outreach',
+    opportunity_class:c.opportunity_class,action_readiness:c.action_readiness,
     freshness:refresh,relationship_check:relationship,contact_eligibility:c.contact_eligibility,
     discovery:dnc?[]:c.prep.discovery,next_commitment:dnc?null:c.prep.next_commitment,
-    prep_label:ready?'Review wording and exact action before any contact':'Conditional coaching only. Resolve source freshness, relationship, public identity and contact gate before use.',
+    prep_label:publicEvent?'Normal in-person networking prep. Check participation prerequisites and source freshness; no registration, expense or Calendar action. Cold follow-up remains separately gated.':ready?'Review wording and exact action before any contact':'Conditional coaching only. Resolve source freshness, relationship, public identity and contact gate before use.',
     to_verify:c.unknowns,source_locator:c.source_locator,evidence_digest:sha(c.facts),external_effects:false};
 }
 module.exports={opportunityDetail};

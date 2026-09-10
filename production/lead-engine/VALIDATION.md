@@ -1,5 +1,7 @@
 # Review validation — September 10, 2026
 
+**Historical initial demonstration.** The owner rejected this as release evidence. See [VALIDATION-CORRECTION.md](VALIDATION-CORRECTION.md) for the subsequent authenticated property run, corrected classes/readiness, current tests and remaining FUB recovery state. Lead Engine v1 is NOT APPROVED FOR RELEASE. PR #6 remains open and unmerged.
+
 Baseline: actual GitHub main `f9633c8` (full parent SHA is recorded in Git and the private review manifest). Dedicated branch `codex/lead-engine-v1`. The initial Downloads ZIP was not a Git checkout and differed from current GitHub main. Work was performed in a clean clone of the requested repository; no ZIP changes were imported.
 
 ## Engineering

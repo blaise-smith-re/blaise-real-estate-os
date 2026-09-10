@@ -16,3 +16,11 @@ This is the concrete implementation entry, subordinate to current canonical busi
 Keep all run output outside Git. Private Drive review filing is allowed only when actually requested. Never share publicly, submit forms, register for events, buy sponsorships, book a host slot, add Calendar events, send a message or start monitoring from a research request. A prospect event is not a confirmed Blaise commitment; no Calendar advisory is needed until he actually commits.
 
 Document supported downstream outcomes only with exact evidence pointers through `outcomes.js`; do not build a lead/transaction/financial database. Current task output is an observation artifact, not permanent CRM state.
+
+## Readiness correction
+
+Use [BROWSER-RESUME.md](BROWSER-RESUME.md) for live property runs. Preserve one private checkpoint with exact criteria, completed observations and position. Pause only unfinished property queries at authentication; complete unaffected sources and resume the same run after observing the authenticated Matrix screen. Use [FUB-READ-RECOVERY.md](FUB-READ-RECOVERY.md) and `relationship.boundedLookup` with the actual enumerated inventory. The existing full connection may expose the exact read facade; it cannot expose a writer to this engine.
+
+For the everyday three-lane run, start/resume `session-cli.js` before property research and export its pack into the existing board CLI. The older `adapters.research` callback remains a stateless host integration; do not use it in place of the checkpoint when an authentication handoff may interrupt the run. The supported agent performs browser actions and supplies observations, while the checkpoint preserves the work across turns.
+
+Show separate MONEY NOW, PIPELINE and NETWORK / KNOWLEDGE counts. A host needs a source-backed business case beyond an active listing. For public in-person business events, show registration, membership/guest eligibility, Blaise availability and spending approval separately. Normal networking does not require a cold call/text/email gate. Participation readiness never authorizes registration, spending or Calendar actions; subsequent cold follow-up still needs its own gate.
