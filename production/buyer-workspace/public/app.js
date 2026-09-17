@@ -27,7 +27,7 @@ async function loadBuyers() {
     people.forEach(b => { const o = node('option', `${b.name} · ${b.stage}`); o.value = b.id; group.append(o); }); $('buyer').append(group);
   }
   $('list-source').textContent = `${r.buyers.length} ${r.buyers.length === 1 ? 'buyer' : 'buyers'}${others.length ? ` + ${others.length} with buyer type not marked` : ''} · Retrieved ${time(r.retrievedAt)}`;
-  $('list-scope').textContent = r.partial ? 'Partial results from FUB. Search by name to find contacts outside this page; this is not your complete list.' : r.query ? `Results for “${r.query}” among contacts assigned to you. Choose Show all to return to the full list.` : 'All stages, assigned to you. Contacts without a buyer type are listed separately. Seller-only, renter and Trash records are excluded.';
+  $('list-scope').textContent = r.partial ? 'Partial results from FUB. Search by name to find contacts outside this page; this is not your complete list.' : r.query ? `Results for “${r.query}” among contacts assigned to you. Choose Show all to return to the full list.` : 'All stages, assigned to you. Contacts without a buyer type are listed separately. Seller/renter-only and Trash records are excluded.';
   if (!r.buyers.length && !others.length) notice('No matching buyer contacts returned. Try a different name or check the contact’s assignment and tags in FUB.');
 }
 async function loadBrief() {

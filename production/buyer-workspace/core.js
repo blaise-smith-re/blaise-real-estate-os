@@ -137,7 +137,7 @@ class BuyerWorkspace {
     const sort = (a, b) => a.name.localeCompare(b.name);
     const m = page._metadata;
     const partial = !m || Boolean(m.next || m.nextLink) || Number(m.offset || 0) > 0 || !Number.isFinite(m.total) || m.total > page.people.length;
-    return { buyers: people.filter(p => contactKind(p) === 'buyer').map(summarize).sort(sort), otherContacts: people.filter(p => contactKind(p) === 'unclassified').map(summarize).sort(sort), retrievedAt: this.now(), partial, query, scope: 'Assigned to Blaise across all stages. Buyer-tagged contacts and showing/offer stages are listed as buyers; unclassified contacts appear separately. Seller-only, renter and Trash records are excluded.' };
+    return { buyers: people.filter(p => contactKind(p) === 'buyer').map(summarize).sort(sort), otherContacts: people.filter(p => contactKind(p) === 'unclassified').map(summarize).sort(sort), retrievedAt: this.now(), partial, query, scope: 'Assigned to Blaise across all stages. Buyer-tagged contacts and showing/offer stages are listed as buyers; unclassified contacts appear separately. Seller/renter-only and Trash records are excluded.' };
   }
   async brief(id) {
     requireValue(!this.busy, 'Wait for the current save to finish.');
