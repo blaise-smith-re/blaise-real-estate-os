@@ -13,7 +13,7 @@ const { BuyerWorkspace, TOOLS } = require('../core');
 const { createDemo } = require('../demo');
 const { createInterpreter, validateInterpretation } = require('../interpretation');
 const { createServer } = require('../server');
-const { start } = require('../hosted');
+const { start, storageKey } = require('../hosted');
 
 function fixture() {
   const directory = mkdtempSync(path.join(os.tmpdir(), 'buyer-host-test-')), key = randomBytes(32).toString('hex');
@@ -41,6 +41,21 @@ test('wrong encryption key and expired storage fail closed; logout deletes the s
     store = new ProtectedStore({ ...f, key: randomBytes(32).toString('hex') }); assert.throws(() => store.get('test'), /could not be opened/); store.close();
     store = new ProtectedStore({ ...f, now: () => clock }); clock += 2000; assert.equal(store.get('test'), null);
     store.put('test2', { value: 'synthetic' }, clock + 1000); store.delete('test2'); assert.equal(store.get('test2'), null);
+  } finally { store.close(); f.cleanup(); }
+});
+
+test('Render-generated key parts preserve protected state and reject incomplete or repeated parts', () => {
+  const f = fixture(), env = { WORKSPACE_ENCRYPTION_KEY: randomBytes(16).toString('hex'), WORKSPACE_ENCRYPTION_KEY_PART_2: randomBytes(16).toString('hex') };
+  let store = new ProtectedStore({ directory: f.directory, key: storageKey(env) });
+  try {
+    store.put('synthetic', { value: 'protected' }, Date.now() + 60000); store.close();
+    store = new ProtectedStore({ directory: f.directory, key: storageKey({ ...env }) });
+    assert.equal(store.get('synthetic').value, 'protected'); store.close();
+    store = new ProtectedStore({ directory: f.directory, key: storageKey({ ...env, WORKSPACE_ENCRYPTION_KEY_PART_2: randomBytes(16).toString('hex') }) });
+    assert.throws(() => store.get('synthetic'), /could not be opened/);
+    for (const second of ['', 'short', env.WORKSPACE_ENCRYPTION_KEY]) assert.throws(() => storageKey({ ...env, WORKSPACE_ENCRYPTION_KEY_PART_2: second }), /independently generated/);
+    assert.throws(() => new ProtectedStore({ directory: f.directory, key: storageKey({ WORKSPACE_ENCRYPTION_KEY: env.WORKSPACE_ENCRYPTION_KEY }) }), /securely generated/);
+    assert.equal(storageKey({ WORKSPACE_ENCRYPTION_KEY: f.key }), f.key);
   } finally { store.close(); f.cleanup(); }
 });
 

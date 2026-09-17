@@ -6,6 +6,17 @@ const { ProtectedStore } = require('./protected-store');
 const { createServer } = require('./server');
 const { createInterpreter } = require('./interpretation');
 
+function storageKey(env) {
+  const key = env.WORKSPACE_ENCRYPTION_KEY, second = env.WORKSPACE_ENCRYPTION_KEY_PART_2;
+  if (second === undefined) return key;
+  // Render's dashboard generates 16 random bytes per value. Two independent
+  // values preserve the required 256 bits without exposing them to the operator.
+  if (!/^[a-f0-9]{32}$/i.test(key || '') || !/^[a-f0-9]{32}$/i.test(second) || key.toLowerCase() === second.toLowerCase()) {
+    throw new Error('Protected storage needs two independently generated 32-character hexadecimal secrets.');
+  }
+  return key + second;
+}
+
 function start(env = process.env) {
   // Render supplies its assigned HTTPS URL before the first process starts.
   // Never infer this security boundary from untrusted request headers.
@@ -16,7 +27,7 @@ function start(env = process.env) {
   }
   const port = Number(env.PORT || 10000);
   if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('The listening port is invalid.');
-  const store = new ProtectedStore({ directory: env.WORKSPACE_DATA_DIR, key: env.WORKSPACE_ENCRYPTION_KEY });
+  const store = new ProtectedStore({ directory: env.WORKSPACE_DATA_DIR, key: storageKey(env) });
   const interpreter = createInterpreter({ apiKey: env.OPENAI_API_KEY, model: env.OPENAI_MODEL });
   const server = createServer({ port, store, interpreter, hosting: { origin, subject: env.WORKSPACE_OWNER_SUB } });
   server.requestTimeout = 90000;
@@ -31,4 +42,4 @@ function start(env = process.env) {
 if (require.main === module) {
   try { start(); } catch (e) { console.error(e.message); process.exitCode = 1; }
 }
-module.exports = { start };
+module.exports = { start, storageKey };

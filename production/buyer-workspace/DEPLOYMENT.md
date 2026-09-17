@@ -41,7 +41,13 @@ the security-sensitive provider registration. This is separate from the native
 Codex connection, which was already repaired and verified.
 
 Generate `WORKSPACE_ENCRYPTION_KEY` in Render, and keep it stable across deploys.
-It must contain at least 43 random, non-whitespace characters. Enter the OpenAI API
+It must contain at least 43 random, non-whitespace characters. The dashboard's
+Generate button currently creates only 32 hexadecimal characters (16 random
+bytes). For that route, generate a second independent value in
+`WORKSPACE_ENCRYPTION_KEY_PART_2`; the app requires two distinct 32-character hex
+values and combines them before key derivation. Preserve both across deploys;
+never inspect or copy either value. A single longer generated secret remains
+supported without the second variable. Enter the OpenAI API
 key directly into Render's secret environment input; never paste it into a task,
 source file or browser client. The proposed model is pinned to
 `gpt-5.4-mini-2026-03-17`, whose official model page lists Responses and structured
