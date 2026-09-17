@@ -16,6 +16,62 @@ async function setup(intercept) {
 const writes = calls => calls.filter(c => /^(create|update)/.test(c.tool));
 const save = (e, p) => e.save({ id: p.id, digest: p.digest, approved: true });
 
+test('buyer selection covers all assigned stages and separates unclassified contacts without changing CRM labels', async () => {
+  const contacts = [
+    { id: 900101, firstName: 'Avery', stage: 'Nurture', tags: ['Buyer'] },
+    { id: 900102, firstName: 'Blair', stage: 'Under contract', tags: ['Buyer'] },
+    { id: 900103, firstName: 'Casey', stage: 'Spoke with customer', tags: ['Buyer'] },
+    { id: 900104, firstName: 'Devon', stage: 'Showing homes', tags: [] },
+    { id: 900105, firstName: 'Emery', stage: 'Custom buyer stage', tags: ['Buyer'] },
+    { id: 900106, firstName: 'Finley', stage: 'Under contract', tags: [] },
+    { id: 900107, firstName: 'Gray', stage: 'Lead', tags: ['Seller'] },
+    { id: 900108, firstName: 'Harper', stage: 'Trash', tags: ['Buyer'] },
+  ].map(p => ({ assignedUserId: 900010, ...p }));
+  contacts.push({ id: 900109, firstName: 'Indigo', stage: 'Nurture', tags: ['Buyer'], assignedUserId: 900011 });
+  const demo = createDemo(), calls = [];
+  const e = new BuyerWorkspace({ invoke: async (tool, args) => {
+    calls.push({ tool, args });
+    if (tool === 'find_contact') return { structuredContent: { people: contacts, _metadata: { total: contacts.length, next: null } } };
+    if (tool === 'get_contact') return { structuredContent: contacts.find(p => p.id === args.person_id) };
+    return demo(tool, args);
+  } });
+  const list = await e.buyers();
+  assert.deepEqual(list.buyers.map(p => p.id), [900101, 900102, 900103, 900104, 900105]);
+  assert.deepEqual(list.otherContacts.map(p => p.id), [900106]); assert.equal(list.partial, false);
+  assert.equal(calls.find(c => c.tool === 'find_contact').args.stage, undefined);
+  assert.equal((await e.brief(900102)).buyer.stage, 'Under contract');
+  const unclassified = await e.brief(900106);
+  assert.equal(unclassified.buyer.classification, 'unclassified'); assert.match(unclassified.gaps[0], /not marked/);
+  for (const id of [900107, 900108, 900109]) await assert.rejects(e.brief(id), /classification changed/);
+  assert.equal(writes(calls).length, 0);
+});
+
+test('bounded buyer search discloses incomplete coverage and searches FUB by name within the same assignment', async () => {
+  const demo = createDemo(), calls = []; let metadata = { total: 60, next: '/more' };
+  const e = new BuyerWorkspace({ invoke: async (tool, args) => {
+    calls.push({ tool, args }); const r = await demo(tool, args);
+    if (tool === 'find_contact') r.structuredContent._metadata = metadata;
+    return r;
+  } });
+  assert.equal((await e.buyers()).partial, true);
+  metadata = undefined; assert.equal((await e.buyers()).partial, true);
+  metadata = { total: 1, next: null };
+  const result = await e.buyers({ query: ' Alex ' }); assert.equal(result.partial, false); assert.equal(result.buyers.length, 1);
+  assert.deepEqual(calls.at(-1), { tool: 'find_contact', args: { assigned_user_id: 900010, name: 'Alex', limit: 100 } });
+  await assert.rejects(e.buyers({ query: 123 }), /Search by a name/);
+  assert.equal(writes(calls).length, 0);
+});
+
+test('a contact newly marked seller-only cannot use an earlier buyer approval', async () => {
+  let changed = false;
+  const { e, calls, draft } = await setup((tool, args, r) => {
+    if (tool === 'get_contact') { r.structuredContent.stage = 'Nurture'; if (changed) r.structuredContent.tags = ['Seller']; }
+    return r;
+  });
+  const proposal = e.review(draft()); changed = true;
+  assert.equal((await save(e, proposal)).state, 'REFRESH_REQUIRED'); assert.equal(writes(calls).length, 0);
+});
+
 test('feedback preserves exact attribution; unclassified claims cannot be silently written', async () => {
   const { e, draft } = await setup(); const d = draft();
   assert.deepEqual(d.claims.map(c => c.basis), ['Client statement', 'Blaise observation']);

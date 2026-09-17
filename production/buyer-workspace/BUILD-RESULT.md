@@ -15,7 +15,7 @@ root README, changelog, decisions, improvement findings and authentication diagn
 Machine and original-checkout auth settings were repaired without discarding
 unrelated user edits. Those local settings are distinct from this worktree.
 
-**TESTS RUN / RESULT** — 30 buyer-workspace tests and 83 existing runtime/lead-engine
+**TESTS RUN / RESULT** — 33 buyer-workspace tests and 83 existing runtime/lead-engine
 tests passed. Runtime configuration check passed. Synthetic browser flow verified
 at desktop and 390-pixel phone width. Connection gate passed; static suite remains
 31/39 with eight documented baseline failures. Live native login, protected
@@ -25,6 +25,9 @@ uncertain rotation, interrupted-save recovery and anonymous access denial. The
 390-pixel browser flow also recovered a verified synthetic receipt after reload.
 After the two specifically approved obsolete Auth0 applications were deleted,
 a fresh native process loaded 38 tools and completed a stage read without login.
+Buyer discovery was corrected to include assigned buyers across stages, with
+unclassified contacts separated and a bounded name search. Assignment boundaries,
+incomplete-list disclosure and pre-save classification changes are tested.
 
 **CERTIFICATION IMPACT** — Connector pilot, synthetic save/recovery and bounded live
 hosted checks. No mobile release family or scheduled operation is certified.

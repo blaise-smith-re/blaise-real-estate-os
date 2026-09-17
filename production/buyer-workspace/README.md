@@ -32,7 +32,7 @@ npm run buyer:demo
 npm run test:buyer
 ```
 
-Select an active buyer, read the brief, type/paste feedback (or use the phone
+Select a buyer across any FUB stage, read the brief, type/paste feedback (or use the phone
 keyboard's dictation), check speaker labels and preference changes, and review the
 note, next action and client text together. The explicit approval button is the
 only route to writes. A task is optional: update an existing assigned task or
@@ -47,7 +47,7 @@ offer. Client text is copy-only.
 
 | Capability | Implementation / limit |
 |---|---|
-| Active buyers | Exact Blaise user resolution; three named existing stages, assigned to Blaise, at most 50 per stage; partial lists disclosed. This is not every possible active relationship. |
+| Buyer selection | Contacts assigned to Blaise across all stages. Buyer tags and showing/offer stages identify buyers; unclassified contacts are grouped separately. Seller-only, renter and Trash records are excluded. Name search uses the same assignment. The provider's bounded page and unknown/incomplete coverage are disclosed; there is no unsupported pagination claim. |
 | Brief | Current contact, latest 10 notes and complete open tasks. Latest meaningful note excerpt is attributed CRM context, not a newly verified client fact. |
 | Feedback preparation | Local/demo uses a conservative rules-based parser. Hosted mode uses OpenAI Responses with exact-excerpt validation, editable attribution/preferences/action/text and no tools. Real model access and drafting were verified. |
 | CRM note | Existing controlled write adapter plus independent exact-content read-back. |
@@ -113,7 +113,8 @@ real AI preparation, combined phone-width review and actual server-restart recov
 The prior pilot's records were read, not duplicated. Hosted renewal and an independent
 browser session passed. Hosted write/read-back and actual-phone acceptance remain open.
 
-30 tests cover provenance, no pre-approval writes, immutable/replaced approval,
+33 tests cover buyer discovery across stages, unclassified contacts, bounded name
+search, assignment/classification checks, provenance, no pre-approval writes, immutable/replaced approval,
 wrong-target/stale-state failures, completeness, duplicate avoidance, task reuse,
 partial writes, read-only recovery, sensitive inputs, dates, HTTP protections,
 OAuth state/PKCE, streamed MCP responses, signed owner identity, encrypted storage,

@@ -5,12 +5,19 @@ const { scanForCredentialMaterial } = require('../../runtime/contract');
 const { FubWriteAdapter } = require('../../runtime/adapters/fub-write');
 
 const LABELS = ['Client statement', 'Blaise observation', 'Reported context', 'Inference', 'Unclassified'];
-const STAGES = ['Showing homes', 'Submitting offers', 'Active Client'];
+const BUYER_STAGES = ['Showing homes', 'Submitting offers'];
 const TOOLS = ['get_users', 'get_stages', 'find_contact', 'get_contact', 'get_contact_notes', 'get_open_tasks', 'create_contact_note', 'create_contact_task', 'update_contact_task'];
 const digest = value => createHash('sha256').update(JSON.stringify(value)).digest('hex');
 const nameOf = p => [p.firstName, p.lastName].filter(Boolean).join(' ').trim();
 const requireValue = (ok, message) => { if (!ok) throw new Error(message); };
 const clean = value => String(value ?? '').replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').trim();
+function contactKind(person) {
+  if (person.stage === 'Trash') return 'excluded';
+  const tags = (person.tags || []).map(t => String(t).trim());
+  if (BUYER_STAGES.includes(person.stage) || tags.some(t => /^(Buyer|B|B\/S|I|Investor)$/i.test(t))) return 'buyer';
+  if (['Listing agreement', 'Active listing', 'Renter'].includes(person.stage) || tags.some(t => /^(Seller|S|Renter|Tenant)$/i.test(t))) return 'excluded';
+  return 'unclassified';
+}
 
 function privateCheck(value) {
   scanForCredentialMaterial(value);
@@ -114,22 +121,30 @@ class BuyerWorkspace {
     requireValue(this.tools.has(tool), `Access gap: ${tool} is not available on this connection.`);
     return unwrap(await this.invoke(tool, args));
   }
-  async buyers() {
-    const [users, stages] = await Promise.all([this.call('get_users'), this.call('get_stages')]);
+  async buyers({ query = '' } = {}) {
+    requireValue(typeof query === 'string' && query.length <= 120, 'Search by a name of up to 120 characters.');
+    query = query.trim(); privateCheck(query);
+    const users = await this.call('get_users');
     const matches = (users.users || []).filter(u => (u.name || nameOf(u)) === 'Blaise Smith');
     requireValue(matches.length === 1, 'Could not resolve Blaise’s assigned-agent ID. No buyer lookup was made.');
     this.owner = matches[0].id;
-    const active = (stages.stages || []).filter(s => STAGES.includes(s.name));
-    const pages = await Promise.all(active.map(s => this.call('find_contact', { assigned_user_id: this.owner, stage: s.name, limit: 50 })));
-    const people = pages.flatMap(p => p.people || []).filter(p => p.assignedUserId === this.owner && (p.stage === 'Showing homes' || p.stage === 'Submitting offers' || (p.tags || []).some(t => /^(Buyer|B|B\/S|I|Investor)$/i.test(t))));
-    return { buyers: [...new Map(people.map(p => [p.id, { id: p.id, name: nameOf(p), stage: p.stage }])).values()], retrievedAt: this.now(), partial: pages.some(p => p._metadata?.next || p._metadata?.total > (p.people || []).length), scope: active.map(s => s.name) };
+    // Stages describe progress, not buyer identity. Search all assigned stages so
+    // nurture, early conversations and under-contract buyers are not hidden.
+    const page = await this.call('find_contact', { assigned_user_id: this.owner, ...(query ? { name: query } : {}), limit: 100 });
+    requireValue(Array.isArray(page.people), 'FUB did not return a contact list. Refresh before selecting a buyer.');
+    const people = [...new Map(page.people.filter(p => p.assignedUserId === this.owner && contactKind(p) !== 'excluded').map(p => [p.id, p])).values()];
+    const summarize = p => ({ id: p.id, name: nameOf(p), stage: p.stage, classification: contactKind(p) });
+    const sort = (a, b) => a.name.localeCompare(b.name);
+    const m = page._metadata;
+    const partial = !m || Boolean(m.next || m.nextLink) || Number(m.offset || 0) > 0 || !Number.isFinite(m.total) || m.total > page.people.length;
+    return { buyers: people.filter(p => contactKind(p) === 'buyer').map(summarize).sort(sort), otherContacts: people.filter(p => contactKind(p) === 'unclassified').map(summarize).sort(sort), retrievedAt: this.now(), partial, query, scope: 'Assigned to Blaise across all stages. Buyer-tagged contacts and showing/offer stages are listed as buyers; unclassified contacts appear separately. Seller-only, renter and Trash records are excluded.' };
   }
   async brief(id) {
     requireValue(!this.busy, 'Wait for the current save to finish.');
     requireValue(Number.isSafeInteger(id) && id > 0, 'Select one exact buyer.');
     requireValue(this.owner, 'Load the buyer list first.');
     const contact = await this.call('get_contact', { person_id: id });
-    requireValue(contact.id === id && contact.assignedUserId === this.owner && STAGES.includes(contact.stage), 'The buyer’s identity, assignment or active stage changed. Refresh the buyer list.');
+    requireValue(contact.id === id && contact.assignedUserId === this.owner && contactKind(contact) !== 'excluded', 'The contact’s identity, assignment or buyer classification changed. Refresh the buyer list.');
     const retrievedAt = this.now();
     const read = async (tool, args) => {
       try { return { data: await this.call(tool, args), retrievedAt: this.now() }; }
@@ -143,12 +158,12 @@ class BuyerWorkspace {
     this.briefs.clear();
     this.briefs.set(token, snapshot);
     return {
-      token, buyer: { id, name: nameOf(contact), firstName: contact.firstName, stage: contact.stage, assignedTo: contact.assignedTo }, retrievedAt,
+      token, buyer: { id, name: nameOf(contact), firstName: contact.firstName, stage: contact.stage, assignedTo: contact.assignedTo, classification: contactKind(contact) }, retrievedAt,
       context: { price: contact.price || null, lender: contact.assignedLenderName || null, background: clean(contact.background), latestNote: meaningfulNotes[0] ? { subject: clean(meaningfulNotes[0].subject), excerpt: clean(meaningfulNotes[0].body).slice(0, 600), recordedAt: meaningfulNotes[0].created } : null, financing: 'Approval and comfortable budget are not independently verified.' },
       notes: (notes.data?.notes || []).slice(0, 5).map(n => ({ id: n.id, subject: clean(n.subject), body: clean(n.body), recordedAt: n.created })),
       tasks: (tasks.data?.tasks || []).map(t => ({ id: t.id, name: clean(t.name), due: t.dueDate || t.dueDateTime, type: t.type })),
       sources: [{ name: 'FUB contact', retrievedAt }, { name: 'FUB recent notes · latest 10 requested', retrievedAt: notes.retrievedAt }, { name: 'FUB open tasks', retrievedAt: tasks.retrievedAt }],
-      gaps: [notes.error, tasks.error, 'Current property facts: MLS is not connected to this workspace.', 'Preference changes are recorded in the CRM note. Ylopo saved searches are not changed.', 'Text/call history and automation overlap are not checked by this brief.'].filter(Boolean),
+      gaps: [contactKind(contact) === 'unclassified' ? 'Buyer type is not marked in FUB. Confirm this is the right contact for a buyer showing; no CRM label was changed.' : null, notes.error, tasks.error, 'Current property facts: MLS is not connected to this workspace.', 'Preference changes are recorded in the CRM note. Ylopo saved searches are not changed.', 'Text/call history and automation overlap are not checked by this brief.'].filter(Boolean),
     };
   }
   draft({ briefToken, property, feedback }) {
@@ -221,7 +236,7 @@ class BuyerWorkspace {
     try {
       await this.checkpoint();
       const current = await this.call('get_contact', { person_id: p.buyer.id });
-      requireValue(current.id === p.buyer.id && nameOf(current) === p.buyer.name && current.assignedUserId === this.owner && current.stage === p.snapshot.contact.stage, 'Buyer identity, assignment or stage changed. Refresh and review again.');
+      requireValue(current.id === p.buyer.id && nameOf(current) === p.buyer.name && current.assignedUserId === this.owner && current.stage === p.snapshot.contact.stage && contactKind(current) !== 'excluded', 'Buyer identity, assignment, classification or stage changed. Refresh and review again.');
       requireValue(current.updated === p.snapshot.contact.updated, 'The CRM record changed after this brief. Refresh and review again.');
       // A task is never issued from a partial task snapshot; existing equivalent tasks are reused.
       const tasks = p.task ? fullTasks(await this.call('get_open_tasks', { person_id: p.buyer.id })) : [];

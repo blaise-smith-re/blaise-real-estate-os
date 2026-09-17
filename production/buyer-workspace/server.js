@@ -145,7 +145,7 @@ function createServer({ port = 4317, demo = false, connectionFactory, invoke, ho
         if (url.pathname === '/api/logout') { s.connection.clear(); sessions.delete(s.id); store?.delete(s.id); res.setHeader('Set-Cookie', cookieHeader('', 0)); json(res, 200, { cleared: true }); s = null; return; }
         if (!s.engine || (!demo && !s.connection.tokens)) { json(res, 401, { error: 'Connect FUB to open the buyer workspace.' }); return; }
         let result;
-        if (url.pathname === '/api/buyers') result = await s.engine.buyers();
+        if (url.pathname === '/api/buyers') result = await s.engine.buyers({ query: input.query });
         else if (url.pathname === '/api/connection-check' && !demo) result = await s.connection.check();
         else if (url.pathname === '/api/brief') result = await s.engine.brief(Number(input.id));
         else if (url.pathname === '/api/draft') { result = s.engine.draft(input); if (interpreter) result = await interpreter(result); }

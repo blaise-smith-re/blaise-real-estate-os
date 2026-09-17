@@ -2,12 +2,12 @@
 
 ## Buyer workspace
 
-The [local buyer workspace](production/buyer-workspace/README.md) provides an active
+The [local buyer workspace](production/buyer-workspace/README.md) provides a
 buyer brief, showing-feedback capture, a combined note/preferences/action/text
 review and approval-gated FUB note/task maintenance with independent read-back.
 Run `npm run buyer:start` or use `npm run buyer:demo` for fictional data only.
 Phone layout is supported. The [hosted implementation](production/buyer-workspace/DEPLOYMENT.md)
-adds encrypted persistent sign-in, restart recovery and AI preparation, with 30
+adds encrypted persistent sign-in, restart recovery and AI preparation, with 33
 focused tests. The [private hosted preview](https://blaise-buyer-workspace.onrender.com)
 passed live sign-in, buyer retrieval, AI drafting, renewal and server-restart recovery;
 final phone and hosted write acceptance remain open.

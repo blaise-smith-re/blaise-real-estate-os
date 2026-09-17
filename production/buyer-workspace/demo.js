@@ -11,7 +11,10 @@ function createDemo() {
     switch (name) {
       case 'get_users': result = { users: [{ id: 900010, name: 'Blaise Smith' }] }; break;
       case 'get_stages': result = { stages: [{ name: 'Showing homes' }] }; break;
-      case 'find_contact': result = { people: contacts, _metadata: { total: 1, next: null } }; break;
+      case 'find_contact': {
+        const found = contacts.filter(c => c.assignedUserId === a.assigned_user_id && (!a.name || `${c.firstName} ${c.lastName}`.toLowerCase().includes(a.name.toLowerCase())));
+        result = { people: found, _metadata: { total: found.length, next: null } }; break;
+      }
       case 'get_contact': result = contacts.find(c => c.id === a.person_id); break;
       case 'get_contact_notes': result = { notes: notes.filter(n => n.personId === a.person_id).slice().reverse(), _metadata: { total: notes.length, next: null } }; break;
       case 'get_open_tasks': result = { tasks: tasks.filter(t => t.personId === a.person_id), _completeness: { has_more: false, capped: false, returned_count: tasks.length, total_count: tasks.length } }; break;

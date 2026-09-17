@@ -11,23 +11,30 @@ async function api(route, data = {}) {
 }
 async function run(fn) {
   if (loading) return;
-  loading = true; document.querySelectorAll('button, #buyer').forEach(b => b.disabled = true); notice('Working…');
+  loading = true; document.querySelectorAll('button, #buyer, #buyer-query').forEach(b => b.disabled = true); notice('Working…');
   try { await fn(); if ($('notice').textContent === 'Working…') notice(''); }
   catch (e) { notice(e.message, true); }
-  finally { loading = false; document.querySelectorAll('button, #buyer').forEach(b => b.disabled = false); }
+  finally { loading = false; document.querySelectorAll('button, #buyer, #buyer-query').forEach(b => b.disabled = false); }
 }
 function scrollTo(id) { $(id).scrollIntoView({ behavior: 'smooth', block: 'start' }); }
 function clearBuyer() { generation++; brief = draft = proposal = null; $('buyer-work').hidden = true; document.querySelector('.capture-grid').hidden = false; $('edit').hidden = true; $('review-panel').hidden = true; $('capture').hidden = false; $('property').value = ''; $('feedback').value = ''; step(1); }
 async function loadBuyers() {
-  const r = await api('buyers'); clearBuyer(); $('buyer').replaceChildren(node('option', 'Select a buyer')); $('buyer').firstChild.value = '';
-  r.buyers.forEach(b => { const o = node('option', `${b.name} · ${b.stage}`); o.value = b.id; $('buyer').append(o); });
-  $('list-source').textContent = `${r.buyers.length} ${r.buyers.length === 1 ? 'buyer' : 'buyers'} · Retrieved ${time(r.retrievedAt)}${r.partial ? ' · Partial list' : ''}`;
-  if (!r.buyers.length) notice('No buyers returned in the supported active stages. This does not establish that there are no active buyers in other stages.');
+  const r = await api('buyers', { query: $('buyer-query').value }); clearBuyer(); $('buyer').replaceChildren(node('option', 'Select a buyer')); $('buyer').firstChild.value = '';
+  const others = r.otherContacts || [];
+  for (const [label, people] of [['My buyers · all stages', r.buyers], ['Buyer type not marked in FUB', others]]) {
+    if (!people.length) continue;
+    const group = node('optgroup'); group.label = label;
+    people.forEach(b => { const o = node('option', `${b.name} · ${b.stage}`); o.value = b.id; group.append(o); }); $('buyer').append(group);
+  }
+  $('list-source').textContent = `${r.buyers.length} ${r.buyers.length === 1 ? 'buyer' : 'buyers'}${others.length ? ` + ${others.length} with buyer type not marked` : ''} · Retrieved ${time(r.retrievedAt)}`;
+  $('list-scope').textContent = r.partial ? 'Partial results from FUB. Search by name to find contacts outside this page; this is not your complete list.' : r.query ? `Results for “${r.query}” among contacts assigned to you. Choose Show all to return to the full list.` : 'All stages, assigned to you. Contacts without a buyer type are listed separately. Seller-only, renter and Trash records are excluded.';
+  if (!r.buyers.length && !others.length) notice('No matching buyer contacts returned. Try a different name or check the contact’s assignment and tags in FUB.');
 }
 async function loadBrief() {
   const id = $('buyer').value; clearBuyer(); if (!id) return;
   const g = generation; const b = await api('brief', { id }); if (g !== generation) return; brief = b;
   $('buyer-work').hidden = false; $('buyer-name').textContent = b.buyer.name; $('buyer-stage').textContent = `${b.buyer.stage} · ${b.buyer.assignedTo || 'Blaise Smith'}`;
+  $('buyer-classification').hidden = b.buyer.classification !== 'unclassified';
   $('context').replaceChildren();
   [['CRM price', b.context.price ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(b.context.price) : 'Not recorded'], ['Lender in CRM', b.context.lender || 'Not recorded'], ['Financing', 'Not verified']].forEach(([k, v]) => $('context').append(node('dt', k), node('dd', v)));
   $('background').textContent = b.context.background || (b.context.latestNote ? `${b.context.latestNote.subject || 'Latest CRM note'} · ${time(b.context.latestNote.recordedAt)}\n${b.context.latestNote.excerpt}` : 'No background or meaningful recent note returned.');
@@ -94,6 +101,8 @@ function renderProposal(p) {
 $('connect').onclick = () => run(async () => { const r = await api('connect'); location.assign(r.url); });
 $('logout').onclick = () => run(async () => { await api('logout'); location.reload(); });
 $('refresh').onclick = () => run(loadBuyers);
+$('buyer-search').onsubmit = event => { event.preventDefault(); run(loadBuyers); };
+$('show-all-buyers').onclick = () => run(async () => { $('buyer-query').value = ''; await loadBuyers(); });
 $('check-connection').onclick = () => run(async () => { const r = await api('connection-check'); $('connection-result').textContent = `Sign-in renewal and FUB read access verified ${time(r.verifiedAt)}.`; notice('FUB connection check passed.'); });
 $('buyer').onchange = () => run(loadBrief);
 $('refresh-brief').onclick = () => run(loadBrief);
