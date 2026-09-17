@@ -22,3 +22,7 @@ node_modules/
 *.log
 tmp/
 scratch/
+
+# Private buyer workspace sessions belong only on the configured host disk.
+*.sqlite
+*.sqlite-*

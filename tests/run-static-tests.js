@@ -641,8 +641,11 @@ check('T-39', 'project Codex config uses one full FUB operator and a reusable pu
   const config = read('.codex/config.toml');
   assert(/mcp_optional_startup_grace_ms\s*=\s*0/.test(config),
     'Codex config does not wait through optional-server cold starts');
-  assert(!/^\[mcp_servers\.blaise_fub_read_only\]/m.test(config),
-    'retired read-only OAuth lane must not be configured');
+  const retiredSection = config.match(/^\[mcp_servers\.blaise_fub_read_only\]([\s\S]*?)(?=^\[|(?![\s\S]))/m);
+  assert(retiredSection && /^enabled\s*=\s*false\s*$/m.test(retiredSection[1]),
+    'retired lane must be explicitly disabled to override stale user-level config');
+  assert(/^mcp_oauth_credentials_store\s*=\s*"keyring"\s*$/m.test(config),
+    'FUB OAuth credentials must use protected persistent storage');
   assert(/\[mcp_servers\.blaise_fub_full\][\s\S]*?enabled\s*=\s*true/.test(config),
     'full FUB operator is not enabled');
   const fullSection = config.match(/\[mcp_servers\.blaise_fub_full\]([\s\S]*?)\[mcp_servers\.blaise_fub_full\.oauth\]/);

@@ -1,0 +1,32 @@
+# Deployment proposal only. Creating this service incurs hosting charges.
+# Use the repository root as the build context; no live client data is in source.
+services:
+  - type: web
+    name: blaise-buyer-workspace
+    runtime: node
+    region: oregon
+    plan: starter
+    branch: codex/buyer-workspace
+    autoDeployTrigger: off
+    buildCommand: node --test production/buyer-workspace/tests/*.test.js
+    startCommand: node production/buyer-workspace/hosted.js
+    healthCheckPath: /healthz
+    disk:
+      name: buyer-private-sessions
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: NODE_VERSION
+        value: 24.20.0
+      - key: NODE_ENV
+        value: production
+      - key: WORKSPACE_DATA_DIR
+        value: /var/data/buyer-workspace
+      - key: WORKSPACE_OWNER_SUB
+        sync: false
+      - key: WORKSPACE_ENCRYPTION_KEY
+        generateValue: true
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-5.4-mini-2026-03-17
