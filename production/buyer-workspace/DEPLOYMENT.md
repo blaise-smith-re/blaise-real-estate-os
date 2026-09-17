@@ -7,11 +7,11 @@ final real-phone acceptance remains open. The existing FUB service was unchanged
 
 - URL: https://blaise-buyer-workspace.onrender.com
 - Render service: `srv-dall4cqjnfac739ur6h0`; deployed commit:
-  `88b894ed2c8c4d7710380599df42da397767b100` (updated at 9:56 PM CDT).
+  `cd8921ecfe2d2af203f0ce4c3c9bb2590eb72da2` (updated at 10:14 PM CDT).
 - The owner approved $7.25/month base hosting and owner-only access, then separately
   approved the exact `/auth/callback` URL. Auth0 read-back after reload confirmed
   that URL plus both original loopback callbacks; token limits were unchanged.
-- All 30 workspace tests passed locally and in Render's build. A fresh unauthenticated
+- All 33 workspace tests passed locally and in Render's build. A fresh unauthenticated
   process confirmed healthy HTTPS, secure session cookies, denied buyer reads and
   saves, and rejection of a foreign origin.
 - The live browser authenticated the configured owner, retrieved three active
@@ -33,6 +33,11 @@ final real-phone acceptance remains open. The existing FUB service was unchanged
   routing recovered; planned restarts/deployments have a short availability gap.
 - A newly approved hosted write/read-back and actual phone/computer-off use remain
   acceptance checks. The existing connector pilot was not duplicated.
+- The buyer list was corrected to cover assigned contacts across all stages,
+  with separate buyer/unclassified groups and bounded name search. Live search and
+  briefs for previously excluded Nurture contacts passed; the unclassified warning
+  appeared for a contact without buyer tags. The updated picker was inspected at
+  390 pixels with no horizontal overflow. No contact stages or tags were changed.
 
 ## Existing infrastructure inspected
 
