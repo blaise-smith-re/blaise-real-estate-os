@@ -26,7 +26,8 @@ taxes, usage overages and OpenAI API usage are additional. No charge has been
 approved or incurred by this build. Request approval at the prepared deployment
 step, including the additional recurring hosting cost.
 
-Set `WORKSPACE_ORIGIN` to the exact HTTPS origin assigned by Render. Register
+The app uses Render's documented `RENDER_EXTERNAL_URL` as its exact HTTPS origin.
+For a future custom domain, explicitly set `WORKSPACE_ORIGIN` instead. Register
 only `<that-origin>/auth/callback` as an additional callback on the existing
 approved Auth0 public native client, retaining its existing callback and scopes.
 Do not replace any current registration, modify token lifetimes or use wildcard
@@ -109,6 +110,7 @@ single CRM write adapter govern AI-assisted and manual preparation.
 - Confirm use from the owner's actual phone with the local process stopped.
 
 References: [Render disks](https://render.com/docs/disks),
+[Render assigned URL](https://render.com/docs/environment-variables),
 [Auth0 rotation](https://auth0.com/docs/secure/tokens/refresh-tokens/refresh-token-rotation),
 [OpenAI structured outputs](https://developers.openai.com/api/docs/guides/structured-outputs),
 [model capabilities](https://developers.openai.com/api/docs/models/gpt-5.4-mini),

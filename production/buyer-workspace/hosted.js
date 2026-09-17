@@ -7,14 +7,18 @@ const { createServer } = require('./server');
 const { createInterpreter } = require('./interpretation');
 
 function start(env = process.env) {
-  for (const key of ['WORKSPACE_ORIGIN', 'WORKSPACE_DATA_DIR', 'WORKSPACE_ENCRYPTION_KEY', 'WORKSPACE_OWNER_SUB', 'OPENAI_API_KEY', 'OPENAI_MODEL']) {
+  // Render supplies its assigned HTTPS URL before the first process starts.
+  // Never infer this security boundary from untrusted request headers.
+  const origin = env.WORKSPACE_ORIGIN || env.RENDER_EXTERNAL_URL;
+  if (!origin || !/^https:\/\/[^/]+$/.test(origin)) throw new Error('Deployment is incomplete: configure an exact HTTPS origin or use Render’s assigned service URL.');
+  for (const key of ['WORKSPACE_DATA_DIR', 'WORKSPACE_ENCRYPTION_KEY', 'WORKSPACE_OWNER_SUB', 'OPENAI_API_KEY', 'OPENAI_MODEL']) {
     if (!env[key]) throw new Error(`Deployment is incomplete: set ${key} in the hosting service, never in source control.`);
   }
   const port = Number(env.PORT || 10000);
   if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('The listening port is invalid.');
   const store = new ProtectedStore({ directory: env.WORKSPACE_DATA_DIR, key: env.WORKSPACE_ENCRYPTION_KEY });
   const interpreter = createInterpreter({ apiKey: env.OPENAI_API_KEY, model: env.OPENAI_MODEL });
-  const server = createServer({ port, store, interpreter, hosting: { origin: env.WORKSPACE_ORIGIN, subject: env.WORKSPACE_OWNER_SUB } });
+  const server = createServer({ port, store, interpreter, hosting: { origin, subject: env.WORKSPACE_OWNER_SUB } });
   server.requestTimeout = 90000;
   server.headersTimeout = 10000;
   server.on('error', () => { console.error('The hosted workspace could not bind its configured port.'); store.close(); process.exitCode = 1; });

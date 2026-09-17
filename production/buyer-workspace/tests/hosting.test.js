@@ -137,5 +137,7 @@ test('hosted HTTP restores a protected session after restart, denies anonymous a
 
 test('incomplete production configuration cannot start an apparently usable deployment', () => {
   assert.throws(() => start({}), /Deployment is incomplete/);
+  assert.throws(() => start({ RENDER_EXTERNAL_URL: 'https://workspace.example.invalid' }), /set WORKSPACE_DATA_DIR/);
+  assert.throws(() => start({ RENDER_EXTERNAL_URL: 'http://workspace.example.invalid' }), /exact HTTPS origin/);
   assert.throws(() => createServer({ hosting: { origin: 'http://example.invalid', subject: 'test' } }), /requires an HTTPS origin/);
 });

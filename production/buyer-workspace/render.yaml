@@ -22,8 +22,6 @@ services:
         value: production
       - key: WORKSPACE_DATA_DIR
         value: /var/data/buyer-workspace
-      - key: WORKSPACE_ORIGIN
-        sync: false
       - key: WORKSPACE_OWNER_SUB
         sync: false
       - key: WORKSPACE_ENCRYPTION_KEY
