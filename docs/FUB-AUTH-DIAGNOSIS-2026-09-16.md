@@ -83,8 +83,12 @@ MFA can still require human sign-in. Do not promise permanent login.
 
 The live Auth0 log at 2026-09-17T00:55:09Z explicitly warns that the Google connection
 uses development keys and must use its own credentials for production. This is a
-confirmed production-readiness gap, not an established cause of the missing local
-refresh token or this run's browser error.
+production-readiness gap observed during diagnosis, not an established cause of the
+missing local refresh token or this run's browser error. The owner subsequently
+saved owned Google credentials in the existing Auth0 social connection. Reload
+confirmed the intended client and removal of the development-key warning; the
+Google connection test returned Successful transaction. Profile-only permissions
+were preserved, and no additional Auth0 application was created.
 The in-app browser separately showed `invalid_request` with a lost provider login
 session. The repaired native connection completed through the normal browser.
 
@@ -141,7 +145,13 @@ loopback callbacks and token limits remained unchanged. The owner entered the AI
 key through Render. The deployed app authenticated the owner, retrieved real buyers,
 generated a real AI draft and displayed its combined review at phone width. Its
 actual server restart resumed the browser session and fresh FUB reads without login.
-This does not yet verify hosted token renewal or an actual independent phone session.
+The deployed connection check then performed a real hosted refresh exchange and
+bounded FUB read. A separate Chrome session authenticated and retrieved buyers.
+After a further actual server restart, both browser sessions retrieved buyers
+without login; another renewal successfully used the persisted rotated credential.
+Brief 502 responses during restart cleared when routing recovered. The single
+instance has planned restart/deployment downtime. This does not establish an
+actual independent phone session.
 
 ## References
 

@@ -7,11 +7,11 @@ final real-phone acceptance remains open. The existing FUB service was unchanged
 
 - URL: https://blaise-buyer-workspace.onrender.com
 - Render service: `srv-dall4cqjnfac739ur6h0`; deployed commit:
-  `16dd18ba615f963583a8a2fc53813eb35f1ac01b`.
+  `88b894ed2c8c4d7710380599df42da397767b100` (updated at 9:56 PM CDT).
 - The owner approved $7.25/month base hosting and owner-only access, then separately
   approved the exact `/auth/callback` URL. Auth0 read-back after reload confirmed
   that URL plus both original loopback callbacks; token limits were unchanged.
-- All 29 workspace tests passed locally and in Render's build. A fresh unauthenticated
+- All 30 workspace tests passed locally and in Render's build. A fresh unauthenticated
   process confirmed healthy HTTPS, secure session cookies, denied buyer reads and
   saves, and rejection of a foreign origin.
 - The live browser authenticated the configured owner, retrieved three active
@@ -20,10 +20,19 @@ final real-phone acceptance remains open. The existing FUB service was unchanged
   The test draft was discarded; the prior pilot's writes were not duplicated.
 - A real Render restart started a new process at 9:40 PM CDT. The existing browser
   session retrieved buyers and a fresh brief after reload without another login.
-- Hosted token renewal itself, a newly approved hosted write/read-back, an independent
-  browser session, actual phone/computer-off use, and replacement of Auth0's Google
-  development keys remain acceptance checks. Native Codex renewal was separately
-  verified; it is not evidence of a hosted refresh exchange.
+- The owner entered and saved the new Google credentials in Auth0. Reload confirmed
+  the intended client and removal of the development-key warning; Auth0's Google
+  connection test returned Successful transaction. Profile-only permissions stayed
+  unchanged. No additional Auth0 application was created.
+- A separate Chrome session authenticated and retrieved three buyers. The live
+  connection check performed a real refresh exchange and bounded FUB read at
+  9:56 PM CDT. An actual server restart created a fresh process at 9:57 PM; both
+  browser sessions retrieved buyers again at 9:58 PM without another login. A
+  second real renewal after restart also passed, exercising the persisted rotated
+  credential. Brief 502 responses during the single-instance restart cleared after
+  routing recovered; planned restarts/deployments have a short availability gap.
+- A newly approved hosted write/read-back and actual phone/computer-off use remain
+  acceptance checks. The existing connector pilot was not duplicated.
 
 ## Existing infrastructure inspected
 
@@ -73,7 +82,7 @@ supported without the second variable. Enter the OpenAI API
 key directly into Render's secret environment input; never paste it into a task,
 source file or browser client. The proposed model is pinned to
 `gpt-5.4-mini-2026-03-17`, whose official model page lists Responses and structured
-output support. Actual account access is still unverified until the key is present.
+output support. Actual account access and AI drafting have been verified.
 
 ## Persistence and renewal
 
@@ -124,17 +133,16 @@ single CRM write adapter govern AI-assisted and manual preparation.
 
 - Done: retained native client and exact owner inspected; approved hosted callback
   registered and verified without removing either current loopback callback.
-- Replace the existing Google connection's Auth0 development keys with the owner's
-  production Google OAuth credentials. The current Auth0 log explicitly flags this;
-  credentials must be entered by the owner in the provider UI.
+- Done: the owner saved the owned Google OAuth credentials in Auth0; persisted
+  configuration and the Google connection test passed. The existing Google project
+  remains in Testing; this profile-only login does not change the Drive integration.
 - Done: concrete hosting cost and callback separately approved.
 - Done: owner entered the API key through Render; real model drafting succeeded.
 - Done: reviewed commit deployed; anonymous access denied and owner login verified.
 - Done: real buyer retrieved with source times and copy-only text in the review.
 - Complete an approved real app workflow with read-back, without duplicating the
   prior connector pilot's note or task.
-- Done: actual service restart and same-browser recovery. Still exercise hosted
-  renewal and an independent fresh browser session.
+- Done: actual service restart, hosted renewal and independent browser access.
 - Confirm use from the owner's actual phone with the local process stopped.
 
 References: [Render disks](https://render.com/docs/disks),

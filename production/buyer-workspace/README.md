@@ -7,7 +7,9 @@ encrypted persistent sessions, exact-owner token verification, serialized renewa
 restart-safe save receipts and a structured AI interpreter. Read the
 [deployment proposal and remaining acceptance checks](DEPLOYMENT.md).
 The owner approved the separate Render service and exact hosted callback. Live
-owner login, buyer retrieval, AI drafting and server-restart recovery passed.
+owner login, buyer retrieval, AI drafting, hosted renewal and server-restart recovery
+passed. The owner's Google credentials replaced Auth0's development keys, and
+Auth0's Google connection test succeeded. A separate browser session retrieved buyers.
 
 A narrow, responsive local application for one buyer showing debrief. It reuses the
 existing full FUB service, public native OAuth registration, brand fonts/wordmark,
@@ -108,10 +110,10 @@ mail evidence remain in FUB/Gmail and the authorized task, not in this repositor
 The browser's complete capture/review/simulated-save path was tested with fictional
 data. The hosted app separately passed live owner login, real buyer retrieval,
 real AI preparation, combined phone-width review and actual server-restart recovery.
-The prior pilot's records were read, not duplicated. Hosted write/read-back,
-hosted renewal, independent-session and actual-phone acceptance remain open.
+The prior pilot's records were read, not duplicated. Hosted renewal and an independent
+browser session passed. Hosted write/read-back and actual-phone acceptance remain open.
 
-29 tests cover provenance, no pre-approval writes, immutable/replaced approval,
+30 tests cover provenance, no pre-approval writes, immutable/replaced approval,
 wrong-target/stale-state failures, completeness, duplicate avoidance, task reuse,
 partial writes, read-only recovery, sensitive inputs, dates, HTTP protections,
 OAuth state/PKCE, streamed MCP responses, signed owner identity, encrypted storage,
