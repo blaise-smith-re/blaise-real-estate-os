@@ -7,7 +7,7 @@ final real-phone acceptance remains open. The existing FUB service was unchanged
 
 - URL: https://blaise-buyer-workspace.onrender.com
 - Render service: `srv-dall4cqjnfac739ur6h0`; deployed commit:
-  `cd8921ecfe2d2af203f0ce4c3c9bb2590eb72da2` (updated at 10:14 PM CDT).
+  `dc151bc02c69dc3a04c0d1d88a501c2811b40f2b` (updated at 10:21 PM CDT).
 - The owner approved $7.25/month base hosting and owner-only access, then separately
   approved the exact `/auth/callback` URL. Auth0 read-back after reload confirmed
   that URL plus both original loopback callbacks; token limits were unchanged.
@@ -38,6 +38,9 @@ final real-phone acceptance remains open. The existing FUB service was unchanged
   briefs for previously excluded Nurture contacts passed; the unclassified warning
   appeared for a contact without buyer tags. The updated picker was inspected at
   390 pixels with no horizontal overflow. No contact stages or tags were changed.
+- The live picker includes expandable guidance for adding/assigning a contact in
+  FUB, refreshing the list, and reviewing subsequent notes/tasks. The instructions
+  were opened and read back from the deployed page.
 
 ## Existing infrastructure inspected
 

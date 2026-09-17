@@ -37,6 +37,9 @@ keyboard's dictation), check speaker labels and preference changes, and review t
 note, next action and client text together. The explicit approval button is the
 only route to writes. A task is optional: update an existing assigned task or
 create one with an explicit date. No offer or appointment date is inferred.
+The picker includes "Adding and tracking a new buyer" guidance. New contacts are
+created and assigned in FUB; opening or refreshing this workspace retrieves them.
+It does not create a contact automatically from a showing.
 
 The complete original feedback stays in memory, not in the repository. Selected
 useful statements form the note; excluded material is not saved. Nothing sends,
