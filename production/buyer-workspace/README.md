@@ -1,11 +1,13 @@
-# Buyer workspace — hosted implementation prepared
+# Buyer workspace — private hosted preview
 
-**Not deployed or accepted for real phone use yet.** The hosted backend now has
+**Deployed; final real-phone acceptance remains open.** Open the
+[private hosted workspace](https://blaise-buyer-workspace.onrender.com).
+The hosted backend has
 encrypted persistent sessions, exact-owner token verification, serialized renewal,
 restart-safe save receipts and a structured AI interpreter. Read the
 [deployment proposal and remaining acceptance checks](DEPLOYMENT.md).
-The existing Render account, project, paid FUB service and repository access were
-verified in the signed-in dashboard. No new service or provider access was created.
+The owner approved the separate Render service and exact hosted callback. Live
+owner login, buyer retrieval, AI drafting and server-restart recovery passed.
 
 A narrow, responsive local application for one buyer showing debrief. It reuses the
 existing full FUB service, public native OAuth registration, brand fonts/wordmark,
@@ -45,17 +47,18 @@ offer. Client text is copy-only.
 |---|---|
 | Active buyers | Exact Blaise user resolution; three named existing stages, assigned to Blaise, at most 50 per stage; partial lists disclosed. This is not every possible active relationship. |
 | Brief | Current contact, latest 10 notes and complete open tasks. Latest meaningful note excerpt is attributed CRM context, not a newly verified client fact. |
-| Feedback preparation | Local/demo uses a conservative rules-based parser. Hosted mode adds OpenAI Responses with exact-excerpt validation, editable attribution/preferences/action/text and no tools. The API key and live model access remain unconfigured. |
+| Feedback preparation | Local/demo uses a conservative rules-based parser. Hosted mode uses OpenAI Responses with exact-excerpt validation, editable attribution/preferences/action/text and no tools. Real model access and drafting were verified. |
 | CRM note | Existing controlled write adapter plus independent exact-content read-back. |
 | Preferences | Specific, cited proposals recorded in the note. No new custom fields or shared tags; saved-search state stays unverified. |
 | Task | Optional create or exact existing-task update; old name/date/type/assignment rechecked; date is America/Chicago. |
 | Property facts | No MLS API attached. Reported details never receive a verified-MLS label. |
 | Other source enrichment | Gmail/Drive are available to the operating agent, not connected to this app. The live pilot's email research does not claim an app email integration. |
-| Browser authentication | Local: existing loopback callback. Hosted implementation: approved HTTPS callback, same scopes, PKCE, signed token verification and exact-owner restriction. The web callback is not yet registered. No Codex token-store extraction. |
-| Phone access | Layout supports phone widths and native keyboard dictation. The local URL is only reachable on this computer. Remote phone use needs an approved HTTPS host and web-login callback; the current native loopback registration is not a remote-mobile login. |
+| Browser authentication | Local: existing loopback callback. Hosted: registered approved HTTPS callback, same scopes, PKCE, signed token verification and exact-owner restriction. Live owner login and restart recovery passed. No Codex token-store extraction. |
+| Phone access | Hosted HTTPS is independent of the computer. The live review passed the 390-pixel layout check; actual phone keyboard/dictation and computer-off acceptance remain open. Local mode still requires this computer. |
 
 See [existing authentication record](../../docs/FUB-OAUTH-CONNECTION.md). No Auth0
-client, permission, redirect allowlist, token lifetime or tenant setting is changed.
+client was created for hosting. The approved exact hosted callback was added to
+the retained registration; its scopes and token lifetimes were unchanged.
 The callback listener uses the existing port 57185; a conflict is reported rather
 than killing another process or choosing a new callback. The local server does not
 persist tokens; a restart requires login. Hosted mode encrypts tokens and session
@@ -63,9 +66,9 @@ state on the configured persistent disk and commits rotation before CRM calls.
 
 The [September 16 diagnosis](../../docs/FUB-AUTH-DIAGNOSIS-2026-09-16.md) repaired
 the computer's separate native Codex connection and verified real renewal. That
-does not supply this application's independent session. The computer-off
-requirement remains unmet until hosted mode is deployed with its approved callback
-and accepted against live service restart and phone use.
+does not supply this application's independent session. The hosted app now has
+its own durable session and passed an actual server-restart check. Phone/computer-off
+acceptance remains open.
 
 ## Controls
 
@@ -103,10 +106,12 @@ mail evidence remain in FUB/Gmail and the authorized task, not in this repositor
 
 **That live connector pilot is distinct from browser end-to-end acceptance.**
 The browser's complete capture/review/simulated-save path was tested with fictional
-data. Live application login and secure remote phone access remain acceptance gaps
-until observed separately. Do not represent the local app as deployed to a phone.
+data. The hosted app separately passed live owner login, real buyer retrieval,
+real AI preparation, combined phone-width review and actual server-restart recovery.
+The prior pilot's records were read, not duplicated. Hosted write/read-back,
+hosted renewal, independent-session and actual-phone acceptance remain open.
 
-28 tests cover provenance, no pre-approval writes, immutable/replaced approval,
+29 tests cover provenance, no pre-approval writes, immutable/replaced approval,
 wrong-target/stale-state failures, completeness, duplicate avoidance, task reuse,
 partial writes, read-only recovery, sensitive inputs, dates, HTTP protections,
 OAuth state/PKCE, streamed MCP responses, signed owner identity, encrypted storage,

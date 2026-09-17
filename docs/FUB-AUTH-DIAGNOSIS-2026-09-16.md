@@ -120,23 +120,28 @@ claim is made about the tenant's complete remaining quota.
 | Full FUB MCP and its FUB API credentials on Render | No; remote service |
 | Auth0 token issuance and renewal | No; remote service |
 | Local Codex client and its encrypted credential store | Yes, to run that local client |
-| Current buyer workspace at `127.0.0.1:4317` | Yes; Node process and computer must remain running |
-| Current buyer workspace OAuth session | Yes; separate in-memory session, cleared by restart or 30-minute expiry |
+| Local buyer workspace at `127.0.0.1:4317` | Yes; Node process and computer must remain running |
+| Local buyer workspace OAuth session | Yes; separate in-memory session, cleared by restart or 30-minute expiry |
+| Hosted buyer preview at `blaise-buyer-workspace.onrender.com` | No; separate Render Node service and persistent encrypted disk |
 
 **The local buyer app is not accepted for computer-off mobile use.** Repairing
 Codex's credentials does not repair or persist the app's independent session.
-Keep the existing hosted FUB MCP. A separate hosted buyer implementation is now
-prepared with private authenticated HTTPS, an exact web callback, encrypted
+The existing hosted FUB MCP was retained. A separate hosted buyer preview is now
+deployed with private authenticated HTTPS, an exact web callback, encrypted
 persistent refresh storage, serialized rotation and exact owner verification.
-It is not deployed or accepted. Do not copy the native credential store, publish client
+Final phone acceptance remains open. Do not copy the native credential store, publish client
 records as static files, use a local tunnel, or lengthen provider limits to mask this.
 
 Deployment acceptance requires sign-in and a bounded read from an actual phone,
 backend-restart recovery, real refresh rotation, and access with this computer off.
-Hosting/account access is now established. Hosting charges, the new exact web
-callback and protected secret entry remain deployment prerequisites. No mobile
-deployment or callback expansion is claimed; the only provider mutation in this
-diagnosis was deletion of the two specifically approved obsolete registrations.
+The owner approved the additional $7.25/month hosting and separately approved
+`https://blaise-buyer-workspace.onrender.com/auth/callback`. The exact URL was added
+to the retained native application and read back after reload; both original
+loopback callbacks and token limits remained unchanged. The owner entered the AI
+key through Render. The deployed app authenticated the owner, retrieved real buyers,
+generated a real AI draft and displayed its combined review at phone width. Its
+actual server restart resumed the browser session and fresh FUB reads without login.
+This does not yet verify hosted token renewal or an actual independent phone session.
 
 ## References
 

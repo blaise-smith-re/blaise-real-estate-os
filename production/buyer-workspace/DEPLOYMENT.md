@@ -1,7 +1,29 @@
 # Hosted buyer workspace deployment proposal
 
-Status: code prepared and synthetic reliability tests passed; not deployed or
-accepted for real phone use. No production FUB service was changed.
+Status: private hosted preview deployed September 16, 2026 at 9:37 PM CDT;
+final real-phone acceptance remains open. The existing FUB service was unchanged.
+
+## Live deployment evidence
+
+- URL: https://blaise-buyer-workspace.onrender.com
+- Render service: `srv-dall4cqjnfac739ur6h0`; deployed commit:
+  `16dd18ba615f963583a8a2fc53813eb35f1ac01b`.
+- The owner approved $7.25/month base hosting and owner-only access, then separately
+  approved the exact `/auth/callback` URL. Auth0 read-back after reload confirmed
+  that URL plus both original loopback callbacks; token limits were unchanged.
+- All 29 workspace tests passed locally and in Render's build. A fresh unauthenticated
+  process confirmed healthy HTTPS, secure session cookies, denied buyer reads and
+  saves, and rejection of a foreign origin.
+- The live browser authenticated the configured owner, retrieved three active
+  buyers and the prior pilot's saved note/task, generated a real AI interpretation,
+  and displayed the combined review at 390 pixels without horizontal overflow.
+  The test draft was discarded; the prior pilot's writes were not duplicated.
+- A real Render restart started a new process at 9:40 PM CDT. The existing browser
+  session retrieved buyers and a fresh brief after reload without another login.
+- Hosted token renewal itself, a newly approved hosted write/read-back, an independent
+  browser session, actual phone/computer-off use, and replacement of Auth0's Google
+  development keys remain acceptance checks. Native Codex renewal was separately
+  verified; it is not evidence of a hosted refresh exchange.
 
 ## Existing infrastructure inspected
 
@@ -22,9 +44,9 @@ write adapter, source pointers and brand assets.
 
 The live creation form showed **$7/month** for Starter plus **$0.25/GB/month**
 for disk on September 16, 2026. This proposal adds **$7.25/month base hosting**;
-taxes, usage overages and OpenAI API usage are additional. No charge has been
-approved or incurred by this build. Request approval at the prepared deployment
-step, including the additional recurring hosting cost.
+taxes, usage overages and OpenAI API usage are additional. The owner approved the
+charge and the service was created. OpenAI billing was configured by the owner;
+the saved automatic refill purchase limit was $20/month, separate from hosting.
 
 The app uses Render's documented `RENDER_EXTERNAL_URL` as its exact HTTPS origin.
 For a future custom domain, explicitly set `WORKSPACE_ORIGIN` instead. Register
@@ -100,19 +122,19 @@ single CRM write adapter govern AI-assisted and manual preparation.
 
 ## Release acceptance still required
 
-- The retained native client and owner account were inspected. Register and verify
-  the exact hosted callback without removing either current loopback callback.
+- Done: retained native client and exact owner inspected; approved hosted callback
+  registered and verified without removing either current loopback callback.
 - Replace the existing Google connection's Auth0 development keys with the owner's
   production Google OAuth credentials. The current Auth0 log explicitly flags this;
   credentials must be entered by the owner in the provider UI.
-- Approve the concrete additional hosting cost and callback change.
-- Provide the API key through Render's secret input, then test model availability.
-- Deploy the exact reviewed commit, verify anonymous access denial and owner login.
-- Retrieve a real buyer in the hosted app, verify source times and copy-only text.
+- Done: concrete hosting cost and callback separately approved.
+- Done: owner entered the API key through Render; real model drafting succeeded.
+- Done: reviewed commit deployed; anonymous access denied and owner login verified.
+- Done: real buyer retrieved with source times and copy-only text in the review.
 - Complete an approved real app workflow with read-back, without duplicating the
   prior connector pilot's note or task.
-- Restart the actual service and verify the same browser can resume; exercise
-  safe renewal and an independent fresh browser session.
+- Done: actual service restart and same-browser recovery. Still exercise hosted
+  renewal and an independent fresh browser session.
 - Confirm use from the owner's actual phone with the local process stopped.
 
 References: [Render disks](https://render.com/docs/disks),

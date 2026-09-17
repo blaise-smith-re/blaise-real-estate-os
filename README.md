@@ -7,9 +7,10 @@ buyer brief, showing-feedback capture, a combined note/preferences/action/text
 review and approval-gated FUB note/task maintenance with independent read-back.
 Run `npm run buyer:start` or use `npm run buyer:demo` for fictional data only.
 Phone layout is supported. The [hosted implementation](production/buyer-workspace/DEPLOYMENT.md)
-adds encrypted persistent sign-in, restart recovery and AI preparation, with 28
-focused tests. Remote hosting, its approved login callback and live AI access remain
-unconfigured; this is not yet an accepted mobile release.
+adds encrypted persistent sign-in, restart recovery and AI preparation, with 29
+focused tests. The [private hosted preview](https://blaise-buyer-workspace.onrender.com)
+passed live sign-in, buyer retrieval, AI drafting and server-restart recovery;
+final phone and hosted write/renewal acceptance remain open.
 The existing agent-operated Showing & Tour workflow remains available.
 
 Provider-neutral execution foundation for Blaise Smith's real estate business — Buy Sell Home Team,
