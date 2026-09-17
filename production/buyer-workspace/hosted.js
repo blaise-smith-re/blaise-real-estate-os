@@ -1,0 +1,30 @@
+'use strict';
+
+// Dedicated single-instance web process on a persistent host. No local Codex,
+// desktop/browser process or desktop credential store is involved.
+const { ProtectedStore } = require('./protected-store');
+const { createServer } = require('./server');
+const { createInterpreter } = require('./interpretation');
+
+function start(env = process.env) {
+  for (const key of ['WORKSPACE_ORIGIN', 'WORKSPACE_DATA_DIR', 'WORKSPACE_ENCRYPTION_KEY', 'WORKSPACE_OWNER_SUB', 'OPENAI_API_KEY', 'OPENAI_MODEL']) {
+    if (!env[key]) throw new Error(`Deployment is incomplete: set ${key} in the hosting service, never in source control.`);
+  }
+  const port = Number(env.PORT || 10000);
+  if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('The listening port is invalid.');
+  const store = new ProtectedStore({ directory: env.WORKSPACE_DATA_DIR, key: env.WORKSPACE_ENCRYPTION_KEY });
+  const interpreter = createInterpreter({ apiKey: env.OPENAI_API_KEY, model: env.OPENAI_MODEL });
+  const server = createServer({ port, store, interpreter, hosting: { origin: env.WORKSPACE_ORIGIN, subject: env.WORKSPACE_OWNER_SUB } });
+  server.requestTimeout = 90000;
+  server.headersTimeout = 10000;
+  server.on('error', () => { console.error('The hosted workspace could not bind its configured port.'); store.close(); process.exitCode = 1; });
+  server.listen(port, '0.0.0.0', () => console.log('Buyer workspace listening; private session and owner verification enabled.'));
+  let stopping = false;
+  const shutdown = () => { if (stopping) return; stopping = true; server.close(() => { store.close(); process.exit(0); }); setTimeout(() => process.exit(1), 95000).unref(); };
+  process.once('SIGTERM', shutdown); process.once('SIGINT', shutdown);
+  return server;
+}
+if (require.main === module) {
+  try { start(); } catch (e) { console.error(e.message); process.exitCode = 1; }
+}
+module.exports = { start };
