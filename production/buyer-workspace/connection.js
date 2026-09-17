@@ -79,9 +79,9 @@ class FubConnection {
     // Rotation replacement is committed before any downstream CRM call.
     await this.checkpoint();
   }
-  async access() {
+  async access({ renew = false } = {}) {
     if (!this.tokens) throw new Error('Connect FUB first.');
-    if (this.tokens.expires - Date.now() < 60000) {
+    if (renew || this.tokens.expires - Date.now() < 60000) {
       if (this.retryAfter > Date.now()) throw new Error('The sign-in provider is recovering. Wait a moment and try again; no new login is needed yet.');
       if (!this.tokens.refresh) { this.clear(); throw new Error('Reconnect FUB to renew access.'); }
       // Rotation is serialized; never race the same refresh token.
@@ -89,6 +89,12 @@ class FubConnection {
       await this.refreshing;
     }
     return this.tokens.access;
+  }
+  async check() {
+    await this.access({ renew: true });
+    const result = await this.call('get_stages', {});
+    if (result?.isError) throw new Error('Sign-in renewed, but FUB did not confirm read access.');
+    return { verifiedAt: new Date().toISOString() };
   }
   async rpc(method, params, notification = false) {
     const CONFIG = this.config;

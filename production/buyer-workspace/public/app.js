@@ -94,6 +94,7 @@ function renderProposal(p) {
 $('connect').onclick = () => run(async () => { const r = await api('connect'); location.assign(r.url); });
 $('logout').onclick = () => run(async () => { await api('logout'); location.reload(); });
 $('refresh').onclick = () => run(loadBuyers);
+$('check-connection').onclick = () => run(async () => { const r = await api('connection-check'); $('connection-result').textContent = `Sign-in renewal and FUB read access verified ${time(r.verifiedAt)}.`; notice('FUB connection check passed.'); });
 $('buyer').onchange = () => run(loadBrief);
 $('refresh-brief').onclick = () => run(loadBrief);
 $('draft').onclick = () => run(async () => { draft = await api('draft', { briefToken: brief.token, property: $('property').value, feedback: $('feedback').value }); renderDraft(); scrollTo('edit'); });
@@ -109,6 +110,7 @@ async function start() {
   $('mode').textContent = status.mode === 'demo' ? 'FICTIONAL DEMO' : status.connected ? 'FUB CONNECTED' : 'FUB SIGN-IN NEEDED'; $('mode').classList.toggle('demo', status.mode === 'demo');
   $('connect-panel').hidden = status.connected; $('workspace').hidden = !status.connected; $('logout').hidden = !status.connected;
   $('privacy').textContent = status.privacy;
+  $('check-connection').hidden = !status.connected || status.mode === 'demo';
   $('mobile-gap').textContent = status.mobileGap; $('governance').textContent = `Business instructions last checked ${time(status.governanceReviewedAt)}. ${status.governanceNote}`;
   status.sources.forEach(s => { const li = node('li'), a = node('a', s.title); a.href = s.url; a.target = '_blank'; a.rel = 'noopener noreferrer'; li.append(a); $('governing-sources').append(li); });
   const remaining = new Date(status.expiresAt).getTime() - Date.now();

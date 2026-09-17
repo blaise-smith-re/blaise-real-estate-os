@@ -87,6 +87,28 @@ test('access rejection preserves refresh credentials; permission denial does not
   await assert.rejects(c.rpc('tools/list', {}), /denied this action/); assert.ok(c.tokens);
 });
 
+test('connection check renews an unexpired session, checkpoints rotation, then performs only a bounded read', async () => {
+  let stored, exchanges = 0, reads = 0;
+  const c = new FubConnection({ checkpoint: () => { stored = structuredClone(c.exportState()); }, fetcher: async (url, options) => {
+    if (url.endsWith('/oauth/token')) {
+      exchanges++; assert.equal(stored.renewalPending, true);
+      return Response.json({ access_token: 'fictional-renewed', refresh_token: 'fictional-rotated', token_type: 'Bearer', expires_in: 3600 });
+    }
+    reads++; assert.equal(stored.tokens.refresh, 'fictional-rotated');
+    const request = JSON.parse(options.body);
+    assert.equal(options.headers.Authorization, 'Bearer fictional-renewed');
+    assert.deepEqual(request.params, { name: 'get_stages', arguments: {} });
+    return Response.json({ jsonrpc: '2.0', id: request.id, result: { content: [] } });
+  } });
+  c.tokens = { access: 'fictional-current', refresh: 'fictional-old', expires: Date.now() + 3600000 };
+  c.initialized = true; c.available = ['get_stages'];
+  const result = await c.check();
+  assert.equal(exchanges, 1); assert.equal(reads, 1); assert.deepEqual(Object.keys(result), ['verifiedAt']);
+  assert.ok(Number.isFinite(Date.parse(result.verifiedAt)));
+  const fresh = new FubConnection({ fetcher: async () => { throw new Error('Unexpected login'); } }); fresh.restoreState(stored);
+  assert.equal(await fresh.access(), 'fictional-renewed');
+});
+
 test('owner verification checks signature, issuer, audience, expiration, subject and scopes', async () => {
   const { privateKey, publicKey } = generateKeyPairSync('rsa', { modulusLength: 2048 });
   const jwk = { ...publicKey.export({ format: 'jwk' }), kid: 'synthetic-key', use: 'sig', alg: 'RS256' };

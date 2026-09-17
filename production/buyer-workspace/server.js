@@ -146,6 +146,7 @@ function createServer({ port = 4317, demo = false, connectionFactory, invoke, ho
         if (!s.engine || (!demo && !s.connection.tokens)) { json(res, 401, { error: 'Connect FUB to open the buyer workspace.' }); return; }
         let result;
         if (url.pathname === '/api/buyers') result = await s.engine.buyers();
+        else if (url.pathname === '/api/connection-check' && !demo) result = await s.connection.check();
         else if (url.pathname === '/api/brief') result = await s.engine.brief(Number(input.id));
         else if (url.pathname === '/api/draft') { result = s.engine.draft(input); if (interpreter) result = await interpreter(result); }
         else if (url.pathname === '/api/review') result = s.engine.review(input);
