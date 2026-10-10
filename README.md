@@ -5,9 +5,10 @@ RE/MAX Results.
 
 ## Current state
 
-The **knowledge layer is complete and consolidated in Google Drive**. This repository now implements
-the next phase: a bounded runtime foundation that can consume those authorities without becoming a
-second CRM, task list, calendar, document system, or SOP library.
+Google Drive owns current operating guidance; Follow Up Boss owns live client state. This repository
+contains engineering tools and a bounded runtime foundation. Retrieve the current Source Map,
+Business Operating Manual and AI Execution Runbook before maintenance; historical local status
+claims do not establish current policy or prove that a component is deployed.
 
 | Layer | Status |
 |---|---|
@@ -15,21 +16,22 @@ second CRM, task list, calendar, document system, or SOP library.
 | Source cutover from the retired pre-2026-09-03 OS | **COMPLETE** |
 | `os.execution.v1` event/report contract | **IMPLEMENTED** |
 | Authority, Capability, and Entity Registry enforcement | **IMPLEMENTED — fixture-tested** |
-| Provider-neutral Operations Bus core | **IMPLEMENTED — read + internal write** |
+| Provider-neutral Operations Bus core | **LOCAL FOUNDATION — fixture-tested read + internal write; no live adapters or persistence** |
 | Command Center ranking and Decision Queue presentation | **IMPLEMENTED — memory-only** |
 | Follow Up Boss read adapter | **IMPLEMENTED — six-tool least-privilege lane** |
 | Follow Up Boss write adapter | **IMPLEMENTED — all 13 bounded maintenance operations** |
-| Codex project attachment | **CONFIGURED — restart + practical smoke pending** |
-| Scheduler and unattended internal orchestration | **DESIGNED TARGET — certification HOLD** |
+| Codex project attachment | **CONFIGURED — `blaise_fub_full`; verify initialization and a bounded authorized read in the current session** |
+| This repository's runtime scheduler | **NOT IMPLEMENTED — runtime is manual-only; separately hosted tasks must be inspected in their actual provider** |
 | External release | **BLAISE REVIEW — SEND / SUBMIT / PUBLISH / SIGN / SPEND** |
 
 The runtime accepts both `READ_ONLY/READ` and `INTERNAL_WRITE/WRITE_INTERNAL`. AI can maintain
 Blaise's individual FUB records without micro-approval; outward actions still stop for Blaise's
-review. Both deployed MCP services are enabled in the trusted-project Codex configuration.
+review. The trusted-project configuration uses the existing `blaise_fub_full` connection only.
+The retired separate read-only connection must not be recreated.
 
 ## Runtime guarantees
 
-- Manual trigger only; scheduled or unattended execution is rejected.
+- This local runtime accepts manual triggers only. This is not a claim about separately hosted schedules.
 - Reads have zero effects. Internal-write events allow at most two FUB writes and one internal
   appointment record; messages and money movement remain zero.
 - Exact active authority rule required; ambiguity fails closed.
@@ -91,9 +93,9 @@ These checks make no network calls and perform no business-system writes.
 
 ## Codex desktop activation
 
-This repository includes a trusted-project `.codex/config.toml` for the deployed FUB services. The
-read-only service is enabled with exactly six least-privilege research tools. The full operator is
-enabled with all 25 read tools and 13 bounded internal-write tools.
+This repository includes a trusted-project `.codex/config.toml` for the existing `blaise_fub_full`
+operator, with 25 read tools and 13 bounded internal-write tools. The separate read-only connection
+is retired. Preserve the existing OAuth identity, callback, scopes and tool allowlist.
 
 The configuration sets `mcp_optional_startup_grace_ms = 0` and a 60-second server startup timeout.
 This matters because the Render service can take longer than Codex's normal optional-server grace
@@ -101,8 +103,8 @@ period to wake after being idle; without the longer wait, a healthy authenticate
 missing from a thread's initial tool inventory.
 
 In the Codex desktop app, trust/open this repository, restart Codex after configuration changes, and
-use `/mcp` to confirm both `blaise_fub_read_only` and `blaise_fub_full` are enabled. OAuth credentials
-remain in Codex's credential store and must never be committed. The full lane can maintain internal
+use `/mcp` to confirm `blaise_fub_full` initializes, then perform an authorized bounded read. OAuth
+success alone is insufficient. Credentials remain in Codex's credential store and must never be committed. The full lane can maintain internal
 FUB records; it cannot independently send an email, text, call, publish, sign, or spend.
 
 ## Canonical-source rule
@@ -112,9 +114,10 @@ never copied SOP bodies. Resolve current authority by `file_id` from
 `governance/source-registry.json`. A title beginning `RETIRED -`, `LEGACY -`, or `ARCHIVED -`, or
 containing `Superseded`, is evidence only and must never control a live workflow.
 
-## Immediate next step
+## Maintenance entry point
 
-Restart Codex in this trusted project so it reloads `.codex/config.toml`. Confirm both FUB servers in
-`/mcp`, then perform one normal contact read and one approved internal note/task update. After that,
-the next build target is scheduled internal cadence and event-driven orchestration—not another round
-of artificial per-tool certification.
+Read `AGENTS.md` when present and retrieve the current Drive authorities. For connection recovery,
+read `.codex/config.toml`, `docs/FUB-OAUTH-CONNECTION.md` and
+`production/lead-engine/FUB-READ-RECOVERY.md`. Run the offline checks above before proposing changes.
+Do not make a live write merely to smoke-test access. Inspect existing hosted schedules and their
+outputs before proposing new background work, and check deployment triggers before pushing code.
