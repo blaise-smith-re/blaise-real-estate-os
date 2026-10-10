@@ -1,5 +1,85 @@
 # Architecture Decision Record
 
+## D-BW-002 — Durable hosted buyer workspace, pending deployment
+
+**Date** 2026-09-16 · **Status** IMPLEMENTED AND SYNTHETICALLY TESTED; deployment pending
+
+Supersedes the implementation limits of the local buyer decision below. Reuse the
+existing Render project, OS repository, FUB MCP and native-client scopes. Prepare
+a separate owner-restricted HTTPS Node service so it runs independently of the
+desktop and does not alter the working FUB server. The exact web callback and
+additional hosting charge require approval at their concrete provider actions.
+
+Use a persistent disk with authenticated encryption for short-lived sessions and
+approved-write receipts. One process lock and serialized rotation prevent refresh
+token races. Commit replacements before CRM calls; retain credentials during
+known transient failures. Uncertain rotation requires provider sign-in rather than
+reuse. A pre-write checkpoint and read-only recovery prevent duplicate writes
+after a restart. FUB remains authoritative; there is no parallel client database.
+
+AI preparation uses a supported Responses endpoint, minimized showing input and
+strict structured output. The model cannot invoke CRM tools or send messages.
+Validate exact excerpts and client-statement preference evidence, then reuse the
+existing immutable review and controlled FUB write adapter. API credentials and
+actual model access remain a deployment prerequisite, not an inferred capability.
+
+The existing Render Starter option and disk price were inspected. See
+[deployment proposal](../production/buyer-workspace/DEPLOYMENT.md) for exact setup,
+provider renewal limits, encrypted backup caveats and unfulfilled live acceptance.
+This record does not authorize spending, change provider permissions, certify a
+release or amend canonical business sources.
+
+## FUB local renewal repair and computer-off requirement
+
+**Date** 2026-09-16 · **Status** LOCAL CONNECTION VERIFIED; hosted buyer app pending
+
+Align the stale machine and project configuration with the existing approved
+native-client scopes and callback. Pin protected persistent storage and explicitly
+disable the retired lane so inherited user settings cannot reactivate it. Preserve
+the current full endpoint, public client, tool permissions and cloud app connection.
+Fresh-process reads and real refresh rotation passed. Evidence and limitations:
+[authentication diagnosis](FUB-AUTH-DIAGNOSIS-2026-09-16.md).
+
+The computer-off requirement supersedes any suggestion that the session-only local
+buyer implementation is sufficient for mobile acceptance. Preserve it as a local
+prototype; a private hosted backend with web authentication and encrypted durable
+renewal is required. Native Codex login cannot supply web-app sessions. No hosted
+deployment, provider setting change or credential transfer is authorized by this
+engineering record.
+
+## Buyer workspace — one approved debrief before expansion
+
+**Date** 2026-09-16 · **Status** LOCAL IMPLEMENTATION; remote-phone deployment pending
+
+Build an isolated responsive working surface on current main, preserving the
+original checkout's edits. Reuse FUB's existing MCP/native OAuth registration and
+the bounded write adapter. The app's CRM service is the sole writer and exposes
+only note/task maintenance. Source-owned context and session-only proposals keep
+FUB authoritative. A proposal may create one note and create or update one task;
+client text is copy-only. No forced task, invented date, search write or verified
+property claim.
+
+The current request explicitly requires approval of proposed internal changes;
+this is a workflow-specific owner choice, not a new global micro-approval policy.
+Each approval binds immutable content to an exact buyer. Re-read changing state,
+reuse existing work, verify each result, and reconcile uncertain responses using
+reads rather than retries. New edits invalidate prior unattempted reviews.
+
+The existing Showing & Tour workflow remains the full agent-operated preparation
+and interpretation lane. No running AI-generation service or reusable web-session
+authentication was found in the repository. The app provides a transparent,
+conservative first-pass parser with editable speaker labels and proposals. Its
+native OAuth session is process-memory only and requires normal business sign-in;
+Codex's credential store is not an API for this app. The loopback callback cannot
+serve as a remote phone login. A hosted HTTPS/mobile authentication path remains
+unimplemented and must not be simulated with a public tunnel or copied tokens.
+
+The owner-approved live connector pilot and fictional browser UI tests establish
+different evidence. The former proves the actual note/task workflow, the latter
+the local app interaction. Neither proves live app login or remote deployment.
+Canonical source content was retrieved from current Drive IDs; this decision
+records engineering choices, not copied business policy.
+
 Append-only. Never edit a decision in place — supersede it with a new entry and mark the old one
 `SUPERSEDED BY D-nnn`. Decisions here govern **repo-native engineering only**. Business policy,
 authority, and certification gates are owned by Google Drive and ChatGPT / 04.

@@ -6,6 +6,45 @@ Improvement Findings.
 
 ---
 
+## [Buyer workspace — hosted implementation prepared] — 2026-09-16
+
+- Verified the existing Render project, deployed paid FUB service and access to
+  the existing OS repository. Prepared a separate single-instance Node deployment
+  with 1 GB persistent storage; no service created or hosting charge incurred.
+- Added encrypted session envelopes, exact signed owner verification, secure web
+  cookies, serialized durable renewal and restart-safe approved-write receipts.
+  Transient access failures preserve refresh credentials; uncertain rotations
+  and CRM writes are never blindly replayed.
+- Added minimized OpenAI Responses interpretation with strict structured output,
+  exact source excerpts and human review. No live API key/model access is claimed.
+- 28 buyer-workspace tests and 83 existing runtime/lead tests pass, including a
+  separate-process encrypted-storage check and interrupted-save read-only recovery.
+  Provider setup, deployment and real-phone acceptance remain outstanding.
+
+## [Buyer workspace v0.1 — local implementation] — 2026-09-16
+
+- Diagnosed and repaired this computer's stale FUB OAuth configuration: missing
+  offline scope, expired nonrenewable credential, plaintext-file override and
+  inherited retired server. Reused the existing registration, verified encrypted
+  persistence, real renewal/rotation and fresh-process reads on both installed
+  Codex versions. The connection gate now checks protected storage and explicit
+  retirement override. See the September 16 authentication diagnosis.
+
+- Added a phone-responsive buyer brief, keyboard-dictation feedback capture,
+  attributed proposals, combined review and explicit internal-save approval.
+- Reused the full FUB service, existing native OAuth registration, controlled
+  write adapter, and Showing & Tour brand assets. No credentials or client data
+  are stored in Git or browser storage.
+- Added note plus optional existing-task update/new task, exact targeting,
+  stale-state checks, duplicate protection and independent read-only recovery.
+- Completed one owner-approved real connector pilot; source-system note and
+  existing-task changes were independently read back. No client message sent.
+- Browser synthetic flow and 18 focused tests pass; existing 83 runtime/lead
+  tests pass. Eight documented baseline static failures remain. App live login,
+  remote HTTPS phone access and a full AI interpreter are separate access gaps.
+- Business source bodies and live pilot details remain outside source control.
+  No canonical Drive change, deployment, merge or authority expansion.
+
 ## [Lead Engine v1 — released for agent-operated research/prep] — 2026-09-10
 
 - Owner directed the final release of PR #6 after accepted FUB recovery. Current main is integrated; the completed exact no-match result and its nonexistence caveat remain in the existing private package.

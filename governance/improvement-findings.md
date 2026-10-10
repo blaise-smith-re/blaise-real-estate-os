@@ -1,5 +1,117 @@
 # Improvement Findings — Continuous Improvement Log
 
+## IF-2026-09-16-BW02 — Hosted renewal and write recovery need durable state
+
+**TRIGGER** — Owner requested a usable, verified phone workspace that works while
+the computer is off; signed into the existing Render project.
+
+**CONTROLLING SOURCE FILE ID + VERSION** — Current FUB System Runbook and AI
+Execution Runbook cited in BW01 below, retrieved during this continuous build;
+the owner's explicit mobile and review-before-save requirements.
+
+**OBSERVED ISSUE** — Local process-only tokens and proposals disappear on restart.
+Treating every authorization/server error as expired login would recreate repeated
+reconnections. Losing an attempted write's state can cause duplicate CRM entries.
+
+**WHY IT MATTERS / CLIENT IMPACT** — Phone access needs independent hosting;
+renewal and interrupted saves need durable, protected, bounded recovery records.
+
+**CLASSIFICATION** — OPERATIONAL CHANGE; implementation only, no new write authority.
+
+**EXACT PROPOSED CHANGE** — Deploy the prepared owner-restricted service with
+encrypted short-lived sessions, exact web callback, serialized refresh and
+pre-write checkpoints. Verify actual restart and phone access before acceptance.
+Use existing FUB write controls; keep text copy-only and source systems authoritative.
+
+**RELATED ASSETS AFFECTED** — Buyer workspace implementation, deployment proposal,
+README, changelog and D-BW-002. No canonical source body changed.
+
+**TESTING REQUIRED** — Encrypted persistence, owner identity, fresh process,
+transient versus terminal renewal, interrupted-write reconciliation, real hosted
+login/readback and actual phone use with the local process stopped.
+
+**DISPOSITION: PARTIALLY IMPLEMENTED** — 28 workspace tests pass, including
+protected storage opened by a fresh process. Existing Render access verified.
+No hosted release, new callback, API-key provisioning or additional spending yet.
+
+## IF-2026-09-16-FUB02 — Approved renewal settings did not reach an older computer
+
+**TRIGGER** — Owner reported repeated FUB reconnection during mobile-workspace work.
+
+**CONTROLLING SOURCE FILE ID + VERSION** — FUB System Runbook
+`1dR1lv1VWfvzmozPo-rX7sbbZ_kWvuWSAzTCNvWMKWos`, active unpinned, modified
+2026-09-14, retrieved in this build; existing approved native OAuth engineering record.
+
+**OBSERVED ISSUE** — Machine and older-checkout settings lacked offline renewal,
+selected plaintext storage and inherited the retired read-only connection. The
+stored full-server access token was expired with no refresh token. Repository
+updates and successful cloud-app access did not prove the local client was repaired.
+
+**WHY IT MATTERS** — Repeating login without fixing requested scopes and persistence
+recreates the same failure. Removing a project entry does not disable an inherited
+user entry. Local app process memory does not satisfy computer-off mobile access.
+
+**TIME / RISK / CLIENT IMPACT** — Repeated interruptions and misleading readiness
+claims; no client record or communication was changed during authentication tests.
+
+**CLASSIFICATION** — MINOR MAINTENANCE for the existing approved connection repair.
+Hosted web authentication remains a separate operational implementation boundary.
+
+**EXACT PROPOSED CHANGE** — Apply existing scopes/client/callback to the effective
+configuration, pin protected storage, and explicitly disable the retired lane.
+Require fresh-process bounded read and real renewal/rotation evidence. Keep the
+existing hosted MCP; use a private hosted buyer backend for computer-off access.
+
+**RELATED ASSETS AFFECTED** — Codex machine/project configuration, connection static
+gate, authentication diagnosis and buyer-workspace acceptance documentation.
+
+**TESTING REQUIRED** — Correct identity/scopes, encrypted persistence, refresh
+rotation, subsequent-process tools/read, no credential output and no CRM writes.
+
+**DISPOSITION: IMPLEMENTED** — Local native connection checks passed on both
+installed Codex versions. Computer-off buyer workspace remains unimplemented;
+no canonical document or provider authentication settings changed.
+
+## IF-2026-09-16-BW01 — Native authentication is not a hosted buyer workspace
+
+**TRIGGER** — Owner requested a mobile buyer workflow using existing authentication.
+
+**CONTROLLING SOURCE FILE ID + VERSION** — AI Execution Runbook
+`1pFUdBNfbPLBYSkyKj0_25wC6RuP6VKO1WnkOZ1EudJw`, active unpinned, modified
+2026-09-09; FUB System Runbook `1dR1lv1VWfvzmozPo-rX7sbbZ_kWvuWSAzTCNvWMKWos`,
+active unpinned, modified 2026-09-14; retrieved during this build.
+
+**OBSERVED ISSUE** — The merged integration has a reusable native client and exact
+loopback callback. It does not supply a remote web login, a hosted app, Drive/Gmail
+web credentials, or an application AI interpreter. Older repo wrappers also retain
+statements superseded by current canonical sources; they must not silently define
+new app access or authority.
+
+**WHY IT MATTERS** — A responsive screen alone does not make live client data safely
+available on a separate phone. A connector pilot must not be labeled app deployment.
+
+**TIME / RISK / CLIENT IMPACT** — Prevents credential copying, public client-data
+exposure, invented integrations and duplicate tasks when the current one can be reused.
+
+**CLASSIFICATION** — OPERATIONAL CHANGE.
+
+**EXACT PROPOSED CHANGE** — Keep this local slice bounded and distinguish connector
+pilot, synthetic browser acceptance and live web acceptance. Before remote release,
+verify an approved private HTTPS host, registered web callback, session/access
+controls and a supported inference lane. Do not change the native OAuth registration
+or claim remote access as part of this build. Work may add a Source Map pointer only
+after the intended deployment and acceptance state are known.
+
+**RELATED ASSETS AFFECTED** — production/buyer-workspace; docs/FUB-OAUTH-CONNECTION.md;
+existing Showing & Tour workflow; canonical routing proposal only.
+
+**TESTING REQUIRED** — Current bounded note/task integration and UI tests; explicit
+owner review of one real buyer; independent readback; remote authentication and
+device acceptance before claiming a hosted mobile workspace.
+
+**DISPOSITION: REVIEW** — Local implementation complete; connected-tool pilot
+verified with owner approval; no canonical edits or remote deployment claimed.
+
 > **PUBLIC-SAFE RECORD.** Examples are synthetic or generalized. Raw client records, direct contact
 > information, property activity, exact task text, and production object identifiers are prohibited
 > from this repository.
