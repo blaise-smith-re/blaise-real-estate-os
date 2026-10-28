@@ -1,6 +1,6 @@
 # Transaction Operations v1 — accepted-contract preparation
 
-**IMPLEMENTED FOR REVIEW.** Dedicated review branch; not a governing SOP or deployed service. Work starts in the client's transaction Workbench under **Blaise RE — Sellers & Transactions**. Blaise can say: “Get this transaction organized from the executed agreement.” Work keeps the relationship and transaction context; Codex reads the original evidence and produces the private brief when needed. Direct Codex use remains available. Blaise does not need to manage technical input files.
+**Agent-operated production companion.** Version 1.1.0 includes the accepted-contract kickoff extension. Current Drive authority and the existing delivery record identify the released revision and matching portable ZIP. Work starts in the client's transaction Workbench under **Blaise RE — Sellers & Transactions**. Blaise can say: “Process this accepted agreement, prepare Laura's handoff and my buyer's next steps.” Work keeps the transaction context; Codex prepares the source-bound packet and completes supported authorized internal work through existing connectors. Blaise does not maintain technical input files. See [KICKOFF.md](KICKOFF.md).
 
 For a later change: “Reconcile this amendment and the latest transaction updates; show what changed and what needs me.” Retain the original source package, every intervening executed change and the previous generated result. Newer unsigned proposals never replace executed terms.
 
@@ -8,7 +8,7 @@ For a later change: “Reconcile this amendment and the latest transaction updat
 
 - Private Transaction Start/Update Brief: content-driven Letter pages and a genuinely single-column phone HTML/PDF. Recommendation first; obligations, contractual responsibility, follow-through owners with human roles, source labels, changes and missing evidence follow.
 - Separate client, actual assigned TC, lender and title drafts, each unsent and with routing status. Client next steps require a supported action for that exact buyer/seller; remaining useful dates are milestones for awareness. Specialists receive only relevant lane items. The brief and source/provenance files are not client attachments.
-- Minimal field/note and existing-folder filing **proposals**, using existing `lead-conversion-crm` routing. No compulsory task, deal, note, new folder or duplicate TC work.
+- Evidence-bound kickoff drafts, actual attachment manifest, inspection booking/waiver branches, handoff states, duplicate/amendment handling and owner follow-through. Generated internal operation plans remain pending until the active agent completes and independently verifies the actual filing/contact/deal actions through existing owners. Current FUB guidance requires the correct deal; a note is not a substitute. No duplicate TC work or unnecessary Blaise task.
 - Per-run evidence output with exact source version, locator, page, section, quotation and SHA-256 where bytes are available. This is generated provenance, not another maintained contract abstract or transaction database.
 
 This is an **agent-operated production tool**, not an automatic contract interpreter or signature verifier. The responsible agent reads the full originals, inspects completion and makes the evidence-bound interpretation. The code validates citations, arithmetic, chronology, targets and output boundaries. Extracted text and matching bytes alone do not prove signatures or legal effectiveness. Follow [CODEX-WORKFLOW.md](CODEX-WORKFLOW.md).
@@ -50,9 +50,9 @@ The handwritten fixture completion statements are **not signatures and have no l
 
 ## Source and review records
 
-- [Governing pointers](governance.json): current Runbook and related source IDs; proposed companion only.
+- [Governing pointers](governance.json): current Runbook and related source IDs; version and verified availability boundaries.
 - [Operator implementation](CODEX-WORKFLOW.md): intake, evidence, processing and readback.
-- [Proposed governing wording](WORK-REVIEW-PATCH.md): preserve stable IDs and existing instructions; do not apply until owner review.
+- [Historical governing proposal](WORK-REVIEW-PATCH.md): retained history; current Drive guidance supersedes its earlier promotion status.
 - [Review handoff](RESUME.md): actual source/status belongs in the accompanying delivery record, not a fabricated release claim.
 
 `bundle.py` creates a portable ZIP and per-file hashes. The bundle carries its actual Git revision when run from a clean committed checkout. No live input, rendered case, secret, cached Drive body or `.git` directory is included.

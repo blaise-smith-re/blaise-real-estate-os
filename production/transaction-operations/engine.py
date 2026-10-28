@@ -189,6 +189,17 @@ def reconcile(case,analysis,source_dir,previous=None):
     folder=case.get("filing",{})
     result["filing_plan"]={"status":"PROPOSED — NO FOLDERS OR FILES CREATED","existing_lifetime_folder":folder.get("lifetime"),"existing_transaction_folder":folder.get("transaction"),"action":"Reuse the existing offer-stage property folder" if folder.get("transaction") else "Locate the existing offer-stage folder before proposing a new transaction folder","originals":[{"source":s["id"],"version":s["version"],"sha256":s["sha256"],"locator":s["locator"]} for s in src.records.values()],"private_separation":"Restrict representation, financial support and strategy records to appropriate access; share only reviewed recipient-appropriate records."}
     result["source_inventory"]=[{k:v for k,v in s.items() if k!="pages"} for s in src.records.values()]
+    if case.get("kickoff"):
+        from kickoff import prepare
+        result["executed_document_sources"] = [d["source"] for d in analysis["documents"] if d["status"] == "executed"]
+        result["executed_document_inventory"] = [{"id": d["id"], "source": d["source"], "sha256": src.records[d["source"]]["sha256"], "version": src.records[d["source"]]["version"], "verified": assessment[d["id"]]["valid"]} for d in analysis["documents"] if d["status"] == "executed"]
+        result["kickoff"]=prepare(case,result,src)
+        for draft in result["handoffs"]:
+            if draft["role"] in ("client", "tc"):
+                draft["body"] = result["kickoff"]["buyer_draft" if draft["role"] == "client" else "tc_draft"]["body"]
+        # Legacy field proposals are not sufficient transaction reconciliation.
+        result["proposals"]["fields"] = []
+        result["proposals"]["kickoff_operations"] = result["kickoff"]["operations"]
     return result
 
 def handoffs(case,r):
@@ -247,6 +258,12 @@ def run(case_path,analysis_path,source_dir,out,request_path,previous=None):
     for d in result["handoffs"]:
         prefix="SYNTHETIC DEMONSTRATION — PRIVATE REVIEW\n" if case["mode"]=="synthetic" else ""
         (out/"drafts"/(d["role"]+"-DRAFT.txt")).write_text(prefix+d["status"]+"\nRecipient: "+(d["recipient"] or "To confirm")+" | "+(d["routing"] or "Routing to confirm")+"\n\n"+d["body"]+"\n",encoding="utf-8")
+    if result.get("kickoff"):
+        from kickoff import save_review
+        save_review(result["kickoff"],out,source_dir)
+        # Do not leave the older generic client/TC copies beside booking-aware drafts.
+        for role in ("client","tc"):
+            (out/"drafts"/(role+"-DRAFT.txt")).unlink(missing_ok=True)
     from documents import generate
     generate(result,out)
     return result

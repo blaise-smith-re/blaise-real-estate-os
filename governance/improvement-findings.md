@@ -534,3 +534,10 @@ review, no merge or governing promotion.
 ### IF-2026-09-10-LE02 — Release disposition, 2026-09-10
 
 Blaise authorized the final PR #6 release path after the supported seller/host demonstration and completed bounded relationship lookup. The research snapshot and source timestamps remain unchanged; the relationship reconciliation does not inflate scores or remove contact gates. Released for agent-operated research/prep after relevant validation; recurring conversion effectiveness remains a business outcome to evaluate. No governing promotion or certification expansion.
+
+## IF-2026-10-28-TC01 — Prepared instructions and local implementation need verified publication
+
+- **GAP** — Canonical instructions and tested transaction code can exist while everyday project settings or portable assets still point to older behavior.
+- **CHANGE** — Reconcile the six existing project instruction fields against the current canonical core and role, preserve nonconflicting owner preferences, and release Transaction Operations 1.1.0 using existing source and Drive entry points.
+- **EVIDENCE** — Private audit holds project saved-body readbacks, release revisions, bundle hashes and remaining live-test limits; no canonical bodies or client data are copied here.
+- **BOUNDARY** — No schedules, unattended runner, external sends or live client mutations are introduced as rollout tests.

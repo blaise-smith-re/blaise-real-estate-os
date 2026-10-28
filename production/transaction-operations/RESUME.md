@@ -1,5 +1,7 @@
 # Review handoff
 
+**Current status, October 28, 2026:** version 1.1.0 includes the accepted-contract kickoff extension and current owning Drive guidance. Use KICKOFF.md and the existing Drive delivery record for the actual released revision and portable bundle. The original review below remains historical. Live end-to-end client closeout has not been demonstrated.
+
 This is the Transaction Operations v1 build review, on `codex/transaction-operations-v1`. Use the single existing review PR and private Drive package identified in the accompanying delivery record. Do not create a second PR or review tree for corrections.
 
 The delivered source revision, test counts, PDF/readback hashes and actual PR/Drive links are recorded outside the repository in that record. This file does not assert a commit or upload that has not happened.

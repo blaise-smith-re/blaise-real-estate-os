@@ -1,5 +1,7 @@
 # Proposed governing additions — not applied
 
+**Historical proposal retained for provenance.** Current Drive authority records the original v1 release. The October 28 kickoff addition was applied directly to its owning Transaction Runbook and Buyer SOP under the owner's instruction. This older proposal is not a current approval requirement or deployment status. See `KICKOFF.md` and `governance.json`; retrieve current Drive guidance before operating.
+
 These are narrowly scoped production-companion and usage additions for owner/Work review. Preserve the current business rules, stable Drive IDs, source routing and existing assets. Do not make the fictional review a live transaction record. A review approval is still needed before governing promotion and PR merge.
 
 ## Transaction Operations Runbook
