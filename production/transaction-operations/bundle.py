@@ -23,7 +23,8 @@ def bundle(out):
         revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()
     else:
         revision=json.loads((ROOT/'BUNDLE-MANIFEST.json').read_text())['git_revision']
-    manifest={'git_revision':revision,'status':'PRIVATE REVIEW — NOT RELEASED','files':{n:hashlib.sha256(p.read_bytes()).hexdigest() for n,p in sorted(files.items())}}
+    governance=json.loads((ROOT/'governance.json').read_text(encoding='utf-8'))
+    manifest={'git_revision':revision,'version':governance['version'],'status':'VERSIONED SOURCE — publication verified by existing Drive delivery record','files':{n:hashlib.sha256(p.read_bytes()).hexdigest() for n,p in sorted(files.items())}}
     out.parent.mkdir(parents=True,exist_ok=True)
     with zipfile.ZipFile(out,'w',zipfile.ZIP_DEFLATED) as z:
         for n,p in sorted(files.items()):z.writestr('transaction-operations/'+n,p.read_bytes())

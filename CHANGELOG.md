@@ -433,3 +433,10 @@ authorized. No Drive-side certification was changed.
 Read-only discovery across the Drive governance layer, SOP library, prompt library and live connector
 surface. No files created. Delivered as a report; findings carried into
 `governance/improvement-findings.md`.
+
+## [Transaction Operations 1.1.0] — 2026-10-28
+
+- Release the accepted-contract kickoff extension with evidence-bound attachment preparation, inspection follow-through, duplicate/amendment handoff states, exact-target CRM plans and independent save receipts.
+- Preserve the reviewed engine/kickoff implementation; update reusable release metadata and portable packaging. Existing Drive entry IDs remain stable. Canonical business text and private delivery evidence remain outside Git.
+- Verification: 105 transaction tests plus the existing 39 static, 40 runtime and 43 Lead Engine checks. Fresh portable extraction and payload hashes are recorded in the private release record.
+- No live transaction test, client-record changes, messages, schedules or unattended monitoring are part of this release.

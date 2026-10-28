@@ -463,3 +463,11 @@ Blaise directed completion of the final release path for PR #6 after accepting d
 **Verification.** Existing static suite 39/39, runtime 40/40 and Lead Engine 43/43 pass; runtime configuration and six-operation synthetic read certification pass. No network/live client mutation is performed by these checks. The separate private audit distinguishes live reads, saved prompts, prepared project-setting text and missing access. No timer, persistent Operations Bus, cross-chat listener or expanded permissions is deployed.
 
 **Supersession.** Earlier provider, mandatory-Calendar, compulsory dated-task and blanket promotion/scheduling statements no longer control current host work. Actual local manual-only runtime, wrapper grants and external/consequential boundaries remain intact. Drive remains the only business knowledge authority.
+
+## D-033 — Publish the accepted-contract kickoff extension through existing entry points
+
+**Date** 2026-10-28 · **Status** OWNER-AUTHORIZED RELEASE
+
+**Decision.** Release version 1.1.0 from isolated current-main source, preserving unrelated work in the primary checkout. Keep the reviewed engine/kickoff bytes intact, include reusable release metadata in the portable bundle and reconcile existing Drive source, guide and delivery IDs. Business instructions remain in current Drive authority.
+
+**Boundary.** Active-task preparation and evidence validation do not create a live connector transport, background listener, booking, send or Calendar action. Availability verification uses fictional tests and source/hash readback. Actual transaction closeout remains a separate authorized live task.
