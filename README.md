@@ -116,7 +116,7 @@ containing `Superseded`, is evidence only and must never control a live workflow
 
 ## Maintenance entry point
 
-Read `AGENTS.md` when present and retrieve the current Drive authorities. For connection recovery,
+Read `AGENTS.md` and retrieve the current Drive authorities. For connection recovery,
 read `.codex/config.toml`, `docs/FUB-OAUTH-CONNECTION.md` and
 `production/lead-engine/FUB-READ-RECOVERY.md`. Run the offline checks above before proposing changes.
 Do not make a live write merely to smoke-test access. Inspect existing hosted schedules and their

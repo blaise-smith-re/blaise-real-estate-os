@@ -1,7 +1,7 @@
 {
-  "registry_version": "2.0.0",
-  "updated": "2026-09-03",
-  "phase": "Runtime Phase 2 — Read-Only Foundation",
+  "registry_version": "2.1.0",
+  "updated": "2026-10-28",
+  "phase": "Pointer index; local runtime manual-only; hosted tasks verified separately",
   "principle": "Stores POINTERS ONLY. Never store canonical source content in this repository. On any mismatch between a repository pointer and the current active source, THE LIVE DRIVE DOCUMENT WINS.",
   "cutover": {
     "completed": "2026-09-03",
@@ -9,7 +9,8 @@
     "rule": "The pre-cutover multi-document OS is retired. A RETIRED, LEGACY, ARCHIVED, or Superseded document is evidence only and never current authority."
   },
   "resolution_rules": [
-    "Resolve every source by file_id. Never resolve current authority by title search.",
+    "Resolve bootstrap pointers by file_id; live Source Map resolves owners not present locally. Verify identity/status before factual pointer repair.",
+    "Never resolve current authority by title alone; use stable IDs and verify a recovery candidate against the current Source Map.",
     "Reject any retrieval whose live title begins with RETIRED -, LEGACY -, or ARCHIVED -, or contains Superseded.",
     "Read the retrieved document's own version/date/status line and compare it to version_pin when a pin exists.",
     "version_pin mismatch => status REGISTRY DRIFT: proceed on the live document, raise an Improvement Finding, do not proceed on the pin.",
@@ -34,7 +35,16 @@
       "authority": "governing",
       "version_pin": null,
       "locator_verified_at": "2026-09-03",
-      "required_by": ["daily-revenue-command-center", "client-prep-brief", "lead-conversion-crm", "buyer-investor-ops", "seller-listing-ops", "market-intel-marketing", "transaction-closing-ops", "chief-of-staff"],
+      "required_by": [
+        "daily-revenue-command-center",
+        "client-prep-brief",
+        "lead-conversion-crm",
+        "buyer-investor-ops",
+        "seller-listing-ops",
+        "market-intel-marketing",
+        "transaction-closing-ops",
+        "chief-of-staff"
+      ],
       "verify": "Confirm the current title/status and that the document is not RETIRED, LEGACY, ARCHIVED, or Superseded."
     },
     {
@@ -44,7 +54,17 @@
       "authority": "routing",
       "version_pin": null,
       "locator_verified_at": "2026-09-03",
-      "required_by": ["execution-layer", "daily-revenue-command-center", "client-prep-brief", "lead-conversion-crm", "buyer-investor-ops", "seller-listing-ops", "market-intel-marketing", "transaction-closing-ops", "chief-of-staff"],
+      "required_by": [
+        "execution-layer",
+        "daily-revenue-command-center",
+        "client-prep-brief",
+        "lead-conversion-crm",
+        "buyer-investor-ops",
+        "seller-listing-ops",
+        "market-intel-marketing",
+        "transaction-closing-ops",
+        "chief-of-staff"
+      ],
       "verify": "Confirm the active canonical set and use it to resolve workflow authority."
     },
     {
@@ -54,7 +74,11 @@
       "authority": "controlling",
       "version_pin": null,
       "locator_verified_at": "2026-09-03",
-      "required_by": ["daily-revenue-command-center", "client-prep-brief", "lead-conversion-crm"],
+      "required_by": [
+        "daily-revenue-command-center",
+        "client-prep-brief",
+        "lead-conversion-crm"
+      ],
       "verify": "Confirm active status; controls lead conversion and client relationship workflow."
     },
     {
@@ -64,7 +88,10 @@
       "authority": "controlling",
       "version_pin": null,
       "locator_verified_at": "2026-09-03",
-      "required_by": ["buyer-investor-ops", "transaction-closing-ops"],
+      "required_by": [
+        "buyer-investor-ops",
+        "transaction-closing-ops"
+      ],
       "verify": "Confirm active status; controls the consolidated buyer lifecycle."
     },
     {
@@ -74,7 +101,10 @@
       "authority": "controlling",
       "version_pin": null,
       "locator_verified_at": "2026-09-03",
-      "required_by": ["seller-listing-ops", "transaction-closing-ops"],
+      "required_by": [
+        "seller-listing-ops",
+        "transaction-closing-ops"
+      ],
       "verify": "Confirm active status; controls the consolidated seller lifecycle."
     },
     {
@@ -84,7 +114,9 @@
       "authority": "controlling",
       "version_pin": null,
       "locator_verified_at": "2026-09-03",
-      "required_by": ["market-intel-marketing"],
+      "required_by": [
+        "market-intel-marketing"
+      ],
       "verify": "Confirm active status; controls growth, brand, and market-facing preparation."
     },
     {
@@ -94,7 +126,9 @@
       "authority": "supporting",
       "version_pin": null,
       "locator_verified_at": "2026-09-03",
-      "required_by": ["market-intel-marketing"],
+      "required_by": [
+        "market-intel-marketing"
+      ],
       "verify": "Confirm active status; use only within outreach preparation scope."
     },
     {
@@ -104,7 +138,9 @@
       "authority": "supporting",
       "version_pin": null,
       "locator_verified_at": "2026-09-03",
-      "required_by": ["buyer-investor-ops"],
+      "required_by": [
+        "buyer-investor-ops"
+      ],
       "verify": "Confirm active status; use for investor analysis and client decision support."
     },
     {
@@ -114,7 +150,9 @@
       "authority": "supporting",
       "version_pin": null,
       "locator_verified_at": "2026-09-03",
-      "required_by": ["execution-layer"],
+      "required_by": [
+        "execution-layer"
+      ],
       "verify": "Confirm active status; use for role and competency routing only."
     },
     {
@@ -124,7 +162,17 @@
       "authority": "runtime-control",
       "version_pin": null,
       "locator_verified_at": "2026-09-03",
-      "required_by": ["execution-layer", "daily-revenue-command-center", "client-prep-brief", "lead-conversion-crm", "buyer-investor-ops", "seller-listing-ops", "market-intel-marketing", "transaction-closing-ops", "chief-of-staff"],
+      "required_by": [
+        "execution-layer",
+        "daily-revenue-command-center",
+        "client-prep-brief",
+        "lead-conversion-crm",
+        "buyer-investor-ops",
+        "seller-listing-ops",
+        "market-intel-marketing",
+        "transaction-closing-ops",
+        "chief-of-staff"
+      ],
       "verify": "Confirm active status; controls provider-neutral execution, state, interruption, and reporting behavior."
     },
     {
@@ -134,8 +182,12 @@
       "authority": "controlling",
       "version_pin": null,
       "locator_verified_at": "2026-09-03",
-      "required_by": ["daily-revenue-command-center", "client-prep-brief", "lead-conversion-crm"],
-      "verify": "Confirm active status; controls Follow Up Boss behavior. Runtime Phase 2 remains read-only even if the runbook describes separately certified write classes."
+      "required_by": [
+        "daily-revenue-command-center",
+        "client-prep-brief",
+        "lead-conversion-crm"
+      ],
+      "verify": "Confirm current Runbook. Apply standing user-33 closeout and actual host tools; local runtime limits do not describe all host capabilities."
     },
     {
       "key": "click_contracts_runbook",
@@ -144,7 +196,11 @@
       "authority": "controlling",
       "version_pin": null,
       "locator_verified_at": "2026-09-03",
-      "required_by": ["buyer-investor-ops", "seller-listing-ops", "transaction-closing-ops"],
+      "required_by": [
+        "buyer-investor-ops",
+        "seller-listing-ops",
+        "transaction-closing-ops"
+      ],
       "verify": "Confirm active status; controls Click Contracts handoff and execution boundaries."
     },
     {
@@ -154,7 +210,11 @@
       "authority": "controlling",
       "version_pin": null,
       "locator_verified_at": "2026-09-03",
-      "required_by": ["buyer-investor-ops", "seller-listing-ops", "market-intel-marketing"],
+      "required_by": [
+        "buyer-investor-ops",
+        "seller-listing-ops",
+        "market-intel-marketing"
+      ],
       "verify": "Confirm active status; controls Ylopo master and client-specific derivative handling."
     },
     {
@@ -164,7 +224,11 @@
       "authority": "controlling",
       "version_pin": null,
       "locator_verified_at": "2026-09-03",
-      "required_by": ["buyer-investor-ops", "seller-listing-ops", "market-intel-marketing"],
+      "required_by": [
+        "buyer-investor-ops",
+        "seller-listing-ops",
+        "market-intel-marketing"
+      ],
       "verify": "Confirm active status; controls MLS research and system handoff boundaries."
     },
     {
@@ -174,7 +238,9 @@
       "authority": "controlling",
       "version_pin": null,
       "locator_verified_at": "2026-09-03",
-      "required_by": ["transaction-closing-ops"],
+      "required_by": [
+        "transaction-closing-ops"
+      ],
       "verify": "Confirm active status; controls mutual acceptance through closing operations."
     },
     {
@@ -184,18 +250,10 @@
       "authority": "supporting",
       "version_pin": null,
       "locator_verified_at": "2026-09-03",
-      "required_by": ["execution-layer"],
+      "required_by": [
+        "execution-layer"
+      ],
       "verify": "Confirm active status; routes to the canonical source set rather than duplicating it."
-    },
-    {
-      "key": "buyer_property_snapshot_master",
-      "title": "Buyer Property Snapshot master",
-      "file_id": "1xdWj1JyysxrBE6KJOOkPvqx0vCgbETfGC1wSjIfv7Iw",
-      "authority": "template",
-      "version_pin": null,
-      "locator_verified_at": "2026-09-03",
-      "required_by": ["buyer-investor-ops"],
-      "verify": "MASTER POINTER. Duplicate for a client-specific deliverable; never overwrite the master."
     },
     {
       "key": "buyer_cma_offer_strategy_master",
@@ -204,28 +262,34 @@
       "authority": "template",
       "version_pin": null,
       "locator_verified_at": "2026-09-03",
-      "required_by": ["buyer-investor-ops"],
-      "verify": "MASTER POINTER. Duplicate for a client-specific deliverable; never overwrite the master."
+      "required_by": [
+        "buyer-investor-ops"
+      ],
+      "verify": "Confirm active Property & Offer Strategy master and source bundle through the current Source Map; create a case derivative, never overwrite the master."
     },
     {
       "key": "runtime_foundation_control",
-      "title": "Blaise Real Estate OS — Read & Internal-Write Runtime Control",
+      "title": "Blaise Real Estate OS \u2014 Read & Internal-Write Runtime Control",
       "file_id": "1QQlyz8YIosmqquO18cTOpZwaskpg7tH8rgDp_ZqoRDA",
-      "authority": "runtime-control",
+      "authority": "evidence",
       "version_pin": null,
       "locator_verified_at": "2026-09-04",
-      "required_by": ["execution-layer"],
-      "verify": "Confirm status FOUNDATION — READ-ONLY — NOT LIVE and apply every HOLD before runtime execution."
+      "required_by": [
+        "execution-layer"
+      ],
+      "verify": "Staged local foundation evidence, not live business authority, a deployed Bus or a global scheduling HOLD."
     },
     {
       "key": "runtime_registries_sheet",
       "title": "Runtime Registries",
       "file_id": "1Cr3SxGD00XFpck_f15oJL_wJPwWdE53W9kFiA0mdtO8",
-      "authority": "runtime-registry",
+      "authority": "evidence",
       "version_pin": null,
       "locator_verified_at": "2026-09-03",
-      "required_by": ["execution-layer"],
-      "verify": "Confirm the eight registry tabs and current active/phase2_enabled/certification fields before selecting a lane."
+      "required_by": [
+        "execution-layer"
+      ],
+      "verify": "Staged implementation evidence, not a live registry service or a prerequisite for ordinary supported-tool work."
     },
     {
       "key": "os_cutover_completion_record",
@@ -234,8 +298,23 @@
       "authority": "evidence",
       "version_pin": null,
       "locator_verified_at": "2026-09-03",
-      "required_by": ["execution-layer"],
+      "required_by": [
+        "execution-layer"
+      ],
       "verify": "Evidence pointer. Confirms the active canonical set and retirement of the pre-cutover OS."
+    }
+  ],
+  "historical_pointers": [
+    {
+      "key": "buyer_property_snapshot_master",
+      "title": "Buyer Property Snapshot master",
+      "file_id": "1xdWj1JyysxrBE6KJOOkPvqx0vCgbETfGC1wSjIfv7Iw",
+      "authority": "evidence",
+      "version_pin": null,
+      "locator_verified_at": "2026-09-03",
+      "required_by": [],
+      "verify": "Retired in current Source Map; not normal buyer preparation authority.",
+      "status": "RETIRED \u2014 historical pointer only"
     }
   ]
 }

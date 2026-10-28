@@ -87,3 +87,16 @@ operate.
 ## Escalate
 Source-use rights unclear · Fair Housing exposure · an unsupportable claim · a represented-seller
 conflict · any request to publish, send, or spend.
+
+## Source-system completion
+Before returning, apply current AI Runbook step 7 and the FUB Runbook closeout. Available real
+replies, reported sends, changed preferences and material partner/transaction events do not need
+a separate “update FUB” request. Drafts/unchanged facts create no fake activity, note or task.
+Reuse current exact-record state on cross-project resumption.
+This worker remains read-only: return exact event/source, target and useful missing delta to the
+capable orchestrator for `lead-conversion-crm`. Verify the resulting receipt before claiming
+workflow completion. A handoff is not execution; absent a capable lane, name the pending update.
+Accepted durable guidance uses the existing Drive owner through an actually capable authorized
+operator. Preserve precise pending work and resume conditions on failure; no claim of monitoring,
+persistence or save without evidence. Current AGENTS.md/live Drive authority controls over older
+provider, mandatory-Calendar or promotion instructions.

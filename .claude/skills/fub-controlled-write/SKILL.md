@@ -1,50 +1,22 @@
 ---
 name: fub-controlled-write
-description: Maintain Blaise's individual Follow Up Boss records through a concise read-decide-write-readback workflow. Use for notes, tasks, contact fields, appointments, deals, channels, tags, and external interaction logs. Internal maintenance is owner-authorized; external communication is not.
+description: Apply current Drive FUB closeout for available real events, exact targets, semantic deduplication, truthful effects, useful commitments and recoverable failure.
 ---
 
-# FUB Internal Maintenance
+# FUB maintenance entry
+Retrieve the current FUB Runbook via `source-registry.json`: Automatic interaction and event
+closeout plus Direct Tool / API Behavior. Reuse a fresh read; that source owns the full procedure.
+Available real client events trigger standing maintenance without a separate “update FUB.”
+Use the smallest useful supported mutation; verify the exact current user-33 contact and each
+existing task's own user-33 assignment. No ritual dated task or duplicate native interaction log.
 
-Follow Up Boss is the source of truth for contact identity, relationship state, communication
-history, promises, tasks, and dated next actions. Keep it accurate without turning normal CRM work
-into an approval exercise.
+Inspect execute versus preview and actual effect status. Note-only closeout is supported. Compare
+source/event meaning as well as exact text; rewording an existing fact is not a new event.
+Drafts are not sends. Attribute owner-reported sends and preserve actual event timing.
+Independently read back material effects. For partial/uncertain writes retain verified IDs and
+reread before retrying only the missing change. A ready draft is not successful CRM maintenance.
 
-## Do this
-
-1. Resolve the intended contact using the strongest available identifiers and surrounding context.
-   Minor name variations, nicknames, formatting differences, or stale non-material fields do not
-   block work. Stop only when there is a meaningful risk of updating the wrong person.
-2. Read only the current FUB information needed to understand the requested change and avoid an
-   obvious duplicate or conflict.
-3. Decide the best internal update. Prefer the smallest change that makes the record accurately
-   reflect reality and leaves one clear dated next action when follow-up is warranted.
-4. Execute the write directly. Internal notes, tasks, task completion/rescheduling, individual
-   profile fields, existing-stage moves, channels, approved tag usage, appointments, deals, and
-   external interaction logs do not require Blaise to approve each step.
-5. Read the affected record back. If it landed correctly, continue. If it did not, correct a safe
-   obvious mismatch once; otherwise surface the exact remaining issue.
-6. Report the outcome briefly: what changed, the important next action, and anything Blaise should
-   understand. Do not produce a certification packet for ordinary maintenance.
-
-## Approval boundary
-
-Blaise reviews immediately before **SEND / SUBMIT / PUBLISH / SIGN / SPEND**. Creating or updating an
-internal FUB record is not one of those actions. An FUB appointment invitation is external and must
-remain off unless Blaise has reviewed and approved the send. Logging an externally completed call or
-text records history; it does not place a call or send a message.
-
-## Keep real controls
-
-- Never guess when two plausible contacts remain materially indistinguishable.
-- Do not store passwords, secret words, SSNs, full account numbers, wire instructions, or unrelated
-  sensitive information in FUB.
-- Do not create or modify shared stages, Smart Lists, action plans, automations, lead-flow rules,
-  team templates, or other shared team infrastructure without the appropriate team authority.
-- Do not blind-retry after a lost write response. Read back first because the write may have landed.
-- Use `America/Chicago` for dated tasks and appointments unless the client situation clearly controls
-  another timezone.
-
-## Done when
-
-FUB reflects the current relationship state, the requested update exists once, any stale superseded
-task was handled appropriately, and the record carries the right dated next action.
+If blocked, retain exact source, target, delta, last verified state, owner and resume condition in
+the existing workbench/case record under AI Runbook step 7. Do not claim persistence or monitoring
+without an actual mechanism. Preserve external-send, invitation, Calendar, team, spending, signature,
+credential and sensitive-data boundaries. Logging does not call or send.

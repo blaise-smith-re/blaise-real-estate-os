@@ -329,7 +329,8 @@ check('T-21', 'CLAUDE.md carries every required governance section', () => {
     'HONEST REPORTING', 'EFFICIENCY', 'CONTINUOUS IMPROVEMENT'];
   const miss = required.filter(s => !md.includes(s));
   assert(miss.length === 0, `missing: ${miss.join(', ')}`);
-  assert(/[Uu]nattended.{0,40}HOLD|HOLD.{0,60}[Uu]nattended/s.test(md), 'missing unattended-execution HOLD');
+  assert(/manual-only/.test(read('AGENTS.md')), 'local runtime limit missing');
+  assert(!json('governance/required-connectors.json').agents['lead-conversion-crm'].required.includes('Google_Calendar'), 'Calendar must not block ordinary CRM closeout');
   return `${required.length}/10 sections present`;
 });
 

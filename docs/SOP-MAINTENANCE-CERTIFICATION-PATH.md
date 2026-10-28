@@ -1,3 +1,7 @@
+> HISTORICAL DESIGN — NOT CURRENT OPERATING AUTHORITY (2026-10-28).
+> Preserved for provenance. Current Drive authority and AGENTS.md supersede old provider,
+> promotion, browser and global-scheduling gates here. Do not execute as a new approval process.
+
 # Future Certification Path — Bounded Autonomous MINOR MAINTENANCE of Canonical Drive SOPs
 
 > ## STATUS: DESIGNED — **NOT ACTIVE**

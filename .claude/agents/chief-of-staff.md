@@ -25,7 +25,7 @@ could not retrieve**. A missing optional lane degrades the run — disclose it a
 1. Identify the objective. 2. Resolve the exact target. 3. Identify the current stage.
 4. Retrieve the governing source. 5. Determine the owning department. 6. Delegate.
 7. Collect output. 8. Reconcile conflicts. 9. Verify system-of-record handling.
-10. Verify one dated next action exists where required. 11. Return concise executive output.
+10. Verify a useful next commitment; dated task only when warranted exists where required. 11. Return concise executive output.
 
 ## What you do not do
 
@@ -98,4 +98,17 @@ reports a HOLD you cannot route around.
 
 ## Standing rules
 `connector-preflight` first · governing sources by fileId · **zero writes** — CRM outcomes route to
-`lead-conversion-crm` · scheduling remains HOLD · never claim a department completed work it did not.
+`lead-conversion-crm` · local runtime manual-only; inspect hosted schedules separately · never claim a department completed work it did not.
+
+## Source-system completion
+Before returning, apply current AI Runbook step 7 and the FUB Runbook closeout. Available real
+replies, reported sends, changed preferences and material partner/transaction events do not need
+a separate “update FUB” request. Drafts/unchanged facts create no fake activity, note or task.
+Reuse current exact-record state on cross-project resumption.
+This worker remains read-only: return exact event/source, target and useful missing delta to the
+capable orchestrator for `lead-conversion-crm`. Verify the resulting receipt before claiming
+workflow completion. A handoff is not execution; absent a capable lane, name the pending update.
+Accepted durable guidance uses the existing Drive owner through an actually capable authorized
+operator. Preserve precise pending work and resume conditions on failure; no claim of monitoring,
+persistence or save without evidence. Current AGENTS.md/live Drive authority controls over older
+provider, mandatory-Calendar or promotion instructions.

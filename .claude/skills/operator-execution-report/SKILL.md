@@ -5,14 +5,14 @@ description: Produce the standard Operator Execution Report that closes every Cl
 
 # Operator Execution Report
 
-The required closeout for every agent run. Defined by the Execution Operator SOP v4.27 and the
-routing document v4.2. This repository stores the shape, not the authority — see
+An expanded compatibility audit schema. Current AI Runbook owns completion; the retired
+Execution Operator SOP and routing doc do not govern current work. This repository stores the shape, not the authority — see
 `governance/handoff-contract.md`.
 
 ## Structure
 
-Emit every section, in this order. If a section is genuinely empty, write `NONE` — never omit it and
-never silently merge sections.
+Use these fields for a formal engineering/audit receipt when useful. Ordinary replies need only
+the result and precise material gaps; do not append empty sections.
 
 ```
 OBJECTIVE                   One sentence. What this run was for.

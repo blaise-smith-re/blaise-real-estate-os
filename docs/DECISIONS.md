@@ -2,7 +2,7 @@
 
 Append-only. Never edit a decision in place — supersede it with a new entry and mark the old one
 `SUPERSEDED BY D-nnn`. Decisions here govern **repo-native engineering only**. Business policy,
-authority, and certification gates are owned by Google Drive and ChatGPT / 04.
+authority, and actual action boundaries are owned by current Google Drive sources. Historical provider assignments below are superseded only where current owner direction changes them.
 
 ---
 
@@ -450,3 +450,16 @@ policy, canonical source, schedule, client record or Lead Engine PR #6 is modifi
 **Date** 2026-09-10 · **Status** OWNER-AUTHORIZED RELEASE
 
 Blaise directed completion of the final release path for PR #6 after accepting durable FUB authentication. Release the reviewed agent-operated research/preparation family on current main; preserve the saved Matrix checkpoint and reconcile the completed bounded no-match lookup. This changes software release status only. Governing pointers remain proposals; no Work project setting, outbound authority, FUB writer, schedule or automatic service is installed. Relevant family/runtime checks and portable verification apply; the eight previously reproduced repository static failures remain disclosed in the release record.
+
+
+## D-032 — Current Drive authority controls the repository instruction chain
+
+**Date** 2026-10-28 · **Status** IMPLEMENTED under the owner's instruction audit and correction request
+
+**Problem.** The current pointer registry coexisted with stale active wrappers: a retired Manual locator, mandatory Calendar access/tasks, a provider-specific proposal bridge and global scheduler/browser claims. The Codex entry file was absent. Local adapter implementation already preserved an optional task and forced actual execution; documentation did not consistently describe that capability.
+
+**Decision.** Add a thin AGENTS.md entry, correct active compatibility guidance and bootstrap pointers, preserve tool grants and effect budgets, and route material source-supported client deltas through the existing maintenance lane before workflow completion. Current accepted durable guidance is maintained by its existing Drive owner; repository files remain pointers and engineering instructions. Read-only workers route outcomes without acquiring write tools. Historical records retain provenance and are not current operating authority.
+
+**Verification.** Existing static suite 39/39, runtime 40/40 and Lead Engine 43/43 pass; runtime configuration and six-operation synthetic read certification pass. No network/live client mutation is performed by these checks. The separate private audit distinguishes live reads, saved prompts, prepared project-setting text and missing access. No timer, persistent Operations Bus, cross-chat listener or expanded permissions is deployed.
+
+**Supersession.** Earlier provider, mandatory-Calendar, compulsory dated-task and blanket promotion/scheduling statements no longer control current host work. Actual local manual-only runtime, wrapper grants and external/consequential boundaries remain intact. Drive remains the only business knowledge authority.

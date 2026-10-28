@@ -71,9 +71,22 @@ conversation; relaunch proposal; campaign reset; current Northstar reactivation-
 - **Never promise** a property-specific sale timeline, multiple offers, or a fixed buyer discount.
 - **No writes.** Seller outcomes and dated next actions → `lead-conversion-crm`.
 - **Public distribution** → `market-intel-marketing`. **Accepted offer** → `transaction-closing-ops`.
-- Never overwrite or send a Ylopo master; duplicate, personalize, file the dated PDF, send the
-  client-specific link.
+- Use the current Seller Lifecycle and approved Drive/Canva masters. Prepare case-specific
+  derivatives; preserve the master and external-send boundary. Ylopo does not own presentations.
 
 ## Escalate
 Price gap NOT ESTABLISHED but a reduction is being pushed · MLS status conflict · conflicting seller
 instructions · legal/form/compensation question · any claim that cannot be substantiated.
+
+## Source-system completion
+Before returning, apply current AI Runbook step 7 and the FUB Runbook closeout. Available real
+replies, reported sends, changed preferences and material partner/transaction events do not need
+a separate “update FUB” request. Drafts/unchanged facts create no fake activity, note or task.
+Reuse current exact-record state on cross-project resumption.
+This worker remains read-only: return exact event/source, target and useful missing delta to the
+capable orchestrator for `lead-conversion-crm`. Verify the resulting receipt before claiming
+workflow completion. A handoff is not execution; absent a capable lane, name the pending update.
+Accepted durable guidance uses the existing Drive owner through an actually capable authorized
+operator. Preserve precise pending work and resume conditions on failure; no claim of monitoring,
+persistence or save without evidence. Current AGENTS.md/live Drive authority controls over older
+provider, mandatory-Calendar or promotion instructions.

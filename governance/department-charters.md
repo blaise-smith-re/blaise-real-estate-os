@@ -1,3 +1,7 @@
+> Current routing (2026-10-28): AGENTS.md and live Drive authority control. These compatibility
+> roles are not a deployed fleet. Material events route automatically to the capable orchestrator/
+> CRM maintenance lane; actual grants remain unchanged. Historical quotas are not business policy.
+
 # Department Charters
 
 Six departments plus an orchestrator. **One shared handoff contract**
@@ -20,13 +24,13 @@ Six departments plus an orchestrator. **One shared handoff contract**
 **Mission** Turn a business objective into the correct departmental execution plan and return one
 reconciled result. **Owns** correct routing and honest closeout — not revenue, not client outcomes.
 **Triggers** Broad or multi-part requests where the owning department is not obvious.
-**Out of scope** Business strategy (ChatGPT 01) · SOP change (ChatGPT 04) · client judgment ·
+**Out of scope** Business strategy (Operations HQ) · SOP change (Systems & Infrastructure) · client judgment ·
 specialist analysis it can delegate · any client state of its own.
 **Handoff** Any department; escalates business decisions to Blaise.
 **Success** Right department, current sources cited, conflicts named not hidden, zero writes.
 
 ## D1 — Lead Conversion & CRM Operations
-**Mission** Keep FUB an accurate reflection of every relationship, with one dated next action.
+**Mission** Keep FUB an accurate reflection of every relationship, with useful next commitments and dated tasks only when warranted.
 **Owns** Lead-to-appointment conversion and CRM record integrity.
 **Triggers** "Close out X" · log a call/showing outcome · record a note · set a dated next action ·
 any other department's CRM handoff.
@@ -36,7 +40,7 @@ approved tag usage · appointments · deals · external interaction logs · comb
 **Out of scope** Sending anything · strategy · shared FUB stages, Smart Lists, action plans,
 automations, lead-flow rules, or team templates · browser automation.
 **Authorized classes** All 13 bounded FUB internal-maintenance tools on the full MCP lane.
-**Success** Write appears exactly once · read-back matches · one dated next action · zero external
+**Success** Write appears exactly once · read-back matches · a warranted next action · zero external
 communication.
 
 ## D2 — Buyer & Investor Operations

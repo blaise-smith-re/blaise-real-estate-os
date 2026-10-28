@@ -52,9 +52,9 @@
     }
   ],
   "holds": [
-    "Restart Codex in the trusted project so both deployed FUB MCP services load from .codex/config.toml, then run one practical read and internal-write smoke",
-    "The standalone Operations Bus has no persistent host; Codex currently invokes the deployed MCP services directly",
-    "Scheduler remains HOLD",
+    "Local runtime is MANUAL_ONLY with no persistent host/live adapters; inspect hosted tasks separately",
+    "Verify current host tool inventory and a bounded authorized read; no live client write merely to test access",
+    "Existing full FUB MCP is separate from this undeployed Bus",
     "Command Center and Decision Queue remain presentation-only"
   ]
 }

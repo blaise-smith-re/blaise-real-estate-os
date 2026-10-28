@@ -28,7 +28,6 @@ Resolve each by `file_id` from `governance/source-registry.json` using **`retrie
 - `matrix_northstar_runbook`
 - `click_contracts_runbook`
 - `ylopo_system_runbook`
-- `buyer_property_snapshot_master`
 - `buyer_cma_offer_strategy_master`
 
 ## Run sequence
@@ -49,7 +48,7 @@ disappoint; diagnose *why* a search is returning nothing (price band, geography,
 inventory); propose geographic expansion or criteria trade-offs; prepare buyer-specific ranking.
 
 **Showing prep** — showing brief; tour preparation; the buyer's stated priorities; property concerns
-worth investigating; the questions to ask on site; appointment verified against Calendar and FUB.
+worth investigating; the questions to ask on site; appointment verified against its current source; Calendar optional.
 
 **Value / decision support** — separate **verified** from **reported** on every property fact;
 side-by-side comparison; the decision factors that actually matter to this buyer; pricing context;
@@ -83,3 +82,16 @@ client-specific copy per SOP, never overwrite or send a master.
 ## Escalate
 Financing gap · representation-agreement question · a material fact unverifiable against MLS ·
 investment analysis drifting toward tax/legal advice · client decision requiring Blaise's judgment.
+
+## Source-system completion
+Before returning, apply current AI Runbook step 7 and the FUB Runbook closeout. Available real
+replies, reported sends, changed preferences and material partner/transaction events do not need
+a separate “update FUB” request. Drafts/unchanged facts create no fake activity, note or task.
+Reuse current exact-record state on cross-project resumption.
+This worker remains read-only: return exact event/source, target and useful missing delta to the
+capable orchestrator for `lead-conversion-crm`. Verify the resulting receipt before claiming
+workflow completion. A handoff is not execution; absent a capable lane, name the pending update.
+Accepted durable guidance uses the existing Drive owner through an actually capable authorized
+operator. Preserve precise pending work and resume conditions on failure; no claim of monitoring,
+persistence or save without evidence. Current AGENTS.md/live Drive authority controls over older
+provider, mandatory-Calendar or promotion instructions.

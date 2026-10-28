@@ -8,34 +8,15 @@
 and route it to the correct change-control authority — **without creating a parallel SOP library and
 without silent policy drift.**
 
-**Google Drive remains canonical for all business documentation.** Nothing in this log amends a
-canonical source. A finding proposes; ChatGPT / 04 — Systems, Training & SOP Control disposes.
+**Google Drive remains canonical.** Current Manual/AI Runbook controls maintenance authority.
+Accepted owner decisions and verified ordinary corrections are applied in place by a capable
+operator; Work owns business meaning, and Codex may perform expressly delegated Drive changes.
+Read back and repair affected references. A genuine unresolved business/legal/team boundary
+requires its actual authority; no second promotion vote or mandatory Claude proposal bridge.
+Historical findings below retain their original dispositions as evidence, not current gates.
 
----
-
-## 1. Three-tier change model
-
-| Tier | Definition | Who may apply it |
-|---|---|---|
-| **MINOR MAINTENANCE** | Formatting, broken reference, obsolete tool name, stale source pointer, or clarification that does **not** alter authority, business policy, legal behavior, system ownership, client-communication authority, or a certified action class. | Repo-native: **Claude, directly.** Canonical Drive: **ChatGPT / 04 today.** Future bounded-autonomous path designed but **NOT ACTIVE** — see `docs/SOP-MAINTENANCE-CERTIFICATION-PATH.md`. |
-| **OPERATIONAL CHANGE** | Workflow steps, handoffs, agent responsibilities, tool permissions, automation behavior, certification logic, or substantive template/process change. | **ChatGPT / 04 review required.** Claude proposes an exact diff only. |
-| **HIGH-STAKES CHANGE** | Law, forms, contracts, compensation, brokerage/team authority, MLS policy, external-communication authority, privacy, financial commitment, destructive or irreversible behavior. | **Blaise + applicable authority.** Claude proposes only; never applies. |
-
-**Classification rule:** when a finding could plausibly sit in two tiers, **classify upward.** A tier
-is never lowered to make a change easier to apply.
-
-## 2. What Claude may edit directly
-
-**MAY (repo-native engineering documentation):** `CLAUDE.md` · `.claude/agents/*` ·
-`.claude/skills/*` · `governance/*` · `tests/*` · `scripts/*` · `docs/*` · `README.md` ·
-`CHANGELOG.md` · source-registry metadata.
-
-**MAY NOT (canonical business documentation, Google Drive):** Business Operating Manual · business
-SOPs · approved prompts and templates · client assets · transaction records · permanent operating
-documents.
-
-For any Drive-side issue, produce the **exact proposed patch** below and route it. Never let
-implementation and canonical operating instructions silently diverge.
+Classification labels remain MINOR MAINTENANCE, OPERATIONAL CHANGE and HIGH-STAKES CHANGE;
+classification records impact and does not create extra authority or approval gates.
 
 ## 3. Required finding format
 
@@ -490,6 +471,18 @@ until a named precondition clears.
 - **CHANGE** — Resolve separately attributed public/legal identity, reject cross-context substitutes, require explicit supported client actions, filter specialist lanes and display human party roles. Correct only the seller example’s buyer-deposit visibility wording; preserve original evidence, deadline engine and approved styles.
 - **VERIFICATION** — Focused tests exercise stale/public-in-legal rejection, buyer/seller action isolation, supported access without an inferred buyer deadline, specialist lanes and exact private owner fields. Same-ID review artifacts and source bundle receive regenerated print/phone outputs with independent readback. The delivery record holds actual results.
 - **DISPOSITION** — Implemented for focused review in PR #5, unmerged. No governing promotion, live client use, runtime activation or new certification gate.
+
+### IF-2026-10-28-001 — Active instruction chain diverged from current source authority
+
+- **TRIGGER** — Owner-requested instruction/knowledge architecture audit.
+- **CONTROLLING SOURCE** — Current Drive Source Map, Manual, AI and FUB Runbooks; owner audit request.
+- **OBSERVED ISSUE** — No AGENTS.md entry; stale provider/Calendar/task gates and a retired source pointer remained in active compatibility guidance. An absent local-index key incorrectly blocked sources that the live Source Map could resolve.
+- **WHY IT MATTERS** — An available client event could finish as advice without a verified source-system closeout, or a settled knowledge correction could be routed back to the owner instead of applied.
+- **CLASSIFICATION** — **OPERATIONAL CHANGE**, expressly authorized correction; no new authority or tool grants.
+- **EXACT PROPOSED CHANGE** — Applied thin current-source routing, automatic closeout handoff, failure checkpoints, optional Calendar/tasks, retired-pointer exclusion and clear local-runtime versus hosted-task scope.
+- **RELATED ASSETS** — AGENTS, compatibility entry/wrappers/skills, pointer registry, connector manifest, engineering navigation and source-change log.
+- **TESTING REQUIRED** — Existing permission/static/runtime suites and synthetic read harness; actual remote readback. No live client mutations solely for tests.
+- **DISPOSITION** — **PATCH — implemented**; 39 static, 40 runtime and 43 Lead Engine checks pass. D-032 records scope. Live project settings require separate access; they are not claimed deployed.
 
 ## 5. Findings closed
 

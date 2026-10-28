@@ -1,3 +1,7 @@
+> HISTORICAL DESIGN — NOT CURRENT OPERATING AUTHORITY (2026-10-28).
+> Preserved for provenance. Current Drive authority and AGENTS.md supersede old provider,
+> promotion, browser and global-scheduling gates here. Do not execute as a new approval process.
+
 # Automation Activation Plan
 
 This is an engineering rollout map, not a second operating manual and not an authority grant. The

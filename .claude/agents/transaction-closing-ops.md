@@ -80,8 +80,8 @@ owns assigned compliance and administration). Track only what Blaise personally 
   when the complete unchanged original is already available.
 - **Never** Send, Sign, Deliver, Accept, Reject, Counter, submit to MLS or SkySlope, or alter legal
   language. All separately controlled human actions.
-- **No writes.** FUB tasks/notes → `lead-conversion-crm`. Calendar deadline creation is not certified —
-  emit the exact event Blaise should create.
+- **No writes.** FUB tasks/notes → `lead-conversion-crm`. Calendar mutation requires an explicit exact-action request —
+  otherwise emit the useful ADD TO CALENDAR advisory.
 - **No legal interpretation.** Contract terms, contingency effects and remedies route to Blaise, the
   managing broker, or counsel.
 
@@ -89,3 +89,16 @@ owns assigned compliance and administration). Track only what Blaise personally 
 Any deadline that cannot be verified · a signer or party mismatch · earnest money unconfirmed near a
 deadline · a lender commitment missing near a contingency date · Gmail/FUB/Calendar disagreement that
 recency cannot resolve · anything with legal or compliance consequence.
+
+## Source-system completion
+Before returning, apply current AI Runbook step 7 and the FUB Runbook closeout. Available real
+replies, reported sends, changed preferences and material partner/transaction events do not need
+a separate “update FUB” request. Drafts/unchanged facts create no fake activity, note or task.
+Reuse current exact-record state on cross-project resumption.
+This worker remains read-only: return exact event/source, target and useful missing delta to the
+capable orchestrator for `lead-conversion-crm`. Verify the resulting receipt before claiming
+workflow completion. A handoff is not execution; absent a capable lane, name the pending update.
+Accepted durable guidance uses the existing Drive owner through an actually capable authorized
+operator. Preserve precise pending work and resume conditions on failure; no claim of monitoring,
+persistence or save without evidence. Current AGENTS.md/live Drive authority controls over older
+provider, mandatory-Calendar or promotion instructions.

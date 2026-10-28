@@ -1,17 +1,18 @@
 {
-  "manifest_version": "1.0.0",
-  "updated": "2026-08-31",
-  "purpose": "Declares the connector lanes each agent and certification run requires. A run must verify availability BEFORE any certification claim, retrieval, or registry update. A missing required connector is an immediate HOLD - never a partial run, and never a substitution of reported data for retrieved data.",
+  "manifest_version": "1.1.0",
+  "updated": "2026-10-28",
+  "purpose": "Compatibility-wrapper inventory; missing access blocks only dependent work. Calendar is optional unless a particular recorded event is needed.",
   "rule": [
-    "Preflight first. Verify every required connector is present before any other work.",
-    "A missing required connector returns HOLD immediately, names the exact missing lane(s), makes no certification claim, and makes no registry version update.",
-    "Never substitute a reported version, value, or record for one that was not retrieved.",
-    "Partial certification is not a permitted outcome."
+    "Verify task-required tools and bounded read when material; reuse fresh evidence.",
+    "Missing required access means HOLD immediately for dependent work only; continue independent work.",
+    "Calendar is optional unless the exact recorded event is needed.",
+    "Never label reported information as a directly verified source read.",
+    "Historical certification scope does not impose a routine business certification ritual."
   ],
   "connectors": {
     "Blaise_FUB": {
       "tool_prefix": "mcp__Blaise_FUB__",
-      "class": "READ (13 write tools denied)"
+      "class": "READ; 13 bounded internal writes in lead-conversion-crm only"
     },
     "Google_Drive": {
       "tool_prefix": "mcp__Google_Drive__",
@@ -26,49 +27,59 @@
     "daily-revenue-command-center": {
       "required": [
         "Blaise_FUB",
-        "Google_Drive",
-        "Google_Calendar"
+        "Google_Drive"
       ],
-      "note": "FUB task/contact reads, Drive canonical source retrieval, Calendar reconciliation."
+      "note": "Task-relevant FUB/Drive reads; Calendar optional except for a dependent recorded-event claim. Actual wrapper grants unchanged.",
+      "optional": [
+        "Google_Calendar"
+      ]
     },
     "client-prep-brief": {
       "required": [
         "Blaise_FUB",
-        "Google_Drive",
-        "Google_Calendar"
+        "Google_Drive"
       ],
-      "note": "FUB contact/notes/appointments, Drive canonical retrieval, Calendar appointment verification."
+      "note": "Task-relevant FUB/Drive reads; Calendar optional except for a dependent recorded-event claim. Actual wrapper grants unchanged.",
+      "optional": [
+        "Google_Calendar"
+      ]
     },
     "lead-conversion-crm": {
       "required": [
         "Blaise_FUB",
-        "Google_Drive",
-        "Google_Calendar"
+        "Google_Drive"
       ],
-      "note": "FUB reads for target resolution and duplicate/state checks; Drive for controlling FUB SOPs. Calendar optional (due-date context)."
+      "note": "Task-relevant FUB/Drive reads; Calendar optional except for a dependent recorded-event claim. Actual wrapper grants unchanged.",
+      "optional": [
+        "Google_Calendar"
+      ]
     },
     "buyer-investor-ops": {
       "required": [
         "Blaise_FUB",
-        "Google_Drive",
-        "Google_Calendar"
+        "Google_Drive"
       ],
-      "note": "FUB relationship reads, Drive SOPs and client assets, Calendar showing/appointment verification. MLS is a Chrome-operator handoff, never a connector here."
+      "note": "Task-relevant FUB/Drive reads; Calendar optional except for a dependent recorded-event claim. Actual wrapper grants unchanged.",
+      "optional": [
+        "Google_Calendar"
+      ]
     },
     "seller-listing-ops": {
       "required": [
         "Blaise_FUB",
-        "Google_Drive",
-        "Google_Calendar"
+        "Google_Drive"
       ],
-      "note": "FUB seller reads, Drive seller SOP chain and assets, Calendar listing/appointment timing. MLS and ShowingTime are Chrome-operator handoffs."
+      "note": "Task-relevant FUB/Drive reads; Calendar optional except for a dependent recorded-event claim. Actual wrapper grants unchanged.",
+      "optional": [
+        "Google_Calendar"
+      ]
     },
     "market-intel-marketing": {
       "required": [
         "Blaise_FUB",
         "Google_Drive"
       ],
-      "note": "FUB read-only for deduplication and active-lead exclusion; Drive for prospecting SOP, prompts and filing. Calendar optional (open houses). MLS/InfoSparks is a Chrome-operator handoff.",
+      "note": "Task-relevant FUB/Drive reads; Calendar optional except for a dependent recorded-event claim. Actual wrapper grants unchanged.",
       "optional": [
         "Google_Calendar"
       ]
@@ -76,18 +87,22 @@
     "transaction-closing-ops": {
       "required": [
         "Blaise_FUB",
-        "Google_Drive",
-        "Google_Calendar"
+        "Google_Drive"
       ],
-      "note": "FUB transaction relationship reads, Drive executed documents and SOPs, Calendar deadline control. Click Contracts and SkySlope are Chrome-operator handoffs."
+      "note": "Task-relevant FUB/Drive reads; Calendar optional except for a dependent recorded-event claim. Actual wrapper grants unchanged.",
+      "optional": [
+        "Google_Calendar"
+      ]
     },
     "chief-of-staff": {
       "required": [
         "Blaise_FUB",
-        "Google_Drive",
-        "Google_Calendar"
+        "Google_Drive"
       ],
-      "note": "Reads across FUB, Drive and Calendar for objective and target resolution before delegating."
+      "note": "Task-relevant FUB/Drive reads; Calendar optional except for a dependent recorded-event claim. Actual wrapper grants unchanged.",
+      "optional": [
+        "Google_Calendar"
+      ]
     }
   },
   "certification_runs": {
@@ -96,6 +111,6 @@
       "Google_Drive",
       "Google_Calendar"
     ],
-    "note": "Any live certification or recertification run requires all three. Verified in practice 2026-08-31: a run began with all three disconnected and correctly returned HOLD rather than substituting reported canonical versions for retrieved ones."
+    "note": "Historical full-lane fixture scope only; not a universal gate for ordinary work or separately hosted tasks."
   }
 }

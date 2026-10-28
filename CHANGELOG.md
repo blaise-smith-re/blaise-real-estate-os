@@ -1,10 +1,19 @@
 # Changelog
 
-Repo-native engineering changes. Business policy, authority and certification gates are owned by
-Google Drive and ChatGPT / 04 — changes to those are **never** recorded here as done, only proposed as
-Improvement Findings.
+Repo-native engineering changes and references to verified related source maintenance.
+Business policy remains owned by the current Drive authorities; this log does not duplicate it.
 
 ---
+
+## [Instruction-chain repair] — 2026-10-28
+
+- Added the missing AGENTS.md entry and shortened the legacy compatibility entry to current source pointers and actual host boundaries.
+- Routed available material client events to existing FUB closeout without a separate logging request; preserved read-only worker tool grants, exact-record ownership, semantic deduplication, optional tasks and recoverable partial/uncertain results.
+- Removed the universal Calendar prerequisite, retired normal-work Snapshot pointer, obsolete provider bridge and missing-source-index gate. Kept local manual-only runtime and all executable effect/tool containment unchanged.
+- Repaired accepted Drive-maintenance and cross-project retrieval pointers; marked old maintenance/activation designs historical. Aligned Lead Engine project routing with current Drive authority.
+- Validation: 39 static checks, 40 runtime tests and 43 Lead Engine tests pass; runtime check and six-operation synthetic read certification pass. No live client writes, source-access changes or new schedules used as tests.
+- Related private Drive audit records canonical-source edits and saved prompt readbacks separately. A prepared project-setting package is not live deployment; no always-on chat integration is claimed.
+
 
 ## [Lead Engine v1 — released for agent-operated research/prep] — 2026-09-10
 

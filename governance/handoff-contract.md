@@ -1,12 +1,9 @@
-# Handoff Contract — Claude Execution Task Packet & Operator Execution Report
-
-**Canonical owner:** `02 - ChatGPT Workflow Channels, Routing & Starter Scripts` v4.2 (`fileId`
-`12Pg3pAXpPWfEf6_U6rFYrOM7WQSDVkM90CwJjujqiLE`) and `SOP - Claude Execution Operator` v4.27.
-
-**This repository does not own the packet format.** It stores a working copy for lint/test purposes
-only. If the canonical documents change, the canonical documents win and this file is updated to
-match — never the reverse. Any structural change to the packet is an **OPERATIONAL CHANGE** routed
-through ChatGPT / 04.
+# Handoff Contract — compatibility audit schema
+Current authority: live AI Execution Runbook via source-registry.json. The minimum useful handoff
+is objective, exact target, source pointers, delta, completed work, next owner, boundary and resume
+condition. Expanded historical fields below are optional audit detail, not a routine business
+ritual. Only the read-only worker's own writes must be NONE; another lane's verified CRM result is
+reported separately. Old provider/channel and Phase 2 packet rules do not override current sources.
 
 ---
 
@@ -45,8 +42,7 @@ audit and adopted for Phase 2. Additions are marked with a plus sign.
 `ACTION CLASS` · `SENSITIVE-DATA SCOPE` · `DUPLICATE / CONFLICT / STALE-STATE CHECK` ·
 `REQUIRED READ-BACK`
 
-These are the units certification is granted and verified in. A packet missing any of them cannot be
-executed as a controlled task. For **Phase 2** they resolve to fixed values:
+These preserve effect controls in an expanded audit; a useful ordinary handoff need not be a full packet. For **Phase 2** they resolve to fixed values:
 
 | Field | Phase 2 value |
 |---|---|
@@ -58,7 +54,7 @@ executed as a controlled task. For **Phase 2** they resolve to fixed values:
 
 ## 2. Outbound — Operator Execution Report
 
-Every agent run closes with this structure, produced by the `operator-execution-report` skill. The
+When expanded engineering evidence is useful, use this structure from the `operator-execution-report` skill. The
 canonical section list is defined in that skill's `SKILL.md`.
 
 Sections, in order: OBJECTIVE · TARGET · GOVERNING SOURCES + VERSIONS · VERIFIED FACTS · REPORTED
@@ -80,7 +76,7 @@ occurred **and was independently verified**.
 ## 3. Quick handoff prompt (canonical, routing doc v4.2)
 
 ```
-Execute this under the current Claude Execution Operator SOP.
+Execute under the current AI Execution Runbook and task-relevant authority.
 Objective:
 System and exact target:
 Current governing source:
