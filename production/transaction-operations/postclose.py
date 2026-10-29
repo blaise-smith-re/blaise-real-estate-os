@@ -231,7 +231,8 @@ def prepare(case):
 
 def run(case_path, output):
     case_path, output = Path(case_path).resolve(), Path(output).resolve()
-    source_root = Path(__file__).resolve().parents[2]
+    module_root = Path(__file__).resolve().parent
+    source_root = module_root.parents[1] if module_root.parent.name == "production" else module_root
     require(not case_path.is_relative_to(source_root) and not output.is_relative_to(source_root),
             "Keep client inputs and outputs outside repository source")
     result = prepare(json.loads(case_path.read_text(encoding="utf-8")))

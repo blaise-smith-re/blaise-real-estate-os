@@ -2,6 +2,7 @@ import copy
 import json
 import sys
 import tempfile
+import subprocess
 import unittest
 from pathlib import Path
 
@@ -165,6 +166,17 @@ class PostcloseTests(unittest.TestCase):
             run(source, root / "output")
             self.assertIn("No external messages", (root / "output/review.md").read_text())
             with self.assertRaises(FileExistsError): run(source, root / "output")
+
+    def test_portable_cli_accepts_private_sibling_directory(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td); package = root / "transaction-operations"; package.mkdir()
+            script = package / "postclose.py"
+            script.write_text((Path(__file__).resolve().parents[1] / "postclose.py").read_text())
+            source = root / "case.json"; source.write_text(json.dumps(fixture()))
+            execution = subprocess.run([sys.executable, str(script), "--case", str(source), "--out", str(root / "output")],
+                                       capture_output=True, text=True)
+            self.assertEqual(execution.returncode, 0, execution.stderr)
+            self.assertTrue((root / "output/postclose.json").is_file())
 
 
 if __name__ == "__main__":
