@@ -5,6 +5,16 @@ Business policy remains owned by the current Drive authorities; this log does no
 
 ---
 
+## [Accepted-contract Operations Bus] — 2026-10-29
+
+- Attached a scoped persistent kickoff lane to the existing private Morning Desk
+  Site and daily task, preserving cadence and outbound review boundaries.
+- Added candidate/case identity, revision fencing, pause/resume, durable uncertain
+  effects and independent-readback recovery. Generic local Bus remains manual.
+- Reused the released Transaction Operations generator for a labeled fictional
+  replay; no live client records are changed by the replay.
+- Deployment and cloud-run evidence: `production/operations-bus/RELEASE.md`.
+
 ## [Instruction-chain repair] — 2026-10-28
 
 - Added the missing AGENTS.md entry and shortened the legacy compatibility entry to current source pointers and actual host boundaries.

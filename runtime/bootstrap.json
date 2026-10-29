@@ -5,6 +5,17 @@
   "mode": "READ_AND_INTERNAL_WRITE",
   "trigger_policy": "MANUAL_ONLY",
   "persistence": "NONE",
+  "hosted_workflows": [{
+    "workflow": "accepted-contract-kickoff",
+    "implementation": "runtime/kickoff-bus.mjs",
+    "host": "appgprj_6ad170600b348191953b52130d86a98f",
+    "runner": "Automation_85c2cba764948191b37cb4b90a395b28",
+    "trigger": "EXISTING_DAILY_MORNING_DESK",
+    "persistence": "EXISTING_SITE_D1",
+    "status": "DEPLOYED_ENABLED_INTERACTIVE_VALIDATED_TIMER_PENDING",
+    "review_and_controls": "https://blaise-morning-desk.bsmith863084.chatgpt.site",
+    "technical_owner": "production/operations-bus/README.md"
+  }],
   "effect_budget": {
     "external_writes": 2,
     "external_messages": 0,
