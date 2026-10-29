@@ -1,6 +1,6 @@
 # Transaction Operations v1 — accepted-contract preparation
 
-**Agent-operated production companion.** Version 1.1.0 includes the accepted-contract kickoff extension. Current Drive authority and the existing delivery record identify the released revision and matching portable ZIP. Work starts in the client's transaction Workbench under **Blaise RE — Sellers & Transactions**. Blaise can say: “Process this accepted agreement, prepare Laura's handoff and my buyer's next steps.” Work keeps the transaction context; Codex prepares the source-bound packet and completes supported authorized internal work through existing connectors. Blaise does not maintain technical input files. See [KICKOFF.md](KICKOFF.md).
+**Agent-operated production companion.** Version 1.2.0 includes accepted-contract kickoff and closing-to-relationship preparation. Current Drive authority and the existing delivery record identify the released revision and matching portable ZIP. Work starts in the client's transaction Workbench under **Blaise RE — Sellers & Transactions**. Blaise can say: “Process this accepted agreement, prepare Laura's handoff and my buyer's next steps.” Work keeps the transaction context; Codex prepares the source-bound packet and completes supported authorized internal work through existing connectors. Blaise does not maintain technical input files. See [KICKOFF.md](KICKOFF.md).
 
 For a later change: “Reconcile this amendment and the latest transaction updates; show what changed and what needs me.” Retain the original source package, every intervening executed change and the previous generated result. Newer unsigned proposals never replace executed terms.
 
@@ -50,9 +50,14 @@ The handwritten fixture completion statements are **not signatures and have no l
 
 ## Source and review records
 
+- [Closing-to-relationship extension](POSTCLOSE.md): confirmed closing, completed-touch suppression,
+  review status, real wrap-up ownership and proportionate FUB/Drive reconciliation. Run `postclose.py`
+  with fresh task-local evidence; no new service or schedule is required.
+
 - [Governing pointers](governance.json): current Runbook and related source IDs; version and verified availability boundaries.
 - [Operator implementation](CODEX-WORKFLOW.md): intake, evidence, processing and readback.
 - [Historical governing proposal](WORK-REVIEW-PATCH.md): retained history; current Drive guidance supersedes its earlier promotion status.
 - [Review handoff](RESUME.md): actual source/status belongs in the accompanying delivery record, not a fabricated release claim.
 
 `bundle.py` creates a portable ZIP and per-file hashes. The bundle carries its actual Git revision when run from a clean committed checkout. No live input, rendered case, secret, cached Drive body or `.git` directory is included.
+

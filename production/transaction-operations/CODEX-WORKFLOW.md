@@ -1,5 +1,10 @@
 # Codex production companion — active-task operation
 
+For closing-to-past-client work, use [POSTCLOSE.md](POSTCLOSE.md) and `postclose.py`.
+Entry: “Close out [client/property] and prepare the right personal follow-through.”
+This extension reconciles closing evidence, prior outreach, wrap-up ownership and review
+state without restarting accepted-contract intake or installing another automation.
+
 For accepted buyer kickoff, enable the extension described in [KICKOFF.md](KICKOFF.md). It adds actual package preparation, inspection booking/waiver handling, stateful handoff reconciliation and verified-save receipts. Current Drive governs. Version 1.1.0 includes this extension; the existing Drive delivery record identifies the matching source and portable bundle.
 
 Read the current Transaction Operations Runbook and task-relevant Manual, Source Map, AI Execution Runbook and applicable lifecycle/Click/FUB instructions through their registered IDs. Current Drive content controls business meaning. This source is a bounded artifact tool, not a new SOP, CRM, task database or Operations Bus.
@@ -47,3 +52,4 @@ Read each recipient draft separately: exact recipient/routing, useful scope, no 
 Calendar output is an advisory with title, date/time/timezone, client/property, owner/source and missing fields. No event was created. Every sample says **SYNTHETIC — DO NOT ADD TO CALENDAR**. No live record, contract, send, signature, Calendar, schedule, monitor, payment or spending action belongs to this build.
 
 Return the private brief and review drafts with exact generation/readback status. File through the existing canonical/transaction structure, preserving stable IDs for updated durable files. Fictional demonstrations remain private and separate from live cases. The October 28 kickoff guidance was updated in the owning Drive documents; historical proposed wording is not current deployment status. Testing this companion is not a new gate on ordinary buyer/seller work or proof of live end-to-end capability. Complete supported authorized internal work under current authority and distinguish actual verified effects from generator proposals.
+

@@ -471,3 +471,12 @@ Blaise directed completion of the final release path for PR #6 after accepting d
 **Decision.** Release version 1.1.0 from isolated current-main source, preserving unrelated work in the primary checkout. Keep the reviewed engine/kickoff bytes intact, include reusable release metadata in the portable bundle and reconcile existing Drive source, guide and delivery IDs. Business instructions remain in current Drive authority.
 
 **Boundary.** Active-task preparation and evidence validation do not create a live connector transport, background listener, booking, send or Calendar action. Availability verification uses fictional tests and source/hash readback. Actual transaction closeout remains a separate authorized live task.
+
+
+## D-034 — Extend transaction operations for closing-to-relationship follow-through
+
+**Date** 2026-10-29 · **Status** OWNER-AUTHORIZED IMPLEMENTATION
+
+**Decision.** Use a small evidence-bound preparation module inside production/transaction-operations. Read the current review policy from Drive through the operator; do not freeze links or reminder rules in source. Existing authorized connectors perform live FUB/Drive work. Source-read closing confirmation avoids an unnecessary full contract re-abstract.
+
+**Boundary.** Scheduled dates and CRM labels cannot prove completed closing. Historical replay has no live mutation proposals. No automatic sender, timer, parallel tracker or forced follow-up cadence. Public source uses fictional tests only.

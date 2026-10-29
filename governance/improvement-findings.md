@@ -541,3 +541,11 @@ Blaise authorized the final PR #6 release path after the supported seller/host d
 - **CHANGE** — Reconcile the six existing project instruction fields against the current canonical core and role, preserve nonconflicting owner preferences, and release Transaction Operations 1.1.0 using existing source and Drive entry points.
 - **EVIDENCE** — Private audit holds project saved-body readbacks, release revisions, bundle hashes and remaining live-test limits; no canonical bodies or client data are copied here.
 - **BOUNDARY** — No schedules, unattended runner, external sends or live client mutations are introduced as rollout tests.
+
+
+## IF-2026-10-29-PC01 — Apply closing and relationship guidance together
+
+- **GAP** — Existing transaction closeout and review guidance lacked a unified preparation entry and explicit handling for prior thank-yous, per-platform review outcomes and continuing promises.
+- **CHANGE** — Add postclose.py, operator routing and focused tests; extend the current owning Drive guidance rather than adding a tracker or automation.
+- **VERIFICATION** — Closing-source, chronology, wrong-target, prior-touch, decline, submission, reminder, ownership and replay tests pass. Live case evidence remains private.
+- **BOUNDARY** — Prepared drafts and generated proposals are not sends or execution receipts; source-system maintenance uses existing authorized lanes.

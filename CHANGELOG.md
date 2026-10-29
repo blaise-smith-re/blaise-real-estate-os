@@ -440,3 +440,10 @@ surface. No files created. Delivered as a report; findings carried into
 - Preserve the reviewed engine/kickoff implementation; update reusable release metadata and portable packaging. Existing Drive entry IDs remain stable. Canonical business text and private delivery evidence remain outside Git.
 - Verification: 105 transaction tests plus the existing 39 static, 40 runtime and 43 Lead Engine checks. Fresh portable extraction and payload hashes are recorded in the private release record.
 - No live transaction test, client-record changes, messages, schedules or unattended monitoring are part of this release.
+
+
+## [Transaction Operations 1.2.0] — 2026-10-29
+
+- Add active-task closing-to-relationship preparation in the existing transaction companion. Recognize actual closing confirmation, completed outreach, per-platform review progress, owner-scoped wrap-up and unresolved promises.
+- Preserve current Drive policy and source-system ownership. No new background runner, CRM store, automatic sender or shared-team configuration.
+- Verification: 19 focused post-close tests and 105 existing transaction tests; actual demonstration and source-system receipts remain outside Git.

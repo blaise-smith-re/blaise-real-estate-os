@@ -1,6 +1,6 @@
 {
-  "status": "Version 1.1.0; consult existing Drive delivery record for published revision and verified bundle",
-  "version": "1.1.0",
+  "status": "Version 1.2.0; active-task closing-to-relationship extension; consult existing Drive delivery record for publication proof",
+  "version": "1.2.0",
   "everyday_entry": "Client transaction Workbench under Blaise RE \u2014 Sellers & Transactions",
   "source_ids": {
     "business_operating_manual": "1YxG991_SXW8QTQvK_G1tOsd6il1mWzqdmVcnLwFFcX8",
@@ -11,7 +11,10 @@
     "click_contracts_runbook": "1c2zCS--YaiQ2pRd9clgeJFhFlVgSe1sIdTULH5eN7ow",
     "fub_runbook": "1dR1lv1VWfvzmozPo-rX7sbbZ_kWvuWSAzTCNvWMKWos",
     "personal_operator_guide": "1Evf9ulfBkrCR8lTXY_fHExb77ON3NiFHHtERvGEA0H4",
-    "brand_client_experience_blueprint": "1VxOR63FsLfTUPBNfO-cqSDL6oltpNAPmF0oUq1n7z1s"
+    "brand_client_experience_blueprint": "1VxOR63FsLfTUPBNfO-cqSDL6oltpNAPmF0oUq1n7z1s",
+    "seller_lifecycle_sop": "1spF9YBm4CZIvsrfguL7LvrmzPCHnvxb7-xuolMCsp3g",
+    "lead_relationship_sop": "1sBp77Ur1XS0vmon3IucNj_jfTEH49HeGZZdbfl8ilEk",
+    "outreach_playbook": "1983apvmU9Xt81qmT9yQqxT6C_i2MXRQ9_nmGlfZtdL4"
   },
   "live_end_to_end_demonstrated": false,
   "source_system_writes": false,
@@ -27,5 +30,9 @@
     "source_zip": "189HvaGZ4cuD977FR8XlzmLoSIQyRo9kb",
     "start_here": "1QzNAPFHiIyl-g8RCmRJt0ijeBfx_Jumt",
     "delivery_record": "1TFUUvBIPA0Bl8ceEImYLRSRkecIPrNsb"
+  },
+  "components": {
+    "kickoff": "Existing accepted-contract preparation",
+    "postclose": "Active-task preparation; operator performs authorized source-system writes"
   }
 }
