@@ -67,7 +67,9 @@ def prepare(case):
     confirmed = state == "confirmed"
     result = {"case_id": case["id"], "person_id": client["id"], "as_of": case["as_of"],
               "mode": case["mode"], "closing_state": state, "closing_source": closing[-1][2]["locator"] if closing else None,
-              "close_date": closing[-1][0].astimezone(CHICAGO).date().isoformat() if confirmed else None,
+              # A confirmation may arrive after the actual closing. Never turn its
+              # timestamp into an actual closing date for CRM or anniversary use.
+              "confirmation_date": closing[-1][0].astimezone(CHICAGO).date().isoformat() if confirmed else None,
               "wrap_up": [], "relationship_context": [], "drafts": [], "review": {},
               "proposed_internal_changes": [], "gaps": list(case.get("coverage", {}).get("gaps", [])),
               "mutation_eligible": case["mode"] == "live", "executed_changes": [],

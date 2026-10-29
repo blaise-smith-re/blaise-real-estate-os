@@ -51,7 +51,7 @@ class PostcloseTests(unittest.TestCase):
         for state in ["scheduled", "signed"]:
             c = fixture(); c["closing_events"][0]["state"] = state
             r = prepare(c)
-            self.assertIsNone(r["close_date"])
+            self.assertIsNone(r["confirmation_date"])
             self.assertTrue(all(d["status"] == "HOLD" for d in r["drafts"]))
             self.assertEqual(r["proposed_internal_changes"], [])
 
@@ -62,7 +62,14 @@ class PostcloseTests(unittest.TestCase):
 
     def test_confirmation_uses_chicago_date(self):
         c = fixture(); c["records"][0]["occurred_at"] = "2026-10-07T01:00:00+00:00"
-        self.assertEqual(prepare(c)["close_date"], "2026-10-06")
+        self.assertEqual(prepare(c)["confirmation_date"], "2026-10-06")
+
+    def test_confirmation_date_is_not_an_actual_closing_date(self):
+        c = fixture(); c["records"][0]["occurred_at"] = "2026-10-08T15:00:00-05:00"
+        c["records"][0]["text"] = "We are closed. Closing completed on October 6."
+        result = prepare(c)
+        self.assertEqual(result["confirmation_date"], "2026-10-08")
+        self.assertNotIn("close_date", result)
 
     def test_sent_congratulations_suppresses_draft_but_draft_does_not(self):
         c = fixture(); rec, event = touch(c, "congratulations", "draft")

@@ -47,7 +47,9 @@ no internal change proposals. Current source reads populate:
   and observation times, readable text and actual delivery status. References are `{record, quote}`.
   The agent verifies source meaning/role; the code checks identity, chronology and cited text.
 - `closing_events`: scheduled/signed/confirmed/disputed with evidence. Only the authorized
-  closing party can confirm. Later conflicts hold dependent closed claims.
+  closing party can confirm. Later conflicts hold dependent closed claims. Output
+  `confirmation_date` dates the confirmation, not the actual closing; resolve the
+  actual closing date from evidence before changing CRM dates or anniversary context.
 - `touches`: congratulations, check-in, request/reminder/agreement/decline/submission/verified
   review, or referral; actual status and affected review platforms. A saved draft is not sent.
 - `wrap_up` and `relationship_context`: relevant evidence, real owner, outcome and resume

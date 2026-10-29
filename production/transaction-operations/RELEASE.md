@@ -2,7 +2,7 @@
 
 Extends the existing companion with `postclose.py` and `POSTCLOSE.md`: closing-party confirmation, prior-touch suppression, per-platform review state, real wrap-up ownership and supported internal-change proposals. No new service, tracker or schedule. Current Drive owns policy; live demonstration and filing evidence remain private.
 
-Verification: 20 focused post-close tests plus the existing 105 transaction tests. Existing rendered document code and assets are unchanged.
+Verification: 21 focused post-close tests plus the existing 105 transaction tests. Existing rendered document code and assets are unchanged.
 
 ## Prior 1.1.0 release
 
