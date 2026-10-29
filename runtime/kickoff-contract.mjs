@@ -29,5 +29,5 @@ export const kickoffContract={
     checkpoint:{action:'checkpoint',lane:'gmail-team | gmail-business | fub-owner33',through:'ISO cutoff',coverage:'Actual interval/pages reviewed',complete:true},
     run_receipt:{action:'run_receipt',runId:'unique run',execution:'interactive | cloud_task | replay',summary:'Actual result and gaps',evidenceUrl:'https://saved review'}
   },
-  extension:'Closing-to-past-client remains in production/transaction-operations/post_close.py. Attach a separately authorized verified-closing handler next; this lane does not change past-client state.'
+  extension:'Closing-to-past-client remains in production/transaction-operations/postclose.py. Attach a separately authorized verified-closing handler next; this lane does not change past-client state.'
 };

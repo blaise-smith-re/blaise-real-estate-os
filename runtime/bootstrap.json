@@ -12,7 +12,7 @@
     "runner": "Automation_85c2cba764948191b37cb4b90a395b28",
     "trigger": "EXISTING_DAILY_MORNING_DESK",
     "persistence": "EXISTING_SITE_D1",
-    "status": "DEPLOYED_ENABLED_CLOUD_ACCEPTANCE_PENDING",
+    "status": "DEPLOYED_ENABLED_INTERACTIVE_VALIDATED_TIMER_PENDING",
     "review_and_controls": "https://blaise-morning-desk.bsmith863084.chatgpt.site",
     "technical_owner": "production/operations-bus/README.md"
   }],

@@ -1,8 +1,8 @@
 # Accepted-contract lane — October 29, 2026
 
 Deployed to the existing owner-private Morning Desk. Site source
-`48f913fd1044530e439ef9d5c7be3f44ee3d1a7c`, deployment
-`appgdep_6ae3bfee913c8191bc1802e01bf04c0d`, succeeded at 21:51:52 UTC.
+`c0b19c870b9062f5e68e75d4995bc777187821fb`, deployment
+`appgdep_6ae3c372c5588191b58fdcdeea7ade72`, succeeded at 22:06:52 UTC.
 Live contract readback returned Morning Desk 2026-10-29.2 and kickoff 2026-10-29.1.
 The D1 state independently read back enabled. The existing daily task's saved
 instructions include the lane; 08:30 America/Chicago cadence is unchanged.
@@ -20,10 +20,17 @@ bind one transaction; a lost write response cannot issue a second permit; a new
 adapter instance reads the persisted state; uncertain results require independent
 source reconciliation. Pause invalidates leases and resume retains progress.
 
-The first cloud Run-now acceptance is in progress. This is a fresh cloud invocation,
-not a timer-triggered claim. The existing task has observed prior daily runs, but
-the new lane's first natural timer execution remains unobserved. Current final
-acceptance belongs in the existing Drive audit and this record when available.
+A separate cloud Run-now invocation reached its own connected Gmail/Drive/FUB
+sources, resumed the existing transaction, and updated its existing private Drive
+review through a persisted effect intent and verified receipt. Independent readback
+matched the exact saved payload. It preserved the completed handoff and held
+original-dependent CRM effects because full incorporated-document verification is
+incomplete. Private client IDs/content belong only in the existing Drive audit.
+
+This execution records interactive provenance, not timer-triggered proof. The
+existing daily task has prior observed runs, but the new lane's first natural
+08:30 timer execution remains unobserved. Unattended acceptance remains pending
+that run's receipt; no additional scheduler or changed cadence was introduced.
 
 No new scheduler, hosting subscription, standalone model/API key, credential
 scope or paid service was added. This uses the existing Site/task/connector quota;
@@ -33,3 +40,8 @@ separately priced free or unlimited service is made.
 Closing-to-past-client remains available through the released active-task
 companion. Its verified closing/funding handler is the next separately scoped
 attachment to this same runner and storage.
+
+Hosted replay readback also passed: the explicitly synthetic case reached COMPLETED
+with private Drive draft/source links and zero live source effects. Replaying its
+notification returned the same bound case without creating another case. A Site
+redeploy preserved the real case's D1 progress. These checks are not timer proof.

@@ -79,8 +79,8 @@ require the local Worker; do not aim synthetic API tests at production. The
 `replay.py <new-private-output>` helper reuses the TC fictional originals and
 generator; its output is explicitly synthetic and contains real readiness holds.
 
-Deployed Site source: `48f913fd1044530e439ef9d5c7be3f44ee3d1a7c`.
-Deployment: `appgdep_6ae3bfee913c8191bc1802e01bf04c0d`, succeeded October 29, 2026.
+Deployed Site source: `c0b19c870b9062f5e68e75d4995bc777187821fb`.
+Deployment: `appgdep_6ae3c372c5588191b58fdcdeea7ade72`, succeeded October 29, 2026.
 Contract: Morning Desk `2026-10-29.2`, kickoff `2026-10-29.1`.
 Runtime acceptance details and current limitations belong in `RELEASE.md` and the
 existing Drive audit/status record. A saved schedule or replay is not timer proof.
