@@ -1,5 +1,10 @@
 # Codex production companion — active-task operation
 
+The accepted-contract workflow can also be entered by the existing daily Morning
+Desk cloud task through the scoped [Operations Bus lane](../operations-bus/README.md).
+Its persistent progress and recovery do not replace the original-source gate or
+this companion. The local generator has no source-system transport of its own.
+
 For closing-to-past-client work, use [POSTCLOSE.md](POSTCLOSE.md) and `postclose.py`.
 Entry: “Close out [client/property] and prepare the right personal follow-through.”
 This extension reconciles closing evidence, prior outreach, wrap-up ownership and review
