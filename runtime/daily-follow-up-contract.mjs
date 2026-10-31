@@ -1,5 +1,5 @@
 export const dailyFollowUpContract={
- revision:'2026-10-31.1',assignedUserId:33,timezone:'America/Chicago',entry:'Who needs a touch today?',
+ revision:'2026-10-31.2',assignedUserId:33,timezone:'America/Chicago',entry:'Who needs a touch today?',
  tools:['daily_follow_up_read','daily_follow_up_command'],
  purpose:'Chat-first lead rejuvenation and relationship service. Existing private Morning Desk D1 holds only draft/progress/confirmation receipts. FUB owns client history and commitments; current Drive SOPs own policy. No new schedule, dashboard, outbound adapter or standalone model service.',
  authority:{sourceMap:'1UU8eQOElu388w2FA2gPJCMOKP7_EvQRNoPUthxc1_wg',leadConversion:'1sBp77Ur1XS0vmon3IucNj_jfTEH49HeGZZdbfl8ilEk',outreach:'1983apvmU9Xt81qmT9yQqxT6C_i2MXRQ9_nmGlfZtdL4',fub:'1dR1lv1VWfvzmozPo-rX7sbbZ_kWvuWSAzTCNvWMKWos',ai:'1pFUdBNfbPLBYSkyKj0_25wC6RuP6VKO1WnkOZ1EudJw'},
@@ -24,6 +24,7 @@ export const dailyFollowUpContract={
   revise:{itemId:'current id',draft:'new exact draft'},next:{itemId:'current id'},skip:{itemId:'current id',reason:'why deferred'},
   confirm:{itemId:'current id',direction:'outgoing | incoming',confirmedBy:'Blaise',channel:'sms | email | call | owner_report',recipient:'actual address/number or null for owner_report',message:'actual message or clearly labeled factual report',occurredOn:'actual YYYY-MM-DD America/Chicago; ask if unknown',provenance:'explicit owner report or supplied text; never inferred',draftVersion:'presented version required for outgoing'},
   begin_effect:{eventId:'returned event id',kind:'fub_event | fub_note | fub_task_update | fub_profile_update',personId:'exact event person',assignedUserId:33,checkedAt:'fresh FUB read at/after confirmation',intent:'exact minimal intended change and dedupe marker; no secrets. Profile update only when a real report establishes the state; existing stages, no reassignment or team definitions.',taskId:'only for task update',taskAssignedUserId:'33 for task update'},
+  effect_failure:{eventId:'confirmed event id',effectId:'unresolved effect id',message:'actual rejection/error and exact remaining action; no speculative cause',readback:{recordId:'actual id',url:'HTTPS source',checkedAt:'independent post-attempt read',matchedFields:'actual observed state; do not imply successful change'}},
   receipt:{eventId:'confirmed event id',effectId:'effect id or omit if alreadyInFub',alreadyInFub:'true only for independently matched existing history',receipt:{recordId:'actual id',url:'HTTPS source link',checkedAt:'independent readback ISO',matchedFields:'identity/content/channel/date or exact task delta verified'}}
  }
 };

@@ -79,6 +79,13 @@ export function followUpTransition(current,p,at=new Date().toISOString()){
     if(old){if(old.intent!==intent||old.kind!==p.kind)fail('Existing intent differs; reconcile uncertain result');result.effect=old;}
     else if(e.receipt&&['fub_event','fub_note'].includes(p.kind)){result.alreadyLogged=true;result.receipt=e.receipt;}
     else{const effect={id:effectId,eventId:e.id,personId:e.personId,kind:p.kind,target,intent,status:'uncertain',startedAt:at,receipt:null};s.effects.push(effect);result.effect=effect;result.mayExecute=true;}
+  }else if(p.action==='effect_failure'){
+    const e=event(s,p),effect=s.effects.find(x=>x.id===p.effectId&&x.eventId===e.id);
+    if(!effect||effect.status==='verified')fail('Unresolved effect required');
+    const r=receipt(p.readback,now);if(Date.parse(r.checkedAt)<Date.parse(effect.startedAt))fail('Readback predates attempt');
+    effect.status='blocked';effect.failure={message:text(p.message,1500),readback:r};
+    // Do not grant a second write, even after a rejected or ambiguous attempt.
+    result.effect=effect;
   }else if(p.action==='receipt'){
     const e=event(s,p),r=receipt(p.receipt,now);
     const effect=p.effectId?s.effects.find(x=>x.id===p.effectId&&x.eventId===e.id):null;

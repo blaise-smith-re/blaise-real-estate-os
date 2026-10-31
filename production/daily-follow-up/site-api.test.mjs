@@ -24,6 +24,6 @@ test('hosted routing, actual D1 resume, skip/revise/sent, uncertain recovery and
  const rpc=async(method,params={},identity=false)=>(await fetch(base+'/mcp',{method:'POST',headers:{'Content-Type':'application/json',...(identity?{'oai-authenticated-user-id':'synthetic-local-owner'}:{})},body:JSON.stringify({jsonrpc:'2.0',id:1,method,params})}));
  const listed=await(await rpc('tools/list')).json();assert(listed.result.tools.some(x=>x.name==='daily_follow_up_command'));
  assert.equal((await rpc('tools/call',{name:'daily_follow_up_read'})).status,401);
- const contract=await(await rpc('tools/call',{name:'morning_desk_get_contract'},true)).json();assert.equal(contract.result.structuredContent.dailyFollowUp.revision,'2026-10-31.1');
+ const contract=await(await rpc('tools/call',{name:'morning_desk_get_contract'},true)).json();assert.equal(contract.result.structuredContent.dailyFollowUp.revision,'2026-10-31.2');
  const resumed=await(await rpc('tools/call',{name:'daily_follow_up_read'},true)).json();assert.equal(resumed.result.structuredContent.state.currentId,c.id);
 });
