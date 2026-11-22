@@ -480,3 +480,11 @@ Blaise directed completion of the final release path for PR #6 after accepting d
 **Decision.** Use a small evidence-bound preparation module inside production/transaction-operations. Read the current review policy from Drive through the operator; do not freeze links or reminder rules in source. Existing authorized connectors perform live FUB/Drive work. Source-read closing confirmation avoids an unnecessary full contract re-abstract.
 
 **Boundary.** Scheduled dates and CRM labels cannot prove completed closing. Historical replay has no live mutation proposals. No automatic sender, timer, parallel tracker or forced follow-up cadence. Public source uses fictional tests only.
+
+## D-035 — Keep post-showing promises in the existing Workbench execution path
+
+**Date** 2026-11-21 · **Status** OWNER-AUTHORIZED IMPLEMENTATION
+
+**Decision.** Reuse phone dictation in the existing Buyer Workbench and its source connectors. Extend the private Morning Desk store with minimal source, draft and internal-effect receipts. Keep one exact-buyer/tour promise through lender question, actual answer and buyer receipt, with the same FUB task. Preserve user edits and recover uncertain writes through independent source readback. Existing inbox passes and Morning Desk carry remaining work; no additional scheduler or outbound adapter.
+
+**Verification.** Focused tests, local API integration, build/type checking, existing Site regressions and isolated deployed replay passed. The connected contract returns the new lane. Browser access failed, so actual phone Workbench invocation and saved inbox-prompt continuation remain separate acceptance work. See production/post-showing/RELEASE.md; documentation is not activation evidence.
