@@ -5,6 +5,16 @@ Business policy remains owned by the current Drive authorities; this log does no
 
 ---
 
+## [Zillow Performance & Conversion] — 2026-11-22
+
+- Added a private Morning Desk channel assessment with sourced milestones,
+  fixed-age cohorts, type strata, calendar production and payout evidence gates.
+- Reused existing task identities and the 07:15 CT Morning Desk contract; no new
+  sender, arrival trigger, CRM, spending or team-routing changes.
+- Maintained the accepted role in the existing Drive Lead Conversion SOP using
+  revision fencing and independent readback.
+- Validation/deployment: `production/zillow-performance/RELEASE.md`.
+
 ## [Accepted-contract Operations Bus] — 2026-10-29
 
 - Attached a scoped persistent kickoff lane to the existing private Morning Desk

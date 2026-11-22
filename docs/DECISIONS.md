@@ -480,3 +480,18 @@ Blaise directed completion of the final release path for PR #6 after accepting d
 **Decision.** Use a small evidence-bound preparation module inside production/transaction-operations. Read the current review policy from Drive through the operator; do not freeze links or reminder rules in source. Existing authorized connectors perform live FUB/Drive work. Source-read closing confirmation avoids an unnecessary full contract re-abstract.
 
 **Boundary.** Scheduled dates and CRM labels cannot prove completed closing. Historical replay has no live mutation proposals. No automatic sender, timer, parallel tracker or forced follow-up cadence. Public source uses fictional tests only.
+
+## D-035 — Diagnose Zillow performance inside existing reporting
+
+**Date** 2026-11-22 · **Status** OWNER-AUTHORIZED IMPLEMENTATION
+
+**Decision.** Add an immutable derived channel assessment to the private Morning
+Desk, reusing its existing 07:15 CT task and exact-person calling handoff. Drive
+Lead Conversion owns the role. FUB remains the relationship system of record;
+the existing Finance Tracker owns payout reconciliation.
+
+**Evidence boundary.** Account rankings, modeled predictions, delivered signals,
+CRM creation, fixed-age outcomes and calendar production remain distinct. No
+attendance from billing/booking, no agent-net inference from unmatched deposits,
+and no broad decline claim from incomplete small cohorts. Setup, interactive
+writer/readback and actual timer execution are separately reported.
