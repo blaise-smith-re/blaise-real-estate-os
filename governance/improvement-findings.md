@@ -549,3 +549,19 @@ Blaise authorized the final PR #6 release path after the supported seller/host d
 - **CHANGE** — Add postclose.py, operator routing and focused tests; extend the current owning Drive guidance rather than adding a tracker or automation.
 - **VERIFICATION** — Closing-source, chronology, wrong-target, prior-touch, decline, submission, reminder, ownership and replay tests pass. Live case evidence remains private.
 - **BOUNDARY** — Prepared drafts and generated proposals are not sends or execution receipts; source-system maintenance uses existing authorized lanes.
+
+## IF-2026-11-21-ZT01 — A published queue is not an arrival-triggered agent
+
+- **GAP** — Tour request, CRM notification and confirmation can be mistaken for
+  separate actions, while a later reply or cancellation makes earlier outreach stale.
+  A saved prompt or state endpoint does not establish a Gmail subscription or wakeup.
+- **CHANGE** — Added exact-tour correlation, source chronology, fenced review,
+  durable alert/prep claims, cancellation handling and source-event audit in the
+  existing owner-private Site. Preserved distinct configured, observed and delivered
+  evidence states; supplied the precise separate ChatGPT deployment handoff.
+- **VERIFICATION** — Runtime, local D1/MCP and private historical replay passed;
+  final deployment and persistent state independently read back. Existing baseline
+  static failures were reproduced from untouched origin/main.
+- **DISPOSITION** — Integration deployed. Gmail message-added activation, actual
+  private notification/prep delivery and requested existing-task 07:15 edit remain
+  pending. No polling fallback or duplicate morning schedule was created.

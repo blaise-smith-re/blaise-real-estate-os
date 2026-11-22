@@ -1,0 +1,30 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..'),site=process.argv[2];
+if(!site)throw Error('Pass existing opened Morning Desk checkout');
+if(JSON.parse(fs.readFileSync(path.join(site,'.openai/hosting.json'),'utf8')).project_id!=='appgprj_6ad170600b348191953b52130d86a98f')throw Error('Wrong private Site');
+const write=(p,s)=>{fs.mkdirSync(path.dirname(path.join(site,p)),{recursive:true});fs.writeFileSync(path.join(site,p),s.replace(/\r\n/g,'\n'));};
+const edit=(p,f)=>write(p,f(fs.readFileSync(path.join(site,p),'utf8').replace(/\r\n/g,'\n')));
+for(const [a,b] of [['runtime/zillow-tours.mjs','lib/zillow-tours.mjs'],['runtime/zillow-tour-contract.mjs','lib/zillow-tour-contract.mjs'],['production/zillow-tours/site-route.ts','app/api/zillow-tours/route.ts'],['production/zillow-tours/tour-panel.tsx','app/tour-panel.tsx']])write(b,fs.readFileSync(path.join(root,a),'utf8'));
+edit('db/schema.ts',s=>s.includes('zillow_tours')?s:s+'\nexport const zillowTours=sqliteTable("zillow_tours",{id:integer("id").primaryKey(),revision:integer("revision").notNull(),payload:text("payload").notNull()});\n');
+edit('lib/email-gps-contract.mjs',s=>s.replace('existing 08:30 America/Chicago Morning Desk task','existing Morning Desk task (owner requested 07:15 America/Chicago; verify the actual saved schedule separately)').replace('No instant AI alert or ten-minute poll.','Zillow arrival triage is a separate ChatGPT automation governed by zillowTours; its live activation requires independent evidence. No polling substitute.').replace('preserve the existing 08:30 task rather than creating another.','change the existing task to the requested 07:15 rather than creating another; record the actual saved time, not the requested time.'));
+edit('lib/updater-contract.ts',s=>{
+ if(s.includes('zillowTourContract'))return s;
+ s='import {zillowTourContract} from "./zillow-tour-contract.mjs";\n'+s;
+ s=s.replace(/export const updaterContract\s*=\s*\{/,'export const updaterContract = {\n  zillowTours:zillowTourContract,');
+ if(!s.includes('zillowTours:zillowTourContract'))throw Error('Missing contract anchor');
+ s=s.replace('instructions:[','instructions:[\n    "Read zillow_tours_read during the existing 07:15 briefing. Reconcile live morningActions into each exact buyer card once, reusing event IDs. Follow zillowTours. Arrival hookup remains separately unverified; 07:15 schedule activation must be verified separately.",');
+ return s;
+});
+edit('app/mcp/route.ts',s=>{
+ if(s.includes('readTours'))return s;
+ s='import {GET as readTours,POST as commandTours} from "@/app/api/zillow-tours/route";\n'+s;
+ s=s.replace('const toolDefinitions=[','const toolDefinitions=[\n  {name:"zillow_tours_read",description:"Read private Zillow tour state, isolated replay and unresolved Morning Desk actions. Read morning_desk_get_contract zillowTours. This does not read Gmail or imply a live arrival trigger.",inputSchema:empty,annotations:annotations(true)},\n  {name:"zillow_tours_command",description:"Persist source-backed tour events, current reply decision, deduplicated alert claim and prep handoff receipt. Requires current contract and expectedRevision. No send, booking, calendar write or background wakeup.",inputSchema:payload,annotations:annotations(false)},');
+ s=s.replace('if(name==="email_gps_read"','if(name==="zillow_tours_read"||name==="email_gps_read"');
+ s=s.replace('const data=name==="email_gps_read"?','const data=name==="zillow_tours_read"?await (await readTours()).json():name==="email_gps_read"?');
+ s=s.replace('const operation=name==="email_gps_command"?','const operation=name==="zillow_tours_command"?commandTours:name==="email_gps_command"?');
+ return s;
+});
+edit('app/desk.tsx',s=>s.includes('TourPanel')?s:s.replace('import KickoffPanel','import TourPanel from "./tour-panel";\nimport KickoffPanel').replace('<KickoffPanel/>','<TourPanel/>\n        <KickoffPanel/>'));
+console.log('Installed private tour state; arrival hook and wakeup are deliberately not claimed. Generate migration, test and publish.');
