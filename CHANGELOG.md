@@ -5,6 +5,18 @@ Business policy remains owned by the current Drive authorities; this log does no
 
 ---
 
+## [Zillow tour arrival integration] — 2026-11-21
+
+- Deployed an additive tour state/API/MCP panel to the existing owner-private
+  Morning Desk Site, with exact-buyer identity, request/booking correlation,
+  later-reply suppression, one alert claim, cancellation and prep receipts.
+- Kept source-backed historical replay separate from live state; retained original
+  event provenance, revision checks, source freshness and notification uncertainty.
+- Added the separate ChatGPT Gmail message-added activation handoff and requested
+  07:15 morning pickup. Actual trigger activation and schedule edit remain pending;
+  no polling substitute or duplicate morning task was created.
+- Validation and publication evidence: `production/zillow-tours/RELEASE.md`.
+
 ## [Accepted-contract Operations Bus] — 2026-10-29
 
 - Attached a scoped persistent kickoff lane to the existing private Morning Desk

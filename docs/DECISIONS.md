@@ -480,3 +480,21 @@ Blaise directed completion of the final release path for PR #6 after accepting d
 **Decision.** Use a small evidence-bound preparation module inside production/transaction-operations. Read the current review policy from Drive through the operator; do not freeze links or reminder rules in source. Existing authorized connectors perform live FUB/Drive work. Source-read closing confirmation avoids an unnecessary full contract re-abstract.
 
 **Boundary.** Scheduled dates and CRM labels cannot prove completed closing. Historical replay has no live mutation proposals. No automatic sender, timer, parallel tracker or forced follow-up cadence. Public source uses fictional tests only.
+
+## D-035 — Zillow tour identity spans arrival, conversation and booking
+
+**Date** 2026-11-21 · **Status** OWNER-AUTHORIZED IMPLEMENTATION
+
+**Decision.** Persist minimal evidence and action receipts in the existing private
+Morning Desk Site. Separate ChatGPT Email Triage is awakened by Gmail message-added
+in the team mailbox, with exact owner-33 FUB matching and latest-conversation review.
+Stable buyer/property/request identity and appointment aliases join request and
+booking. Original message IDs deduplicate copies; incoming material changes update
+the same action. A fresh review and durable claim gate one private alert; source
+changes invalidate drafts. Confirmed/contacted tours qualify existing showing prep.
+
+**Boundary.** This release implements the callable integration, not the missing
+ChatGPT trigger. No polling substitute, pre-claim offer access or delivered alert
+is implied. The requested 07:15 edit belongs to the existing cloud task; its actual
+settings still require update. Current Drive authority owns business procedure;
+private live/replay evidence is excluded from Git. See the release and activation files.
