@@ -549,3 +549,15 @@ Blaise authorized the final PR #6 release path after the supported seller/host d
 - **CHANGE** — Add postclose.py, operator routing and focused tests; extend the current owning Drive guidance rather than adding a tracker or automation.
 - **VERIFICATION** — Closing-source, chronology, wrong-target, prior-touch, decline, submission, reminder, ownership and replay tests pass. Live case evidence remains private.
 - **BOUNDARY** — Prepared drafts and generated proposals are not sends or execution receipts; source-system maintenance uses existing authorized lanes.
+
+## IF-2026-11-22-ZP01 — Connection and milestone denominators need provenance
+
+- **GAP** — Current-owner discovery can omit Trash/history; CRM-created dates,
+  bookings, vendor billing and projected closings can overstate the funnel.
+- **CHANGE** — Persist source-backed dated milestones, separate connection/type
+  strata, maturity and unknowns, and require matched paid commission evidence.
+- **VERIFICATION** — Fictional engine and local D1/API tests cover repeat writes,
+  conflicting IDs, ownership, age windows, attendance and preserved good state.
+  Live results and remaining timer/phone limitations are in the release receipt.
+- **BOUNDARY** — No synthetic CRM writes, outbound sends, routing changes or new
+  daily automation. The channel specialist reuses existing execution workflows.
