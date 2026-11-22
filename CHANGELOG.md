@@ -5,6 +5,13 @@ Business policy remains owned by the current Drive authorities; this log does no
 
 ---
 
+## [Post-showing follow-through] — 2026-11-21
+
+- Extended the existing Buyer Workbench debrief with durable promise, draft-edit and internal-effect receipts in the private Morning Desk Site.
+- Kept property feedback scoped, repeated recaps idempotent and one promise task open until buyer receipt or explicit owner-reported fulfillment.
+- Added sourced lender-answer continuation, uncertain-write recovery and private replay. No outbound adapter or new schedule.
+- Validation and phone/unattended limits: `production/post-showing/RELEASE.md`.
+
 ## [Accepted-contract Operations Bus] — 2026-10-29
 
 - Attached a scoped persistent kickoff lane to the existing private Morning Desk

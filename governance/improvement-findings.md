@@ -549,3 +549,10 @@ Blaise authorized the final PR #6 release path after the supported seller/host d
 - **CHANGE** — Add postclose.py, operator routing and focused tests; extend the current owning Drive guidance rather than adding a tracker or automation.
 - **VERIFICATION** — Closing-source, chronology, wrong-target, prior-touch, decline, submission, reminder, ownership and replay tests pass. Live case evidence remains private.
 - **BOUNDARY** — Prepared drafts and generated proposals are not sends or execution receipts; source-system maintenance uses existing authorized lanes.
+
+## IF-2026-11-21-PS01 — A debrief proposal does not carry a promise to buyer delivery
+
+- **GAP** — Existing showing outputs stopped at proposals and caller-provided duplicate snapshots. Later answers and owner-reported delivery lacked durable continuation.
+- **CHANGE** — Add source-bound promise/draft/effect receipts to the existing private Site, using the original Workbench and current FUB/Gmail connectors. Reuse one task and preserve edited drafts; actual buyer receipt controls fulfillment.
+- **VERIFICATION** — Focused tests and deployed private replay cover property scope, repeat suppression, later answer, owner call outcome, uncertain effects and live/replay isolation. Details and final source are in production/post-showing/RELEASE.md.
+- **LIMIT** — ChatGPT browser control failed; phone entry and saved inbox-prompt/tool availability are not verified. No fictional client writes or additional schedule were used to substitute for those checks.
