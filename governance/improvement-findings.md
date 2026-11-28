@@ -549,3 +549,7 @@ Blaise authorized the final PR #6 release path after the supported seller/host d
 - **CHANGE** — Add postclose.py, operator routing and focused tests; extend the current owning Drive guidance rather than adding a tracker or automation.
 - **VERIFICATION** — Closing-source, chronology, wrong-target, prior-touch, decline, submission, reminder, ownership and replay tests pass. Live case evidence remains private.
 - **BOUNDARY** — Prepared drafts and generated proposals are not sends or execution receipts; source-system maintenance uses existing authorized lanes.
+
+## Workspace specialist delivery — November 27, 2026
+
+**MINOR MAINTENANCE.** A specialist's name, a published agent, and an accepted API trigger can each appear before actual work reaches its destination. Use the private dashboard's event and run references to independently verify the saved result. Measure unattended delivery against the scheduler's own receipt and the same persisted source run.

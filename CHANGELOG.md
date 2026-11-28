@@ -5,6 +5,10 @@ Business policy remains owned by the current Drive authorities; this log does no
 
 ---
 
+## [Winston Business dashboard] — 2026-11-27
+
+- Added the engineering handoff in `production/winston/README.md` for the three dashboard views, scheduled briefing and pipeline data sources, replay checks and specialist result verification.
+
 ## [Accepted-contract Operations Bus] — 2026-10-29
 
 - Attached a scoped persistent kickoff lane to the existing private Morning Desk

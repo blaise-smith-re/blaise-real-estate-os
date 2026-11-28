@@ -480,3 +480,9 @@ Blaise directed completion of the final release path for PR #6 after accepting d
 **Decision.** Use a small evidence-bound preparation module inside production/transaction-operations. Read the current review policy from Drive through the operator; do not freeze links or reminder rules in source. Existing authorized connectors perform live FUB/Drive work. Source-read closing confirmation avoids an unnecessary full contract re-abstract.
 
 **Boundary.** Scheduled dates and CRM labels cannot prove completed closing. Historical replay has no live mutation proposals. No automatic sender, timer, parallel tracker or forced follow-up cadence. Public source uses fictional tests only.
+
+## D-035 — Reuse Morning Desk hosting for the Winston dashboard
+
+**Date** 2026-11-27
+
+Reuse the owner-private Morning Desk deployment and its existing scheduled source. Expose the Business dashboard at a separate route so Alfred and the personal workflows retain their entry points. Keep agent dispatch status and saved work separate. See [deployment and recovery](../production/winston/README.md).
